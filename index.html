@@ -3,109 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Every Movie Plug - Coming Soon</title>
+    <title>Every Movie Plug — Coming Soon</title>
+    <meta name="description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #020205;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --indigo-accent: #6366f1;
+            --purple-accent: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141e30);
-            background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
-            color: #ffffff;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow-x: hidden;
             text-align: center;
-            padding: 20px;
-            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Mesh Gradients */
+        .mesh-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 40%, rgba(30, 30, 50, 0.7) 0%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
         }
 
+        /* Container */
         .container {
-            max-width: 650px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            animation: fadeIn 1.5s ease-out;
+            max-width: 640px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Frosted Glass Badge */
         .badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            color: #a5b4fc;
+            font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #34d399;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.75rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 .highlight {
+            background: linear-gradient(135deg, #a5b4fc 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
             font-size: 1.1rem;
-            color: #d1d5db;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin-bottom: 2.25rem;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 14px 32px;
-            background: #ffffff;
-            color: #0f0c29;
-            font-weight: 600;
+        /* Glowing Frosted Button */
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.25rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-            background: #f0f0f0;
+        .social-link:hover {
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.6);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .x-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3.5rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
+    <div class="mesh-bg"></div>
+
     <div class="container">
-        <div class="badge">Under Construction</div>
-        <h1>We're Cooking Something Special</h1>
-        <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey for updates.</p>
-        <a href="https://x.com" target="_blank" class="cta-button">Follow Us on X</a>
+        <div class="badge">
+            <span class="dot"></span>
+            Version 2.0 Is Coming
+        </div>
+
+        <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
+
+        <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
+
+        <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
+            <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Follow on X @everymovieplug
+        </a>
+
+        <footer>
+            © Every Movie Plug • Next Chapter
+        </footer>
     </div>
 </body>
 </html>
