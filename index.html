@@ -25,7 +25,8 @@
   <style>
     :root {
       --bg-color: #000000;
-      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-card-bg: rgba(255, 255, 255, 0.04);
       --border-color: rgba(255, 255, 255, 0.12);
       --indigo-accent: #6366f1;
       --purple-accent: #a855f7;
@@ -138,15 +139,55 @@
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.125rem;
       line-height: 1.47059;
       color: var(--text-secondary);
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       max-width: 520px;
       margin-left: auto;
       margin-right: auto;
       font-weight: 400;
       letter-spacing: -0.022em;
+    }
+
+    /* Apple-Style Glass Metric Card */
+    .metrics-card {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.1rem 2.25rem;
+      margin-bottom: 2.25rem;
+      border-radius: 20px;
+      background: var(--glass-card-bg);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .metrics-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .metrics-count {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .metrics-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.35rem;
     }
 
     /* Refined Apple-Style Button & Motion */
@@ -157,7 +198,7 @@
       justify-content: center;
       gap: 0.75rem;
       padding: 0.95rem 2.25rem;
-      border-radius: 980px; /* Apple pill style */
+      border-radius: 980px;
       background: linear-gradient(135deg, var(--indigo-accent) 0%, var(--purple-accent) 100%);
       color: #ffffff;
       text-decoration: none;
@@ -166,14 +207,11 @@
       letter-spacing: -0.01em;
       cursor: pointer;
       isolation: isolate;
-      
-      /* Micro-smooth cubic-bezier transition */
       transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
                   box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
     }
 
-    /* Soft backlight glow pseudoelement */
     .social-link::before {
       content: '';
       position: absolute;
@@ -236,17 +274,53 @@
 
     <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
 
-    <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-      </svg>
-      Follow on X @everymovieplug
-    </a>
+    <!-- Followers Section -->
+    <div class="metrics-card">
+      <span class="metrics-count" id="follower-count">2.3M+</span>
+      <span class="metrics-label">Film Lovers on X</span>
+    </div>
+
+    <div>
+      <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
+        <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        Follow on X @everymovieplug
+      </a>
+    </div>
 
     <footer>
       © Every Movie Plug • Next Chapter
     </footer>
   </main>
+
+  <script>
+    // Smooth counting effect on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const el = document.getElementById("follower-count");
+      let start = 0;
+      const target = 2.3;
+      const duration = 1200; // ms
+      const startTime = performance.now();
+
+      function updateNumber(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Ease out cubic
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        const currentVal = (easedProgress * target).toFixed(1);
+
+        el.textContent = `${currentVal}M+`;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateNumber);
+        }
+      }
+
+      requestAnimationFrame(updateNumber);
+    });
+  </script>
 
 </body>
 </html>
