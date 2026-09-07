@@ -1,201 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Open Graph / Facebook / WhatsApp / iMessage -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://everymovieplug.com/">
-<meta property="og:title" content="Every Movie Plug — Coming Soon">
-<meta property="og:description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
-<meta property="og:image" content="https://everymovieplug.com/og-image.png.jpg">
-<!-- Twitter / X -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://everymovieplug.com/">
-<meta name="twitter:title" content="Every Movie Plug — Coming Soon">
-<meta name="twitter:description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
-<meta name="twitter:image" content="https://everymovieplug.com/og-image.png.jpg">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Every Movie Plug — Coming Soon</title>
-    <meta name="description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #020205;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --indigo-accent: #6366f1;
-            --purple-accent: #a855f7;
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <!-- Core Page Metadata -->
+  <title>Every Movie Plug — Coming Soon</title>
+  <meta name="description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
 
-        body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1.5rem;
-            position: relative;
-            overflow-x: hidden;
-            text-align: center;
-        }
+  <!-- Open Graph / Facebook / WhatsApp / iMessage -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://everymovieplug.com/">
+  <meta property="og:title" content="Every Movie Plug — Coming Soon">
+  <meta property="og:description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
+  <meta property="og:image" content="https://everymovieplug.com/og-image.jpg">
 
-        /* Mesh Gradients */
-        .mesh-bg {
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 40%, rgba(30, 30, 50, 0.7) 0%, transparent 80%);
-            z-index: 0;
-            pointer-events: none;
-        }
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://everymovieplug.com/">
+  <meta name="twitter:title" content="Every Movie Plug — Coming Soon">
+  <meta name="twitter:description" content="Every Movie Plug is getting a brand new look. Follow our journey on X for updates.">
+  <meta name="twitter:image" content="https://everymovieplug.com/og-image.jpg">
 
-        /* Container */
-        .container {
-            max-width: 640px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-            animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+  <!-- Preconnect & Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+  <style>
+    :root {
+      --bg-color: #020205;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --indigo-accent: #6366f1;
+      --purple-accent: #a855f7;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --status-active: #34d399;
+    }
 
-        /* Frosted Glass Badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1.1rem;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            color: #a5b4fc;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #34d399;
-            box-shadow: 0 0 8px #34d399;
-        }
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        /* Typography */
-        h1 {
-            font-size: clamp(2.2rem, 5vw, 3.75rem);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.25rem;
-            background: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    /* Ambient Mesh Gradient Background */
+    .mesh-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 40%, rgba(30, 30, 50, 0.7) 0%, transparent 80%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        h1 .highlight {
-            background: linear-gradient(135deg, #a5b4fc 0%, #d8b4fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    /* Main Card Container */
+    .container {
+      max-width: 640px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.65;
-            color: var(--text-secondary);
-            margin-bottom: 2.25rem;
-            max-width: 540px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 300;
-        }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Glowing Frosted Button */
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 2.25rem;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-        }
+    /* Status Pill / Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.1rem;
+      border-radius: 9999px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #a5b4fc;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
 
-        .social-link:hover {
-            box-shadow: 0 0 35px rgba(168, 85, 247, 0.6);
-            transform: translateY(-2px) scale(1.02);
-        }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--status-active);
+      box-shadow: 0 0 8px var(--status-active);
+    }
 
-        .x-icon {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
+    /* Hero Typography */
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        /* Footer */
-        footer {
-            margin-top: 3.5rem;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.35);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-    </style>
+    h1 .highlight {
+      background: linear-gradient(135deg, #a5b4fc 0%, #d8b4fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 2.25rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 300;
+    }
+
+    /* Call to Action Button */
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 2.25rem;
+      background: linear-gradient(135deg, var(--indigo-accent) 0%, var(--purple-accent) 100%);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .social-link:hover {
+      box-shadow: 0 0 35px rgba(168, 85, 247, 0.6);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .x-icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Footer Meta */
+    footer {
+      margin-top: 3.5rem;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
 <body>
-    <div class="mesh-bg"></div>
 
-    <div class="container">
-        <div class="badge">
-            <span class="dot"></span>
-            We've noticed your presence.
-        </div>
+  <!-- Ambient Mesh Background -->
+  <div class="mesh-bg" aria-hidden="true"></div>
 
-        <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
-
-        <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
-
-        <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
-            <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            Follow on X @everymovieplug
-        </a>
-
-        <footer>
-            © Every Movie Plug • Next Chapter
-        </footer>
+  <!-- Primary Content Box -->
+  <main class="container">
+    <div class="badge">
+      <span class="dot" aria-hidden="true"></span>
+      We've noticed your presence
     </div>
+
+    <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
+
+    <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
+
+    <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      Follow on X @everymovieplug
+    </a>
+
+    <footer>
+      © Every Movie Plug • Next Chapter
+    </footer>
+  </main>
+
 </body>
 </html>
