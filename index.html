@@ -150,8 +150,9 @@
       letter-spacing: -0.022em;
     }
 
-    /* Apple-Style Glass Metric Card */
+    /* Apple-Style Clickable Glass Metric Card */
     .metrics-card {
+      position: relative;
       display: inline-flex;
       flex-direction: column;
       align-items: center;
@@ -164,11 +165,39 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      isolation: isolate;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                  box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .metrics-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, var(--indigo-accent) 0%, var(--purple-accent) 100%);
+      filter: blur(20px);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .metrics-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(168, 85, 247, 0.3);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .metrics-card:hover::before {
+      opacity: 0.25;
+    }
+
+    .metrics-card:active {
+      transform: translateY(-1px) scale(0.99);
     }
 
     .metrics-count {
@@ -188,6 +217,21 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       margin-top: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .metrics-label::after {
+      content: '↗';
+      font-size: 0.8rem;
+      opacity: 0.6;
+      transition: transform 0.3s ease;
+    }
+
+    .metrics-card:hover .metrics-label::after {
+      transform: translate(2px, -2px);
+      opacity: 1;
     }
 
     /* Refined Apple-Style Button & Motion */
@@ -272,13 +316,13 @@
 
     <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
 
-    <p>Every Movie Plug is getting a brand new look and we can't wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
+    <p>Every Movie Plug is getting a brand new look and we can'wait to share it with you. Follow our journey on X for updates and premiere announcements.</p>
 
-    <!-- Followers Section -->
-    <div class="metrics-card">
+    <!-- Clickable Followers Section -->
+    <a href="https://x.com/everymovieplug" class="metrics-card" target="_blank" rel="noopener noreferrer">
       <span class="metrics-count" id="follower-count">2.3M+</span>
       <span class="metrics-label">Film Lovers on X</span>
-    </div>
+    </a>
 
     <div>
       <a href="https://x.com/everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
