@@ -343,52 +343,7 @@
       transform: translateY(-1px);
     }
 
-    /* Teaser / Feature Preview Cards */
-    .teaser-section {
-      margin-bottom: 2.5rem;
-    }
-
-    .teaser-title {
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-    }
-
-    .teaser-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0.85rem;
-    }
-
-    .teaser-card {
-      background: var(--glass-card-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 1rem;
-      border-radius: 16px;
-      text-align: left;
-    }
-
-    .teaser-tag {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #a5b4fc;
-      margin-bottom: 0.3rem;
-      display: inline-block;
-    }
-
-    .teaser-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    /* Live X Feed Bridge Section */
+    /* Dynamic Top Posts Section */
     .social-bridge {
       margin-bottom: 2.5rem;
       padding: 1.5rem;
@@ -432,13 +387,76 @@
       font-weight: 500;
     }
 
-    .feed-wrapper {
-      max-height: 380px;
-      overflow-y: auto;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 0.5rem;
+    .posts-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .post-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.1rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.3s ease, 
+                  box-shadow 0.3s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .post-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.15);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .post-date {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    .post-body {
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: #e2e8f0;
+      text-align: left;
+    }
+
+    .post-metrics {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
 
     /* Actions Group */
@@ -577,26 +595,20 @@
       </form>
     </section>
 
-    <!-- Social Media Bridge: Live X Feed -->
-    <section class="social-bridge" aria-label="Live X Feed">
+    <!-- Social Media Bridge: Dynamic Top Post Cards -->
+    <section class="social-bridge" aria-label="Featured Posts">
       <div class="social-bridge-header">
         <div class="social-bridge-title">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
-          Live Updates
+          Trending Hits
         </div>
         <a href="https://x.com/everymovieplug" class="social-bridge-handle" target="_blank" rel="noopener noreferrer">@everymovieplug ↗</a>
       </div>
 
-      <div class="feed-wrapper">
-        <a class="twitter-timeline" 
-           data-theme="dark" 
-           data-chrome="noheader nofooter noborders transparent"
-           data-tweet-limit="3"
-           href="https://x.com/everymovieplug?ref_src=twsrc%5Etfw">
-           Loading latest tweets from @everymovieplug...
-        </a>
+      <div class="posts-grid" id="top-posts-container">
+        <!-- Dynamic Cards Render Here -->
       </div>
     </section>
 
@@ -629,9 +641,6 @@
       © Every Movie Plug • Next Chapter
     </footer>
   </main>
-
-  <!-- Official Twitter Widget Script -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <script>
     // Smooth counting effect on page load
@@ -683,6 +692,56 @@
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // Render Dynamic Top Post Cards
+    const featuredPosts = [
+      {
+        tag: "Movie Trivia",
+        date: "Top Hit",
+        content: "Did you know? In Christopher Nolan's <i>Inception</i>, the main characters' names (Dom, Robert, Eames, Arthur, Mal, Ariadne) spell out 'DREAM' when combined.",
+        views: "1.4M",
+        likes: "42.8K",
+        link: "https://x.com/everymovieplug"
+      },
+      {
+        tag: "Hidden Gem",
+        date: "Recommendation",
+        content: "If you love tight, single-location psychological thrillers, add <i>Coherence</i> (2013) to your weekend watchlist immediately.",
+        views: "890K",
+        likes: "21.5K",
+        link: "https://x.com/everymovieplug"
+      },
+      {
+        tag: "Director Breakdown",
+        date: "Cinema Art",
+        content: "Denis Villeneuve's use of scale and atmospheric sound design creates pure cinematic tension unlike anyone else in modern sci-fi.",
+        views: "2.1M",
+        likes: "68.2K",
+        link: "https://x.com/everymovieplug"
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("top-posts-container");
+      if (!container) return;
+
+      container.innerHTML = featuredPosts.map(post => `
+        <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="post-card">
+          <div class="post-header">
+            <span class="post-badge">${post.tag}</span>
+            <span class="post-date">${post.date}</span>
+          </div>
+          <div class="post-body">
+            "${post.content}"
+          </div>
+          <div class="post-metrics">
+            <span class="metric-item">👁️ ${post.views}</span>
+            <span class="metric-item">❤️ ${post.likes}</span>
+            <span class="metric-item" style="margin-left: auto; color: #a5b4fc;">View on X ↗</span>
+          </div>
+        </a>
+      `).join("");
+    });
 
     // Native Web Share Functionality
     function shareWebsite() {
