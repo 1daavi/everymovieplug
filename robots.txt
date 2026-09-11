@@ -1,2 +1,11 @@
+# Allow all web crawlers complete access
 User-agent: *
 Allow: /
+
+# Explicitly permit Twitter/X link crawler
+User-agent: Twitterbot
+Allow: /
+
+# Specify Canonical Sitemap
+Sitemap: https://everymovieplug.com/sitemap.xml
+
