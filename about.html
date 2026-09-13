@@ -71,7 +71,57 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 0.85rem;
     }
+/* Crew Member Links & Avatars */
+    .crew-member {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
 
+    .crew-member:hover {
+      border-color: var(--border-hover, rgba(255, 255, 255, 0.2));
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .avatar-container {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .crew-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .crew-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .crew-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .crew-role {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
     /* Crew Member Links & Avatars */
     .crew-member {
       display: flex;
