@@ -1,34 +1,86 @@
-<div class="crew-grid">
-  <!-- Head of Content -->
-  <a href="https://x.com/peopleoftheint" target="_blank" rel="noopener noreferrer" class="crew-member">
-    <div class="avatar-container">
-      <img src="https://unavatar.io/x/peopleoftheint" alt="@peopleoftheint profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
-    </div>
-    <div class="crew-info">
-      <span class="crew-name">@peopleoftheint</span>
-      <span class="crew-role">Head of Content</span>
-    </div>
-  </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - EveryMoviePlug</title>
+  
+  <style>
+    /* Crew Section Glass Card Styling */
+    .crew-card {
+      background: var(--glass-card-bg);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 1.75rem 1.25rem;
+      border-radius: 24px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      text-align: left;
+    }
 
-  <!-- Community Lead -->
-  <a href="https://x.com/scenesinfilm" target="_blank" rel="noopener noreferrer" class="crew-member">
-    <div class="avatar-container">
-      <img src="https://unavatar.io/x/scenesinfilm" alt="@scenesinfilm profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
-    </div>
-    <div class="crew-info">
-      <span class="crew-name">@scenesinfilm</span>
-      <span class="crew-role">Community Lead</span>
-    </div>
-  </a>
+    .crew-card h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
 
-  <!-- Lead Engineer -->
-  <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="crew-member">
-    <div class="avatar-container">
-      <img src="https://unavatar.io/x/everymovieplug" alt="@everymovieplug profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
+    .crew-subheading {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .crew-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Crew Section Content -->
+  <section class="crew-card">
+    <h2>Meet the Crew</h2>
+    <p class="crew-subheading">The team behind EveryMoviePlug</p>
+    
+    <div class="crew-grid">
+      <!-- Head of Content -->
+      <a href="https://x.com/peopleoftheint" target="_blank" rel="noopener noreferrer" class="crew-member">
+        <div class="avatar-container">
+          <img src="https://unavatar.io/x/peopleoftheint" alt="@peopleoftheint profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
+        </div>
+        <div class="crew-info">
+          <span class="crew-name">@peopleoftheint</span>
+          <span class="crew-role">Head of Content</span>
+        </div>
+      </a>
+
+      <!-- Community Lead -->
+      <a href="https://x.com/scenesinfilm" target="_blank" rel="noopener noreferrer" class="crew-member">
+        <div class="avatar-container">
+          <img src="https://unavatar.io/x/scenesinfilm" alt="@scenesinfilm profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
+        </div>
+        <div class="crew-info">
+          <span class="crew-name">@scenesinfilm</span>
+          <span class="crew-role">Community Lead</span>
+        </div>
+      </a>
+
+      <!-- Lead Engineer -->
+      <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="crew-member">
+        <div class="avatar-container">
+          <img src="https://unavatar.io/x/everymovieplug" alt="@everymovieplug profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
+        </div>
+        <div class="crew-info">
+          <span class="crew-name">@everymovieplug</span>
+          <span class="crew-role">Lead Engineer</span>
+        </div>
+      </a>
     </div>
-    <div class="crew-info">
-      <span class="crew-name">@everymovieplug</span>
-      <span class="crew-role">Lead Engineer</span>
-    </div>
-  </a>
-</div>
+  </section>
+
+</body>
+</html>
