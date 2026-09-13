@@ -5,7 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us - EveryMoviePlug</title>
   
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --bg-color: #0b0f19;
+      --glass-card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
     /* Crew Section Glass Card Styling */
     .crew-card {
       background: var(--glass-card-bg);
@@ -14,7 +49,6 @@
       -webkit-backdrop-filter: blur(20px);
       padding: 1.75rem 1.25rem;
       border-radius: 24px;
-      margin-bottom: 2.5rem;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       text-align: left;
     }
@@ -37,50 +71,78 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 0.85rem;
     }
+
+    /* Crew Member Links & Avatars */
+    .crew-member {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .crew-member:hover {
+      border-color: var(--border-hover);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .avatar-container {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .crew-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .crew-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .crew-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .crew-role {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Crew Section Content -->
-  <section class="crew-card">
-    <h2>Meet the Crew</h2>
-    <p class="crew-subheading">The team behind EveryMoviePlug</p>
-    
-    <div class="crew-grid">
-      <!-- Head of Content -->
-      <a href="https://x.com/peopleoftheint" target="_blank" rel="noopener noreferrer" class="crew-member">
-        <div class="avatar-container">
-          <img src="https://unavatar.io/x/peopleoftheint" alt="@peopleoftheint profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
-        </div>
-        <div class="crew-info">
-          <span class="crew-name">@peopleoftheint</span>
-          <span class="crew-role">Head of Content</span>
-        </div>
-      </a>
+  <main class="container">
+    <section class="crew-card">
+      <h2>Meet the Crew</h2>
+      <p class="crew-subheading">The team behind EveryMoviePlug</p>
+      
+      <div class="crew-grid">
+        <!-- Head of Content -->
+        <a href="https://x.com/peopleoftheint" target="_blank" rel="noopener noreferrer" class="crew-member">
+          <div class="avatar-container">
+            <img src="https://unavatar.io/x/peopleoftheint" alt="@peopleoftheint" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
+          </div>
+          <div class="crew-info">
+            <span class="crew-name">@peopleoftheint</span>
+            <span class="crew-role">Head of Content</span>
+          </div>
+        </a>
 
-      <!-- Community Lead -->
-      <a href="https://x.com/scenesinfilm" target="_blank" rel="noopener noreferrer" class="crew-member">
-        <div class="avatar-container">
-          <img src="https://unavatar.io/x/scenesinfilm" alt="@scenesinfilm profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
-        </div>
-        <div class="crew-info">
-          <span class="crew-name">@scenesinfilm</span>
-          <span class="crew-role">Community Lead</span>
-        </div>
-      </a>
-
-      <!-- Lead Engineer -->
-      <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="crew-member">
-        <div class="avatar-container">
-          <img src="https://unavatar.io/x/everymovieplug" alt="@everymovieplug profile picture" class="crew-avatar" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'" />
-        </div>
-        <div class="crew-info">
-          <span class="crew-name">@everymovieplug</span>
-          <span class="crew-role">Lead Engineer</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-</body>
-</html>
+        <!-- Community Lead -->
+        <a href="https://x.com/scenesinfilm" target="_blank" rel="noopener noreferrer" class="crew-member">
