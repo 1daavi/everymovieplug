@@ -6,11 +6,6 @@
   <title>About Us | Every Movie Plug</title>
   <meta name="description" content="Connecting millions of cinephiles worldwide through curated cinema, discovery tools, and community.">
   
-  <!-- Fonts: Plus Jakarta Sans & Playfair Display -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -20,8 +15,16 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['"Playfair Display"', 'serif'],
+            sans: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Display"',
+              '"SF Pro Text"',
+              '"Helvetica Neue"',
+              'Helvetica',
+              'Arial',
+              'sans-serif'
+            ],
           },
           colors: {
             brand: {
@@ -74,13 +77,6 @@
       border-color: rgba(139, 92, 246, 0.3);
       transform: translateY(-6px);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.15);
-    }
-
-    .glass-nav {
-      background: rgba(8, 8, 12, 0.75);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     /* Ambient Lighting Background */
@@ -142,7 +138,7 @@
     }
   </style>
 </head>
-<body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
+<body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-center relative selection:bg-brand-500/30 selection:text-white">
 
   <div class="film-grain" aria-hidden="true"></div>
   
@@ -152,67 +148,11 @@
     <div class="glow-orb-3 animate-pulse-glow" style="animation-delay: 2s;"></div>
   </div>
 
-  <!-- NAVIGATION -->
-  <nav class="sticky top-0 z-50 glass-nav transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        <!-- Logo -->
-        <a href="#" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-brand-500 to-amber-400 p-[1px] shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-all duration-300">
-            <div class="w-full h-full bg-[#0a0a10] rounded-[11px] flex items-center justify-center text-amber-400 font-bold text-lg">
-              🎬
-            </div>
-          </div>
-          <span class="font-bold text-xl tracking-tight text-white group-hover:text-brand-100 transition-colors">
-            Every Movie<span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-amber-400">Plug</span>
-          </span>
-        </a>
-
-        <!-- Desktop Navigation Links -->
-        <div class="hidden md:flex items-center space-x-1 border border-white/5 bg-white/[0.03] px-4 py-1.5 rounded-full backdrop-blur-md">
-          <a href="#" class="px-4 py-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors rounded-full">Home</a>
-          <a href="#" class="px-4 py-1.5 text-xs font-semibold text-white bg-white/10 rounded-full shadow-inner">About Us</a>
-          <a href="#values" class="px-4 py-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors rounded-full">Our Values</a>
-          <a href="#team" class="px-4 py-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors rounded-full">The Crew</a>
-        </div>
-
-        <!-- Action Button -->
-        <div class="hidden md:flex items-center gap-4">
-          <a href="#contact" class="relative group px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide text-white overflow-hidden shadow-lg shadow-brand-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-95">
-            <span class="absolute inset-0 bg-gradient-to-r from-brand-600 via-brand-500 to-amber-500 transition-all duration-300 group-hover:opacity-90"></span>
-            <span class="relative flex items-center gap-2">
-              Get in Touch
-              <svg class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </span>
-          </a>
-        </div>
-
-        <!-- Mobile Menu Toggle Button -->
-        <div class="md:hidden">
-          <button id="mobile-menu-btn" aria-label="Toggle navigation menu" class="text-slate-400 hover:text-white p-2 rounded-xl border border-white/10 bg-white/5 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile Dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden glass-card border-x-0 border-t-0 border-b border-white/10 px-6 pt-4 pb-6 space-y-3 transition-all">
-      <a href="#" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/5">Home</a>
-      <a href="#" class="block px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-400 bg-brand-500/10 border border-brand-500/20">About Us</a>
-      <a href="#values" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/5">Our Values</a>
-      <a href="#team" class="block px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/5">The Crew</a>
-      <a href="#contact" class="block text-center mt-4 w-full py-3 rounded-xl text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-brand-600 to-amber-500 text-white shadow-lg">Get in Touch</a>
-    </div>
-  </nav>
-
   <!-- MAIN CONTENT -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 space-y-28 md:space-y-40">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 my-auto">
 
     <!-- HERO SECTION -->
-    <section class="relative text-center max-w-4xl mx-auto pt-6">
+    <section class="relative text-center max-w-4xl mx-auto">
       
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -226,7 +166,7 @@
 
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] mb-8">
         Connecting Millions of <br class="hidden sm:inline"/>
-        <span class="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-brand-200 to-brand-400">
+        <span class="italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-brand-200 to-brand-400">
           Cinephiles Worldwide
         </span>
       </h1>
@@ -255,243 +195,7 @@
       </div>
     </section>
 
-    <!-- OUR STORY & VALUES SECTION -->
-    <section id="values" class="space-y-16">
-      <div class="text-center max-w-2xl mx-auto space-y-4">
-        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Why We Do It</h2>
-        <p class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Built by Film Fans, for Film Fans</p>
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">We believe movies are more than just entertainment — they are mirrors to humanity, culture, and shared emotion.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="glass-card glass-card-interactive p-8 rounded-3xl space-y-6 relative group">
-          <div class="w-14 h-14 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 group-hover:scale-110 transition-all duration-300">
-            🍿
-          </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tight">Curation Without Noise</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              In an era of endless algorithmic noise, we cut through decision fatigue to surface hidden gems, masterpieces, and overlooked cinema classics.
-            </p>
-          </div>
-        </div>
-
-        <div class="glass-card glass-card-interactive p-8 rounded-3xl space-y-6 relative group">
-          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-all duration-300">
-            🌍
-          </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tight">Global Community</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Cinema transcends borders. We unite millions of moviegoers to debate plot twists, deep thematic analysis, and visual artistry in real time.
-            </p>
-          </div>
-        </div>
-
-        <div class="glass-card glass-card-interactive p-8 rounded-3xl space-y-6 relative group">
-          <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-all duration-300">
-            ⚡
-          </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tight">Innovating Discovery</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              We design intuitive tools to solve the age-old dilemma: "What should we watch tonight?" turning browsing into an enjoyable experience.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TEAM MEMBER GRID -->
-    <section id="team" class="space-y-16">
-      <div class="text-center max-w-2xl mx-auto space-y-4">
-        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Meet the Minds</h2>
-        <p class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">The Crew Behind the Plug</p>
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">A passionate collective driving cinematic recommendations and tools forward.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        
-        <!-- Team Member 1: Founder -->
-        <div class="glass-card glass-card-interactive p-6 rounded-3xl text-center space-y-5 group relative">
-          <div class="relative w-32 h-32 mx-auto rounded-full overflow-hidden p-1 bg-gradient-to-b from-brand-500/40 to-transparent group-hover:from-brand-500 transition-all duration-500">
-            <img src="https://unavatar.io/x/hit__n" alt="@hit__n profile photo" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-lg font-bold text-white tracking-tight">@hit__n</h3>
-            <p class="text-xs font-semibold text-brand-400 uppercase tracking-wider">Founder</p>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed min-h-[2.5rem]">Leading platform vision and building modern discovery spaces for cinema lovers.</p>
-          <div class="flex justify-center gap-3 text-slate-400 pt-2 border-t border-white/5">
-            <a href="https://x.com/hit__n" target="_blank" rel="noopener noreferrer" aria-label="@hit__n on X" class="p-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Follow
-            </a>
-          </div>
-        </div>
-
-        <!-- Team Member 2: Head of Content -->
-        <div class="glass-card glass-card-interactive p-6 rounded-3xl text-center space-y-5 group relative">
-          <div class="relative w-32 h-32 mx-auto rounded-full overflow-hidden p-1 bg-gradient-to-b from-amber-500/40 to-transparent group-hover:from-amber-500 transition-all duration-500">
-            <img src="https://unavatar.io/x/peopleoftheint" alt="@peopleoftheint profile photo" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-lg font-bold text-white tracking-tight">@peopleoftheint</h3>
-            <p class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Head of Content</p>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed min-h-[2.5rem]">Curating movie recommendations, thematic highlights, and deep film analysis.</p>
-          <div class="flex justify-center gap-3 text-slate-400 pt-2 border-t border-white/5">
-            <a href="https://x.com/peopleoftheint" target="_blank" rel="noopener noreferrer" aria-label="@peopleoftheint on X" class="p-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Follow
-            </a>
-          </div>
-        </div>
-
-        <!-- Team Member 3: Community Lead -->
-        <div class="glass-card glass-card-interactive p-6 rounded-3xl text-center space-y-5 group relative">
-          <div class="relative w-32 h-32 mx-auto rounded-full overflow-hidden p-1 bg-gradient-to-b from-brand-500/40 to-transparent group-hover:from-brand-500 transition-all duration-500">
-            <img src="https://unavatar.io/x/scenesinfilm" alt="@scenesinfilm profile photo" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-lg font-bold text-white tracking-tight">@scenesinfilm</h3>
-            <p class="text-xs font-semibold text-brand-400 uppercase tracking-wider">Community Lead</p>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed min-h-[2.5rem]">Engaging global audiences and showcasing iconic sequences across cinematic history.</p>
-          <div class="flex justify-center gap-3 text-slate-400 pt-2 border-t border-white/5">
-            <a href="https://x.com/scenesinfilm" target="_blank" rel="noopener noreferrer" aria-label="@scenesinfilm on X" class="p-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Follow
-            </a>
-          </div>
-        </div>
-
-        <!-- Team Member 4: Lead Engineer -->
-        <div class="glass-card glass-card-interactive p-6 rounded-3xl text-center space-y-5 group relative">
-          <div class="relative w-32 h-32 mx-auto rounded-full overflow-hidden p-1 bg-gradient-to-b from-amber-500/40 to-transparent group-hover:from-amber-500 transition-all duration-500">
-            <img src="https://unavatar.io/x/everymovieplug" alt="@everymovieplug profile photo" class="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-lg font-bold text-white tracking-tight">@everymovieplug</h3>
-            <p class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Lead Engineer</p>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed min-h-[2.5rem]">Architecting fast, seamless web platforms and backend integration tools.</p>
-          <div class="flex justify-center gap-3 text-slate-400 pt-2 border-t border-white/5">
-            <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" aria-label="@everymovieplug on X" class="p-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              Follow
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- INTERACTIVE CONTACT & BANNER -->
-    <section id="contact" class="glass-card rounded-3xl p-8 sm:p-14 relative overflow-hidden text-center sm:text-left border border-brand-500/20">
-      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-gradient-to-br from-brand-600/30 to-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
-        <div class="space-y-3 max-w-xl">
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-400">Let's Connect</span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Have a question or proposal?</h2>
-          <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Whether you want to partner up, submit a film inquiry, or just talk about movies, we’d love to hear from you.
-          </p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto shrink-0">
-          <a href="mailto:contact@everymovieplug.com" class="px-7 py-4 rounded-2xl bg-white text-slate-950 font-bold text-sm hover:bg-slate-100 transition-all text-center shadow-xl hover:shadow-white/10 active:scale-95 flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            Send an Email
-          </a>
-          <button onclick="copyContactEmail()" class="px-7 py-4 rounded-2xl glass-card text-white font-semibold text-sm hover:bg-white/10 transition-all text-center border border-white/10 active:scale-95 flex items-center justify-center gap-2">
-            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-            Copy Address
-          </button>
-        </div>
-      </div>
-    </section>
-
   </main>
-
-  <!-- FOOTER -->
-  <footer class="mt-24 border-t border-white/5 glass-nav py-12 relative z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-slate-400 text-xs">
-      
-      <div class="flex items-center gap-3">
-        <div class="w-6 h-6 rounded-lg bg-brand-500/20 flex items-center justify-center text-brand-400">
-          🎬
-        </div>
-        <span class="text-white font-semibold tracking-wide">Every Movie Plug</span>
-        <span class="text-slate-600">•</span>
-        <span class="text-slate-500">The Next Chapter of Cinema Discovery</span>
-      </div>
-
-      <div class="flex items-center gap-6">
-        <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5">
-          <span>Follow on X</span>
-          <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-      </div>
-
-      <div class="text-slate-500">
-        © 2026 Every Movie Plug. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
-  <!-- NOTIFICATION TOAST -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 glass-card px-5 py-3.5 rounded-2xl text-white text-xs font-medium shadow-2xl border border-brand-500/40 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3">
-    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-    <span id="toast-message">Email address copied to clipboard!</span>
-  </div>
-
-  <!-- JAVASCRIPT LOGIC -->
-  <script>
-    // Toggle Mobile Navigation
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Copy Email Functionality
-    function copyContactEmail() {
-      const email = 'contact@everymovieplug.com';
-      
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(email);
-      } else {
-        const tempInput = document.createElement('input');
-        tempInput.value = email;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-      }
-
-      showToast('Copied contact@everymovieplug.com');
-    }
-
-    // Custom Toast Trigger
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-message');
-      toastMsg.textContent = message;
-
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3000);
-    }
-  </script>
 
 </body>
 </html>
