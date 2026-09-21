@@ -84,6 +84,53 @@
       text-decoration: none;
       font-size: 0.9rem;
     }
+    /* Update card layout to sit side-by-side on larger screens */
+.article-card {
+  background: var(--glass-card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+/* 1:1 Aspect Ratio Thumbnail Styling */
+.article-thumbnail {
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.article-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-content {
+  flex: 1;
+}
+
+/* Optional: Stack vertically on small mobile screens */
+@media (max-width: 480px) {
+  .article-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .article-thumbnail {
+    width: 100%;
+    height: auto;
+  }
+}
   </style>
 </head>
 <body>
@@ -94,21 +141,28 @@
     <p style="color: var(--text-secondary);">Insights, movie breakdowns, and news.</p>
   </header>
 
-  <main class="articles-grid">
-    <!-- Article 1 -->
-    <article class="article-card">
+ <main class="articles-grid">
+  <!-- Article 1 -->
+  <a href="#" class="article-card">
+    <div class="article-thumbnail">
+      <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop&q=80" alt="Sci-Fi Cinema">
+    </div>
+    <div class="article-content">
       <div class="article-date">September 20, 2026</div>
       <h2 class="article-title">10 Hidden Gems in Modern Sci-Fi Cinema</h2>
       <p class="article-excerpt">Discover overlooked masterpieces that push the boundaries of visual storytelling and psychological suspense.</p>
-    </article>
+    </div>
+  </a>
 
-    <!-- Article 2 -->
-    <article class="article-card">
+  <!-- Article 2 -->
+  <a href="#" class="article-card">
+    <div class="article-thumbnail">
+      <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300&auto=format&fit=crop&q=80" alt="Film Editing">
+    </div>
+    <div class="article-content">
       <div class="article-date">September 15, 2026</div>
       <h2 class="article-title">Understanding Christopher Nolan's Editing Process</h2>
       <p class="article-excerpt">A deep dive into how time and pacing create narrative tension across Nolan's filmography.</p>
-    </article>
-  </main>
-</body>
-</html>
-
+    </div>
+  </a>
+</main>
