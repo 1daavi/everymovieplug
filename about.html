@@ -135,10 +135,29 @@
       background: rgba(139, 92, 246, 0.4);
       color: #ffffff;
     }
+    .back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--accent, #a5b4fc);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
-
+<!-- Insert right below line 151 (<body ...>) -->
+<div class="max-w-6xl mx-auto px-4 pt-6 w-full">
+  <a href="/index.html" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+    </svg>
+    Back to Home
+  </a>
+</div>
   <div class="film-grain" aria-hidden="true"></div>
   
   <div class="bg-cinema-mesh" aria-hidden="true">
