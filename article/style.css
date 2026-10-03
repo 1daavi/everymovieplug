@@ -162,15 +162,23 @@ nav a:hover {
   color: var(--muted);
 }
 
+/* All article images safety rule (prevents unhandled images from overflowing) */
+.article-content img,
+.article-hero img,
+.article-figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Hero Image */
 .article-hero {
   margin: 0 0 32px 0;
+  width: 100%;
 }
 
 .article-hero img {
-  display: block;
   width: 100%;
-  height: auto;
   border-radius: 8px;
 }
 
@@ -181,15 +189,16 @@ nav a:hover {
   text-align: center;
 }
 
-/* Base Article Figures (non-responsive defaults) */
+/* Base Article Figures */
 .article-figure {
-  margin: 32px 0;
+  margin: 32px auto;
+  max-width: 100%;
 }
 
 .article-figure img {
-  display: block;
   width: 100%;
-  height: auto;
+  max-height: 480px; /* Limits height so large vertical images don't cover the screen */
+  object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border);
 }
@@ -213,7 +222,7 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Site Footer (pill links, matching the home page) */
+/* Site Footer */
 .site-footer {
   max-width: 760px;
   margin: 40px auto 0 auto;
@@ -266,7 +275,7 @@ nav a:hover {
   }
 
   .article-container {
-    padding: 24px;
+    padding: 20px;
   }
 
   .article-header h1 {
@@ -278,6 +287,10 @@ nav a:hover {
   }
 
   .article-figure {
-    margin: 28px 0;
+    margin: 24px 0;
+  }
+
+  .article-figure img {
+    max-height: 320px; /* Constrains height further on mobile devices */
   }
 }
