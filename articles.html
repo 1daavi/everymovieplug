@@ -77,6 +77,33 @@
       line-height: 1.5;
     }
 
+    .site-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .site-footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-footer a:hover,
+    .site-footer a:focus-visible {
+      color: var(--text-primary);
+    }
+
     .back-link {
       display: inline-block;
       margin-bottom: 1.5rem;
@@ -166,5 +193,15 @@
     </div>
   </a>
 </main>
+
+  <footer class="site-footer">
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="mailto:admin@everymovieplug.com">Contact</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </nav>
+    <p>&copy; Every Movie Plug</p>
+  </footer>
 </body>
 </html>
