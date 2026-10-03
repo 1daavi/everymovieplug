@@ -244,4 +244,36 @@ nav a:hover {
   .article-subtitle {
     font-size: 1rem;
   }
+/* Article Images */
+.article-figure {
+  margin: 28px 0;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.article-figure figcaption {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.image-credit {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.image-credit a {
+  color: inherit;
+  text-decoration: underline;
+}
+  
 }
