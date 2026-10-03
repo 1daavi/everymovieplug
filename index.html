@@ -518,6 +518,18 @@
       font-weight: 500;
       opacity: 0.6;
     }
+
+    .footer-link {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover,
+    .footer-link:focus-visible {
+      color: var(--text-primary);
+    }
   </style>
 </head>
 <body>
@@ -596,7 +608,7 @@
 </div></div>
 
     <footer>
-      © Every Movie Plug • Next Chapter
+      © Every Movie Plug • <a href="privacy-policy.html" class="footer-link">Privacy Policy</a> • Next Chapter
     </footer>
   </main>
 
