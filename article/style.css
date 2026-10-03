@@ -232,13 +232,17 @@ nav a:hover {
   body {
     padding: 12px;
   }
-  
-  .article-container {
-    padding: 20px;
-  }
+  /* Article Images */
+.article-figure {
+  margin: 28px 0;
+}
 
-  .article-header h1 {
-    font-size: 1.75rem;
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
   }
 
   .article-subtitle {
