@@ -27,7 +27,7 @@
   }
 }
 
-/* Manual override: <html data-theme="dark"> or <html data-theme="light"> */
+/* Manual override:  or  */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #000000;
@@ -181,6 +181,38 @@ nav a:hover {
   text-align: center;
 }
 
+/* Base Article Figures (non-responsive defaults) */
+.article-figure {
+  margin: 32px 0;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.article-figure figcaption {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.image-credit {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.image-credit a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Site Footer (pill links, matching the home page) */
 .site-footer {
   max-width: 760px;
@@ -232,52 +264,20 @@ nav a:hover {
   body {
     padding: 12px;
   }
-  /* Article Images */
-.article-figure {
-  margin: 28px 0;
-}
 
-.article-figure img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  .article-container {
+    padding: 24px;
+  }
+
+  .article-header h1 {
+    font-size: 1.75rem;
   }
 
   .article-subtitle {
     font-size: 1rem;
   }
-/* Article Images */
-.article-figure {
-  margin: 28px 0;
-}
 
-.article-figure img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.article-figure figcaption {
-  margin-top: 10px;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-.image-credit {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.8rem;
-  opacity: 0.85;
-}
-
-.image-credit a {
-  color: inherit;
-  text-decoration: underline;
-}
-  
+  .article-figure {
+    margin: 28px 0;
+  }
 }
