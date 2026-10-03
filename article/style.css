@@ -143,6 +143,90 @@ nav a:hover {
   color: var(--muted);
 }
 
+.article-content ul {
+  margin: 0 0 20px 24px;
+}
+
+.article-content li {
+  font-size: 1.1rem;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.article-content .note {
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Hero Image */
+.article-hero {
+  margin: 0 0 32px 0;
+}
+
+.article-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.article-hero figcaption {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Site Footer (pill links, matching the home page) */
+.site-footer {
+  max-width: 760px;
+  margin: 40px auto 0 auto;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--heading);
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.6;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   body {
