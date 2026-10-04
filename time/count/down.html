@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'll see you in... | Every Movie Plug</title>
+    <style>
+        :root {
+            --bg-color: #000;
+            --glass-card-bg: rgba(255, 255, 255, 0.04);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --indigo-accent: #6366f1;
+            --purple-accent: #a855f7;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body {
+            font-family: var(--font-apple);
+            background: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+            -webkit-font-smoothing: antialiased;
+        }
+        .mesh-bg {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 40%, rgba(30, 30, 50, 0.7) 0%, transparent 80%);
+        }
+        .heart-bg {
+            position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            height: 85vh; aspect-ratio: 100 / 90;
+            opacity: .3; z-index: 0; pointer-events: none;
+            animation: heartbeat 2.4s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 40%, 100% { transform: translate(-50%, -50%) scale(1); }
+            15% { transform: translate(-50%, -50%) scale(1.05); }
+            28% { transform: translate(-50%, -50%) scale(1.01); }
+        }
+        .countdown-section {
+            position: relative; z-index: 1;
+            width: 100%; height: 50vh; min-height: 340px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 0 1.5rem;
+        }
+        h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 600;
+            line-height: 1.0625;
+            letter-spacing: -0.015em;
+            margin-bottom: 2rem;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .countdown-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(.5rem, 2vw, 1rem);
+            width: min(760px, 100%);
+        }
+        .countdown-box {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            aspect-ratio: 3 / 4;
+            max-height: 30vh;
+            width: 100%;
+            border-radius: 20px;
+            background: var(--glass-card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        /* The liquid that fills each box */
+        .fill {
+            position: absolute; left: 0; right: 0; bottom: 0;
+            height: 0%;
+            z-index: -1;
+            background: linear-gradient(180deg, var(--purple-accent) 0%, var(--indigo-accent) 100%);
+            opacity: .65;
+        }
+        .fill::before {
+            content: '';
+            position: absolute; left: 0; right: 0; bottom: 100%;
+            height: 12px;
+            margin-bottom: -1px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M0 12 Q10 0 20 6 T40 6 V12 Z' fill='%23a855f7'/%3E%3C/svg%3E") repeat-x;
+            background-size: 40px 12px;
+            animation: wave 2.4s linear infinite;
+        }
+        .fill.empty::before { display: none; }
+        @keyframes wave { to { background-position-x: 40px; } }
+        .countdown-val {
+            font-size: clamp(1.8rem, 6vw, 3.4rem);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, .6);
+        }
+        .countdown-lbl {
+            font-size: clamp(.6rem, 1.4vw, .8rem);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #d4d4d8;
+            margin-top: .35rem;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+        }
+        @media (prefers-reduced-motion: reduce) { .fill::before, .heart-bg { animation: none; } }
+    </style>
+</head>
+<body>
+    <div class="mesh-bg" aria-hidden="true"></div>
+
+    <svg class="heart-bg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <linearGradient id="loveGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ff5c7a"/>
+                <stop offset="1" stop-color="#b3123a"/>
+            </linearGradient>
+        </defs>
+        <path d="M50 88C20 62 2 44 2 26C2 12 13 2 27 2C37 2 46 8 50 16C54 8 63 2 73 2C87 2 98 12 98 26C98 44 80 62 50 88Z" fill="url(#loveGrad)"/>
+        <path d="M18 22C18 15 23 10 30 10" fill="none" stroke="#ffd0da" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+    </svg>
+
+    <section class="countdown-section" aria-label="Countdown to August 2027">
+        <h1>I’ll see you in…</h1>
+        <div class="countdown-container" role="timer">
+            <div class="countdown-box"><div class="fill" id="f-days"></div><span class="countdown-val" id="days">00</span><span class="countdown-lbl">Days</span></div>
+            <div class="countdown-box"><div class="fill" id="f-hours"></div><span class="countdown-val" id="hours">00</span><span class="countdown-lbl">Hours</span></div>
+            <div class="countdown-box"><div class="fill" id="f-mins"></div><span class="countdown-val" id="mins">00</span><span class="countdown-lbl">Mins</span></div>
+            <div class="countdown-box"><div class="fill" id="f-secs"></div><span class="countdown-val" id="secs">00</span><span class="countdown-lbl">Secs</span></div>
+        </div>
+    </section>
+
+    <script>
+        // Target: August 1, 2027, 00:00 UTC. Start: when the countdown begins (used for the days fill).
+        var target = new Date("2027-08-01T00:00:00Z").getTime();
+        var start  = new Date("2026-10-04T00:00:00Z").getTime();
+        var DAY = 86400000, HOUR = 3600000, MIN = 60000, SEC = 1000;
+
+        var el = {
+            days: document.getElementById("days"), hours: document.getElementById("hours"),
+            mins: document.getElementById("mins"), secs: document.getElementById("secs")
+        };
+        var fl = {
+            days: document.getElementById("f-days"), hours: document.getElementById("f-hours"),
+            mins: document.getElementById("f-mins"), secs: document.getElementById("f-secs")
+        };
+        function pad(n) { return String(n).padStart(2, "0"); }
+        function setFill(node, frac) {
+            frac = Math.min(1, Math.max(0, frac));
+            node.style.height = (frac * 100) + "%";
+            node.classList.toggle("empty", frac <= 0.001);
+        }
+        function frame() {
+            var diff = Math.max(0, target - Date.now());
+            el.days.textContent  = pad(Math.floor(diff / DAY));
+            el.hours.textContent = pad(Math.floor((diff % DAY) / HOUR));
+            el.mins.textContent  = pad(Math.floor((diff % HOUR) / MIN));
+            el.secs.textContent  = pad(Math.floor((diff % MIN) / SEC));
+
+            // Each box fills up as its unit runs out, then empties and starts again.
+            setFill(fl.days,  1 - diff / (target - start));
+            setFill(fl.hours, 1 - (diff % DAY) / DAY);
+            setFill(fl.mins,  1 - (diff % HOUR) / HOUR);
+            setFill(fl.secs,  1 - (diff % MIN) / MIN);
+            requestAnimationFrame(frame);
+        }
+        frame();
+    </script>
+</body>
+</html>
