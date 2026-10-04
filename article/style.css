@@ -208,6 +208,12 @@ nav a:hover {
   border-radius: 8px;
 }
 
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .article-hero figcaption {
   margin-top: 8px;
   font-size: 0.8rem;
