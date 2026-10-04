@@ -143,6 +143,32 @@ nav a:hover {
   color: var(--muted);
 }
 
+.article-content blockquote.instagram-media {
+  border: 0;
+  color: inherit;
+  font-style: normal;
+  margin: 24px auto;
+  max-width: 658px !important;
+  min-width: 0 !important;
+  padding: 0;
+  width: 100% !important;
+}
+
+.article-content blockquote.instagram-media iframe {
+  display: block;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.article-content > iframe.instagram-media {
+  display: block;
+  margin: 24px auto;
+  max-width: 658px !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
 .article-content ul {
   margin: 0 0 20px 24px;
 }
