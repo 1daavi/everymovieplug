@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest Reviews | Every Movie Plug</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','"SF Pro Display"','"SF Pro Text"','"Helvetica Neue"','Helvetica','Arial','sans-serif'] },
+        colors: { brand: { 50:'#f5f3ff',100:'#ede9fe',400:'#a78bfa',500:'#8b5cf6',600:'#7c3aed',900:'#4c1d95' }, amber: { 400:'#fbbf24', 500:'#f59e0b' } },
+        animation: { 'pulse-glow': 'pulseGlow 4s ease-in-out infinite' },
+        keyframes: { pulseGlow: { '0%,100%': { opacity:'0.4', transform:'scale(1)' }, '50%': { opacity:'0.7', transform:'scale(1.05)' } } }
+      } }
+    }
+  </script>
+  <style>
+    .glass-card { background: rgba(18,18,28,.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.07); }
+    .glass-card-interactive { transition: all .4s cubic-bezier(.16,1,.3,1); }
+    .glass-card-interactive:hover { background: rgba(28,28,45,.75); border-color: rgba(139,92,246,.3); transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(0,0,0,.7), 0 0 25px rgba(139,92,246,.15); }
+    .bg-cinema-mesh { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #060609; }
+    .glow-orb-1 { position:absolute; top:-10%; left:20%; width:50vw; height:50vw; border-radius:50%; background: radial-gradient(circle, rgba(124,58,237,.15) 0%, transparent 70%); filter: blur(60px); }
+    .glow-orb-2 { position:absolute; top:40%; right:-10%; width:45vw; height:45vw; border-radius:50%; background: radial-gradient(circle, rgba(245,158,11,.08) 0%, transparent 70%); filter: blur(70px); }
+    .glow-orb-3 { position:absolute; bottom:-10%; left:10%; width:55vw; height:55vw; border-radius:50%; background: radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%); filter: blur(80px); }
+    .film-grain { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: .03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    ::selection { background: rgba(139,92,246,.4); color: #fff; }
+    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.09), rgba(255,255,255,.04)); background-size: 200% 100%; animation: sh 1.4s infinite; }
+    @keyframes sh { to { background-position: -200% 0; } }
+  </style>
+</head>
+<body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative">
+
+<div class="film-grain" aria-hidden="true"></div>
+<div class="bg-cinema-mesh" aria-hidden="true">
+  <div class="glow-orb-1 animate-pulse-glow"></div><div class="glow-orb-2"></div>
+  <div class="glow-orb-3 animate-pulse-glow" style="animation-delay:2s"></div>
+</div>
+
+<div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 w-full">
+    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">&larr; Back to Home</a>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-20">
+
+    <section class="text-center max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card text-xs font-medium text-slate-300 tracking-wide mb-8 shadow-2xl">
+        <span class="flex h-2 w-2 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span></span>
+        Live from TMDB
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.08] mb-6">
+        Fresh Ratings on the <span class="italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-brand-100 to-brand-400">Newest Releases</span>
+      </h1>
+      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">The 10 most popular new movies and 10 most popular new TV shows, with audience scores that update automatically.</p>
+      <p id="updated" class="text-[11px] uppercase tracking-widest font-semibold text-slate-500 mt-4"></p>
+    </section>
+
+    <div id="setup" class="hidden glass-card rounded-3xl p-6 max-w-2xl mx-auto text-sm text-slate-300 space-y-2">
+      <p class="font-bold text-white">Add your TMDB key to get started</p>
+      <p>Open this file, find <code class="text-amber-400">TMDB_API_KEY</code> in the config block at the bottom, and paste your key. Either the v3 API key or the v4 "Read Access Token" works.</p>
+    </div>
+    <div id="error" class="hidden glass-card rounded-3xl p-6 max-w-2xl mx-auto text-sm text-amber-400 text-center"></div>
+
+    <section class="space-y-8">
+      <div class="flex items-end justify-between">
+        <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Now Trending</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">New Movies</p></div>
+      </div>
+      <div id="movies" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+    </section>
+
+    <section class="space-y-8">
+      <div class="flex items-end justify-between">
+        <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Binge Worthy</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">New TV Shows</p></div>
+      </div>
+      <div id="tv" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+    </section>
+
+    <p class="text-center text-[11px] text-slate-500">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </main>
+</div>
+
+<!-- Detail modal -->
+<div id="modal" class="hidden fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
+  <div class="glass-card rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative" style="background:rgba(14,14,22,.95)">
+    <button onclick="closeModal()" aria-label="Close" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-10 pt-4 text-center">
+  <nav class="flex flex-wrap justify-center items-center gap-3 mb-5" aria-label="Footer">
+    <a href="index.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+    <a href="articles.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Articles</a>
+    <a href="mailto:admin@everymovieplug.com" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Contact Us</a>
+    <a href="privacy-policy.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
+  </nav>
+  <p class="text-xs uppercase tracking-[0.06em] font-medium text-slate-500 opacity-80">&copy; Every Movie Plug</p>
+</footer>
+
+<script>
+/* ============ CONFIG: edit these ============ */
+const TMDB_API_KEY = "";        // v3 API key OR v4 Read Access Token (starts with "eyJ")
+const OMDB_API_KEY = "";        // OPTIONAL: free key from omdbapi.com adds IMDb / Rotten Tomatoes / Metacritic scores in the popup
+const NEW_WITHIN_DAYS = 90;     // what counts as "new"
+const CACHE_MINUTES = 60;       // refresh from TMDB at most this often
+/* ============================================ */
+
+const API = "https://api.themoviedb.org/3", IMG = "https://image.tmdb.org/t/p/";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isV4 = TMDB_API_KEY.startsWith("eyJ");
+
+async function tmdb(path, params = {}) {
+  const url = new URL(API + path);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  if (!isV4) url.searchParams.set("api_key", TMDB_API_KEY);
+  const res = await fetch(url, isV4 ? { headers: { Authorization: "Bearer " + TMDB_API_KEY } } : {});
+  if (!res.ok) throw new Error(res.status === 401 ? "TMDB rejected the API key (401). Check it and try again." : "TMDB error " + res.status);
+  return res.json();
+}
+
+const ymd = d => d.toISOString().slice(0, 10);
+const today = new Date(), since = new Date(Date.now() - NEW_WITHIN_DAYS * 864e5);
+
+async function load() {
+  const key = "emp_tmdb_v1", c = (() => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } })();
+  if (c && Date.now() - c.t < CACHE_MINUTES * 6e4 && c.k === TMDB_API_KEY.slice(-6)) return c.d;
+  const [m, t, mg, tg] = await Promise.all([
+    tmdb("/discover/movie", { sort_by: "popularity.desc", "primary_release_date.gte": ymd(since), "primary_release_date.lte": ymd(today), "vote_count.gte": 5, include_adult: false, language: "en-US", with_original_language: "en" }),
+    tmdb("/discover/tv", { sort_by: "popularity.desc", "first_air_date.gte": ymd(since), "first_air_date.lte": ymd(today), "vote_count.gte": 3, include_adult: false, language: "en-US", with_original_language: "en" }),
+    tmdb("/genre/movie/list"), tmdb("/genre/tv/list")
+  ]);
+  const genres = Object.fromEntries([...mg.genres, ...tg.genres].map(g => [g.id, g.name]));
+  const d = { movies: m.results.slice(0, 10), tv: t.results.slice(0, 10), genres, at: Date.now() };
+  try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), k: TMDB_API_KEY.slice(-6), d })); } catch {}
+  return d;
+}
+
+const ringColor = s => s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171";
+function ring(score, size = 44) {
+  if (!score) return `<div style="width:${size}px;height:${size}px" class="rounded-full bg-slate-800 text-[10px] text-slate-400 flex items-center justify-center font-bold">NR</div>`;
+  const pct = Math.round(score * 10), col = ringColor(score);
+  return `<div style="width:${size}px;height:${size}px;background:conic-gradient(${col} ${pct}%, rgba(255,255,255,.12) 0)" class="rounded-full p-[3px]"><div class="w-full h-full rounded-full bg-[#0c0c14] flex items-center justify-center font-extrabold text-white" style="font-size:${size/3.4}px">${pct}<span class="text-[.55em] opacity-60">%</span></div></div>`;
+}
+
+function card(item, type, genres) {
+  const title = item.title || item.name, date = item.release_date || item.first_air_date || "";
+  const g = (item.genre_ids || []).slice(0, 2).map(i => genres[i]).filter(Boolean).join(" · ");
+  const poster = item.poster_path ? `<img src="${IMG}w342${item.poster_path}" alt="${esc(title)} poster" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : `<div class="w-full h-full flex items-center justify-center text-slate-600 text-xs p-4 text-center">${esc(title)}</div>`;
+  return `<button onclick="openModal('${type}',${item.id})" class="glass-card glass-card-interactive rounded-3xl overflow-hidden text-left group flex flex-col">
+    <div class="relative aspect-[2/3] overflow-hidden bg-slate-900">${poster}
+      <div class="absolute bottom-2 left-2 shadow-xl rounded-full">${ring(item.vote_average)}</div></div>
+    <div class="p-4 space-y-1">
+      <h3 class="text-sm font-bold text-white leading-snug line-clamp-2">${esc(title)}</h3>
+      <p class="text-[11px] text-slate-400">${esc(date.slice(0, 4))}${g ? " · " + esc(g) : ""}</p>
+      <p class="text-[11px] text-slate-500">${item.vote_count.toLocaleString()} votes</p>
+    </div></button>`;
+}
+
+const skeletons = () => Array(10).fill('<div class="rounded-3xl skeleton aspect-[2/3]"></div>').join("");
+
+async function openModal(type, id) {
+  const m = $("modal"); m.classList.remove("hidden"); m.classList.add("flex");
+  $("modalBody").innerHTML = '<div class="p-16 text-center text-slate-400 text-sm">Loading…</div>';
+  document.body.style.overflow = "hidden";
+  try {
+    const d = await tmdb(`/${type}/${id}`, { append_to_response: "external_ids", language: "en-US" });
+    const title = d.title || d.name, imdb = d.external_ids?.imdb_id;
+    const meta = [(d.release_date || d.first_air_date || "").slice(0, 4), d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
+    let extra = "";
+    if (OMDB_API_KEY && imdb) {
+      try {
+        const o = await (await fetch(`https://www.omdbapi.com/?i=${imdb}&apikey=${OMDB_API_KEY}`)).json();
+        const rows = (o.Ratings || []).map(r => `<div class="glass-card rounded-2xl px-4 py-3 text-center"><div class="text-lg font-extrabold text-white">${esc(r.Value)}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">${esc(r.Source.replace("Internet Movie Database","IMDb"))}</div></div>`).join("");
+        if (rows) extra = `<div class="grid grid-cols-3 gap-3 mt-5">${rows}</div>`;
+      } catch {}
+    }
+    const link = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">${t}</a>`;
+    $("modalBody").innerHTML = `
+      ${d.backdrop_path ? `<div class="h-48 sm:h-64 bg-cover bg-center rounded-t-3xl relative" style="background-image:url(${IMG}w780${d.backdrop_path})"><div class="absolute inset-0 bg-gradient-to-t from-[#0e0e16] to-transparent"></div></div>` : '<div class="h-12"></div>'}
+      <div class="p-6 sm:p-8 -mt-10 relative space-y-4">
+        <div class="flex items-center gap-4">${ring(d.vote_average, 64)}
+          <div><h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">${esc(title)}</h3>
+          <p class="text-xs text-slate-400">${esc(meta)} · TMDB score from ${d.vote_count.toLocaleString()} votes</p></div></div>
+        <div class="flex flex-wrap gap-2">${(d.genres || []).map(g => `<span class="px-3 py-1 rounded-full text-[11px] font-semibold bg-brand-500/15 text-brand-400">${esc(g.name)}</span>`).join("")}</div>
+        ${d.tagline ? `<p class="italic text-slate-400 text-sm">${esc(d.tagline)}</p>` : ""}
+        <p class="text-sm text-slate-300 leading-relaxed">${esc(d.overview || "No synopsis available yet.")}</p>
+        ${extra}
+        <div class="flex flex-wrap gap-2 pt-2">${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""}</div>
+      </div>`;
+  } catch (e) { $("modalBody").innerHTML = `<div class="p-12 text-center text-amber-400 text-sm">${esc(e.message)}</div>`; }
+}
+function closeModal() { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; }
+document.addEventListener("keydown", e => e.key === "Escape" && closeModal());
+
+(async function init() {
+  if (!TMDB_API_KEY) { $("setup").classList.remove("hidden"); return; }
+  $("movies").innerHTML = $("tv").innerHTML = skeletons();
+  try {
+    const d = await load();
+    $("movies").innerHTML = d.movies.map(i => card(i, "movie", d.genres)).join("");
+    $("tv").innerHTML = d.tv.map(i => card(i, "tv", d.genres)).join("");
+    $("updated").textContent = "Updated " + new Date(d.at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+  } catch (e) {
+    $("movies").innerHTML = $("tv").innerHTML = "";
+    $("error").textContent = e.message; $("error").classList.remove("hidden");
+  }
+})();
+</script>
+</body>
+</html>
