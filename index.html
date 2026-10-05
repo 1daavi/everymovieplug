@@ -550,6 +550,89 @@
     .explore-arrow { position: absolute; right: 1.1rem; bottom: 1rem; color: var(--purple-accent); transition: transform .3s ease; }
     .explore-card:hover .explore-arrow { transform: translateX(4px); }
     @media (max-width: 520px) { .explore-grid { grid-template-columns: 1fr; } }
+  
+    /* ===== Interaction & motion polish ===== */
+    :root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+
+    /* 1. Kill the white tap rectangle + 300ms delay on phones */
+    html { -webkit-tap-highlight-color: transparent; }
+    a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+
+    /* 2. Keyboard focus ring in theme */
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--purple-accent); outline-offset: 3px; }
+
+    /* 3. Staggered entrance (keyframes only define "from", so hover/press transforms still work) */
+    @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(0.98); } }
+    .container { animation: none; }
+    .container > *, .explore-card, .post-card { animation: rise 0.8s var(--ease-out) backwards; }
+    .container > :nth-child(1) { animation-delay: 0.11s; }
+    .container > :nth-child(2) { animation-delay: 0.18s; }
+    .container > :nth-child(3) { animation-delay: 0.25s; }
+    .container > :nth-child(4) { animation-delay: 0.32s; }
+    .container > :nth-child(5) { animation-delay: 0.39s; }
+    .container > :nth-child(6) { animation-delay: 0.46s; }
+    .container > :nth-child(7) { animation-delay: 0.53s; }
+    .container > :nth-child(8) { animation-delay: 0.60s; }
+    .container > :nth-child(9) { animation-delay: 0.67s; }
+    .container > :nth-child(10) { animation-delay: 0.74s; }
+    .container > :nth-child(11) { animation-delay: 0.81s; }
+    .explore-card:nth-child(2) { animation-delay: 0.4s; }
+    .post-card:nth-child(2) { animation-delay: 0.1s; } .post-card:nth-child(3) { animation-delay: 0.2s; } .post-card:nth-child(n+4) { animation-delay: 0.3s; }
+
+    /* 4. Slow ambient drift on the background glow */
+    @keyframes drift { to { transform: scale(1.08) translate3d(-1.5%, 1%, 0); } }
+    .mesh-bg { animation: drift 18s ease-in-out infinite alternate; }
+
+    /* 5. Smooth, springy transitions for the small pills and follow button */
+    .contact-link { position: relative; transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease-out); }
+    .contact-link:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(168, 85, 247, 0.35); transform: translateY(-1px); }
+    .social-link { position: relative; transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease, filter 0.3s ease; }
+    .social-link:hover { box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5); }
+
+    /* 6. Tap ripple (clipped to each element's own rounded shape) */
+    .ripple-host { position: relative; }
+    .ripple-layer { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
+    .ripple { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(168, 85, 247, 0.5) 0%, rgba(99, 102, 241, 0) 70%); transform: scale(0); opacity: 1; animation: ripple 0.7s var(--ease-out) forwards; }
+    .social-link .ripple { background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%); }
+    @keyframes ripple { to { transform: scale(1); opacity: 0; } }
+
+    /* 7. Tick on the seconds counter */
+    #seconds { display: inline-block; }
+    #seconds.tick { animation: tick 0.35s var(--ease-out); }
+    @keyframes tick { from { transform: translateY(-6px); opacity: 0.35; } }
+
+    /* 8. Touch screens: no sticky hover after a tap */
+    @media (hover: none) {
+      .metrics-card:hover { transform: none; border-color: var(--border-color); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+      .metrics-card:hover::before { opacity: 0; }
+      .post-card:hover { transform: none; border-color: rgba(255, 255, 255, 0.08); box-shadow: none; background: rgba(0, 0, 0, 0.35); }
+      .explore-card:hover { transform: none; border-color: var(--border-color); box-shadow: none; }
+      .explore-card:hover .explore-arrow { transform: none; }
+      .social-link:hover { transform: none; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3); }
+      .contact-link:hover { color: var(--text-secondary); background: var(--glass-card-bg); border-color: var(--border-color); transform: none; }
+    }
+
+    /* 9. Press feedback: a quick, satisfying squish with a themed glow (must come last) */
+    .metrics-card:active, .post-card:active, .explore-card:active, .social-link:active, .contact-link:active {
+      transform: scale(0.96); transition-duration: 0.12s;
+    }
+    .metrics-card:active, .explore-card:active, .post-card:active { border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.25), 0 8px 30px rgba(99, 102, 241, 0.3); }
+    .metrics-card:active::before { opacity: 0.35; }
+    .explore-card:active .explore-arrow { transform: translateX(6px); }
+    .social-link:active { filter: brightness(1.12); box-shadow: 0 2px 12px rgba(99, 102, 241, 0.5); }
+    .contact-link:active { color: var(--text-primary); background: rgba(168, 85, 247, 0.18); border-color: rgba(168, 85, 247, 0.5); }
+
+    /* 10. Toast */
+    #toast { position: fixed; left: 50%; bottom: max(1.5rem, env(safe-area-inset-bottom)); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; z-index: 50;
+      padding: 0.7rem 1.25rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 500; color: var(--text-primary);
+      background: rgba(20, 20, 32, 0.85); border: 1px solid rgba(168, 85, 247, 0.35); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); transition: opacity 0.35s ease, transform 0.45s var(--ease-out); }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* 11. Respect reduced-motion settings */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body>
@@ -755,11 +838,40 @@
           url: window.location.href,
         }).catch(() => {});
       } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Link copied to clipboard!");
+        navigator.clipboard.writeText(window.location.href).then(() => showToast("Link copied ✓")).catch(() => showToast("Couldn't copy the link"));
       }
     }
+
+    // ===== Interaction polish: tap ripple, haptics, seconds tick, toast =====
+    (function () {
+      const HOSTS = ".metrics-card, .post-card, .explore-card, .social-link, .contact-link";
+      document.addEventListener("pointerdown", (e) => {
+        const host = e.target.closest(HOSTS);
+        if (!host) return;
+        if (navigator.vibrate) navigator.vibrate(8);
+        host.classList.add("ripple-host");
+        let layer = host.querySelector(":scope > .ripple-layer");
+        if (!layer) { layer = document.createElement("span"); layer.className = "ripple-layer"; layer.setAttribute("aria-hidden", "true"); host.appendChild(layer); }
+        const r = host.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2.2;
+        const dot = document.createElement("span");
+        dot.className = "ripple";
+        dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+        layer.appendChild(dot);
+        dot.addEventListener("animationend", () => dot.remove());
+      }, { passive: true });
+
+      const sec = document.getElementById("seconds");
+      if (sec) new MutationObserver(() => { sec.classList.remove("tick"); void sec.offsetWidth; sec.classList.add("tick"); }).observe(sec, { childList: true, characterData: true, subtree: true });
+
+      let t;
+      window.showToast = (msg) => {
+        const el = document.getElementById("toast"); if (!el) return;
+        el.textContent = msg; el.classList.add("show");
+        clearTimeout(t); t = setTimeout(() => el.classList.remove("show"), 2200);
+      };
+    })();
   </script>
 
+  <div id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
