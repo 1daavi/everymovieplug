@@ -104,7 +104,7 @@
 <script>
 /* ============ CONFIG: edit these ============ */
 const TMDB_API_KEY = "6c26404d2252b5ee3712ebe31f465959";        // v3 API key OR v4 Read Access Token (starts with "eyJ")
-const OMDB_API_KEY = "http://www.omdbapi.com/?i=tt3896198&apikey=92cabd79";        // OPTIONAL: free key from omdbapi.com adds IMDb / Rotten Tomatoes / Metacritic scores in the popup
+const OMDB_API_KEY = "92cabd79";        // OPTIONAL: free key from omdbapi.com adds IMDb / Rotten Tomatoes / Metacritic scores in the popup
 const NEW_WITHIN_DAYS = 90;     // what counts as "new"
 const CACHE_MINUTES = 60;       // refresh from TMDB at most this often
 /* ============================================ */
@@ -191,13 +191,6 @@ async function openModal(type, id) {
         <p class="text-sm text-slate-300 leading-relaxed">${esc(d.overview || "No synopsis available yet.")}</p>
         ${extra}
         <div class="flex flex-wrap gap-2 pt-2">${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
-
-// before (broken)
-${link("https://x.com/everymovieplug", "Discuss on X")  ${link(...
-
-// after (fixed)
-${link("https://x.com/everymovieplug", "Discuss on X")} ${link(...
-        
        
       </div>`;
   } catch (e) { $("modalBody").innerHTML = `<div class="p-12 text-center text-amber-400 text-sm">${esc(e.message)}</div>`; }
