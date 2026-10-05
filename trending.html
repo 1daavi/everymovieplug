@@ -54,6 +54,11 @@
         Latest Movies & TV Shows <span class="italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-brand-100 to-brand-400">Recommendations</span>
       </h1>
       <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">See what's popular today.</p>
+      <div class="relative max-w-xl mx-auto mt-8">
+        <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" autocomplete="off" placeholder="Search any movie or TV show…" aria-label="Search movies and TV shows" class="w-full glass-card rounded-full pl-12 pr-12 py-4 text-sm text-white placeholder-slate-500 outline-none focus:border-brand-500/60 focus:shadow-[0_0_25px_rgba(139,92,246,.2)] transition-all">
+        <button id="qClear" type="button" aria-label="Clear search" class="hidden absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white text-base leading-none">&times;</button>
+      </div>
       <p id="updated" class="text-[11px] uppercase tracking-widest font-semibold text-slate-500 mt-4"></p>
     </section>
 
@@ -62,6 +67,14 @@
       <p>Open this file, find <code class="text-amber-400">TMDB_API_KEY</code> in the config block at the bottom, and paste your key. Either the v3 API key or the v4 "Read Access Token" works.</p>
     </div>
     <div id="error" class="hidden glass-card rounded-3xl p-6 max-w-2xl mx-auto text-sm text-amber-400 text-center"></div>
+
+    <section id="searchSec" class="hidden space-y-8 scroll-mt-6">
+      <div class="flex items-end justify-between">
+        <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Search Results</h2>
+        <p id="searchTitle" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"></p></div>
+      </div>
+      <div id="searchGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+    </section>
 
     <section class="space-y-8">
       <div class="flex items-end justify-between">
@@ -198,11 +211,39 @@ async function openModal(type, id) {
 function closeModal() { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; }
 document.addEventListener("keydown", e => e.key === "Escape" && closeModal());
 
+/* ---------- Search ---------- */
+let GENRES = {}, searchTimer, searchSeq = 0;
+async function runSearch(v) {
+  const sec = $("searchSec"), seq = ++searchSeq;
+  if (v.length < 2) { sec.classList.add("hidden"); return; }
+  sec.classList.remove("hidden");
+  $("searchTitle").textContent = "“" + v + "”";
+  $("searchGrid").innerHTML = skeletons();
+  try {
+    const r = await tmdb("/search/multi", { query: v, include_adult: false, language: "en-US" });
+    if (seq !== searchSeq) return;
+    const items = r.results.filter(i => i.media_type === "movie" || i.media_type === "tv").slice(0, 10);
+    $("searchGrid").innerHTML = items.length
+      ? items.map(i => card(i, i.media_type, GENRES)).join("")
+      : '<p class="col-span-full text-center text-slate-400 text-sm py-8">No movies or shows found. Try another title.</p>';
+  } catch (e) {
+    if (seq === searchSeq) $("searchGrid").innerHTML = `<p class="col-span-full text-center text-amber-400 text-sm py-8">${esc(e.message)}</p>`;
+  }
+}
+$("q").addEventListener("input", e => {
+  const v = e.target.value.trim();
+  $("qClear").classList.toggle("hidden", !v);
+  clearTimeout(searchTimer); searchTimer = setTimeout(() => runSearch(v), 400);
+});
+$("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(searchTimer); runSearch(e.target.value.trim()); } });
+$("qClear").addEventListener("click", () => { $("q").value = ""; $("qClear").classList.add("hidden"); runSearch(""); $("q").focus(); });
+
 (async function init() {
   if (!TMDB_API_KEY) { $("setup").classList.remove("hidden"); return; }
   $("movies").innerHTML = $("tv").innerHTML = skeletons();
   try {
     const d = await load();
+    GENRES = d.genres;
     $("movies").innerHTML = d.movies.map(i => card(i, "movie", d.genres)).join("");
     $("tv").innerHTML = d.tv.map(i => card(i, "tv", d.genres)).join("");
     $("updated").textContent = "Updated " + new Date(d.at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
