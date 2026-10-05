@@ -203,13 +203,44 @@ function card(item, type, genres) {
 
 const skeletons = () => Array(10).fill('<div class="rounded-3xl skeleton aspect-[2/3]"></div>').join("");
 
+/* ---------- Where to watch + trailer ---------- */
+let WATCH = {}, TRAILER = null;
+let REGION = (() => {
+  try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {}
+  const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean);
+  return (r || "US").toUpperCase();
+})();
+const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
+function renderWatch() {
+  const sel = $("mRegion"), box = $("mWatch"); if (!sel || !box) return;
+  const codes = Object.keys(WATCH).sort((a, b) => regionName(a).localeCompare(regionName(b)));
+  if (!codes.length) { sel.classList.add("hidden"); box.innerHTML = '<p class="text-xs text-slate-500">No streaming info available yet.</p>'; return; }
+  if (!WATCH[REGION]) codes.unshift(REGION);
+  sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
+  const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
+  const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, label]) => `<div class="flex items-center gap-3 flex-wrap"><span class="w-24 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-slate-500">${label}</span><div class="flex flex-wrap gap-2">${w[k].map(p => `<a href="${esc(w.link)}" target="_blank" rel="noopener noreferrer" title="${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy" class="w-10 h-10 rounded-xl border border-white/10 hover:scale-110 transition-transform"></a>`).join("")}</div></div>`).join("") : "";
+  box.innerHTML = rows || `<p class="text-xs text-slate-500">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
+}
+function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); }
+function playTrailer(k) {
+  const h = $("mHero"); if (!h || !/^[\w-]+$/.test(k)) return;
+  h.removeAttribute("style"); h.className = "w-full rounded-t-3xl overflow-hidden bg-black";
+  const origin = location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : "";
+  h.innerHTML = `<div class="aspect-video"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${origin}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <a href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer" class="block text-center text-[11px] text-slate-400 hover:text-white py-2 bg-black/60">Video not playing? Watch on YouTube &rarr;</a>`;
+  $("mBody")?.classList.remove("-mt-10"); h.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
 async function openModal(type, id) {
   const m = $("modal"); m.classList.remove("hidden"); m.classList.add("flex");
   $("modalBody").innerHTML = '<div class="p-16 text-center text-slate-400 text-sm">Loading…</div>';
   document.body.style.overflow = "hidden";
   try {
-    const d = await tmdb(`/${type}/${id}`, { append_to_response: "external_ids", language: "en-US" });
+    const d = await tmdb(`/${type}/${id}`, { append_to_response: "external_ids,videos,watch/providers", include_video_language: "en,null", language: "en-US" });
     const title = d.title || d.name, imdb = d.external_ids?.imdb_id;
+    WATCH = d["watch/providers"]?.results || {};
+    const vids = (d.videos?.results || []).filter(v => v.site === "YouTube" && /^[\w-]+$/.test(v.key));
+    TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
     const meta = [(d.release_date || d.first_air_date || "").slice(0, 4), d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
     let extra = "";
     if (OMDB_API_KEY && imdb) {
@@ -221,8 +252,8 @@ async function openModal(type, id) {
     }
     const link = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">${t}</a>`;
     $("modalBody").innerHTML = `
-      ${d.backdrop_path ? `<div class="h-48 sm:h-64 bg-cover bg-center rounded-t-3xl relative" style="background-image:url(${IMG}w780${d.backdrop_path})"><div class="absolute inset-0 bg-gradient-to-t from-[#0e0e16] to-transparent"></div></div>` : '<div class="h-12"></div>'}
-      <div class="p-6 sm:p-8 -mt-10 relative space-y-4">
+      ${d.backdrop_path ? `<div id="mHero" class="h-48 sm:h-64 bg-cover bg-center rounded-t-3xl relative" style="background-image:url(${IMG}w780${d.backdrop_path})"><div class="absolute inset-0 bg-gradient-to-t from-[#0e0e16] to-transparent"></div></div>` : '<div id="mHero" class="h-12"></div>'}
+      <div id="mBody" class="p-6 sm:p-8 -mt-10 relative space-y-4">
         <div class="flex items-center gap-4">${ring(d.vote_average, 64)}
           <div><h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">${esc(title)}</h3>
           <p class="text-xs text-slate-400">${esc(meta)} · TMDB score from ${d.vote_count.toLocaleString()} votes</p></div></div>
@@ -230,12 +261,19 @@ async function openModal(type, id) {
         ${d.tagline ? `<p class="italic text-slate-400 text-sm">${esc(d.tagline)}</p>` : ""}
         <p class="text-sm text-slate-300 leading-relaxed">${esc(d.overview || "No synopsis available yet.")}</p>
         ${extra}
-        <div class="flex flex-wrap gap-2 pt-2">${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between gap-3"><h4 class="text-xs font-bold uppercase tracking-widest text-slate-400">Where to watch</h4>
+          <select id="mRegion" onchange="setRegion(this.value)" aria-label="Choose country" class="bg-white/[0.06] border border-white/10 rounded-full px-3 py-1.5 text-xs text-slate-300 outline-none max-w-[11rem]"></select></div>
+          <div id="mWatch" class="space-y-3"></div>
+          <p class="text-[10px] text-slate-600">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-400">JustWatch</a></p>
+        </div>
+        <div class="flex flex-wrap gap-2 pt-2">${TRAILER ? `<button onclick="playTrailer('${TRAILER.key}')" class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-xs font-semibold text-white transition-colors">&#9654; Watch trailer</button>` : ""}${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
        
       </div>`;
+    renderWatch();
   } catch (e) { $("modalBody").innerHTML = `<div class="p-12 text-center text-amber-400 text-sm">${esc(e.message)}</div>`; }
 }
-function closeModal() { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; }
+function closeModal() { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; }
 document.addEventListener("keydown", e => e.key === "Escape" && closeModal());
 
 /* ---------- Search ---------- */
