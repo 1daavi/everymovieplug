@@ -190,7 +190,14 @@ async function openModal(type, id) {
         ${d.tagline ? `<p class="italic text-slate-400 text-sm">${esc(d.tagline)}</p>` : ""}
         <p class="text-sm text-slate-300 leading-relaxed">${esc(d.overview || "No synopsis available yet.")}</p>
         ${extra}
-        <div class="flex flex-wrap gap-2 pt-2">${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")  ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
+        <div class="flex flex-wrap gap-2 pt-2">${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
+
+// before (broken)
+${link("https://x.com/everymovieplug", "Discuss on X")  ${link(...
+
+// after (fixed)
+${link("https://x.com/everymovieplug", "Discuss on X")} ${link(...
+        
        
       </div>`;
   } catch (e) { $("modalBody").innerHTML = `<div class="p-12 text-center text-amber-400 text-sm">${esc(e.message)}</div>`; }
