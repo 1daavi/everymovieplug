@@ -6,7 +6,7 @@
 
   <!-- Core Page Metadata -->
   <title>Every Movie Plug</title>
-  <meta name="description" content="Every Movie Plug is getting a brand new look and experience. Follow our journey on X for updates.">
+  <meta name="description" content="Discover trending movies and TV shows, browse by genre or country, and follow Every Movie Plug for film news and updates.">
   <link rel="canonical" href="https://everymovieplug.com/">
 
   <!-- SVG & Standard Favicons -->
@@ -80,798 +80,446 @@
   </script>
 
   <style>
-    :root {
-      --bg-color: #000000;
-      --glass-bg: rgba(255, 255, 255, 0.03);
-      --glass-card-bg: rgba(255, 255, 255, 0.04);
-      --border-color: rgba(255, 255, 255, 0.12);
-      --indigo-accent: #6366f1;
-      --purple-accent: #a855f7;
-      --text-primary: #f5f5f7;
-      --text-secondary: #86868b;
-      --status-active: #34d399;
-      
-      /* Apple System Font Stack */
-      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    :root { --bg-color:#000; --glass-bg:rgba(255,255,255,.03); --glass-card-bg:rgba(255,255,255,.04); --border-color:rgba(255,255,255,.12);
+      --indigo-accent:#6366f1; --purple-accent:#a855f7; --text-primary:#f5f5f7; --text-secondary:#86868b; --status-active:#34d399;
+      --font-apple:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif; --ease-out:cubic-bezier(.16,1,.3,1); }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { -webkit-tap-highlight-color:transparent; scroll-behavior:smooth; }
+    a,button { -webkit-tap-highlight-color:transparent; touch-action:manipulation; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; font:inherit; color:inherit; }
+    a:focus-visible,button:focus-visible { outline:2px solid var(--purple-accent); outline-offset:3px; }
+    body { font-family:var(--font-apple); background:var(--bg-color); color:var(--text-primary); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    .mesh-bg { position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 20% 25%,rgba(99,102,241,.18) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(168,85,247,.15) 0%,transparent 50%),radial-gradient(circle at 50% 40%,rgba(30,30,50,.7) 0%,transparent 80%); animation:drift 18s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform:scale(1.08) translate3d(-1.5%,1%,0); } }
+    @keyframes rise { from { opacity:0; transform:translateY(18px) scale(.98); } }
+    @keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(52,211,153,.5); } 50% { box-shadow:0 0 0 6px rgba(52,211,153,0); } }
+    @keyframes shimmer { to { background-position:-200% 0; } }
+    .glass { background:var(--glass-card-bg); border:1px solid var(--border-color); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); box-shadow:0 10px 30px rgba(0,0,0,.4); }
+
+    /* Top bar */
+    .topbar { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.6); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid rgba(255,255,255,.08); }
+    .topbar-in { max-width:1200px; margin:0 auto; padding:.7rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .brand { font-weight:800; letter-spacing:.08em; text-decoration:none; white-space:nowrap; font-size:1rem; }
+    .brand span,.highlight { background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .navrow { display:flex; align-items:center; gap:.5rem; overflow-x:auto; flex:1; scrollbar-width:none; padding:2px; }
+    .navrow::-webkit-scrollbar { display:none; }
+    .sep { width:1px; height:20px; background:var(--border-color); flex:none; margin:0 .25rem; }
+    .top-actions { display:flex; gap:.5rem; flex:none; }
+    .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.5rem .95rem; border-radius:9999px; background:var(--glass-card-bg); border:1px solid var(--border-color); color:var(--text-secondary); font-size:.8rem; font-weight:500; text-decoration:none; cursor:pointer; white-space:nowrap; flex:none; position:relative; transition:color .3s,background .3s,border-color .3s,transform .3s var(--ease-out),box-shadow .3s; }
+    .chip.on,.chip[aria-pressed="true"],.chip[aria-expanded="true"] { color:#fff; background:rgba(168,85,247,.18); border-color:rgba(168,85,247,.55); }
+    .chip.primary { color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); box-shadow:0 4px 20px rgba(99,102,241,.3); }
+    .panel { position:fixed; z-index:40; width:min(92vw,360px); max-height:60vh; overflow:auto; padding:.9rem; border-radius:20px; background:rgba(14,14,22,.94); border:1px solid var(--border-color); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); box-shadow:0 20px 50px rgba(0,0,0,.7); opacity:0; visibility:hidden; transform:translateY(-6px) scale(.98); transition:opacity .25s,transform .35s var(--ease-out),visibility .25s; }
+    .panel.open { opacity:1; visibility:visible; transform:none; }
+    .panel h3 { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); margin-bottom:.6rem; }
+    .opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+
+    /* Layout */
+    .wrap { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:1.25rem 1.25rem 2rem; display:flex; flex-direction:column; gap:2rem; }
+    .wrap > * { animation:rise .8s var(--ease-out) backwards; }
+    .wrap > :nth-child(2) { animation-delay:.1s; } .wrap > :nth-child(3) { animation-delay:.18s; } .wrap > :nth-child(4) { animation-delay:.26s; }
+    .strip { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem 1.25rem; padding:.85rem 1.25rem; border-radius:20px; text-align:left; }
+    .badge { display:inline-flex; align-items:center; gap:.5rem; padding:.35rem .8rem; border-radius:9999px; background:rgba(255,255,255,.05); border:1px solid var(--border-color); font-size:.72rem; font-weight:500; color:var(--text-secondary); white-space:nowrap; }
+    .dot { width:7px; height:7px; border-radius:50%; background:var(--status-active); animation:pulse 2s infinite; }
+    .strip h1 { font-size:1.05rem; font-weight:700; letter-spacing:-.02em; }
+    .strip p { font-size:.8rem; color:var(--text-secondary); flex:1 1 260px; }
+    .sec-head { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
+    .sec-head h2 { font-size:1.35rem; font-weight:700; letter-spacing:-.02em; }
+    .sec-head small { display:block; font-size:.72rem; color:var(--text-secondary); margin-top:.15rem; }
+    .more { color:#c4b5fd; text-decoration:none; font-size:.8rem; font-weight:600; padding:.45rem .9rem; border-radius:9999px; border:1px solid rgba(168,85,247,.35); background:rgba(168,85,247,.1); white-space:nowrap; position:relative; transition:transform .3s var(--ease-out),background .3s; }
+    .activebar { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem; font-size:.78rem; color:var(--text-secondary); }
+    .activebar[hidden] { display:none; }
+    .row + .row { margin-top:2rem; }
+    .row[hidden] { display:none; }
+
+    /* Rails: 5-up grid on desktop, snap-scroll carousel on touch/narrow */
+    .rail { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; }
+    .note { grid-column:1/-1; padding:1.5rem; text-align:center; font-size:.85rem; color:var(--text-secondary); border:1px dashed var(--border-color); border-radius:20px; }
+    .mcard { display:block; text-decoration:none; border-radius:20px; overflow:hidden; text-align:left; position:relative; transition:transform .4s var(--ease-out),border-color .3s,box-shadow .4s; }
+    .poster { position:relative; aspect-ratio:2/3; background:#111; overflow:hidden; }
+    .poster img { width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease-out); }
+    .poster.sk,.sk-line { background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.09),rgba(255,255,255,.04)); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+    .score { position:absolute; left:.5rem; bottom:.5rem; padding:.2rem .55rem; border-radius:9999px; font-size:.7rem; font-weight:700; background:rgba(0,0,0,.7); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.15); }
+    .mmeta { padding:.75rem .85rem .9rem; }
+    .mmeta b { display:block; font-size:.85rem; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .mmeta span { font-size:.72rem; color:var(--text-secondary); }
+
+    /* Trending hits (X posts) */
+    .hits-head { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .hits-head h2 { display:flex; align-items:center; gap:.5rem; font-size:1.35rem; font-weight:700; letter-spacing:-.02em; }
+    .hits-head svg { width:18px; height:18px; fill:currentColor; }
+    .stat { display:inline-flex; align-items:baseline; gap:.5rem; padding:.45rem 1rem; border-radius:9999px; text-decoration:none; position:relative; }
+    .stat b { font-size:1.1rem; letter-spacing:-.02em; } .stat span { font-size:.72rem; color:var(--text-secondary); }
+    .posts { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .post-card { display:flex; flex-direction:column; gap:.75rem; padding:1.1rem; border-radius:18px; text-decoration:none; text-align:left; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.08); position:relative; transition:transform .3s var(--ease-out),border-color .3s,box-shadow .3s; }
+    .post-header { display:flex; align-items:center; gap:.6rem; }
+    .post-badge { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; padding:.2rem .6rem; border-radius:9999px; color:#c4b5fd; background:rgba(168,85,247,.15); }
+    .post-date { font-size:.7rem; color:var(--text-secondary); }
+    .post-body { font-size:.85rem; line-height:1.55; color:#d4d4d8; flex:1; }
+    .post-metrics { display:flex; gap:.9rem; font-size:.72rem; color:var(--text-secondary); }
+
+    /* Countdown */
+    .countdown { display:flex; align-items:center; justify-content:space-between; gap:1rem 2rem; flex-wrap:wrap; padding:1.1rem 1.5rem; border-radius:24px; }
+    .countdown h2 { font-size:1rem; font-weight:700; } .countdown p { font-size:.78rem; color:var(--text-secondary); margin-top:.2rem; }
+    .cd { display:flex; gap:.6rem; }
+    .cd div { min-width:68px; padding:.65rem .5rem; border-radius:14px; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.08); text-align:center; }
+    .cd b { display:block; font-size:1.5rem; font-weight:700; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+    .cd i { font-style:normal; font-size:.6rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); }
+    #seconds { display:inline-block; } #seconds.tick { animation:tick .35s var(--ease-out); } @keyframes tick { from { transform:translateY(-6px); opacity:.35; } }
+    footer { text-align:center; font-size:.75rem; color:var(--text-secondary); letter-spacing:.06em; text-transform:uppercase; font-weight:500; opacity:.7; padding-top:.5rem; }
+    .footer-link { color:inherit; text-decoration:underline; text-underline-offset:3px; transition:color .3s; }
+    .footer-link:hover { color:var(--text-primary); }
+
+    /* Hover only on devices that really hover (no sticky hover on phones) */
+    @media (hover:hover) {
+      .chip:hover { color:var(--text-primary); background:rgba(255,255,255,.08); border-color:rgba(168,85,247,.35); transform:translateY(-1px); }
+      .chip.primary:hover { color:#fff; box-shadow:0 8px 30px rgba(99,102,241,.5); }
+      .mcard:hover,.post-card:hover { transform:translateY(-4px); border-color:rgba(168,85,247,.45); box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(139,92,246,.15); }
+      .mcard:hover img { transform:scale(1.05); }
+      .more:hover { transform:translateX(3px); background:rgba(168,85,247,.2); }
     }
+    /* Press feedback */
+    .chip:active,.mcard:active,.post-card:active,.more:active,.stat:active { transform:scale(.96); transition-duration:.12s; }
+    .mcard:active,.post-card:active { border-color:rgba(168,85,247,.6); box-shadow:0 0 0 1px rgba(168,85,247,.25),0 8px 30px rgba(99,102,241,.3); }
+    .ripple-host { position:relative; }
+    .ripple-layer { position:absolute; inset:0; border-radius:inherit; overflow:hidden; pointer-events:none; z-index:2; }
+    .ripple { position:absolute; border-radius:50%; background:radial-gradient(circle,rgba(168,85,247,.5) 0%,rgba(99,102,241,0) 70%); transform:scale(0); animation:ripple .7s var(--ease-out) forwards; }
+    .chip.primary .ripple { background:radial-gradient(circle,rgba(255,255,255,.45) 0%,rgba(255,255,255,0) 70%); }
+    @keyframes ripple { to { transform:scale(1); opacity:0; } }
+    #toast { position:fixed; left:50%; bottom:max(1.5rem,env(safe-area-inset-bottom)); transform:translate(-50%,16px); opacity:0; pointer-events:none; z-index:50; padding:.7rem 1.25rem; border-radius:9999px; font-size:.8rem; font-weight:500; background:rgba(20,20,32,.85); border:1px solid rgba(168,85,247,.35); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); transition:opacity .35s,transform .45s var(--ease-out); }
+    #toast.show { opacity:1; transform:translate(-50%,0); }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @media (max-width:980px) {
+      .rail,.posts { display:grid; grid-template-columns:none; grid-auto-flow:column; grid-auto-columns:30%; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:2px 2px 6px; margin:0 -1.25rem; padding-inline:1.25rem; }
+      .rail::-webkit-scrollbar,.posts::-webkit-scrollbar { display:none; }
+      .rail > *,.posts > * { scroll-snap-align:start; }
+      .posts { grid-auto-columns:55%; } .note { grid-column:auto; width:calc(100vw - 2.5rem); }
     }
-
-    body {
-      font-family: var(--font-apple);
-      background-color: var(--bg-color);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem 1.5rem;
-      position: relative;
-      overflow-x: hidden;
-      text-align: center;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    @media (max-width:640px) {
+      .topbar-in { flex-wrap:wrap; gap:.6rem; } .brand { order:1; flex:1; } .top-actions { order:2; } .navrow { order:3; flex:1 1 100%; }
+      .rail { grid-auto-columns:44%; } .posts { grid-auto-columns:82%; }
+      .cd { width:100%; } .cd div { flex:1; min-width:0; }
     }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
 
-    /* Ambient Mesh Gradient Background */
-    .mesh-bg {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 25%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 40%, rgba(30, 30, 50, 0.7) 0%, transparent 80%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 680px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-      animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Status Pill / Badge */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 1.1rem;
-      border-radius: 9999px;
-      background: var(--glass-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      color: #a5b4fc;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.75rem;
-    }
-
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--status-active);
-      box-shadow: 0 0 8px var(--status-active);
-    }
-
-    .secondary-links {
-  display: flex;
-  flex-wrap: wrap; /* Allows links to wrap neatly on smaller screens */
-  justify-content: center;
-  align-items: center;
-  gap: 1rem; /* Adjusts spacing so all 4 items fit side-by-side */
-}
-    /* Typography */
-    h1 {
-      font-size: clamp(2.4rem, 5.5vw, 4rem);
-      font-weight: 600;
-      line-height: 1.0625;
-      letter-spacing: -0.015em;
-      margin-bottom: 1.25rem;
-      background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    h1 .highlight {
-      background: linear-gradient(135deg, #a5b4fc 0%, #d8b4fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p {
-      font-size: 1.125rem;
-      line-height: 1.47059;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 400;
-      letter-spacing: -0.022em;
-    }
-
-    /* Countdown Timer */
-    .countdown-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .countdown-box {
-      background: var(--glass-card-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 0.85rem 0.5rem;
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .countdown-val {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .countdown-lbl {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-secondary);
-      margin-top: 0.2rem;
-    }
-
-    /* Metrics Card */
-    .metrics-card {
-      position: relative;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.1rem 2.25rem;
-      margin-bottom: 2.5rem;
-      border-radius: 20px;
-      background: var(--glass-card-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-      isolation: isolate;
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
-                  box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .metrics-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: linear-gradient(135deg, var(--indigo-accent) 0%, var(--purple-accent) 100%);
-      filter: blur(20px);
-      opacity: 0;
-      z-index: -1;
-      transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .metrics-card:hover {
-      transform: translateY(-3px) scale(1.02);
-      border-color: rgba(168, 85, 247, 0.3);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .metrics-card:hover::before {
-      opacity: 0.25;
-    }
-
-    .metrics-count {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.1;
-    }
-
-    .metrics-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-top: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .metrics-label::after {
-      content: '↗';
-      font-size: 0.8rem;
-      opacity: 0.6;
-      transition: transform 0.3s ease;
-    }
-
-    /* Dynamic Top Posts Section */
-    .social-bridge {
-      margin-bottom: 2.5rem;
-      padding: 1.5rem;
-      border-radius: 24px;
-      background: var(--glass-card-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      text-align: left;
-    }
-
-    .social-bridge-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .social-bridge-title {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .social-bridge-title svg {
-      width: 18px;
-      height: 18px;
-      fill: var(--text-primary);
-    }
-
-    .social-bridge-handle {
-      font-size: 0.8rem;
-      color: #a5b4fc;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .posts-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .post-card {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 1.1rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-                  border-color 0.3s ease, 
-                  box-shadow 0.3s ease;
-    }
-
-    .post-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(168, 85, 247, 0.4);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .post-badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #a5b4fc;
-      background: rgba(99, 102, 241, 0.15);
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .post-date {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-    }
-
-    .post-body {
-      font-size: 0.92rem;
-      line-height: 1.45;
-      color: #e2e8f0;
-      text-align: left;
-    }
-
-    .post-metrics {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .metric-item {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    /* Actions Group */
-    .actions-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .social-link {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 0.95rem 2.25rem;
-      border-radius: 980px;
-      background: linear-gradient(135deg, var(--indigo-accent) 0%, var(--purple-accent) 100%);
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .social-link:hover {
-      transform: scale(1.03);
-    }
-
-    .x-icon {
-      width: 17px;
-      height: 17px;
-      fill: currentColor;
-    }
-
-    .secondary-links {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.45rem 1rem;
-      border-radius: 9999px;
-      background: var(--glass-card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .contact-link:hover {
-      color: var(--text-primary);
-    }
-
-    .mail-icon {
-      width: 13px;
-      height: 13px;
-      fill: currentColor;
-      opacity: 0.7;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 4rem;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-weight: 500;
-      opacity: 0.6;
-    }
-
-    .footer-link {
-      color: inherit;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      transition: color 0.3s ease;
-    }
-
-    .footer-link:hover,
-    .footer-link:focus-visible {
-      color: var(--text-primary);
-    }
-  
-    /* Explore cards */
-    .explore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
-    .explore-card {
-      position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 0.35rem;
-      padding: 1.25rem 1.25rem 1.1rem; text-align: left; text-decoration: none; color: var(--text-primary);
-      border-radius: 1.5rem; background: var(--glass-card-bg); border: 1px solid var(--border-color);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .3s ease, box-shadow .4s ease;
-    }
-    .explore-card:hover, .explore-card:focus-visible {
-      transform: translateY(-4px); border-color: rgba(139,92,246,.45);
-      box-shadow: 0 20px 40px -12px rgba(0,0,0,.7), 0 0 25px rgba(139,92,246,.18); outline: none;
-    }
-    .explore-icon { font-size: 1.5rem; line-height: 1; margin-bottom: .25rem; }
-    .explore-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
-    .explore-desc { font-size: .78rem; line-height: 1.45; color: var(--text-secondary); padding-right: 1.5rem; }
-    .explore-arrow { position: absolute; right: 1.1rem; bottom: 1rem; color: var(--purple-accent); transition: transform .3s ease; }
-    .explore-card:hover .explore-arrow { transform: translateX(4px); }
-    @media (max-width: 520px) { .explore-grid { grid-template-columns: 1fr; } }
-  
-    /* ===== Interaction & motion polish ===== */
-    :root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
-
-    /* 1. Kill the white tap rectangle + 300ms delay on phones */
-    html { -webkit-tap-highlight-color: transparent; }
-    a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
-
-    /* 2. Keyboard focus ring in theme */
-    a:focus-visible, button:focus-visible { outline: 2px solid var(--purple-accent); outline-offset: 3px; }
-
-    /* 3. Staggered entrance (keyframes only define "from", so hover/press transforms still work) */
-    @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(0.98); } }
-    .container { animation: none; }
-    .container > *, .explore-card, .post-card { animation: rise 0.8s var(--ease-out) backwards; }
-    .container > :nth-child(1) { animation-delay: 0.11s; }
-    .container > :nth-child(2) { animation-delay: 0.18s; }
-    .container > :nth-child(3) { animation-delay: 0.25s; }
-    .container > :nth-child(4) { animation-delay: 0.32s; }
-    .container > :nth-child(5) { animation-delay: 0.39s; }
-    .container > :nth-child(6) { animation-delay: 0.46s; }
-    .container > :nth-child(7) { animation-delay: 0.53s; }
-    .container > :nth-child(8) { animation-delay: 0.60s; }
-    .container > :nth-child(9) { animation-delay: 0.67s; }
-    .container > :nth-child(10) { animation-delay: 0.74s; }
-    .container > :nth-child(11) { animation-delay: 0.81s; }
-    .explore-card:nth-child(2) { animation-delay: 0.4s; }
-    .post-card:nth-child(2) { animation-delay: 0.1s; } .post-card:nth-child(3) { animation-delay: 0.2s; } .post-card:nth-child(n+4) { animation-delay: 0.3s; }
-
-    /* 4. Slow ambient drift on the background glow */
-    @keyframes drift { to { transform: scale(1.08) translate3d(-1.5%, 1%, 0); } }
-    .mesh-bg { animation: drift 18s ease-in-out infinite alternate; }
-
-    /* 5. Smooth, springy transitions for the small pills and follow button */
-    .contact-link { position: relative; transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease-out); }
-    .contact-link:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(168, 85, 247, 0.35); transform: translateY(-1px); }
-    .social-link { position: relative; transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease, filter 0.3s ease; }
-    .social-link:hover { box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5); }
-
-    /* 6. Tap ripple (clipped to each element's own rounded shape) */
-    .ripple-host { position: relative; }
-    .ripple-layer { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 0; }
-    .ripple { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(168, 85, 247, 0.5) 0%, rgba(99, 102, 241, 0) 70%); transform: scale(0); opacity: 1; animation: ripple 0.7s var(--ease-out) forwards; }
-    .social-link .ripple { background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%); }
-    @keyframes ripple { to { transform: scale(1); opacity: 0; } }
-
-    /* 7. Tick on the seconds counter */
-    #seconds { display: inline-block; }
-    #seconds.tick { animation: tick 0.35s var(--ease-out); }
-    @keyframes tick { from { transform: translateY(-6px); opacity: 0.35; } }
-
-    /* 8. Touch screens: no sticky hover after a tap */
-    @media (hover: none) {
-      .metrics-card:hover { transform: none; border-color: var(--border-color); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
-      .metrics-card:hover::before { opacity: 0; }
-      .post-card:hover { transform: none; border-color: rgba(255, 255, 255, 0.08); box-shadow: none; background: rgba(0, 0, 0, 0.35); }
-      .explore-card:hover { transform: none; border-color: var(--border-color); box-shadow: none; }
-      .explore-card:hover .explore-arrow { transform: none; }
-      .social-link:hover { transform: none; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3); }
-      .contact-link:hover { color: var(--text-secondary); background: var(--glass-card-bg); border-color: var(--border-color); transform: none; }
-    }
-
-    /* 9. Press feedback: a quick, satisfying squish with a themed glow (must come last) */
-    .metrics-card:active, .post-card:active, .explore-card:active, .social-link:active, .contact-link:active {
-      transform: scale(0.96); transition-duration: 0.12s;
-    }
-    .metrics-card:active, .explore-card:active, .post-card:active { border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.25), 0 8px 30px rgba(99, 102, 241, 0.3); }
-    .metrics-card:active::before { opacity: 0.35; }
-    .explore-card:active .explore-arrow { transform: translateX(6px); }
-    .social-link:active { filter: brightness(1.12); box-shadow: 0 2px 12px rgba(99, 102, 241, 0.5); }
-    .contact-link:active { color: var(--text-primary); background: rgba(168, 85, 247, 0.18); border-color: rgba(168, 85, 247, 0.5); }
-
-    /* 10. Toast */
-    #toast { position: fixed; left: 50%; bottom: max(1.5rem, env(safe-area-inset-bottom)); transform: translate(-50%, 16px); opacity: 0; pointer-events: none; z-index: 50;
-      padding: 0.7rem 1.25rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 500; color: var(--text-primary);
-      background: rgba(20, 20, 32, 0.85); border: 1px solid rgba(168, 85, 247, 0.35); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); transition: opacity 0.35s ease, transform 0.45s var(--ease-out); }
-    #toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-    /* 11. Respect reduced-motion settings */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    }
+    /* About/Contact row */
+    .links { display:flex; justify-content:center; flex-wrap:wrap; gap:.75rem; }
+    .mail-icon { width:13px; height:13px; fill:currentColor; opacity:.7; }
+    /* Movie popup */
+    .mcard { width:100%; cursor:pointer; }
+    .modal { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:1rem; background:rgba(0,0,0,.72); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+    .modal.open { display:flex; }
+    .m-box { position:relative; width:100%; max-width:760px; max-height:90vh; overflow-y:auto; border-radius:28px; background:rgba(14,14,22,.97); border:1px solid var(--border-color); box-shadow:0 30px 80px rgba(0,0,0,.8); animation:rise .5s var(--ease-out); }
+    .m-x { position:absolute; top:1rem; right:1rem; z-index:5; width:36px; height:36px; border-radius:50%; border:0; background:rgba(255,255,255,.12); color:#fff; font-size:1.3rem; line-height:1; cursor:pointer; }
+    .m-hero { height:15rem; background-size:cover; background-position:center; border-radius:28px 28px 0 0; position:relative; }
+    .m-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(to top,#0e0e16,transparent); }
+    .m-hero.none { height:3rem; } .m-hero.none::after { display:none; }
+    .m-hero.vid { height:auto; background:#000; overflow:hidden; } .m-hero.vid::after { display:none; }
+    .yt { display:block; text-align:center; font-size:.7rem; color:var(--text-secondary); text-decoration:none; padding:.5rem; background:rgba(0,0,0,.6); }
+    .m-body { position:relative; margin-top:-2.5rem; padding:0 1.75rem 1.75rem; display:flex; flex-direction:column; gap:1rem; text-align:left; }
+    .m-title { display:flex; align-items:center; gap:1rem; }
+    .m-title h3 { font-size:1.6rem; font-weight:800; letter-spacing:-.02em; line-height:1.15; }
+    .m-title p { font-size:.75rem; color:var(--text-secondary); margin-top:.25rem; }
+    .m-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .tag { padding:.25rem .75rem; border-radius:9999px; font-size:.7rem; font-weight:600; color:#c4b5fd; background:rgba(168,85,247,.15); }
+    .m-body > p { font-size:.88rem; line-height:1.65; color:#d4d4d8; }
+    .m-tagline { font-style:italic; color:var(--text-secondary) !important; }
+    .m-scores { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
+    .m-scores div { padding:.7rem; border-radius:16px; text-align:center; background:var(--glass-card-bg); border:1px solid var(--border-color); }
+    .m-scores b { display:block; font-size:1.1rem; } .m-scores i { font-style:normal; font-size:.6rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); }
+    .m-sec { display:flex; flex-direction:column; gap:.75rem; padding-top:.25rem; }
+    .m-sec-head { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+    .m-sec-head h4 { font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); }
+    .m-sel { background:rgba(255,255,255,.06); border:1px solid var(--border-color); border-radius:9999px; padding:.35rem .75rem; font-size:.72rem; color:#d4d4d8; max-width:11rem; outline:none; }
+    .m-sel option { background:#0e0e16; }
+    .w-row { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem .75rem; }
+    .w-row > span { width:6rem; flex:none; font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text-secondary); }
+    .w-logos { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .w-logos img { width:40px; height:40px; border-radius:12px; border:1px solid var(--border-color); display:block; transition:transform .3s var(--ease-out); }
+    .w-logos a:hover img { transform:scale(1.1); }
+    .m-credit { font-size:.62rem; color:#52525b; } .m-credit a { color:inherit; }
+    .m-links { display:flex; flex-wrap:wrap; gap:.5rem; padding-top:.25rem; }
+    .m-load { padding:4rem 1rem; text-align:center; color:var(--text-secondary); font-size:.85rem; }
+    @media (max-width:640px) { .m-body { padding:0 1.1rem 1.25rem; } .m-hero { height:11rem; } .m-title h3 { font-size:1.3rem; } .w-row > span { width:100%; } }
   </style>
 </head>
 <body>
-
-  <!-- Ambient Mesh Background -->
   <div class="mesh-bg" aria-hidden="true"></div>
 
-  <!-- Primary Content Box -->
-  <main class="container">
-    <div class="badge">
-      <span class="dot" aria-hidden="true"></span>
-      We've noticed your presence
-    </div>
-
-    <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
-
-    <p>Every Movie Plug is getting a brand new look and experience. Follow our journey on X for updates.</p>
-
-    <!-- Explore Cards -->
-    <nav class="explore-grid" aria-label="Explore">
-      <a href="trending.html" class="explore-card">
-        <span class="explore-icon" aria-hidden="true">🔥</span>
-        <span class="explore-title">Trending Now</span>
-        <span class="explore-desc">Top new movies &amp; TV shows with live ratings</span>
-        <span class="explore-arrow" aria-hidden="true">→</span>
-      </a>
-      <a href="articles.html" class="explore-card">
-        <span class="explore-icon" aria-hidden="true">📰</span>
-        <span class="explore-title">Articles</span>
-        <span class="explore-desc">Reviews, features &amp; deep dives on cinema</span>
-        <span class="explore-arrow" aria-hidden="true">→</span>
-      </a>
-    </nav>
-
-    <!-- Glass Countdown Timer -->
-    <div class="countdown-container" id="countdown">
-      <div class="countdown-box"><span class="countdown-val" id="days">00</span><span class="countdown-lbl">Days</span></div>
-      <div class="countdown-box"><span class="countdown-val" id="hours">00</span><span class="countdown-lbl">Hours</span></div>
-      <div class="countdown-box"><span class="countdown-val" id="minutes">00</span><span class="countdown-lbl">Mins</span></div>
-      <div class="countdown-box"><span class="countdown-val" id="seconds">00</span><span class="countdown-lbl">Secs</span></div>
-    </div>
-
-    <!-- Followers Metric Card -->
-    <a href="https://x.com/everymovieplug" class="metrics-card" target="_blank" rel="noopener noreferrer">
-      <span class="metrics-count" id="follower-count">2.3M+</span>
-      <span class="metrics-label">Film Lovers on X</span>
-    </a>
-
-    <!-- Social Media Bridge: Dynamic Top Post Cards -->
-    <section class="social-bridge" aria-label="Featured Posts">
-      <div class="social-bridge-header">
-        <div class="social-bridge-title">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          Trending Hits
-        </div>
-        <a href="https://x.com/everymovieplug" class="social-bridge-handle" target="_blank" rel="noopener noreferrer">@everymovieplug ↗</a>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="/" aria-label="Every Movie Plug">EVERY<span>MOVIEPLUG</span></a>
+      <nav class="navrow" aria-label="Browse">
+        <a class="chip primary" href="https://everymovieplug.com/trending">🔥 Trending Now</a>
+        <a class="chip" href="articles.html">📰 Articles</a>
+        <span class="sep" aria-hidden="true"></span>
+        <button class="chip" data-type="movie" aria-pressed="false">🎞️ Movies</button>
+        <button class="chip" data-type="tv" aria-pressed="false">📺 TV Shows</button>
+        <button class="chip" id="genreBtn" aria-haspopup="true" aria-expanded="false">Genre ▾</button>
+        <button class="chip" id="countryBtn" aria-haspopup="true" aria-expanded="false">Country ▾</button>
+      </nav>
+      <div class="top-actions">
+        <a class="chip" href="https://x.com/intent/follow?screen_name=everymovieplug" target="_blank" rel="noopener noreferrer">𝕏 Follow</a>
+        <button class="chip" onclick="shareWebsite()">↗ Share</button>
       </div>
+    </div>
+  </header>
+  <div class="panel" id="panel" role="menu"></div>
 
-      <div class="posts-grid" id="top-posts-container">
-        <!-- Dynamic Cards Render Here -->
+  <main class="wrap">
+    <section class="strip glass" aria-label="Site status">
+      <span class="badge"><span class="dot" aria-hidden="true"></span>We've noticed your presence</span>
+      <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
+      <p>Every Movie Plug is getting a brand new look and experience. Follow our journey on X for updates.</p>
+    </section>
+
+    <section id="featured" aria-label="Featured movies and TV shows">
+      <div class="activebar" id="activebar" hidden></div>
+      <div class="row" id="rowMovie">
+        <div class="sec-head"><div><h2 id="hMovie">Trending Movies</h2><small>Live from TMDB</small></div><a class="more" data-more href="https://everymovieplug.com/trending">Explore more →</a></div>
+        <div class="rail" id="movies"></div>
+      </div>
+      <div class="row" id="rowTv">
+        <div class="sec-head"><div><h2 id="hTv">Trending TV Shows</h2><small>Live from TMDB</small></div><a class="more" data-more href="https://everymovieplug.com/trending">Explore more →</a></div>
+        <div class="rail" id="tv"></div>
       </div>
     </section>
 
-    <!-- Actions Group -->
-    <div class="actions-group">
-      <a href="https://x.com/intent/follow?screen_name=everymovieplug" class="social-link" target="_blank" rel="noopener noreferrer">
-        <svg class="x-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        Follow @everymovieplug
-      </a>
+    <section aria-label="Trending hits on X">
+      <div class="hits-head">
+        <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Trending Hits</h2>
+        <a class="stat glass" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer"><b id="follower-count">2.3M+</b><span>Film Lovers on X · @everymovieplug ↗</span></a>
+      </div>
+      <div class="posts" id="top-posts-container"></div>
+    </section>
 
-<div class="secondary-links">
-  <!-- About Us Link -->
-  <a href="about.html" class="contact-link">About Us</a>
+    <section class="countdown glass" id="countdown" aria-label="Launch countdown">
+      <div><h2>The new Every Movie Plug launches soon</h2><p>Jan 1, 2027 · Follow us on X to be first in.</p></div>
+      <div class="cd" id="cdBoxes">
+        <div><b id="days">00</b><i>Days</i></div><div><b id="hours">00</b><i>Hours</i></div><div><b id="minutes">00</b><i>Mins</i></div><div><b id="seconds">00</b><i>Secs</i></div>
+      </div>
+    </section>
 
-  <!-- Contact Us Link -->
-  <a href="mailto:admin@everymovieplug.com" class="contact-link">
-    <svg class="mail-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M1.5 4.5a2 2 0 012-2h17a2 2 0 012 2v15a2 2 0 01-2 2h-17a2 2 0 01-2-2v-15zm3 1.5v.738l7.5 5 7.5-5V6h-15zm0 3.262V18h15V9.262l-7.051 4.701a1 1 0 01-1.098 0L4.5 9.262z" />
-    </svg>
-    Contact Us
-  </a>
-
-  <!-- Share Button -->
-  <button class="contact-link" onclick="shareWebsite()">↗ Share Page</button>
-</div></div>
+    <nav class="links" aria-label="About and contact">
+      <a class="chip" href="about.html">About Us</a>
+      <a class="chip" href="mailto:contact@everymovieplug.com"><svg class="mail-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 4.5a2 2 0 012-2h17a2 2 0 012 2v15a2 2 0 01-2 2h-17a2 2 0 01-2-2v-15zm3 1.5v.738l7.5 5 7.5-5V6h-15zm0 3.262V18h15V9.262l-7.051 4.701a1 1 0 01-1.098 0L4.5 9.262z"/></svg>Contact Us</a>
+    </nav>
 
     <footer>
-     © Every Movie Plug • <a href="privacy-policy.html" class="footer-link">Privacy Policy</a> • <a href="terms-of-service.html" class="footer-link">Terms of Service</a> • Next Chapter  
+      © Every Movie Plug • <a href="privacy-policy.html" class="footer-link">Privacy Policy</a> • <a href="terms-of-service.html" class="footer-link">Terms of Service</a> • Next Chapter
     </footer>
   </main>
 
   <script>
-    // Smooth counting effect on page load
-    document.addEventListener("DOMContentLoaded", () => {
-      const el = document.getElementById("follower-count");
-      let start = 0;
-      const target = 2.3;
-      const duration = 1200;
-      const startTime = performance.now();
+    /* ===== CONFIG ===== */
+    const TMDB_API_KEY = "6c26404d2252b5ee3712ebe31f465959";   // paste the same TMDB key you use in trending.html (v3 key or v4 token)
+    const TREND_URL = "https://everymovieplug.com/trending";
 
-      function updateNumber(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
-        const currentVal = (easedProgress * target).toFixed(1);
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const GENRES = [["Action",28,10759],["Adventure",12,10759],["Animation",16,16],["Comedy",35,35],["Crime",80,80],["Documentary",99,99],["Drama",18,18],["Family",10751,10751],["Fantasy",14,10765],["Horror",27,null],["Mystery",9648,9648],["Romance",10749,null],["Sci-Fi",878,10765],["Thriller",53,null]];
+    const COUNTRIES = [["NG","Nigeria"],["GH","Ghana"],["ZA","South Africa"],["US","United States"],["GB","United Kingdom"],["IN","India"],["KR","South Korea"],["JP","Japan"],["CN","China"],["FR","France"],["DE","Germany"],["ES","Spain"],["IT","Italy"],["MX","Mexico"],["BR","Brazil"],["CA","Canada"],["AU","Australia"],["TR","Turkey"]];
+    const flag = c => String.fromCodePoint(...[...c].map(x => 127397 + x.charCodeAt(0)));
+    const F = { type: "all", genre: "", country: "" };
 
-        el.textContent = `${currentVal}M+`;
+    /* ---- TMDB ---- */
+    const isV4 = TMDB_API_KEY.startsWith("eyJ");
+    async function tmdb(path, params = {}) {
+      const u = new URL("https://api.themoviedb.org/3" + path);
+      Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));
+      if (!isV4) u.searchParams.set("api_key", TMDB_API_KEY);
+      const ck = "emp_home_" + u.pathname + u.search.replace(/api_key=[^&]*&?/, "");
+      try { const c = JSON.parse(sessionStorage.getItem(ck)); if (c && Date.now() - c.t < 18e5) return c.d; } catch {}
+      const r = await fetch(u, isV4 ? { headers: { Authorization: "Bearer " + TMDB_API_KEY } } : {});
+      if (!r.ok) throw new Error(r.status === 401 ? "TMDB rejected the API key." : "TMDB error " + r.status);
+      const d = await r.json();
+      try { sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), d })); } catch {}
+      return d;
+    }
+    async function fetchRow(type) {
+      if (!F.genre && !F.country) return (await tmdb(`/trending/${type}/week`)).results;
+      const g = GENRES.find(x => x[0] === F.genre), gid = g ? (type === "movie" ? g[1] : g[2]) : "";
+      if (g && !gid) return null;
+      const p = { sort_by: "popularity.desc", "vote_count.gte": F.country ? 5 : 50, include_adult: false, language: "en-US" };
+      if (gid) p.with_genres = gid;
+      if (F.country) p.with_origin_country = F.country;
+      return (await tmdb(`/discover/${type}`, p)).results;
+    }
+    const skeleton = () => Array(5).fill('<div class="mcard glass"><div class="poster sk"></div><div class="mmeta"><div class="sk-line" style="height:12px;border-radius:6px;margin:.2rem 0 .5rem"></div><div class="sk-line" style="height:10px;width:50%;border-radius:6px"></div></div></div>').join("");
+    function card(i, type) {
+      const t = i.title || i.name, y = (i.release_date || i.first_air_date || "").slice(0, 4), s = i.vote_average;
+      const col = s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171";
+      return `<button class="mcard glass" onclick="openModal('${type}',${i.id})" aria-label="View details for ${esc(t)}">
+        <div class="poster">${i.poster_path ? `<img src="https://image.tmdb.org/t/p/w342${i.poster_path}" alt="${esc(t)} poster" loading="lazy">` : ""}
+        ${s ? `<span class="score" style="color:${col}">★ ${s.toFixed(1)}</span>` : ""}</div>
+        <div class="mmeta"><b>${esc(t)}</b><span>${esc(y)}</span></div></button>`;
+    }
+    async function loadRows() {
+      const types = [["movie", "movies", "rowMovie", "hMovie", "Movies"], ["tv", "tv", "rowTv", "hTv", "TV Shows"]];
+      const filtered = F.genre || F.country;
+      $("activebar").hidden = !filtered;
+      $("activebar").innerHTML = filtered ? `Showing popular${F.genre ? " <b>" + esc(F.genre) + "</b>" : ""}${F.country ? " from <b>" + flag(F.country) + " " + esc(COUNTRIES.find(c => c[0] === F.country)[1]) + "</b>" : ""} <button class="chip" onclick="resetFilters()">Clear ✕</button>` : "";
+      const q = new URLSearchParams(); if (F.type !== "all") q.set("type", F.type); if (F.genre) q.set("genre", F.genre); if (F.country) q.set("country", F.country);
+      document.querySelectorAll("[data-more]").forEach(a => a.href = TREND_URL + (q.toString() ? "?" + q : ""));
+      await Promise.all(types.map(async ([t, el, row, h, label]) => {
+        $(row).hidden = F.type !== "all" && F.type !== t;
+        $(h).textContent = (filtered ? "Popular " : "Trending ") + label;
+        if ($(row).hidden) return;
+        $(el).innerHTML = skeleton();
+        if (!TMDB_API_KEY) { $(el).innerHTML = '<p class="note">Add your TMDB key in the CONFIG block of this page to show live titles.</p>'; return; }
+        try {
+          const r = await fetchRow(t);
+          $(el).innerHTML = r === null ? `<p class="note">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre.</p>`
+            : r.length ? r.slice(0, 5).map(i => card(i, t)).join("") : '<p class="note">Nothing found for this combination yet. Try another genre or country.</p>';
+        } catch (e) { $(el).innerHTML = `<p class="note">${esc(e.message)}</p>`; }
+      }));
+    }
 
-        if (progress < 1) {
-          requestAnimationFrame(updateNumber);
+    /* ---- Filter buttons ---- */
+    const panel = $("panel"); let openBtn = null;
+    function closePanel() { panel.classList.remove("open"); if (openBtn) openBtn.setAttribute("aria-expanded", "false"); openBtn = null; }
+    function openPanel(btn, title, items, key) {
+      if (openBtn === btn) return closePanel();
+      closePanel(); openBtn = btn; btn.setAttribute("aria-expanded", "true");
+      panel.innerHTML = `<h3>${title}</h3><div class="opts">${[["", "All"]].concat(items).map(([v, l]) => `<button class="chip${F[key] === v ? " on" : ""}" role="menuitem" data-key="${key}" data-val="${esc(v)}">${l}</button>`).join("")}</div>`;
+      const r = btn.getBoundingClientRect(), w = Math.min(innerWidth * .92, 360);
+      panel.style.top = r.bottom + 8 + "px"; panel.style.left = Math.max(12, Math.min(r.left, innerWidth - w - 12)) + "px";
+      panel.classList.add("open");
+    }
+    function syncButtons() {
+      $("genreBtn").textContent = (F.genre || "Genre") + " ▾"; $("genreBtn").classList.toggle("on", !!F.genre);
+      $("countryBtn").textContent = (F.country ? flag(F.country) + " " + COUNTRIES.find(c => c[0] === F.country)[1] : "Country") + " ▾"; $("countryBtn").classList.toggle("on", !!F.country);
+      document.querySelectorAll("[data-type]").forEach(b => b.setAttribute("aria-pressed", String(F.type === b.dataset.type)));
+    }
+    function resetFilters() { F.type = "all"; F.genre = ""; F.country = ""; syncButtons(); loadRows(); }
+    $("genreBtn").onclick = e => openPanel(e.currentTarget, "Choose a genre", GENRES.map(g => [g[0], g[0]]), "genre");
+    $("countryBtn").onclick = e => openPanel(e.currentTarget, "Choose a country", COUNTRIES.map(c => [c[0], flag(c[0]) + " " + c[1]]), "country");
+    panel.addEventListener("click", e => { const b = e.target.closest("[data-key]"); if (!b) return; F[b.dataset.key] = b.dataset.val; closePanel(); syncButtons(); loadRows(); });
+    document.querySelectorAll("[data-type]").forEach(b => b.onclick = () => { F.type = F.type === b.dataset.type ? "all" : b.dataset.type; syncButtons(); loadRows(); });
+    document.addEventListener("click", e => { if (openBtn && !panel.contains(e.target) && !openBtn.contains(e.target)) closePanel(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePanel(); closeModal(); } });
+    addEventListener("resize", closePanel);
+    $("featured") && loadRows();
+
+
+    /* ===== Movie popup (same as trending page) ===== */
+    const IMG = "https://image.tmdb.org/t/p/", OMDB_API_KEY = "92cabd79";
+    let MAGNETS = {}, WATCH = {}, TRAILER = null;
+    const magnetsReady = fetch("magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
+    const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
+    const magnetBtn = m => (typeof m === "string" && m.startsWith("magnet:?")) ? `<a href="${esc(m)}" class="chip primary" title="Opens in your torrent app">&#11015; Download (Magnet)</a>` : "";
+    let REGION = (() => { try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {} const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean); return (r || "US").toUpperCase(); })();
+    const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
+    function ring(score, size) {
+      if (!score) return "";
+      const pct = Math.round(score * 10), col = score >= 7 ? "#34d399" : score >= 5 ? "#fbbf24" : "#f87171";
+      return `<div style="flex:none;width:${size}px;height:${size}px;background:conic-gradient(${col} ${pct}%,rgba(255,255,255,.12) 0);border-radius:50%;padding:4px"><div style="width:100%;height:100%;border-radius:50%;background:#0c0c14;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:${size / 3.4}px">${pct}<span style="font-size:.55em;opacity:.6">%</span></div></div>`;
+    }
+    function renderWatch() {
+      const sel = $("mRegion"), box = $("mWatch"); if (!sel || !box) return;
+      const codes = Object.keys(WATCH).sort((a, b) => regionName(a).localeCompare(regionName(b)));
+      if (!codes.length) { sel.hidden = true; box.innerHTML = '<p class="m-credit">No streaming info available yet.</p>'; return; }
+      if (!WATCH[REGION]) codes.unshift(REGION);
+      sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
+      const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
+      const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, l]) => `<div class="w-row"><span>${l}</span><div class="w-logos">${w[k].map(p => `<a href="${esc(w.link)}" target="_blank" rel="noopener noreferrer" title="${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy"></a>`).join("")}</div></div>`).join("") : "";
+      box.innerHTML = rows || `<p class="m-credit">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
+    }
+    function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); }
+    function playTrailer(k) {
+      const h = $("mHero"); if (!h || !/^[\w-]+$/.test(k)) return;
+      h.removeAttribute("style"); h.className = "m-hero vid";
+      h.innerHTML = `<div style="aspect-ratio:16/9"><iframe style="width:100%;height:100%;border:0" src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : ""}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer">Video not playing? Watch on YouTube &rarr;</a>`;
+      $("mBody").style.marginTop = "0"; h.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    async function openModal(type, id) {
+      $("modal").classList.add("open"); document.body.style.overflow = "hidden";
+      $("modalBody").innerHTML = '<div class="m-load">Loading…</div>';
+      try {
+        const d = await tmdb(`/${type}/${id}`, { append_to_response: "external_ids,videos,watch/providers", include_video_language: "en,null", language: "en-US" });
+        const title = d.title || d.name, imdb = d.external_ids?.imdb_id, yr = (d.release_date || d.first_air_date || "").slice(0, 4);
+        WATCH = d["watch/providers"]?.results || {};
+        const vids = (d.videos?.results || []).filter(v => v.site === "YouTube" && /^[\w-]+$/.test(v.key));
+        TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
+        await magnetsReady;
+        const meta = [yr, d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
+        let scores = "";
+        if (OMDB_API_KEY && imdb) {
+          try {
+            const o = await (await fetch(`https://www.omdbapi.com/?i=${imdb}&apikey=${OMDB_API_KEY}`)).json();
+            const rows = (o.Ratings || []).map(r => `<div><b>${esc(r.Value)}</b><i>${esc(r.Source.replace("Internet Movie Database", "IMDb"))}</i></div>`).join("");
+            if (rows) scores = `<div class="m-scores">${rows}</div>`;
+          } catch {}
         }
-      }
-
-      requestAnimationFrame(updateNumber);
-    });
-
-    // Launch Countdown (Target Date: Jan 1, 2027)
-    const targetDate = new Date("January 1, 2027 00:00:00").getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference <= 0) {
-        document.getElementById("countdown").innerHTML = "<div style='grid-column: span 4;'>We are live!</div>";
-        return;
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      document.getElementById("days").textContent = String(days).padStart(2, '0');
-      document.getElementById("hours").textContent = String(hours).padStart(2, '0');
-      document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
-      document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+        const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="chip">${t}</a>`;
+        $("modalBody").innerHTML = `
+          ${d.backdrop_path ? `<div id="mHero" class="m-hero" style="background-image:url(${IMG}w780${d.backdrop_path})"></div>` : '<div id="mHero" class="m-hero none"></div>'}
+          <div id="mBody" class="m-body">
+            <div class="m-title">${ring(d.vote_average, 64)}<div><h3>${esc(title)}</h3><p>${esc(meta)} · TMDB score from ${(d.vote_count || 0).toLocaleString()} votes</p></div></div>
+            <div class="m-tags">${(d.genres || []).map(g => `<span class="tag">${esc(g.name)}</span>`).join("")}</div>
+            ${d.tagline ? `<p class="m-tagline">${esc(d.tagline)}</p>` : ""}
+            <p>${esc(d.overview || "No synopsis available yet.")}</p>
+            ${scores}
+            <div class="m-sec">
+              <div class="m-sec-head"><h4>Where to watch</h4><select id="mRegion" class="m-sel" onchange="setRegion(this.value)" aria-label="Choose country"></select></div>
+              <div id="mWatch"></div>
+              <p class="m-credit">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></p>
+            </div>
+            <div class="m-links">${magnetBtn(magnetFor(type, id))}${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}</div>
+          </div>`;
+        renderWatch();
+      } catch (e) { $("modalBody").innerHTML = `<div class="m-load" style="color:#fbbf24">${esc(e.message)}</div>`; }
     }
+    function closeModal() { $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Render Dynamic Top Post Cards
-    const featuredPosts = [
-      {
-        tag: "Movie Trivia",
-        date: "Top Hit",
-        content: "Did you know? In Christopher Nolan's <i>Inception</i>, the main characters' names (Dom, Robert, Eames, Arthur, Mal, Ariadne) spell out 'DREAM' when combined.",
-        views: "1.4M",
-        likes: "42.8K",
-        link: "https://x.com/everymovieplug"
-      },
-      {
-        tag: "Hidden Gem",
-        date: "Recommendation",
-        content: "If you love tight, single-location psychological thrillers, add <i>Coherence</i> (2013) to your weekend watchlist immediately.",
-        views: "890K",
-        likes: "21.5K",
-        link: "https://x.com/everymovieplug"
-      },
-      {
-        tag: "Director Breakdown",
-        date: "Cinema Art",
-        content: "Denis Villeneuve's use of scale and atmospheric sound design creates pure cinematic tension unlike anyone else in modern sci-fi.",
-        views: "2.1M",
-        likes: "68.2K",
-        link: "https://x.com/everymovieplug"
-      }
-    ];
-
+    /* ---- Follower count ---- */
     document.addEventListener("DOMContentLoaded", () => {
-      const container = document.getElementById("top-posts-container");
-      if (!container) return;
-
-      container.innerHTML = featuredPosts.map(post => `
-        <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="post-card">
-          <div class="post-header">
-            <span class="post-badge">${post.tag}</span>
-            <span class="post-date">${post.date}</span>
-          </div>
-          <div class="post-body">
-            "${post.content}"
-          </div>
-          <div class="post-metrics">
-            <span class="metric-item">👁️ ${post.views}</span>
-            <span class="metric-item">❤️ ${post.likes}</span>
-            <span class="metric-item" style="margin-left: auto; color: #a5b4fc;">View on X ↗</span>
-          </div>
-        </a>
-      `).join("");
+      const el = $("follower-count"), t0 = performance.now();
+      (function step(now) { const p = Math.min((now - t0) / 1200, 1); el.textContent = ((1 - Math.pow(1 - p, 3)) * 2.3).toFixed(1) + "M+"; if (p < 1) requestAnimationFrame(step); })(t0);
     });
 
-    // Native Web Share Functionality
-    function shareWebsite() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Every Movie Plug',
-          text: 'Every Movie Plug is getting a brand new look!',
-          url: window.location.href,
-        }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(window.location.href).then(() => showToast("Link copied ✓")).catch(() => showToast("Couldn't copy the link"));
-      }
+    /* ---- Countdown (Jan 1, 2027) ---- */
+    const targetDate = new Date("January 1, 2027 00:00:00").getTime();
+    function updateCountdown() {
+      const d = targetDate - Date.now();
+      if (d <= 0) { $("cdBoxes").innerHTML = "<b>We are live!</b>"; return; }
+      const v = { days: Math.floor(d / 864e5), hours: Math.floor(d % 864e5 / 36e5), minutes: Math.floor(d % 36e5 / 6e4), seconds: Math.floor(d % 6e4 / 1e3) };
+      for (const k in v) $(k).textContent = String(v[k]).padStart(2, "0");
     }
+    setInterval(updateCountdown, 1000); updateCountdown();
 
-    // ===== Interaction polish: tap ripple, haptics, seconds tick, toast =====
-    (function () {
-      const HOSTS = ".metrics-card, .post-card, .explore-card, .social-link, .contact-link";
-      document.addEventListener("pointerdown", (e) => {
-        const host = e.target.closest(HOSTS);
-        if (!host) return;
-        if (navigator.vibrate) navigator.vibrate(8);
-        host.classList.add("ripple-host");
-        let layer = host.querySelector(":scope > .ripple-layer");
-        if (!layer) { layer = document.createElement("span"); layer.className = "ripple-layer"; layer.setAttribute("aria-hidden", "true"); host.appendChild(layer); }
-        const r = host.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2.2;
-        const dot = document.createElement("span");
-        dot.className = "ripple";
-        dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
-        layer.appendChild(dot);
-        dot.addEventListener("animationend", () => dot.remove());
-      }, { passive: true });
+    /* ---- Trending hits (X posts) ---- */
+    const featuredPosts = [
+      { tag: "Movie Trivia", date: "Top Hit", content: "Did you know? In Christopher Nolan's <i>Inception</i>, the main characters' names (Dom, Robert, Eames, Arthur, Mal, Ariadne) spell out 'DREAM' when combined.", views: "1.4M", likes: "42.8K", link: "https://x.com/everymovieplug" },
+      { tag: "Hidden Gem", date: "Recommendation", content: "If you love tight, single-location psychological thrillers, add <i>Coherence</i> (2013) to your weekend watchlist immediately.", views: "890K", likes: "21.5K", link: "https://x.com/everymovieplug" },
+      { tag: "Director Breakdown", date: "Cinema Art", content: "Denis Villeneuve's use of scale and atmospheric sound design creates pure cinematic tension unlike anyone else in modern sci-fi.", views: "2.1M", likes: "68.2K", link: "https://x.com/everymovieplug" }
+    ];
+    $("top-posts-container").innerHTML = featuredPosts.map(p => `
+      <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="post-card">
+        <div class="post-header"><span class="post-badge">${p.tag}</span><span class="post-date">${p.date}</span></div>
+        <div class="post-body">"${p.content}"</div>
+        <div class="post-metrics"><span>👁️ ${p.views}</span><span>❤️ ${p.likes}</span><span style="margin-left:auto;color:#a5b4fc">View on X ↗</span></div>
+      </a>`).join("");
 
-      const sec = document.getElementById("seconds");
-      if (sec) new MutationObserver(() => { sec.classList.remove("tick"); void sec.offsetWidth; sec.classList.add("tick"); }).observe(sec, { childList: true, characterData: true, subtree: true });
-
-      let t;
-      window.showToast = (msg) => {
-        const el = document.getElementById("toast"); if (!el) return;
-        el.textContent = msg; el.classList.add("show");
-        clearTimeout(t); t = setTimeout(() => el.classList.remove("show"), 2200);
-      };
-    })();
+    /* ---- Share, toast, tap ripple + haptics ---- */
+    function shareWebsite() {
+      if (navigator.share) navigator.share({ title: "Every Movie Plug", text: "Every Movie Plug is getting a brand new look!", url: location.href }).catch(() => {});
+      else navigator.clipboard.writeText(location.href).then(() => showToast("Link copied ✓")).catch(() => showToast("Couldn't copy the link"));
+    }
+    let tt; function showToast(m) { const el = $("toast"); el.textContent = m; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2200); }
+    document.addEventListener("pointerdown", e => {
+      const h = e.target.closest(".chip, .mcard, .post-card, .more, .stat"); if (!h) return;
+      if (navigator.vibrate) navigator.vibrate(8);
+      h.classList.add("ripple-host");
+      let l = h.querySelector(":scope > .ripple-layer");
+      if (!l) { l = document.createElement("span"); l.className = "ripple-layer"; l.setAttribute("aria-hidden", "true"); h.appendChild(l); }
+      const r = h.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2.2, d = document.createElement("span");
+      d.className = "ripple"; d.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s / 2}px;top:${e.clientY - r.top - s / 2}px`;
+      l.appendChild(d); d.addEventListener("animationend", () => d.remove());
+    }, { passive: true });
+    const sec = $("seconds"); new MutationObserver(() => { sec.classList.remove("tick"); void sec.offsetWidth; sec.classList.add("tick"); }).observe(sec, { childList: true, characterData: true, subtree: true });
   </script>
-
+  <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="m-box" role="dialog" aria-modal="true"><button class="m-x" onclick="closeModal()" aria-label="Close">&times;</button><div id="modalBody"></div></div>
+  </div>
   <div id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
