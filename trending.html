@@ -234,9 +234,16 @@ function playTrailer(k) {
 /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
 const BASE_TITLE = document.title; let hashPushed = false; const SLUG_MAP = {};
 const slugify = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+let CUR = null;
+function copyShare(btn) {
+  if (!CUR) return;
+  const u = `${location.origin}/${CUR.type}/${CUR.id}-${slugify(CUR.title) || "title"}`, o = btn.textContent;
+  const done = () => { btn.textContent = "Copied ✓"; setTimeout(() => btn.textContent = o, 1800); };
+  navigator.clipboard.writeText(u).then(done).catch(() => prompt("Copy this link", u));
+}
 function setHash(type, id, title, fromHash) {
-  const slug = slugify(title) || `${type}-${id}`; SLUG_MAP[slug] = { type, id };
-  if (!fromHash && location.hash.slice(1) !== slug) { history.pushState({ m: 1 }, "", "#" + slug); hashPushed = true; }
+  const slug = slugify(title) || `${type}-${id}`; SLUG_MAP[slug] = { type, id }; CUR = { type, id, title };
+  if (location.hash.slice(1) !== slug) { if (fromHash) history.replaceState(null, "", "#" + slug); else { history.pushState({ m: 1 }, "", "#" + slug); hashPushed = true; } }
   document.title = `${title} | Every Movie Plug`;
 }
 function clearHash(fromPop) {
@@ -300,7 +307,7 @@ async function openModal(type, id, fromHash) {
           <div id="mWatch" class="space-y-3"></div>
           <p class="text-[10px] text-slate-600">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-400">JustWatch</a></p>
         </div>
-        <div class="flex flex-wrap gap-2 pt-2">${TRAILER ? `<button onclick="playTrailer('${TRAILER.key}')" class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-xs font-semibold text-white transition-colors">&#9654; Watch trailer</button>` : ""}${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")} </div>
+        <div class="flex flex-wrap gap-2 pt-2">${TRAILER ? `<button onclick="playTrailer('${TRAILER.key}')" class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-xs font-semibold text-white transition-colors">&#9654; Watch trailer</button>` : ""}${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button onclick="copyShare(this)" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">&#128279; Copy share link</button> </div>
        
       </div>`;
     renderWatch();
