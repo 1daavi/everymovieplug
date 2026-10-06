@@ -400,6 +400,38 @@
     $("featured") && loadRows();
 
 
+    /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
+    const BASE_TITLE = document.title; let hashPushed = false; const SLUG_MAP = {};
+    const slugify = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    function setHash(type, id, title, fromHash) {
+      const slug = slugify(title) || `${type}-${id}`; SLUG_MAP[slug] = { type, id };
+      if (!fromHash && location.hash.slice(1) !== slug) { history.pushState({ m: 1 }, "", "#" + slug); hashPushed = true; }
+      document.title = `${title} | Every Movie Plug`;
+    }
+    function clearHash(fromPop) {
+      document.title = BASE_TITLE;
+      if (fromPop || !location.hash) return;
+      if (hashPushed) { hashPushed = false; history.back(); } else history.replaceState(null, "", location.pathname + location.search);
+    }
+    async function openFromHash() {
+      const raw = decodeURIComponent(location.hash.slice(1)); if (!raw) return;
+      let hit = SLUG_MAP[raw]; const idm = raw.match(/^(movie|tv)-(\d+)$/);
+      if (!hit && idm) hit = { type: idm[1], id: idm[2] };
+      if (!hit) {
+        try {
+          const ym = raw.match(/^(.*)-((?:19|20)\d\d)$/), base = ym ? ym[1] : raw, yr = ym ? ym[2] : "";
+          const r = await tmdb("/search/multi", { query: base.replace(/-/g, " "), include_adult: false, language: "en-US" });
+          const y = i => (i.release_date || i.first_air_date || "").slice(0, 4);
+          const list = r.results.filter(i => i.media_type === "movie" || i.media_type === "tv"), pool = yr ? list.filter(i => y(i) === yr) : list;
+          const exact = pool.filter(i => slugify(i.title || i.name) === base).sort((a, b) => b.popularity - a.popularity);
+          const best = (exact.length ? exact : pool)[0];
+          if (best) hit = { type: best.media_type, id: best.id };
+        } catch {}
+      }
+      if (hit) openModal(hit.type, hit.id, true); else history.replaceState(null, "", location.pathname + location.search);
+    }
+    addEventListener("popstate", () => { if (location.hash.slice(1)) openFromHash(); else closeModal(true); });
+
     /* ===== Movie popup (same as trending page) ===== */
     const IMG = "https://image.tmdb.org/t/p/", OMDB_API_KEY = "92cabd79";
     let MAGNETS = {}, WATCH = {}, TRAILER = null;
@@ -430,13 +462,14 @@
       h.innerHTML = `<div style="aspect-ratio:16/9"><iframe style="width:100%;height:100%;border:0" src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : ""}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer">Video not playing? Watch on YouTube &rarr;</a>`;
       $("mBody").style.marginTop = "0"; h.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-    async function openModal(type, id) {
+    async function openModal(type, id, fromHash) {
       $("modal").classList.add("open"); document.body.style.overflow = "hidden";
       $("modalBody").innerHTML = '<div class="m-load">Loading…</div>';
       try {
         const d = await tmdb(`/${type}/${id}`, { append_to_response: "external_ids,videos,watch/providers", include_video_language: "en,null", language: "en-US" });
         const title = d.title || d.name, imdb = d.external_ids?.imdb_id, yr = (d.release_date || d.first_air_date || "").slice(0, 4);
         WATCH = d["watch/providers"]?.results || {};
+        setHash(type, id, title, fromHash);
         const vids = (d.videos?.results || []).filter(v => v.site === "YouTube" && /^[\w-]+$/.test(v.key));
         TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
         await magnetsReady;
@@ -468,7 +501,7 @@
         renderWatch();
       } catch (e) { $("modalBody").innerHTML = `<div class="m-load" style="color:#fbbf24">${esc(e.message)}</div>`; }
     }
-    function closeModal() { $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; }
+    function closeModal(fromPop) { $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
 
     /* ---- Follower count ---- */
     document.addEventListener("DOMContentLoaded", () => {
@@ -516,6 +549,7 @@
       l.appendChild(d); d.addEventListener("animationend", () => d.remove());
     }, { passive: true });
     const sec = $("seconds"); new MutationObserver(() => { sec.classList.remove("tick"); void sec.offsetWidth; sec.classList.add("tick"); }).observe(sec, { childList: true, characterData: true, subtree: true });
+    if (location.hash) openFromHash();
   </script>
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="m-box" role="dialog" aria-modal="true"><button class="m-x" onclick="closeModal()" aria-label="Close">&times;</button><div id="modalBody"></div></div>
