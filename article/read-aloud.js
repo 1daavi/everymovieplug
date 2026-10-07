@@ -9,12 +9,12 @@
 
   /* ---------- styles (injected so no CSS file needs editing) ---------- */
   var css = [
-    ".ra-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;padding:.6rem 1.1rem;border-radius:9999px;border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.12);color:inherit;font:500 .9rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}.ra-btn:hover{background:rgba(128,128,128,.22)}",
+    ".ra-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;padding:.6rem 1.1rem;border-radius:9999px;border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.12);color:inherit;font:500 .9rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}.ra-btn:hover{background:rgba(128,128,128,.22)}.ra-btn svg{width:18px;height:18px;fill:currentColor;flex:none}.ra-btn .ra-ico-wave{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}",
     ".ra-btn:active{transform:scale(.97)}",
     ".ra-bar{position:fixed;left:50%;bottom:max(.75rem,env(safe-area-inset-bottom));transform:translateX(-50%) translateY(150%);width:calc(100% - 1.5rem);max-width:560px;z-index:1000;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem;padding:.6rem .75rem;border-radius:20px;background:rgba(18,18,28,.94);border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 40px rgba(0,0,0,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#f5f5f7;font:500 .8rem/1 -apple-system,BlinkMacSystemFont,sans-serif;transition:transform .35s cubic-bezier(.16,1,.3,1)}",
     ".ra-bar.on{transform:translateX(-50%) translateY(0)}",
-    ".ra-bar button{width:44px;height:44px;padding:0;border-radius:50%;border:0;background:transparent;color:inherit;font-size:1.45rem;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}.ra-bar button:hover{background:rgba(255,255,255,.1)}.ra-bar button:active{transform:scale(.9)}",
-    ".ra-bar button.main{width:50px;height:50px;font-size:1.7rem}",
+    ".ra-bar button{width:44px;height:44px;padding:0;border-radius:50%;border:0;background:transparent;color:#f5f5f7;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s,opacity .2s;opacity:.85}.ra-bar button:hover{background:rgba(255,255,255,.12);opacity:1}.ra-bar button:active{transform:scale(.9)}.ra-bar button:focus-visible,.ra-btn:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:2px}.ra-bar svg{width:22px;height:22px;fill:currentColor;display:block}",
+    ".ra-bar button.main{width:52px;height:52px;background:#f5f5f7;color:#12121c;opacity:1}.ra-bar button.main:hover{background:#fff}.ra-bar button.main svg{width:24px;height:24px}",
     ".ra-bar select{height:36px;max-width:9.5rem;padding:0 .6rem;border-radius:9999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#f5f5f7;font-size:.78rem;outline:none}",
     ".ra-bar select option{background:#12121c;color:#f5f5f7}",
     ".ra-count{flex-basis:100%;text-align:center;font-size:.7rem;opacity:.6}",
@@ -55,6 +55,17 @@
     });
   }
 
+  /* ---------- custom icons (inline SVG, inherit text colour) ---------- */
+  var svg = function (d) { return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + d + "</svg>"; };
+  var ICON = {
+    play: svg('<path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/>'),
+    pause: svg('<rect x="6.5" y="5" width="3.8" height="14" rx="1.2"/><rect x="13.7" y="5" width="3.8" height="14" rx="1.2"/>'),
+    prev: svg('<rect x="5" y="5" width="2.4" height="14" rx="1"/><path d="M19 6.2v11.6a.8.8 0 0 1-1.25.66L9.2 12.66a.8.8 0 0 1 0-1.32l8.55-5.8A.8.8 0 0 1 19 6.2z"/>'),
+    next: svg('<rect x="16.6" y="5" width="2.4" height="14" rx="1"/><path d="M5 6.2v11.6a.8.8 0 0 0 1.25.66l8.55-5.8a.8.8 0 0 0 0-1.32l-8.55-5.8A.8.8 0 0 0 5 6.2z"/>'),
+    stop: svg('<rect x="6" y="6" width="12" height="12" rx="2.2"/>'),
+    speaker: svg('<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z"/><path class="ra-ico-wave" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>')
+  };
+
   /* ---------- state ---------- */
   var ui = 0, ci = 0, playing = false, paused = false, active = false, token = 0, current = null;
   var rate = 1, voice = null, voices = [];
@@ -70,10 +81,10 @@
   var bar = document.createElement("div");
   bar.className = "ra-bar"; bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "Read aloud controls");
   bar.innerHTML =
-    '<button type="button" data-a="prev" aria-label="Previous paragraph">\u23EE\uFE0F</button>' +
+    '<button type="button" data-a="prev" aria-label="Previous paragraph">' + ICON.prev + '</button>' +
     '<button type="button" data-a="toggle" class="main" aria-label="Play or pause"></button>' +
-    '<button type="button" data-a="next" aria-label="Next paragraph">\u23ED\uFE0F</button>' +
-    '<button type="button" data-a="stop" aria-label="Stop reading">\u23F9\uFE0F</button>' +
+    '<button type="button" data-a="next" aria-label="Next paragraph">' + ICON.next + '</button>' +
+    '<button type="button" data-a="stop" aria-label="Stop reading">' + ICON.stop + '</button>' +
     '<select data-a="rate" aria-label="Reading speed"><option value="0.8">0.8x</option><option value="1">1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="1.75">1.75x</option><option value="2">2x</option></select>' +
     '<select data-a="voice" aria-label="Voice" hidden></select>' +
     '<div class="ra-count" aria-live="polite"></div>';
@@ -83,8 +94,8 @@
   rateSel.value = String(rate); if (rateSel.value !== String(rate)) { rate = 1; rateSel.value = "1"; }
 
   function paint() {
-    btn.textContent = playing ? "\u23F8\uFE0F Pause reading" : (paused ? "\u25B6\uFE0F Resume reading" : "\uD83D\uDD0A Listen to this article \u00B7 " + mins + " min");
-    mainBtn.textContent = playing ? "\u23F8\uFE0F" : "\u25B6\uFE0F";
+    btn.innerHTML = playing ? ICON.pause + "<span>Pause reading</span>" : (paused ? ICON.play + "<span>Resume reading</span>" : ICON.speaker + "<span>Listen to this article \u00B7 " + mins + " min</span>");
+    mainBtn.innerHTML = playing ? ICON.pause : ICON.play;
     countEl.textContent = active ? "Part " + (Math.min(ui, units.length - 1) + 1) + " of " + units.length + " \u00B7 tap any paragraph to start there" : "";
     bar.classList.toggle("on", active);
     document.body.classList.toggle("ra-active", active);
