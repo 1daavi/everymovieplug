@@ -100,66 +100,7 @@
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
-
-    <!-- Read-aloud (browser Web Speech API) -->
-    <script>
-    (function () {
-        var bar = document.getElementById('listenBar');
-        var content = document.getElementById('articleContent');
-        if (!bar || !content || !('speechSynthesis' in window)) { return; }
-        bar.hidden = false;
-
-        var playBtn = document.getElementById('listenPlay');
-        var pauseBtn = document.getElementById('listenPause');
-        var stopBtn = document.getElementById('listenStop');
-        var statusEl = document.getElementById('listenStatus');
-        var synth = window.speechSynthesis;
-        var chunks = [], index = 0, active = false;
-
-        function buildChunks() {
-            var title = document.querySelector('.article-header h1');
-            var text = (title ? title.textContent + '. ' : '') + content.innerText;
-            var sentences = text.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]*\s*/g) || [text];
-            var out = [], buf = '';
-            sentences.forEach(function (s) {
-                if ((buf + s).length > 200 && buf) { out.push(buf); buf = s; }
-                else { buf += s; }
-            });
-            if (buf) { out.push(buf); }
-            return out;
-        }
-
-        function setUI(state) {
-            playBtn.disabled = state !== 'idle';
-            pauseBtn.disabled = state === 'idle';
-            stopBtn.disabled = state === 'idle';
-            pauseBtn.innerHTML = state === 'paused' ? '&#9654; Resume' : '&#10073;&#10073; Pause';
-            statusEl.textContent = state === 'playing' ? 'Reading…' : state === 'paused' ? 'Paused' : '';
-        }
-
-        function speakNext() {
-            if (!active || index >= chunks.length) { active = false; setUI('idle'); return; }
-            var u = new SpeechSynthesisUtterance(chunks[index++]);
-            u.lang = document.documentElement.lang || 'en';
-            u.onend = speakNext;
-            u.onerror = function () { active = false; setUI('idle'); };
-            synth.speak(u);
-        }
-
-        playBtn.addEventListener('click', function () {
-            synth.cancel();
-            chunks = buildChunks(); index = 0; active = true;
-            setUI('playing'); speakNext();
-        });
-        pauseBtn.addEventListener('click', function () {
-            if (synth.paused) { synth.resume(); setUI('playing'); }
-            else { synth.pause(); setUI('paused'); }
-        });
-        stopBtn.addEventListener('click', function () {
-            active = false; synth.cancel(); setUI('idle');
-        });
-        window.addEventListener('beforeunload', function () { synth.cancel(); });
-    })();
-    </script>
+<!-- Read-aloud (browser Web Speech API) -->
+     <script src="read-aloud.js" defer></script>
 </body>
 </html>
