@@ -418,16 +418,64 @@
             href: new URL(a.getAttribute("href"), base).href,
             img: img ? new URL(img.getAttribute("src"), base).href : "",
             alt: img?.getAttribute("alt") || "",
-            title: a.querySelector(".article-title")?.textContent.trim() || "Untitled"
+            title: a.querySelector(".article-title")?.textContent.trim() || "Untitled",
+            excerpt: a.querySelector(".article-excerpt")?.textContent.trim() || ""
           };
         }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, 5);
         if (!items.length) throw new Error("No articles found");
-        box.innerHTML = items.map(a => `<a class="mcard glass" href="${esc(a.href)}" aria-label="Read ${esc(a.title)}">
+        ARTICLES = items;
+        box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openArticle(event,${n})" aria-label="Preview ${esc(a.title)}">
           <div class="poster">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy">` : ""}</div>
           <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`).join("");
       } catch (e) {
         box.innerHTML = '<p class="note">Couldn’t load articles right now. <a href="articles.html" style="text-decoration:underline">Browse all articles</a>.</p>';
       }
+    }
+
+    /* ===== Article preview popup (reuses the movie popup shell) ===== */
+    let ARTICLES = [], ARTICLE_TOK = 0;
+    function openArticle(ev, n) {
+      if (ev && (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button > 0)) return true; // let "open in new tab" work normally
+      const a = ARTICLES[n]; if (!a) return true;
+      const tok = ++ARTICLE_TOK;
+      $("modal").classList.add("open"); document.body.style.overflow = "hidden";
+      const hero = a.img ? `<div class="m-hero" style="background-image:url('${esc(a.img.replace(/'/g, "%27"))}')"></div>` : '<div class="m-hero none"></div>';
+      const draw = (summary, mins) => {
+        if (tok !== ARTICLE_TOK) return;
+        $("modalBody").innerHTML = `${hero}
+          <div class="m-body">
+            <div class="m-title"><div><h3>${esc(a.title)}</h3><p>${esc(a.date)} · Every Movie Plug${mins ? " · " + mins + " min read" : ""}</p></div></div>
+            <div class="m-tags"><span class="tag">Article</span></div>
+            ${summary ? `<p>${esc(summary)}</p>` : ""}
+            <div class="m-links">
+              <a class="chip primary" href="${esc(a.href)}">Continue reading &rarr;</a>
+              <a class="chip" href="articles.html">More articles</a>
+              <button class="chip" onclick="shareArticle(${n}, this)">&#128279; Share</button>
+              <a class="chip" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">Discuss on X</a>
+            </div>
+          </div>`;
+      };
+      draw(a.excerpt, 0);
+      // Pull a richer summary + reading time from the article itself
+      if (a.summary !== undefined) { draw(a.summary || a.excerpt, a.mins); return false; }
+      fetch(a.href).then(r => r.ok ? r.text() : Promise.reject()).then(html => {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const meta = (doc.querySelector('meta[name="description"]') || doc.querySelector('meta[property="og:description"]'))?.content?.trim();
+        const root = doc.querySelector("article") || doc.querySelector("main") || doc.body;
+        const paras = [...root.querySelectorAll("p")].map(p => p.textContent.replace(/\s+/g, " ").trim()).filter(t => t.length > 60);
+        let summary = meta || "";
+        for (let i = 0; i < paras.length && summary.length < 220; i++) if (!summary.includes(paras[i])) summary += (summary ? " " : "") + paras[i];
+        if (summary.length > 420) summary = summary.slice(0, 420).replace(/\s+\S*$/, "") + "…";
+        const words = root.textContent.trim().split(/\s+/).length, mins = words > 150 ? Math.max(1, Math.round(words / 220)) : 0;
+        a.summary = summary; a.mins = mins;
+        draw(summary || a.excerpt, mins);
+      }).catch(() => { a.summary = ""; a.mins = 0; });
+      return false;
+    }
+    function shareArticle(n, btn) {
+      const a = ARTICLES[n]; if (!a) return;
+      if (navigator.share) { navigator.share({ title: a.title, url: a.href }).catch(() => {}); return; }
+      navigator.clipboard.writeText(a.href).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", a.href));
     }
     $("featured") && loadRows();
     $("rowArticles") && loadArticles();
@@ -636,7 +684,7 @@ function setHash(type, id, title, fromHash) {
         loadDeepLinks(type, id, REGION).then(renderWatch);
       } catch (e) { $("modalBody").innerHTML = `<div class="m-load" style="color:#fbbf24">${esc(e.message)}</div>`; }
     }
-    function closeModal(fromPop) { $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
+    function closeModal(fromPop) { ARTICLE_TOK++; $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
 
     /* ---- Follower count ---- */
     document.addEventListener("DOMContentLoaded", () => {
