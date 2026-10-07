@@ -452,6 +452,37 @@ function setHash(type, id, title, fromHash) {
       const pct = Math.round(score * 10), col = score >= 7 ? "#34d399" : score >= 5 ? "#fbbf24" : "#f87171";
       return `<div style="flex:none;width:${size}px;height:${size}px;background:conic-gradient(${col} ${pct}%,rgba(255,255,255,.12) 0);border-radius:50%;padding:4px"><div style="width:100%;height:100%;border-radius:50%;background:#0c0c14;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:${size / 3.4}px">${pct}<span style="font-size:.55em;opacity:.6">%</span></div></div>`;
     }
+
+    const PROVIDER_LINKS = [
+      [/netflix/i, q => `https://www.netflix.com/search?q=${q}`],
+      [/amazon prime|prime video|amazon video/i, q => `https://www.primevideo.com/search/?phrase=${q}`],
+      [/apple tv/i, q => `https://tv.apple.com/search?term=${q}`],
+      [/disney/i, q => `https://www.disneyplus.com/search?q=${q}`],
+      [/\bmax\b|hbo/i, q => `https://play.max.com/search?q=${q}`],
+      [/hulu/i, q => `https://www.hulu.com/search?q=${q}`],
+      [/paramount/i, q => `https://www.paramountplus.com/search/?q=${q}`],
+      [/peacock/i, q => `https://www.peacocktv.com/search?q=${q}`],
+      [/youtube/i, q => `https://www.youtube.com/results?search_query=${q}`],
+      [/google play/i, q => `https://play.google.com/store/search?q=${q}&c=movies`],
+      [/tubi/i, q => `https://tubitv.com/search/${q}`],
+      [/pluto/i, q => `https://pluto.tv/search/details?query=${q}`],
+      [/mubi/i, q => `https://mubi.com/en/search/films?query=${q}`],
+      [/crunchyroll/i, q => `https://www.crunchyroll.com/search?q=${q}`],
+      [/showmax/i, q => `https://www.showmax.com/eng/search?q=${q}`],
+      [/shudder/i, q => `https://www.shudder.com/search?q=${q}`],
+      [/starz/i, q => `https://www.starz.com/us/en/search?q=${q}`],
+      [/amc\+|amc plus/i, q => `https://www.amcplus.com/search?q=${q}`],
+      [/bbc iplayer/i, q => `https://www.bbc.co.uk/iplayer/search?q=${q}`],
+      [/plex/i, q => `https://watch.plex.tv/search?q=${q}`],
+      [/fandango|vudu/i, q => `https://www.fandangoathome.com/search?searchString=${q}`],
+      [/criterion/i, q => `https://www.criterionchannel.com/search?q=${q}`]
+    ];
+    // TMDB's API only returns a JustWatch/TMDB redirect, so build a direct search link on the provider's own site instead.
+    function providerUrl(p, title) {
+      const q = encodeURIComponent(title || ""), hit = PROVIDER_LINKS.find(([re]) => re.test(p.provider_name));
+      return hit ? hit[1](q) : `https://www.google.com/search?q=${encodeURIComponent("watch " + (title || "") + " on " + p.provider_name)}`;
+    }
+    
     function renderWatch() {
       const sel = $("mRegion"), box = $("mWatch"); if (!sel || !box) return;
       const codes = Object.keys(WATCH).sort((a, b) => regionName(a).localeCompare(regionName(b)));
@@ -459,7 +490,7 @@ function setHash(type, id, title, fromHash) {
       if (!WATCH[REGION]) codes.unshift(REGION);
       sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
       const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
-      const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, l]) => `<div class="w-row"><span>${l}</span><div class="w-logos">${w[k].map(p => `<a href="${esc(w.link)}" target="_blank" rel="noopener noreferrer" title="${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy"></a>`).join("")}</div></div>`).join("") : "";
+      const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, l]) => `<div class="w-row"><span>${l}</span><div class="w-logos">${w[k].map(p => `<a href="${esc(providerUrl(p, CUR && CUR.title))}" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy"></a>`).join("")}</div></div>`).join("") : "";
       box.innerHTML = rows || `<p class="m-credit">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
     }
     function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); }
