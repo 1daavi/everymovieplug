@@ -186,6 +186,19 @@
     .ph-2 { background: linear-gradient(135deg, rgba(245, 158, 11, 0.40), rgba(99, 102, 241, 0.25)); }
     .ph-3 { background: linear-gradient(135deg, rgba(168, 85, 247, 0.45), rgba(245, 158, 11, 0.20)); }
     .ph-4 { background: linear-gradient(135deg, rgba(52, 211, 153, 0.35), rgba(99, 102, 241, 0.30)); }
+
+    /* Search */
+    .search-wrap { position: relative; margin-top: 1.5rem; }
+    .search-wrap input { width: 100%; box-sizing: border-box; padding: .85rem 2.75rem .85rem 2.75rem; border-radius: 9999px; background: var(--glass-card-bg); border: 1px solid var(--border-color); color: var(--text-primary); font: inherit; font-size: 1rem; outline: none; transition: border-color .3s ease; -webkit-appearance: none; }
+    .search-wrap input::placeholder { color: var(--text-secondary); }
+    .search-wrap input:focus { border-color: rgba(168, 85, 247, 0.5); }
+    .search-wrap input::-webkit-search-cancel-button { display: none; }
+    .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-secondary); pointer-events: none; }
+    .search-clear { position: absolute; right: .6rem; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(255,255,255,.08); color: var(--text-secondary); font-size: 1rem; line-height: 1; cursor: pointer; }
+    .search-clear[hidden], .article-card[hidden], .no-results[hidden] { display: none; }
+    .search-count { margin-top: .75rem; font-size: .8rem; color: var(--text-secondary); min-height: 1.2em; }
+    .no-results { text-align: center; color: var(--text-secondary); padding: 2.5rem 1rem; border: 1px dashed var(--border-color); border-radius: 16px; }
+    header { margin-bottom: 2rem; }
   </style>
 </head>
 <body>
@@ -194,6 +207,12 @@
   <header>
     <h1>Latest Articles</h1>
     <p style="color: var(--text-secondary);">Insights, movie breakdowns, and news.</p>
+    <div class="search-wrap" role="search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="articleSearch" type="search" placeholder="Search articles, movies, topics…" aria-label="Search articles" autocomplete="off" enterkeyhint="search">
+      <button id="searchClear" class="search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+    </div>
+    <div id="searchCount" class="search-count" aria-live="polite"></div>
   </header>
 
  <main class="articles-grid">
@@ -341,6 +360,7 @@
       <p class="article-excerpt">From child prodigies to Hollywood royalty.</p>
     </div>
   </a>
+  <p class="no-results" id="noResults" hidden>No articles match your search. Try a different movie title or keyword.</p>
 </main>
 
   <footer class="site-footer">
@@ -354,5 +374,34 @@
     </nav>
     <p>&copy; Every Movie Plug</p>
   </footer>
+
+  <script>
+    (function () {
+      var input = document.getElementById("articleSearch"), clear = document.getElementById("searchClear"),
+          count = document.getElementById("searchCount"), none = document.getElementById("noResults"),
+          cards = Array.prototype.slice.call(document.querySelectorAll(".article-card"));
+      var norm = function (s) { return String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim(); };
+      var index = cards.map(function (c) {
+        var img = c.querySelector("img");
+        return norm(c.textContent + " " + (img ? img.getAttribute("alt") : ""));
+      });
+      function run() {
+        var words = norm(input.value).split(" ").filter(Boolean), shown = 0;
+        cards.forEach(function (c, i) {
+          var ok = words.every(function (w) { return index[i].indexOf(w) !== -1; });
+          c.hidden = !ok; if (ok) shown++;
+        });
+        clear.hidden = !input.value;
+        none.hidden = shown !== 0;
+        count.textContent = words.length ? shown + " " + (shown === 1 ? "article" : "articles") + " found" : "";
+        try { var u = new URL(location.href); if (input.value.trim()) u.searchParams.set("q", input.value.trim()); else u.searchParams.delete("q"); history.replaceState(null, "", u); } catch (e) {}
+      }
+      input.addEventListener("input", run);
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") input.blur(); });
+      clear.addEventListener("click", function () { input.value = ""; run(); input.focus(); });
+      var q = new URLSearchParams(location.search).get("q");
+      if (q) { input.value = q; run(); }
+    })();
+  </script>
 </body>
 </html>

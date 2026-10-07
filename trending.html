@@ -215,7 +215,7 @@ const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "re
 const PROVIDER_LINKS = [
   // [name pattern, web search URL, Android app package (optional)]
   [/netflix/i, q => `https://www.netflix.com/search?q=${q}`, "com.netflix.mediaclient"],
-  [/amazon prime|prime video|amazon video/i, q => `https://www.primevideo.com/search/?phrase=${q}`, "com.amazon.avod.thirdpartyclient"],
+  [/amazon prime|prime video|amazon video|^amazon$/i, q => `https://www.primevideo.com/search/?phrase=${q}`, "com.amazon.avod.thirdpartyclient"],
   [/apple tv|itunes/i, q => `https://tv.apple.com/search?term=${q}`, "com.apple.atve.androidtv.appletv"],
   [/disney/i, q => `https://www.disneyplus.com/search?q=${q}`, "com.disney.disneyplus"],
   [/\bmax\b|hbo/i, q => `https://play.max.com/search?q=${q}`, "com.wbd.stream"],
@@ -277,6 +277,34 @@ function openProvider(e, a) {
   location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
 }
 
+// OPTIONAL: free key from api.watchmode.com. With it, each streaming logo opens the movie/show's own page in the app
+// (TMDB can't provide that). Without it, logos fall back to a search on the service's site.
+const WATCHMODE_API_KEY = "";
+const DEEP = {};
+const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
+async function loadDeepLinks(type, id, region) {
+  if (!WATCHMODE_API_KEY) return;
+  const ck = `wm:${type}:${id}:${region}`;
+  if (DEEP[ck]) return;
+  try {
+    const cached = sessionStorage.getItem(ck);
+    if (cached) { DEEP[ck] = JSON.parse(cached); return; }
+    const sr = await (await fetch(`https://api.watchmode.com/v1/search/?apiKey=${WATCHMODE_API_KEY}&search_field=tmdb_${type}_id&search_value=${id}`)).json();
+    const wid = sr.title_results && sr.title_results[0] && sr.title_results[0].id;
+    if (!wid) { DEEP[ck] = []; return; }
+    const src = await (await fetch(`https://api.watchmode.com/v1/title/${wid}/sources/?apiKey=${WATCHMODE_API_KEY}&regions=${region}`)).json();
+    DEEP[ck] = Array.isArray(src) ? src : [];
+    try { sessionStorage.setItem(ck, JSON.stringify(DEEP[ck])); } catch {}
+  } catch { DEEP[ck] = []; }
+}
+function deepLink(p, group) {
+  if (!CUR) return null;
+  const list = DEEP[`wm:${CUR.type}:${CUR.id}:${REGION}`] || [];
+  const hit = providerHit(p), norm = n => String(n).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const same = list.filter(s => s.web_url && ((hit && providerHit({ provider_name: s.name }) === hit) || norm(s.name) === norm(cleanProvider(p.provider_name))));
+  return same.find(s => s.type === WM_TYPE[group]) || same[0] || null;
+}
+
 function renderWatch() {
   const sel = $("mRegion"), box = $("mWatch"); if (!sel || !box) return;
   const codes = Object.keys(WATCH).sort((a, b) => regionName(a).localeCompare(regionName(b)));
@@ -284,10 +312,10 @@ function renderWatch() {
   if (!WATCH[REGION]) codes.unshift(REGION);
   sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
   const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
-  const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, label]) => `<div class="flex items-center gap-3 flex-wrap"><span class="w-24 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-slate-500">${label}</span><div class="flex flex-wrap gap-2">${w[k].map(p => `<a href="${esc(providerUrl(p, CUR && CUR.title))}" data-pkg="${esc(providerPkg(p))}" onclick="openProvider(event,this)" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy" class="w-10 h-10 rounded-xl border border-white/10 hover:scale-110 transition-transform"></a>`).join("")}</div></div>`).join("") : "";
+  const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, label]) => `<div class="flex items-center gap-3 flex-wrap"><span class="w-24 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-slate-500">${label}</span><div class="flex flex-wrap gap-2">${w[k].map(p => `<a href="${esc((deepLink(p, k) || {}).web_url || providerUrl(p, CUR && CUR.title))}" data-pkg="${esc(providerPkg(p))}" onclick="openProvider(event,this)" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy" class="w-10 h-10 rounded-xl border border-white/10 hover:scale-110 transition-transform"></a>`).join("")}</div></div>`).join("") : "";
   box.innerHTML = rows || `<p class="text-xs text-slate-500">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
 }
-function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); }
+async function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); if (CUR) { await loadDeepLinks(CUR.type, CUR.id, REGION); renderWatch(); } }
 function playTrailer(k) {
   const h = $("mHero"); if (!h || !/^[\w-]+$/.test(k)) return;
   h.removeAttribute("style"); h.className = "w-full rounded-t-3xl overflow-hidden bg-black";
@@ -377,6 +405,7 @@ async function openModal(type, id, fromHash) {
        
       </div>`;
     renderWatch();
+    loadDeepLinks(type, id, REGION).then(renderWatch);
   } catch (e) { $("modalBody").innerHTML = `<div class="p-12 text-center text-amber-400 text-sm">${esc(e.message)}</div>`; }
 }
 function closeModal(fromPop) { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
