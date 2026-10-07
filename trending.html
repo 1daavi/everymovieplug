@@ -182,9 +182,9 @@ async function load() {
 
 const ringColor = s => s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171";
 function ring(score, size = 44) {
-  if (!score) return `<span class="inline-flex items-center rounded-full bg-black/70 backdrop-blur border border-white/15 px-2.5 py-1 text-[11px] font-bold text-slate-400">NR</span>`;
+  if (!score) return `<span class="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-black/70 border border-white/15 px-2.5 py-1 text-[11px] font-bold text-slate-400">NR</span>`;
   const big = size > 50;
-  return `<span class="inline-flex items-center gap-1 rounded-full bg-black/70 backdrop-blur border border-white/15 font-bold ${big ? "px-3.5 py-1.5 text-base" : "px-2.5 py-1 text-[11px]"}" style="color:${ringColor(score)}">&#9733; ${score.toFixed(1)}</span>`;
+  return `<span class="inline-flex shrink-0 items-center gap-1 whitespace-nowrap leading-none rounded-full bg-black/70 border border-white/15 font-bold ${big ? "px-3 py-1.5 text-sm" : "px-2.5 py-1 text-[11px]"}" style="color:${ringColor(score)}">&#9733; ${score.toFixed(1)}</span>`;
 }
 
 function card(item, type, genres) {
@@ -213,20 +213,21 @@ let REGION = (() => {
 const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
 
 const PROVIDER_LINKS = [
-  [/netflix/i, q => `https://www.netflix.com/search?q=${q}`],
-  [/amazon prime|prime video|amazon video/i, q => `https://www.primevideo.com/search/?phrase=${q}`],
-  [/apple tv/i, q => `https://tv.apple.com/search?term=${q}`],
-  [/disney/i, q => `https://www.disneyplus.com/search?q=${q}`],
-  [/\bmax\b|hbo/i, q => `https://play.max.com/search?q=${q}`],
-  [/hulu/i, q => `https://www.hulu.com/search?q=${q}`],
-  [/paramount/i, q => `https://www.paramountplus.com/search/?q=${q}`],
-  [/peacock/i, q => `https://www.peacocktv.com/search?q=${q}`],
-  [/youtube/i, q => `https://www.youtube.com/results?search_query=${q}`],
-  [/google play/i, q => `https://play.google.com/store/search?q=${q}&c=movies`],
-  [/tubi/i, q => `https://tubitv.com/search/${q}`],
-  [/pluto/i, q => `https://pluto.tv/search/details?query=${q}`],
-  [/mubi/i, q => `https://mubi.com/en/search/films?query=${q}`],
-  [/crunchyroll/i, q => `https://www.crunchyroll.com/search?q=${q}`],
+  // [name pattern, web search URL, Android app package (optional)]
+  [/netflix/i, q => `https://www.netflix.com/search?q=${q}`, "com.netflix.mediaclient"],
+  [/amazon prime|prime video|amazon video/i, q => `https://www.primevideo.com/search/?phrase=${q}`, "com.amazon.avod.thirdpartyclient"],
+  [/apple tv|itunes/i, q => `https://tv.apple.com/search?term=${q}`, "com.apple.atve.androidtv.appletv"],
+  [/disney/i, q => `https://www.disneyplus.com/search?q=${q}`, "com.disney.disneyplus"],
+  [/\bmax\b|hbo/i, q => `https://play.max.com/search?q=${q}`, "com.wbd.stream"],
+  [/hulu/i, q => `https://www.hulu.com/search?q=${q}`, "com.hulu.plus"],
+  [/paramount/i, q => `https://www.paramountplus.com/search/?q=${q}`, "com.cbs.app"],
+  [/peacock/i, q => `https://www.peacocktv.com/search?q=${q}`, "com.peacocktv.peacockandroid"],
+  [/youtube/i, q => `https://www.youtube.com/results?search_query=${q}`, "com.google.android.youtube"],
+  [/google play/i, q => `https://play.google.com/store/search?q=${q}&c=movies`, "com.android.vending"],
+  [/tubi/i, q => `https://tubitv.com/search/${q}`, "com.tubitv"],
+  [/pluto/i, q => `https://pluto.tv/search/details?query=${q}`, "tv.pluto.android"],
+  [/mubi/i, q => `https://mubi.com/en/search/films?query=${q}`, "com.mubi"],
+  [/crunchyroll/i, q => `https://www.crunchyroll.com/search?q=${q}`, "com.crunchyroll.crunchyroid"],
   [/showmax/i, q => `https://www.showmax.com/eng/search?q=${q}`],
   [/shudder/i, q => `https://www.shudder.com/search?q=${q}`],
   [/starz/i, q => `https://www.starz.com/us/en/search?q=${q}`],
@@ -234,12 +235,46 @@ const PROVIDER_LINKS = [
   [/bbc iplayer/i, q => `https://www.bbc.co.uk/iplayer/search?q=${q}`],
   [/plex/i, q => `https://watch.plex.tv/search?q=${q}`],
   [/fandango|vudu/i, q => `https://www.fandangoathome.com/search?searchString=${q}`],
-  [/criterion/i, q => `https://www.criterionchannel.com/search?q=${q}`]
+  [/criterion/i, q => `https://www.criterionchannel.com/search?q=${q}`],
+  [/kanopy/i, q => `https://www.kanopy.com/en/search?query=${q}`],
+  [/hoopla/i, q => `https://www.hoopladigital.com/search?q=${q}`],
+  [/britbox/i, q => `https://www.britbox.com/us/search?q=${q}`],
+  [/mgm\+|mgm plus/i, q => `https://www.mgmplus.com/search?q=${q}`],
+  [/roku channel/i, q => `https://therokuchannel.roku.com/search/${q}`],
+  [/microsoft store/i, q => `https://www.microsoft.com/en-us/search/shop/movies?q=${q}`],
+  [/viki/i, q => `https://www.viki.com/search?q=${q}`],
+  [/hotstar/i, q => `https://www.hotstar.com/in/search?q=${q}`],
+  [/zee5/i, q => `https://www.zee5.com/search?q=${q}`],
+  [/sony ?liv/i, q => `https://www.sonyliv.com/search?q=${q}`],
+  [/itvx|itv hub/i, q => `https://www.itv.com/watch/search?q=${q}`],
+  [/channel 4/i, q => `https://www.channel4.com/search?q=${q}`],
+  [/my5|channel 5/i, q => `https://www.channel5.com/search?q=${q}`],
+  [/^now( tv)?$|sky go/i, q => `https://www.nowtv.com/search?q=${q}`],
+  [/^stan$/i, q => `https://www.stan.com.au/search?q=${q}`],
+  [/binge/i, q => `https://binge.com.au/search?q=${q}`],
+  [/crave/i, q => `https://www.crave.ca/en/search?q=${q}`],
+  [/viaplay/i, q => `https://viaplay.com/search?query=${q}`],
+  [/arte/i, q => `https://www.arte.tv/en/search/?q=${q}`],
+  [/gaia/i, q => `https://www.gaia.com/search?q=${q}`]
 ];
-// TMDB's API only returns a JustWatch/TMDB redirect, so build a direct search link on the provider's own site instead.
+// "Max Amazon Channel", "Paramount Plus Apple TV Channel" etc. are add-ons: use the brand itself.
+const cleanProvider = n => String(n || "").replace(/\s+(amazon|apple tv|roku premium|prime video)\s+channel$/i, "").trim();
+const providerHit = p => PROVIDER_LINKS.find(([re]) => re.test(cleanProvider(p.provider_name)));
+// TMDB's API only returns a JustWatch/TMDB redirect, so build a direct link on the provider's own site instead.
 function providerUrl(p, title) {
-  const q = encodeURIComponent(title || ""), hit = PROVIDER_LINKS.find(([re]) => re.test(p.provider_name));
-  return hit ? hit[1](q) : `https://www.google.com/search?q=${encodeURIComponent("watch " + (title || "") + " on " + p.provider_name)}`;
+  const hit = providerHit(p);
+  if (hit) return hit[1](encodeURIComponent(title || ""));
+  // Unknown service: Google "I'm Feeling Lucky" jumps to the top result (the service's own site) rather than a results page.
+  return `https://www.google.com/search?btnI=1&q=${encodeURIComponent(cleanProvider(p.provider_name) + " " + (title || "") + " watch official site")}`;
+}
+const providerPkg = p => (providerHit(p) || [])[2] || "";
+// On Android, hand off straight to the installed app; if it isn't installed Chrome opens the website instead.
+function openProvider(e, a) {
+  const pkg = a.dataset.pkg;
+  if (!pkg || !/android/i.test(navigator.userAgent)) return;
+  e.preventDefault();
+  const u = new URL(a.href);
+  location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
 }
 
 function renderWatch() {
@@ -249,7 +284,7 @@ function renderWatch() {
   if (!WATCH[REGION]) codes.unshift(REGION);
   sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
   const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
-  const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, label]) => `<div class="flex items-center gap-3 flex-wrap"><span class="w-24 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-slate-500">${label}</span><div class="flex flex-wrap gap-2">${w[k].map(p => `<a href="${esc(providerUrl(p, CUR && CUR.title))}" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy" class="w-10 h-10 rounded-xl border border-white/10 hover:scale-110 transition-transform"></a>`).join("")}</div></div>`).join("") : "";
+  const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, label]) => `<div class="flex items-center gap-3 flex-wrap"><span class="w-24 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-slate-500">${label}</span><div class="flex flex-wrap gap-2">${w[k].map(p => `<a href="${esc(providerUrl(p, CUR && CUR.title))}" data-pkg="${esc(providerPkg(p))}" onclick="openProvider(event,this)" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy" class="w-10 h-10 rounded-xl border border-white/10 hover:scale-110 transition-transform"></a>`).join("")}</div></div>`).join("") : "";
   box.innerHTML = rows || `<p class="text-xs text-slate-500">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
 }
 function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); }
