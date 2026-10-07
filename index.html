@@ -480,10 +480,10 @@ function setHash(type, id, title, fromHash) {
     const magnetBtn = m => (typeof m === "string" && m.startsWith("magnet:?")) ? `<a href="${esc(m)}" class="chip primary" title="Opens in your torrent app">&#11015; Download (Magnet)</a>` : "";
     let REGION = (() => { try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {} const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean); return (r || "US").toUpperCase(); })();
     const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
-    function ring(score, size) {
+    function ring(score) {
       if (!score) return "";
-      const pct = Math.round(score * 10), col = score >= 7 ? "#34d399" : score >= 5 ? "#fbbf24" : "#f87171";
-      return `<div style="flex:none;width:${size}px;height:${size}px;background:conic-gradient(${col} ${pct}%,rgba(255,255,255,.12) 0);border-radius:50%;padding:4px"><div style="width:100%;height:100%;border-radius:50%;background:#0c0c14;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:${size / 3.4}px">${pct}<span style="font-size:.55em;opacity:.6">%</span></div></div>`;
+      const col = score >= 7 ? "#34d399" : score >= 5 ? "#fbbf24" : "#f87171";
+      return `<span style="flex:none;display:inline-flex;align-items:center;gap:.3rem;white-space:nowrap;line-height:1;padding:.4rem .75rem;border-radius:9999px;font-size:.95rem;font-weight:700;color:${col};background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.15)">&#9733; ${score.toFixed(1)}</span>`;
     }
 
     const PROVIDER_LINKS = [
@@ -553,7 +553,7 @@ function setHash(type, id, title, fromHash) {
 
     // OPTIONAL: free key from api.watchmode.com. With it, each streaming logo opens the movie/show's own page in the app
     // (TMDB can't provide that). Without it, logos fall back to a search on the service's site.
-    const WATCHMODE_API_KEY = "";
+    const WATCHMODE_API_KEY = "FmWHKsgW7G29l6FMwYz5dsxlvhzxLdi8Jtku1xI8";
     const DEEP = {};
     const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
     async function loadDeepLinks(type, id, region) {
