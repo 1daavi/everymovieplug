@@ -1,0 +1,19 @@
+   name: Update article cards
+   on:
+     push:
+       paths: ["article/**"]
+     workflow_dispatch:
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       permissions:
+         contents: write
+       steps:
+         - uses: actions/checkout@v4
+         - run: node update-articles.js
+         - run: |
+             git config user.name "github-actions"
+             git config user.email "github-actions@users.noreply.github.com"
+             git add articles.html
+             git commit -m "Add new article card" || exit 0
+             git push
