@@ -130,8 +130,17 @@
     .row + .row { margin-top:2rem; }
     .row[hidden] { display:none; }
 
-    /* Rails: 5-up grid on desktop, snap-scroll carousel on touch/narrow */
-    .rail { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; }
+    /* Rails: snap-scroll carousels (5 visible on desktop, swipe/arrows for the rest) */
+    .rail { display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - 4rem) / 5); gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; padding:8px 2px 16px; margin:-8px -2px -16px; }
+    .rail::-webkit-scrollbar { display:none; }
+    .rail > * { scroll-snap-align:start; }
+    .rail:has(> .note) { display:block; overflow:visible; }
+    .head-r { display:flex; align-items:center; gap:.5rem; }
+    .arrows { display:flex; gap:.4rem; }
+    .arr { width:34px; height:34px; border-radius:50%; border:1px solid var(--border-color); background:var(--glass-card-bg); color:var(--text-primary); font-size:1.05rem; line-height:1; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background .3s,opacity .3s,border-color .3s; }
+    .arr:disabled { opacity:.3; cursor:default; }
+    @media (hover:hover) { .arr:not(:disabled):hover { background:rgba(168,85,247,.2); border-color:rgba(168,85,247,.45); } }
+    @media (hover:none) { .arrows { display:none; } }
     .note { grid-column:1/-1; padding:1.5rem; text-align:center; font-size:.85rem; color:var(--text-secondary); border:1px dashed var(--border-color); border-radius:20px; }
     .mcard { display:block; text-decoration:none; border-radius:20px; overflow:hidden; text-align:left; position:relative; transition:transform .4s var(--ease-out),border-color .3s,box-shadow .4s; }
     .poster { position:relative; aspect-ratio:2/3; background:#111; overflow:hidden; }
@@ -373,7 +382,7 @@
         try {
           const r = await fetchRow(t);
           $(el).innerHTML = r === null ? `<p class="note">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre.</p>`
-            : r.length ? r.slice(0, 5).map(i => card(i, t)).join("") : '<p class="note">Nothing found for this combination yet. Try another genre or country.</p>';
+            : r.length ? r.slice(0, 15).map(i => card(i, t)).join("") : '<p class="note">Nothing found for this combination yet. Try another genre or country.</p>';
         } catch (e) { $(el).innerHTML = `<p class="note">${esc(e.message)}</p>`; }
       }));
     }
@@ -402,7 +411,7 @@
     document.addEventListener("click", e => { if (openBtn && !panel.contains(e.target) && !openBtn.contains(e.target)) closePanel(); });
     document.addEventListener("keydown", e => { if (e.key === "Escape") { closePanel(); closeModal(); } });
     addEventListener("resize", closePanel);
-    /* Latest 5 articles: read straight from articles.html, so a new article added there shows up here automatically. */
+    /* Latest 15 articles: read straight from articles.html, so a new article added there shows up here automatically. */
     async function loadArticles() {
       const box = $("articles"); if (!box) return;
       box.innerHTML = skeleton();
@@ -421,7 +430,7 @@
             title: a.querySelector(".article-title")?.textContent.trim() || "Untitled",
             excerpt: a.querySelector(".article-excerpt")?.textContent.trim() || ""
           };
-        }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, 5);
+        }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, 15);
         if (!items.length) throw new Error("No articles found");
         ARTICLES = items;
         box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openArticle(event,${n})" aria-label="Preview ${esc(a.title)}">
@@ -477,6 +486,20 @@
       if (navigator.share) { navigator.share({ title: a.title, url: a.href }).catch(() => {}); return; }
       navigator.clipboard.writeText(a.href).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", a.href));
     }
+    /* ---- Scroll arrows for each rail (hidden on touch devices, which swipe) ---- */
+    document.querySelectorAll(".row").forEach(row => {
+      const rail = row.querySelector(".rail"), more = row.querySelector(".sec-head .more"); if (!rail || !more) return;
+      const box = document.createElement("div"); box.className = "head-r";
+      const arrows = document.createElement("div"); arrows.className = "arrows";
+      arrows.innerHTML = '<button class="arr" type="button" aria-label="Scroll left">&#8249;</button><button class="arr" type="button" aria-label="Scroll right">&#8250;</button>';
+      more.replaceWith(box); box.append(arrows, more);
+      const [prev, next] = arrows.children;
+      const sync = () => { prev.disabled = rail.scrollLeft < 4; next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4; };
+      const go = d => rail.scrollBy({ left: d * rail.clientWidth * .9, behavior: "smooth" });
+      prev.onclick = () => go(-1); next.onclick = () => go(1);
+      rail.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync);
+      new MutationObserver(sync).observe(rail, { childList: true }); sync();
+    });
     $("featured") && loadRows();
     $("rowArticles") && loadArticles();
 
