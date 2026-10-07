@@ -8,107 +8,119 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/trending.html</loc>
+    <loc>https://everymovieplug.com/trending</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/articles.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <loc>https://everymovieplug.com/articles</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/about.html</loc>
+    <loc>https://everymovieplug.com/about</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/privacy-policy.html</loc>
+    <loc>https://everymovieplug.com/privacy-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/terms-of-service.html</loc>
+    <loc>https://everymovieplug.com/terms-of-service</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- Articles -->
   <url>
-    <loc>https://everymovieplug.com/article/sicario-3.html</loc>
+    <loc>https://everymovieplug.com/article/harry-potter-tv-series-2026</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/article/harry-potter-film-series-legacy</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/article/sicario-3</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/Tom-Cruise-Digger.html</loc>
+    <loc>https://everymovieplug.com/article/Tom-Cruise-Digger</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/undercover-brother.html</loc>
+    <loc>https://everymovieplug.com/article/undercover-brother</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/avengers-endgame-retakes-box-office-crown.html</loc>
+    <loc>https://everymovieplug.com/article/avengers-endgame-retakes-box-office-crown</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/no-stars-no-problem.html</loc>
+    <loc>https://everymovieplug.com/article/no-stars-no-problem</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/fast-forever.html</loc>
+    <loc>https://everymovieplug.com/article/fast-forever</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/apocalypto-2006.html</loc>
+    <loc>https://everymovieplug.com/article/apocalypto-2006</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/inception-dream-logic-explained.html</loc>
+    <loc>https://everymovieplug.com/article/inception-dream-logic-explained</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/denis-villeneuve-tension-sound-design.html</loc>
+    <loc>https://everymovieplug.com/article/denis-villeneuve-tension-sound-design</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/coherence-single-location-thrillers.html</loc>
+    <loc>https://everymovieplug.com/article/coherence-single-location-thrillers</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/anatomy-of-a-great-movie-twist.html</loc>
+    <loc>https://everymovieplug.com/article/anatomy-of-a-great-movie-twist</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/zendaya-tom-holland-story.html</loc>
+    <loc>https://everymovieplug.com/article/zendaya-tom-holland-story</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/spider-man-brand-new-day.html</loc>
+    <loc>https://everymovieplug.com/article/spider-man-brand-new-day</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
