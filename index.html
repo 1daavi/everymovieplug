@@ -483,10 +483,16 @@
       }).catch(() => { a.summary = ""; a.mins = 0; });
       return false;
     }
+    /* Shared links drop the .html ending: /article/name.html -> /article/name */
+    function cleanArticleUrl(href) {
+      try { const u = new URL(href, location.href); u.pathname = u.pathname.replace(/\.html$/i, ""); return u.toString(); }
+      catch (e) { return href; }
+    }
     function shareArticle(n, btn) {
       const a = ARTICLES[n]; if (!a) return;
-      if (navigator.share) { navigator.share({ title: a.title, url: a.href }).catch(() => {}); return; }
-      navigator.clipboard.writeText(a.href).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", a.href));
+      const url = cleanArticleUrl(a.href);
+      if (navigator.share) { navigator.share({ title: a.title, url }).catch(() => {}); return; }
+      navigator.clipboard.writeText(url).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", url));
     }
     /* ---- Scroll arrows for each rail (hidden on touch devices, which swipe) ---- */
     document.querySelectorAll(".row").forEach(row => {
