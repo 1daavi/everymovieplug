@@ -17,6 +17,7 @@ const args = Object.fromEntries(
 );
 const LISTING = args.listing || "articles.html"; // page that shows the cards
 const DIR = args.dir || "article";               // folder with your articles
+const ASSETS = args.assets || "articleassets";   // folder with your images
 const SKIP = ["index.html"];                     // files to ignore
 const SITE = /^https?:\/\/(www\.)?everymovieplug\.com\//i; // your own domain
 
@@ -50,7 +51,12 @@ function getTitle(html) {
 }
 
 function getExcerpt(html) {
-  let e = meta(html, ["description", "og:description", "twitter:description"]);
+  // 1) the subtitle shown under the headline
+  let e = "";
+  const sub = html.match(/<p[^>]*class=["'][^"']*article-subtitle[^"']*["'][^>]*>([\s\S]*?)<\/p>/i);
+  if (sub) e = clean(sub[1]);
+  // 2) meta description  3) first long paragraph in the body
+  if (!e) e = meta(html, ["description", "og:description", "twitter:description"]);
   if (!e) {
     const body = html.replace(/<(script|style|nav|header|footer)[\s\S]*?<\/\1>/gi, "");
     for (const m of body.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)) {
@@ -58,21 +64,38 @@ function getExcerpt(html) {
       if (txt.length > 60) { e = txt; break; }
     }
   }
-  return e.length > 180 ? e.slice(0, 177).replace(/\s+\S*$/, "") + "…" : e;
+  return e.length > 200 ? e.slice(0, 197).replace(/\s+\S*$/, "") + "…" : e;
 }
 
 function getImage(html, file) {
-  let src = meta(html, ["og:image", "twitter:image"]);
-  if (!src) {
-    const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (m) src = decode(m[1]);
+  const root = path.dirname(path.resolve(LISTING));
+  const cands = [meta(html, ["og:image"]), meta(html, ["twitter:image"])];
+  const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (m) cands.push(decode(m[1]));
+  const list = cands.filter(Boolean).map(c => c.replace(SITE, "/"));
+  if (!list.length) return "";
+
+  const toListing = abs => path.relative(root, abs).split(path.sep).join("/");
+  const exists = p => { try { return fs.statSync(p).isFile(); } catch (e) { return false; } };
+
+  for (const src of list) {
+    if (src.startsWith("data:") || /^(https?:)?\/\//i.test(src)) continue; // external: handled below
+    let clean = src.split(/[?#]/)[0];
+    try { clean = decodeURIComponent(clean); } catch (e) {}
+    const tries = [
+      clean.startsWith("/") ? path.join(root, clean) : path.resolve(path.dirname(file), clean), // as written
+      path.resolve(root, clean.replace(/^\//, "")),                                           // from site root
+      path.join(root, ASSETS, path.basename(clean)),                                          // by file name in articleassets/
+    ];
+    const hit = tries.find(exists);
+    if (hit) return toListing(hit);
   }
-  if (!src) return "";
-  src = src.replace(SITE, "/");
-  if (/^(https?:)?\/\//i.test(src) || src.startsWith("data:") || src.startsWith("/")) return src;
-  // relative to the article file -> make relative to the listing page
-  const abs = path.resolve(path.dirname(file), src);
-  return path.relative(path.dirname(path.resolve(LISTING)), abs).split(path.sep).join("/");
+  // nothing found on disk: use the first image as a site-root path, never an article/ path
+  const first = list[0];
+  if (/^(https?:)?\/\//i.test(first) || first.startsWith("data:")) return first;
+  const base = decodeURIComponent(first.split(/[?#]/)[0].split("/").pop());
+  console.warn(`  ! Image not found on disk for ${path.basename(file)}; using ${ASSETS}/${base}`);
+  return `${ASSETS}/${base}`;
 }
 
 function getDate(html, file) {
