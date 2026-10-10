@@ -1,3 +1,3 @@
+url: "https://everymovieplug.com"   # no trailing slash
 plugins:
   - jekyll-sitemap
-url: "https://everymovieplug.com"
