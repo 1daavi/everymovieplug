@@ -13,9 +13,238 @@
     <meta property="og:url" content="https://everymovieplug.com/news/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/articles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://image.tmdb.org" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
     <style>
-        .news-item { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(128, 128, 128, 0.3); }
-        .news-item h2 a { text-decoration: none; }
+        :root {
+            --bg: #f5f2ee;
+            --text: #1d1a1f;
+            --muted: #6a636d;
+            --tile: #ffffff;
+            --tile-edge: rgba(29, 26, 31, 0.10);
+            --accent: #b3202e;
+            --accent-ink: #ffffff;
+            --shadow: 0 1px 2px rgba(29, 26, 31, 0.08);
+            --shadow-hover: 0 18px 40px -12px rgba(29, 26, 31, 0.35);
+            --ph-a: #d9d2dc;
+            --ph-b: #bdb3c4;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #16131a;
+                --text: #f1ecf3;
+                --muted: #a79fb0;
+                --tile: #221e29;
+                --tile-edge: rgba(241, 236, 243, 0.10);
+                --accent: #f0b84a;
+                --accent-ink: #1d1503;
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+                --shadow-hover: 0 22px 44px -12px rgba(0, 0, 0, 0.75);
+                --ph-a: #332d3c;
+                --ph-b: #261f2e;
+            }
+        }
+
+        body { background: var(--bg); color: var(--text); }
+
+        .news-page { width: min(1240px, 100% - 2.5rem); margin: 0 auto; padding: 2rem 0 4rem; }
+        .news-page header { margin-bottom: 2rem; }
+        .news-page h1 {
+            font-family: "Bricolage Grotesque", system-ui, sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin: 0 0 0.5rem;
+        }
+        .news-page .subtitle { margin: 0; color: var(--muted); font-size: 1.05rem; }
+
+        /* ---------- Grid ---------- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        @media (max-width: 960px) { .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 520px) { .news-grid { grid-template-columns: minmax(0, 1fr); } }
+
+        /* ---------- Tile ---------- */
+        .news-item { margin: 0; padding: 0; border: 0; perspective: 900px; }
+
+        .tile {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 14px;
+            background: var(--tile);
+            border: 1px solid var(--tile-edge);
+            box-shadow: var(--shadow);
+            color: inherit;
+            text-decoration: none;
+            transform-style: preserve-3d;
+            transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease, border-color 0.35s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .poster {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--ph-a), var(--ph-b));
+        }
+        .poster img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(.2,.8,.2,1), filter 0.4s ease;
+        }
+        .poster img.loaded { opacity: 1; transform: scale(1); }
+
+        .poster .fallback {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            text-align: center;
+            font-family: "Bricolage Grotesque", system-ui, sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--muted);
+            transition: opacity 0.4s ease;
+        }
+        .poster.has-image .fallback { opacity: 0; }
+
+        /* soft bottom fade so the badge always reads */
+        .poster::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%);
+            opacity: 0.7;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        /* light sweep on hover */
+        .poster .sweep {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%);
+            transform: translateX(-120%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .badge {
+            position: absolute;
+            left: 0.75rem;
+            bottom: 0.75rem;
+            z-index: 3;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            background: var(--accent);
+            color: var(--accent-ink);
+            font-size: 0.78rem;
+            font-weight: 600;
+            transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .body { display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem 1.1rem 1.2rem; flex: 1; }
+        .body time { font-size: 0.82rem; color: var(--muted); }
+        .body h2 {
+            font-family: "Bricolage Grotesque", system-ui, sans-serif;
+            font-weight: 700;
+            font-size: 1.12rem;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            margin: 0;
+            background-image: linear-gradient(var(--accent), var(--accent));
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 0% 2px;
+            padding-bottom: 2px;
+            transition: background-size 0.4s cubic-bezier(.2,.8,.2,1);
+            align-self: flex-start;
+        }
+        .body p {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: var(--muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ---------- Hover / focus ---------- */
+        @media (hover: hover) {
+            .tile:hover {
+                transform: translateY(-8px) rotateX(2deg);
+                box-shadow: var(--shadow-hover);
+                border-color: var(--accent);
+            }
+            .tile:hover .poster img.loaded { transform: scale(1.08); filter: saturate(1.1); }
+            .tile:hover .poster::after { opacity: 1; }
+            .tile:hover .sweep { animation: sweep 0.9s ease forwards; }
+            .tile:hover .badge { transform: translateY(-4px); }
+            .tile:hover h2 { background-size: 100% 2px; }
+        }
+        .tile:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+        .tile:focus-visible h2 { background-size: 100% 2px; }
+
+        @keyframes sweep { to { transform: translateX(120%); } }
+
+        /* ---------- Click ---------- */
+        .tile:active { transform: translateY(-2px) scale(0.97); transition-duration: 0.12s; }
+
+        .tile.is-leaving {
+            animation: leave 0.42s cubic-bezier(.5,0,.2,1) forwards;
+            pointer-events: none;
+        }
+        .tile.is-leaving .poster img { transform: scale(1.18); filter: brightness(1.15); }
+        @keyframes leave {
+            0%   { transform: translateY(-8px) scale(0.97); }
+            45%  { transform: translateY(-12px) scale(1.04); }
+            100% { transform: translateY(-12px) scale(1.08); opacity: 0.0; }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.45;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out forwards;
+            pointer-events: none;
+            z-index: 4;
+        }
+        @keyframes ripple { to { transform: scale(1); opacity: 0; } }
+
+        /* ---------- Reduced motion ---------- */
+        @media (prefers-reduced-motion: reduce) {
+            .tile, .poster img, .badge, .body h2 { transition: none; }
+            .tile:hover, .tile:active, .tile:focus-visible { transform: none; }
+            .tile:hover .poster img.loaded { transform: none; }
+            .tile:hover .sweep, .tile.is-leaving, .ripple { animation: none; }
+        }
     </style>
 </head>
 <body>
@@ -23,57 +252,126 @@
         <a href="/index.html">&larr; Home</a>
     </nav>
 
-    <main class="article-container">
-        <header class="article-header">
+    <main class="news-page">
+        <header>
             <h1>Movie and TV News</h1>
-            <p class="article-subtitle"><i>Box office, streaming, renewals and casting, updated regularly.</i></p>
+            <p class="subtitle"><i>Box office, streaming, renewals and casting, updated regularly.</i></p>
         </header>
 
-        <div class="article-content">
+        <!--
+            Each tile has data attributes that tell the script which poster to fetch from TMDB:
+              data-tmdb-type  "movie" or "tv"
+              data-tmdb-title title to search for
+              data-tmdb-year  (optional) narrows the search, so remakes and old shows with the same name don't win
+              data-tmdb-id    (optional) exact TMDB id; skips the search entirely and is the most reliable option
+        -->
+        <div class="news-grid">
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/verity-box-office-opening.html"><em>Verity</em> Debuts at No. 1 With $32.6 Million</a></h2>
-                <p>Verity topped the domestic box office with a $32.6 million opening weekend, ahead of Resident Evil and Heart of the Beast.</p>
+                <a class="tile" href="/news/verity-box-office-opening.html"
+                   data-tmdb-type="movie" data-tmdb-title="Verity" data-tmdb-year="2026">
+                    <div class="poster"><span class="fallback">Verity</span><span class="sweep"></span><span class="badge">Box office</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Verity</em> Debuts at No. 1 With $32.6 Million</h2>
+                        <p>Verity topped the domestic box office with a $32.6 million opening weekend, ahead of Resident Evil and Heart of the Beast.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/digger-opening-weekend-box-office.html"><em>Digger</em> Opens With $8 Million in Fifth Place</a></h2>
-                <p>Tom Cruise's Digger earned about $8 million in its opening weekend and reached $9.9 million by Tuesday.</p>
+                <a class="tile" href="/news/digger-opening-weekend-box-office.html"
+                   data-tmdb-type="movie" data-tmdb-title="Digger" data-tmdb-year="2026">
+                    <div class="poster"><span class="fallback">Digger</span><span class="sweep"></span><span class="badge">Box office</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Digger</em> Opens With $8 Million in Fifth Place</h2>
+                        <p>Tom Cruise's Digger earned about $8 million in its opening weekend and reached $9.9 million by Tuesday.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/endgame-encore-second-weekend-drop.html"><em>Avengers: Endgame Encore</em> Falls 83% in Second Weekend</a></h2>
-                <p>After topping the chart the week before, Avengers: Endgame Encore slid to seventh place with $4.4 million.</p>
+                <a class="tile" href="/news/endgame-encore-second-weekend-drop.html"
+                   data-tmdb-type="movie" data-tmdb-title="Avengers: Endgame" data-tmdb-year="2019">
+                    <div class="poster"><span class="fallback">Avengers: Endgame Encore</span><span class="sweep"></span><span class="badge">Box office</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Avengers: Endgame Encore</em> Falls 83% in Second Weekend</h2>
+                        <p>After topping the chart the week before, Avengers: Endgame Encore slid to seventh place with $4.4 million.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/spider-man-brand-new-day-domestic-total.html"><em>Spider-Man: Brand New Day</em> Nears $955 Million Domestically</a></h2>
-                <p>After 68 days in theaters, Spider-Man: Brand New Day sits about $45 million short of $1 billion at the domestic box office.</p>
+                <a class="tile" href="/news/spider-man-brand-new-day-domestic-total.html"
+                   data-tmdb-type="movie" data-tmdb-title="Spider-Man: Brand New Day" data-tmdb-year="2026">
+                    <div class="poster"><span class="fallback">Spider-Man: Brand New Day</span><span class="sweep"></span><span class="badge">Box office</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Spider-Man: Brand New Day</em> Nears $955 Million Domestically</h2>
+                        <p>After 68 days in theaters, Spider-Man: Brand New Day sits about $45 million short of $1 billion at the domestic box office.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/holdovers-resident-evil-heart-of-the-beast.html"><em>Resident Evil</em> Tops $127 Million as Holdovers Stay Strong</a></h2>
-                <p>Resident Evil, Heart of the Beast, Primetime and Forgotten Island continue to earn in the weeks after their openings.</p>
+                <a class="tile" href="/news/holdovers-resident-evil-heart-of-the-beast.html"
+                   data-tmdb-type="movie" data-tmdb-title="Resident Evil" data-tmdb-year="2026">
+                    <div class="poster"><span class="fallback">Resident Evil</span><span class="sweep"></span><span class="badge">Box office</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Resident Evil</em> Tops $127 Million as Holdovers Stay Strong</h2>
+                        <p>Resident Evil, Heart of the Beast, Primetime and Forgotten Island continue to earn in the weeks after their openings.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/disclosure-day-streaming-peacock.html"><em>Disclosure Day</em> Arrives on Peacock October 9</a></h2>
-                <p>Disclosure Day, starring Emily Blunt, Josh O'Connor and Colman Domingo, began streaming on Peacock on October 9.</p>
+                <a class="tile" href="/news/disclosure-day-streaming-peacock.html"
+                   data-tmdb-type="movie" data-tmdb-title="Disclosure Day" data-tmdb-year="2026">
+                    <div class="poster"><span class="fallback">Disclosure Day</span><span class="sweep"></span><span class="badge">Streaming</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2><em>Disclosure Day</em> Arrives on Peacock October 9</h2>
+                        <p>Disclosure Day, starring Emily Blunt, Josh O'Connor and Colman Domingo, began streaming on Peacock on October 9.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/netflix-renews-a-different-world-crew-girl.html">Netflix Renews <em>A Different World</em> and <em>Crew Girl</em> for Season 2</a></h2>
-                <p>Netflix has ordered second seasons of both A Different World and Crew Girl, according to TVLine.</p>
+                <a class="tile" href="/news/netflix-renews-a-different-world-crew-girl.html"
+                   data-tmdb-type="tv" data-tmdb-title="A Different World">
+                    <div class="poster"><span class="fallback">A Different World</span><span class="sweep"></span><span class="badge">Renewals</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2>Netflix Renews <em>A Different World</em> and <em>Crew Girl</em> for Season 2</h2>
+                        <p>Netflix has ordered second seasons of both A Different World and Crew Girl, according to TVLine.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html">TV Casting Roundup: <em>The White Lotus</em>, <em>Darkwing Duck</em> and More</a></h2>
-                <p>Helena Bonham Carter exits The White Lotus Season 4, Edie Falco leads a Fox legal drama, and Darkwing Duck is reviving at Disney+.</p>
+                <a class="tile" href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html"
+                   data-tmdb-type="tv" data-tmdb-title="The White Lotus">
+                    <div class="poster"><span class="fallback">The White Lotus</span><span class="sweep"></span><span class="badge">Casting</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2>TV Casting Roundup: <em>The White Lotus</em>, <em>Darkwing Duck</em> and More</h2>
+                        <p>Helena Bonham Carter exits The White Lotus Season 4, Edie Falco leads a Fox legal drama, and Darkwing Duck is reviving at Disney+.</p>
+                    </div>
+                </a>
             </article>
+
             <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/october-2026-what-to-watch-tv-streaming.html">What to Watch in October: Streaming and TV Highlights</a></h2>
-                <p>From The Diplomat Season 4 to Nobody Wants This and Carrie, here are the key streaming and TV dates for the rest of October.</p>
+                <a class="tile" href="/news/october-2026-what-to-watch-tv-streaming.html"
+                   data-tmdb-type="tv" data-tmdb-title="The Diplomat" data-tmdb-year="2023">
+                    <div class="poster"><span class="fallback">What to Watch in October</span><span class="sweep"></span><span class="badge">Guide</span></div>
+                    <div class="body">
+                        <time datetime="2026-10-10">October 10, 2026</time>
+                        <h2>What to Watch in October: Streaming and TV Highlights</h2>
+                        <p>From The Diplomat Season 4 to Nobody Wants This and Carrie, here are the key streaming and TV dates for the rest of October.</p>
+                    </div>
+                </a>
             </article>
         </div>
     </main>
@@ -89,5 +387,124 @@
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
+
+    <script>
+    (function () {
+        // Paste your TMDB credential here: either the v3 API key (short hex string)
+        // or the v4 "API Read Access Token" (long string starting with "eyJ").
+        var TMDB_KEY = '';
+
+        var API = 'https://api.themoviedb.org/3';
+        var IMG = 'https://image.tmdb.org/t/p/w500';
+        var CACHE_PREFIX = 'emp-poster:';
+        var CACHE_DAYS = 14;
+
+        /* ---------- TMDB posters ---------- */
+        function cacheGet(key) {
+            try {
+                var raw = localStorage.getItem(CACHE_PREFIX + key);
+                if (!raw) return null;
+                var item = JSON.parse(raw);
+                if (Date.now() - item.t > CACHE_DAYS * 864e5) return null;
+                return item.p;
+            } catch (e) { return null; }
+        }
+        function cacheSet(key, path) {
+            try { localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ t: Date.now(), p: path })); } catch (e) {}
+        }
+
+        function tmdb(path, params) {
+            var url = new URL(API + path);
+            var opts = { headers: { accept: 'application/json' } };
+            if (TMDB_KEY.length > 40) opts.headers.Authorization = 'Bearer ' + TMDB_KEY;
+            else url.searchParams.set('api_key', TMDB_KEY);
+            Object.keys(params || {}).forEach(function (k) { if (params[k]) url.searchParams.set(k, params[k]); });
+            return fetch(url, opts).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+        }
+
+        function findPoster(el) {
+            var type = el.dataset.tmdbType === 'tv' ? 'tv' : 'movie';
+            var id = el.dataset.tmdbId;
+            var title = el.dataset.tmdbTitle;
+            var year = el.dataset.tmdbYear;
+
+            if (id) return tmdb('/' + type + '/' + id).then(function (d) { return d.poster_path; });
+
+            function search(withYear) {
+                var p = { query: title };
+                if (withYear && year) p[type === 'tv' ? 'first_air_date_year' : 'primary_release_year'] = year;
+                return tmdb('/search/' + type, p).then(function (d) {
+                    var hit = (d.results || []).filter(function (r) { return r.poster_path; })[0];
+                    return hit ? hit.poster_path : null;
+                });
+            }
+            // Try with the year first, then fall back to a plain title search.
+            return search(true).then(function (p) { return p || (year ? search(false) : null); });
+        }
+
+        function showPoster(tile, path) {
+            var poster = tile.querySelector('.poster');
+            var img = new Image();
+            img.alt = '';
+            img.decoding = 'async';
+            img.onload = function () {
+                poster.insertBefore(img, poster.firstChild);
+                poster.classList.add('has-image');
+                requestAnimationFrame(function () { img.classList.add('loaded'); });
+            };
+            img.src = IMG + path;
+        }
+
+        document.querySelectorAll('.tile').forEach(function (tile) {
+            var key = [tile.dataset.tmdbType, tile.dataset.tmdbId || tile.dataset.tmdbTitle, tile.dataset.tmdbYear].join('|');
+            var cached = cacheGet(key);
+            if (cached) return showPoster(tile, cached);
+            if (!TMDB_KEY) return; // no key yet: the styled title placeholder stays
+            findPoster(tile.dataset ? tile : tile).then(function (path) {
+                if (!path) return;
+                cacheSet(key, path);
+                showPoster(tile, path);
+            }).catch(function () { /* keep placeholder */ });
+        });
+
+        /* ---------- Click animation ---------- */
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        document.querySelectorAll('.tile').forEach(function (tile) {
+            tile.addEventListener('click', function (e) {
+                // Let new-tab / modified clicks behave normally.
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+                var rect = tile.getBoundingClientRect();
+                var size = Math.max(rect.width, rect.height) * 2;
+                var x = (e.clientX || rect.left + rect.width / 2) - rect.left;
+                var y = (e.clientY || rect.top + rect.height / 2) - rect.top;
+
+                if (reduce) return; // navigate immediately
+
+                e.preventDefault();
+                var ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (x - size / 2) + 'px';
+                ripple.style.top = (y - size / 2) + 'px';
+                tile.appendChild(ripple);
+                tile.classList.add('is-leaving');
+
+                var href = tile.href;
+                setTimeout(function () { window.location.href = href; }, 380);
+            });
+        });
+
+        // If the page is restored from the back/forward cache, undo the leaving state.
+        window.addEventListener('pageshow', function (e) {
+            if (!e.persisted) return;
+            document.querySelectorAll('.tile.is-leaving').forEach(function (t) {
+                t.classList.remove('is-leaving');
+                t.querySelectorAll('.ripple').forEach(function (r) { r.remove(); });
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
