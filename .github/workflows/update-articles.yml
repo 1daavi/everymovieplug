@@ -15,6 +15,5 @@
              git config user.name "github-actions"
              git config user.email "github-actions@users.noreply.github.com"
              git add articles/index.html
-              git add news/index.html
              git commit -m "Add new article card" || exit 0
              git push
