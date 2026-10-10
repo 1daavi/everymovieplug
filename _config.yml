@@ -1,3 +1,0 @@
-url: ""   # no trailing slash
-plugins:
-  - jekyll-sitemap
