@@ -1,0 +1,34 @@
+name: Update sitemap
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - sitemap.xml
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"   # daily safety net
+
+permissions:
+  contents: write
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node generate-sitemap.js
+      - name: Commit sitemap if changed
+        run: |
+          if [[ -n "$(git status --porcelain sitemap.xml)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add sitemap.xml
+            git commit -m "Update sitemap.xml"
+            git push
+          fi
