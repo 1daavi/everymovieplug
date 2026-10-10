@@ -326,7 +326,7 @@
 
   <script>
     /* ===== CONFIG ===== */
-    const TMDB_API_KEY = "__TMDB_API_KEY__";   // paste the same TMDB key you use in trending.html (v3 key or v4 token)
+    const TMDB_API_KEY = "6c26404d2252b5ee3712ebe31f465959";   // paste the same TMDB key you use in trending.html (v3 key or v4 token)
     const TREND_URL = "https://everymovieplug.com/trending";
 
     const $ = id => document.getElementById(id);
@@ -552,7 +552,7 @@ function setHash(type, id, title, fromHash) {
     addEventListener("popstate", () => { if (location.hash.slice(1)) openFromHash(); else closeModal(true); });
 
     /* ===== Movie popup (same as trending page) ===== */
-    const IMG = "https://image.tmdb.org/t/p/", OMDB_API_KEY = "__OMDB_API_KEY__";
+    const IMG = "https://image.tmdb.org/t/p/", OMDB_API_KEY = "92cabd79";
     let MAGNETS = {}, WATCH = {}, TRAILER = null;
     const magnetsReady = fetch("magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
     const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
@@ -632,7 +632,7 @@ function setHash(type, id, title, fromHash) {
 
     // OPTIONAL: free key from api.watchmode.com. With it, each streaming logo opens the movie/show's own page in the app
     // (TMDB can't provide that). Without it, logos fall back to a search on the service's site.
-    const WATCHMODE_API_KEY = "__WATCHMODE_API_KEY__";
+    const WATCHMODE_API_KEY = "FmWHKsgW7G29l6FMwYz5dsxlvhzxLdi8Jtku1xI8";
     const DEEP = {};
     const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
     async function loadDeepLinks(type, id, region) {
