@@ -14,6 +14,8 @@ NEW STORIES NEED NO EDITS HERE. Put one line in the story's <head>:
     <meta name="tmdb" content="movie|Animals|2026">      (kind | title | year)
     <meta name="tmdb" content="tv|The White Lotus|">     (year can be left empty)
 and this script fetches images for every news page that does not have them yet.
+If TMDB's search picks the wrong film, add its TMDB id (the number in themoviedb.org/movie/<id>) as a 4th part:
+    <meta name="tmdb" content="movie|Animals|2026|123456">
 Stories that already have both images are skipped; use  --force  to re-download all.
 The TITLES list below only covers the older stories that have no <meta name="tmdb"> line.
 """
@@ -38,6 +40,7 @@ TITLES = {
     "october-2026-what-to-watch-tv-streaming": ("tv", "The Diplomat", None),
 }
 
+TITLES = {k: (v + (None,))[:4] for k, v in TITLES.items()}
 FORCE = "--force" in sys.argv
 META = re.compile(r'<meta[^>]+name=["\']tmdb["\'][^>]*content=["\']([^"\']+)["\']', re.I)
 for page in sorted(glob.glob("news/*.html")):
@@ -47,9 +50,10 @@ for page in sorted(glob.glob("news/*.html")):
     m = META.search(open(page, encoding="utf-8").read())
     if not m:
         continue
-    kind, _, rest = m.group(1).partition("|")
-    title, _, year = rest.partition("|")
-    TITLES[slug] = (kind.strip(), title.strip(), int(year) if year.strip().isdigit() else None)
+    parts = [x.strip() for x in m.group(1).split("|")] + ["", "", "", ""]
+    kind, title, year, tid = parts[0].lower(), parts[1], parts[2], parts[3]
+    TITLES[slug] = (kind, title, int(year) if year.isdigit() else None, int(tid) if tid.isdigit() else None)
+    print(f"[tag]  {slug}: {kind} | {title} | {year or '-'}" + (f" | id {tid}" if tid else ""))
 
 API = "https://api.themoviedb.org/3"
 IMG = "https://image.tmdb.org/t/p"
@@ -76,26 +80,51 @@ def crop_og(img, w=1200, h=630):
     left, top = (img.width - w) // 2, (img.height - h) // 2
     return img.crop((left, top, left + w, top + h))
 
-for slug, (kind, title, year) in TITLES.items():
+def find(kind, title, year):
+    """Search TMDB; if the exact year finds nothing, try a year either side, then no year."""
+    key = "primary_release_year" if kind == "movie" else "first_air_date_year"
+    attempts = [{key: year}] if year else []
+    if year:
+        attempts += [{key: year + 1}, {key: year - 1}]
+    attempts.append({})
+    for extra in attempts:
+        res = get(f"/search/{kind}", query=title, **extra).get("results", [])
+        res = [r for r in res if r.get("backdrop_path") or r.get("poster_path")]
+        if res:
+            return res[0]
+    return None
+
+failed = []
+for slug, (kind, title, year, tid) in TITLES.items():
     if not FORCE and os.path.exists(f"articleassets/{slug}.jpg") and os.path.exists(f"articleassets/{slug}-full.jpg"):
         print(f"[skip] {slug}: images already exist")
         continue
-    params = {"query": title}
-    if year:
-        params["primary_release_year" if kind == "movie" else "first_air_date_year"] = year
-    results = get(f"/search/{kind}", **params).get("results", [])
-    results = [r for r in results if r.get("backdrop_path") or r.get("poster_path")]
-    if not results:
-        print(f"[MISS] {slug}: no TMDB match for {title!r} ({year})")
-        continue
-    hit = results[0]
-    name = hit.get("title") or hit.get("name")
-    date = hit.get("release_date") or hit.get("first_air_date")
-    print(f"[OK]   {slug}: {name} ({date}) id={hit['id']}")
-    path = pick_backdrop(kind, hit["id"], hit.get("backdrop_path") or hit.get("poster_path"))
-    data = requests.get(f"{IMG}/w1280{path}", timeout=60).content
-    img = Image.open(io.BytesIO(data)).convert("RGB")
-    img.save(f"articleassets/{slug}.jpg", "JPEG", quality=88, optimize=True)
-    crop_og(img).save(f"articleassets/{slug}-full.jpg", "JPEG", quality=85, optimize=True)
+    try:
+        if kind not in ("movie", "tv"):
+            raise ValueError(f"kind must be 'movie' or 'tv', got {kind!r}")
+        hit = get(f"/{kind}/{tid}") if tid else find(kind, title, year)
+        if not hit:
+            print(f"[MISS] {slug}: no TMDB match for {title!r} ({year}). Add the TMDB id as a 4th part of the tmdb meta line.")
+            failed.append(slug)
+            continue
+        name = hit.get("title") or hit.get("name")
+        date = hit.get("release_date") or hit.get("first_air_date")
+        print(f"[OK]   {slug}: {name} ({date}) id={hit['id']}")
+        path = pick_backdrop(kind, hit["id"], hit.get("backdrop_path") or hit.get("poster_path"))
+        if not path:
+            print(f"[MISS] {slug}: TMDB has no image for {name!r}")
+            failed.append(slug)
+            continue
+        data = requests.get(f"{IMG}/w1280{path}", timeout=60)
+        data.raise_for_status()
+        img = Image.open(io.BytesIO(data.content)).convert("RGB")
+        img.save(f"articleassets/{slug}.jpg", "JPEG", quality=88, optimize=True)
+        crop_og(img).save(f"articleassets/{slug}-full.jpg", "JPEG", quality=85, optimize=True)
+    except Exception as e:  # keep going so one bad story doesn't block the rest
+        print(f"[FAIL] {slug}: {type(e).__name__}: {e}")
+        failed.append(slug)
 
-print("\nDone. Upload the articleassets/ folder to your site.")
+print()
+if failed:
+    sys.exit("These stories got no image: " + ", ".join(failed))
+print("Done. Images are in articleassets/.")
