@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#000000">
     <title>Movie and TV News | Every Movie Plug</title>
     <meta name="description" content="The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.">
     <link rel="canonical" href="https://everymovieplug.com/news/">
@@ -14,68 +16,214 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/articles/style.css">
     <style>
-        .news-item { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(128, 128, 128, 0.3); }
-        .news-item h2 a { text-decoration: none; }
+        :root { --accent: #a855f7; --accent-soft: rgba(168, 85, 247, .45); --card: rgba(255, 255, 255, .04); --edge: rgba(255, 255, 255, .12); }
+        html { background: #000; }
+        body { padding: 24px 20px 0; max-width: 1280px; margin: 0 auto; min-height: 100vh; transition: opacity .25s ease; }
+        body.leaving { opacity: 0; }
+
+        .top-link { display: inline-block; color: var(--link); text-decoration: none; font-weight: 500; font-size: .95rem; margin-bottom: 28px; transition: transform .2s ease, color .2s ease; }
+        .top-link:hover { color: var(--link-hover); transform: translateX(-4px); }
+
+        .news-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
+        .news-head h1 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.15; background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .news-head p { color: var(--muted); margin-top: 6px; font-size: 1.05rem; }
+
+        /* Search */
+        .search { position: relative; width: min(100%, 380px); }
+        .search svg.lens { position: absolute; left: 16px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--muted); pointer-events: none; transition: color .2s ease; }
+        .search input { width: 100%; padding: 13px 44px 13px 44px; border-radius: 9999px; border: 1px solid var(--edge); background: var(--card); color: var(--heading); font: inherit; font-size: .95rem; outline: none; -webkit-appearance: none; appearance: none; transition: border-color .25s ease, box-shadow .25s ease, background .25s ease; }
+        .search input::placeholder { color: var(--muted); }
+        .search input::-webkit-search-cancel-button { display: none; }
+        .search input:focus { border-color: var(--accent-soft); background: rgba(255, 255, 255, .07); box-shadow: 0 0 0 4px rgba(168, 85, 247, .15), 0 0 28px rgba(168, 85, 247, .2); }
+        .search:focus-within svg.lens { color: #c4b5fd; }
+        .search .clear { position: absolute; right: 10px; top: 50%; width: 28px; height: 28px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); color: var(--heading); font-size: 1.1rem; line-height: 1; cursor: pointer; transform: translateY(-50%) scale(.6); opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease, background .2s ease; }
+        .search.has-text .clear { opacity: 1; pointer-events: auto; transform: translateY(-50%) scale(1); }
+        .search .clear:hover { background: rgba(255, 255, 255, .22); }
+        .result-count { color: var(--muted); font-size: .85rem; margin: -16px 0 20px; min-height: 1.2em; }
+
+        /* Tile grid: 4 per row */
+        .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+        .tile { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; border: 1px solid var(--edge); background: var(--surface); color: inherit; text-decoration: none; isolation: isolate; -webkit-tap-highlight-color: transparent;
+                transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .35s ease, box-shadow .35s ease;
+                animation: tile-in .6s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+        .tile[hidden] { display: none; }
+        .tile.pop { animation: tile-pop .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--j, 0) * 45ms); }
+        @keyframes tile-in { from { opacity: 0; transform: translateY(26px) scale(.97); } to { opacity: 1; transform: none; } }
+        @keyframes tile-pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+
+        .tile-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #1b1033, #0b0b12 60%, #2a1250); }
+        .tile-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+        .tile-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(17, 17, 22, .85)); pointer-events: none; }
+        .tile-tag { position: absolute; z-index: 1; top: 12px; left: 12px; padding: 4px 10px; border-radius: 9999px; background: rgba(0, 0, 0, .6); border: 1px solid rgba(255, 255, 255, .2); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #e9d5ff; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+
+        .tile-body { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; }
+        .tile-date { color: var(--muted); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
+        .tile-title { margin: 6px 0 8px; font-size: 1.05rem; line-height: 1.35; font-weight: 700; color: var(--heading); transition: color .25s ease; }
+        .tile-excerpt { color: var(--muted); font-size: .88rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .tile-more { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 14px; color: #c4b5fd; font-size: .82rem; font-weight: 600; }
+        .tile-more svg { width: 16px; height: 16px; transition: transform .3s ease; }
+
+        /* shine sweep */
+        .tile::before { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .13), transparent); transform: skewX(-18deg); pointer-events: none; }
+
+        @media (hover: hover) {
+            .tile:hover { transform: translateY(-8px); border-color: var(--accent-soft); box-shadow: 0 18px 40px rgba(0, 0, 0, .6), 0 0 34px rgba(168, 85, 247, .22); }
+            .tile:hover .tile-thumb img { transform: scale(1.09); filter: brightness(1.08) saturate(1.1); }
+            .tile:hover .tile-title { color: #fff; }
+            .tile:hover .tile-more svg { transform: translateX(5px); }
+            .tile:hover::before { left: 130%; transition: left .9s ease; }
+        }
+        .tile:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 3px; transform: translateY(-4px); }
+
+        /* click: press-down + ripple */
+        .tile:active { transform: scale(.965); transition-duration: .12s; }
+        .tile.go { animation: tile-go .32s ease forwards; }
+        @keyframes tile-go { 0% { transform: scale(.965); } 100% { transform: scale(1.04); opacity: .0; } }
+        .ripple { position: absolute; z-index: 3; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: rgba(196, 181, 253, .55); pointer-events: none; animation: ripple .6s ease-out forwards; }
+        @keyframes ripple { to { transform: scale(30); opacity: 0; } }
+
+        .empty { display: none; text-align: center; padding: 70px 20px; color: var(--muted); }
+        .empty.show { display: block; animation: tile-pop .4s ease both; }
+        .empty strong { display: block; color: var(--heading); font-size: 1.2rem; margin-bottom: 6px; }
+
+        .site-footer { max-width: 760px; }
+
+        @media (max-width: 1100px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 820px)  { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+        @media (max-width: 520px)  { body { padding: 14px 12px 0; } .tiles { grid-template-columns: 1fr; } .search { width: 100%; } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/index.html">&larr; Home</a>
-    </nav>
+    <a class="top-link" href="/index.html">&larr; Home</a>
 
-    <main class="article-container">
-        <header class="article-header">
+    <header class="news-head">
+        <div>
             <h1>Movie and TV News</h1>
-            <p class="article-subtitle"><i>Box office, streaming, renewals and casting, updated regularly.</i></p>
-        </header>
-
-        <div class="article-content">
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/verity-box-office-opening.html"><em>Verity</em> Debuts at No. 1 With $32.6 Million</a></h2>
-                <p>Verity topped the domestic box office with a $32.6 million opening weekend, ahead of Resident Evil and Heart of the Beast.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/digger-opening-weekend-box-office.html"><em>Digger</em> Opens With $8 Million in Fifth Place</a></h2>
-                <p>Tom Cruise's Digger earned about $8 million in its opening weekend and reached $9.9 million by Tuesday.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/endgame-encore-second-weekend-drop.html"><em>Avengers: Endgame Encore</em> Falls 83% in Second Weekend</a></h2>
-                <p>After topping the chart the week before, Avengers: Endgame Encore slid to seventh place with $4.4 million.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/spider-man-brand-new-day-domestic-total.html"><em>Spider-Man: Brand New Day</em> Nears $955 Million Domestically</a></h2>
-                <p>After 68 days in theaters, Spider-Man: Brand New Day sits about $45 million short of $1 billion at the domestic box office.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/holdovers-resident-evil-heart-of-the-beast.html"><em>Resident Evil</em> Tops $127 Million as Holdovers Stay Strong</a></h2>
-                <p>Resident Evil, Heart of the Beast, Primetime and Forgotten Island continue to earn in the weeks after their openings.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/disclosure-day-streaming-peacock.html"><em>Disclosure Day</em> Arrives on Peacock October 9</a></h2>
-                <p>Disclosure Day, starring Emily Blunt, Josh O'Connor and Colman Domingo, began streaming on Peacock on October 9.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/netflix-renews-a-different-world-crew-girl.html">Netflix Renews <em>A Different World</em> and <em>Crew Girl</em> for Season 2</a></h2>
-                <p>Netflix has ordered second seasons of both A Different World and Crew Girl, according to TVLine.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html">TV Casting Roundup: <em>The White Lotus</em>, <em>Darkwing Duck</em> and More</a></h2>
-                <p>Helena Bonham Carter exits The White Lotus Season 4, Edie Falco leads a Fox legal drama, and Darkwing Duck is reviving at Disney+.</p>
-            </article>
-            <article class="news-item">
-                <p class="article-date">October 10, 2026</p>
-                <h2><a href="/news/october-2026-what-to-watch-tv-streaming.html">What to Watch in October: Streaming and TV Highlights</a></h2>
-                <p>From The Diplomat Season 4 to Nobody Wants This and Carrie, here are the key streaming and TV dates for the rest of October.</p>
-            </article>
+            <p>Box office, streaming, renewals and casting, updated regularly.</p>
         </div>
+        <div class="search" id="search" role="search">
+            <svg class="lens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="q" type="search" placeholder="Search news…" aria-label="Search news" autocomplete="off" spellcheck="false">
+            <button class="clear" id="clear" type="button" aria-label="Clear search">&times;</button>
+        </div>
+    </header>
+    <p class="result-count" id="count" aria-live="polite"></p>
+
+    <main>
+        <div class="tiles" id="tiles">
+            <a class="tile" href="/news/verity-box-office-opening.html" style="--i:0">
+                <div class="tile-thumb">
+                    <img src="/articleassets/verity-box-office-opening-full.jpg" alt="" loading="eager" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Box Office</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Verity</em> Debuts at No. 1 With $32.6 Million</h2>
+                    <p class="tile-excerpt">Verity topped the domestic box office with a $32.6 million opening weekend, ahead of Resident Evil and Heart of the Beast.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/digger-opening-weekend-box-office.html" style="--i:1">
+                <div class="tile-thumb">
+                    <img src="/articleassets/digger-opening-weekend-box-office-full.jpg" alt="" loading="eager" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Box Office</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Digger</em> Opens With $8 Million in Fifth Place</h2>
+                    <p class="tile-excerpt">Tom Cruise's Digger earned about $8 million in its opening weekend and reached $9.9 million by Tuesday.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/endgame-encore-second-weekend-drop.html" style="--i:2">
+                <div class="tile-thumb">
+                    <img src="/articleassets/endgame-encore-second-weekend-drop-full.jpg" alt="" loading="eager" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Box Office</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Avengers: Endgame Encore</em> Falls 83% in Second Weekend</h2>
+                    <p class="tile-excerpt">After topping the chart the week before, Avengers: Endgame Encore slid to seventh place with $4.4 million.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/spider-man-brand-new-day-domestic-total.html" style="--i:3">
+                <div class="tile-thumb">
+                    <img src="/articleassets/spider-man-brand-new-day-domestic-total-full.jpg" alt="" loading="eager" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Box Office</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Spider-Man: Brand New Day</em> Nears $955 Million Domestically</h2>
+                    <p class="tile-excerpt">After 68 days in theaters, Spider-Man: Brand New Day sits about $45 million short of $1 billion at the domestic box office.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/holdovers-resident-evil-heart-of-the-beast.html" style="--i:4">
+                <div class="tile-thumb">
+                    <img src="/articleassets/holdovers-resident-evil-heart-of-the-beast-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Box Office</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Resident Evil</em> Tops $127 Million as Holdovers Stay Strong</h2>
+                    <p class="tile-excerpt">Resident Evil, Heart of the Beast, Primetime and Forgotten Island continue to earn in the weeks after their openings.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/disclosure-day-streaming-peacock.html" style="--i:5">
+                <div class="tile-thumb">
+                    <img src="/articleassets/disclosure-day-streaming-peacock-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Streaming</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title"><em>Disclosure Day</em> Arrives on Peacock October 9</h2>
+                    <p class="tile-excerpt">Disclosure Day, starring Emily Blunt, Josh O'Connor and Colman Domingo, began streaming on Peacock on October 9.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/netflix-renews-a-different-world-crew-girl.html" style="--i:6">
+                <div class="tile-thumb">
+                    <img src="/articleassets/netflix-renews-a-different-world-crew-girl-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">TV</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title">Netflix Renews <em>A Different World</em> and <em>Crew Girl</em> for Season 2</h2>
+                    <p class="tile-excerpt">Netflix has ordered second seasons of both A Different World and Crew Girl, according to TVLine.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html" style="--i:7">
+                <div class="tile-thumb">
+                    <img src="/articleassets/tv-casting-roundup-white-lotus-darkwing-duck-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">TV</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title">TV Casting Roundup: <em>The White Lotus</em>, <em>Darkwing Duck</em> and More</h2>
+                    <p class="tile-excerpt">Helena Bonham Carter exits The White Lotus Season 4, Edie Falco leads a Fox legal drama, and Darkwing Duck is reviving at Disney+.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+            <a class="tile" href="/news/october-2026-what-to-watch-tv-streaming.html" style="--i:8">
+                <div class="tile-thumb">
+                    <img src="/articleassets/october-2026-what-to-watch-tv-streaming-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <span class="tile-tag">Streaming</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
+                    <h2 class="tile-title">What to Watch in October: Streaming and TV Highlights</h2>
+                    <p class="tile-excerpt">From The Diplomat Season 4 to Nobody Wants This and Carrie, here are the key streaming and TV dates for the rest of October.</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+        </div>
+        <div class="empty" id="empty"><strong>No stories found</strong>Try a different title, show or keyword.</div>
     </main>
 
     <footer class="site-footer">
@@ -89,5 +237,61 @@
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
+
+    <script>
+    (function () {
+        var tiles = [].slice.call(document.querySelectorAll(".tile"));
+        var q = document.getElementById("q"), box = document.getElementById("search"), clearBtn = document.getElementById("clear");
+        var count = document.getElementById("count"), empty = document.getElementById("empty");
+        var index = tiles.map(function (t) { return t.textContent.toLowerCase().replace(/\s+/g, " "); });
+        var timer;
+
+        function filter() {
+            var terms = q.value.toLowerCase().split(/\s+/).filter(Boolean), shown = 0;
+            box.classList.toggle("has-text", q.value.length > 0);
+            tiles.forEach(function (t, i) {
+                var ok = terms.every(function (w) { return index[i].indexOf(w) > -1; });
+                var wasHidden = t.hidden;
+                t.hidden = !ok;
+                if (ok) {
+                    if (wasHidden) { t.style.setProperty("--j", shown); t.classList.remove("pop"); void t.offsetWidth; t.classList.add("pop"); }
+                    shown++;
+                }
+            });
+            empty.classList.toggle("show", shown === 0);
+            count.textContent = terms.length ? shown + (shown === 1 ? " story" : " stories") + " found" : "";
+        }
+        q.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(filter, 80); });
+        clearBtn.addEventListener("click", function () { q.value = ""; filter(); q.focus(); });
+        q.addEventListener("keydown", function (e) { if (e.key === "Escape") { q.value = ""; filter(); } });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "/" && document.activeElement !== q && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); }
+        });
+
+        /* click: ripple from the tap point, then fade into the story */
+        tiles.forEach(function (t) {
+            t.addEventListener("click", function (e) {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                e.preventDefault();
+                var r = t.getBoundingClientRect(), d = document.createElement("span");
+                d.className = "ripple";
+                d.style.left = (e.clientX ? e.clientX - r.left : r.width / 2) + "px";
+                d.style.top = (e.clientY ? e.clientY - r.top : r.height / 2) + "px";
+                t.appendChild(d);
+                t.classList.add("go");
+                document.body.classList.add("leaving");
+                var href = t.href;
+                setTimeout(function () { location.href = href; }, 280);
+            });
+        });
+        /* coming back with the browser Back button: undo the exit animation */
+        window.addEventListener("pageshow", function (e) {
+            if (e.persisted) {
+                document.body.classList.remove("leaving");
+                tiles.forEach(function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
