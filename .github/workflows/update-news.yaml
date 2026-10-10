@@ -1,0 +1,23 @@
+name: Update news cards
+
+on:
+  push:
+    paths:
+      - "news/**"
+      - "!news/index.html"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: node update-news.js
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add news/index.html
+          git commit -m "Add new news card" || exit 0
+          git push
