@@ -1,0 +1,34 @@
+name: Fetch TMDB images
+
+# Run manually from the repo's Actions tab: Actions > Fetch TMDB images > Run workflow
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests pillow
+
+      - name: Download images from TMDB
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: python scripts/fetch_tmdb_images.py
+
+      - name: Commit new images
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add articleassets
+          git diff --cached --quiet || git commit -m "Add TMDB images for news posts"
+          git push
