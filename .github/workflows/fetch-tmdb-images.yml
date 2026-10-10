@@ -1,8 +1,11 @@
 name: Fetch TMDB images
 
-# Run manually from the repo's Actions tab: Actions > Fetch TMDB images > Run workflow
+# Runs by itself whenever a post in news/ is added or changed.
+# You can also run it by hand: Actions > Fetch TMDB images > Run workflow
 on:
   workflow_dispatch:
+  push:
+    paths: ["news/**"]
 
 permissions:
   contents: write
@@ -30,6 +33,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add articleassets
-          git diff --cached --quiet || git commit -m "Add TMDB images for news posts"
+          if git diff --cached --quiet; then echo "No new images"; exit 0; fi
+          git commit -m "Add TMDB images for news posts"
           git pull --rebase
           git push
