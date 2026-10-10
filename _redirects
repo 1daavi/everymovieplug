@@ -1,0 +1,4 @@
+# Keep old links working after the move to /articles/
+/article/*      /articles/:splat   301
+/articles.html  /articles/         301
+/news.html      /news/             301

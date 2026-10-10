@@ -2,12 +2,12 @@
 /**
  * Every Movie Plug – auto article cards
  *
- * Scans the /article folder, and for every .html file that is NOT already
- * linked in articles.html, reads its title, thumbnail, excerpt and date and
+ * Scans the /articles folder, and for every .html file that is NOT already
+ * linked in articles/index.html, reads its title, thumbnail, excerpt and date and
  * adds a card to the top of the list. Existing cards are never touched.
  *
  * Usage (run from your site root):   node update-articles.js
- * Options:  --listing=articles.html   --dir=article
+ * Options:  --listing=articles/index.html   --dir=articles
  */
 const fs = require("fs");
 const path = require("path");
@@ -15,8 +15,8 @@ const path = require("path");
 const args = Object.fromEntries(
   process.argv.slice(2).map(a => a.replace(/^--/, "").split("="))
 );
-const LISTING = args.listing || "articles.html"; // page that shows the cards
-const DIR = args.dir || "article";               // folder with your articles
+const LISTING = args.listing || "articles/index.html"; // page that shows the cards
+const DIR = args.dir || "articles";               // folder with your articles
 const ASSETS = args.assets || "articleassets";   // folder with your images
 const SKIP = ["index.html"];                     // files to ignore
 const SITE = /^https?:\/\/(www\.)?everymovieplug\.com\//i; // your own domain
@@ -68,14 +68,14 @@ function getExcerpt(html) {
 }
 
 function getImage(html, file) {
-  const root = path.dirname(path.resolve(LISTING));
+  const root = path.resolve("."); // site root (run the script from there)
   const cands = [meta(html, ["og:image"]), meta(html, ["twitter:image"])];
   const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
   if (m) cands.push(decode(m[1]));
   const list = cands.filter(Boolean).map(c => c.replace(SITE, "/"));
   if (!list.length) return "";
 
-  const toListing = abs => path.relative(root, abs).split(path.sep).join("/");
+  const toListing = abs => "/" + path.relative(root, abs).split(path.sep).join("/"); // root-absolute
   const exists = p => { try { return fs.statSync(p).isFile(); } catch (e) { return false; } };
 
   for (const src of list) {
@@ -90,12 +90,12 @@ function getImage(html, file) {
     const hit = tries.find(exists);
     if (hit) return toListing(hit);
   }
-  // nothing found on disk: use the first image as a site-root path, never an article/ path
+  // nothing found on disk: use the first image as a site-root path, never an articles/ path
   const first = list[0];
   if (/^(https?:)?\/\//i.test(first) || first.startsWith("data:")) return first;
   const base = decodeURIComponent(first.split(/[?#]/)[0].split("/").pop());
-  console.warn(`  ! Image not found on disk for ${path.basename(file)}; using ${ASSETS}/${base}`);
-  return `${ASSETS}/${base}`;
+  console.warn(`  ! Image not found on disk for ${path.basename(file)}; using /${ASSETS}/${base}`);
+  return `/${ASSETS}/${base}`;
 }
 
 function getDate(html, file) {
@@ -143,7 +143,7 @@ const cards = fresh.map(f => {
 }).sort((a, b) => b.date - a.date);
 
 const cardHtml = c => `  <!-- ${esc(c.title)} -->
-  <a href="${DIR}/${encodeURI(c.f)}" class="article-card">
+  <a href="/${DIR}/${encodeURI(c.f)}" class="article-card">
     <div class="article-thumbnail">
       ${c.img ? `<img src="${esc(c.img)}" alt="${esc(c.title)}" loading="lazy">` : ""}
     </div>

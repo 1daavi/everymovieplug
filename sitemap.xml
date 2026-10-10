@@ -14,7 +14,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/articles</loc>
+    <loc>https://everymovieplug.com/articles/</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -36,93 +36,154 @@
   </url>
   <!-- Articles -->
   <url>
-    <loc>https://everymovieplug.com/article/harry-potter-tv-series-2026</loc>
+    <loc>https://everymovieplug.com/articles/harry-potter-tv-series-2026</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/harry-potter-film-series-legacy</loc>
+    <loc>https://everymovieplug.com/articles/harry-potter-film-series-legacy</loc>
     <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/sicario-3</loc>
+    <loc>https://everymovieplug.com/articles/sicario-3</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/Tom-Cruise-Digger</loc>
+    <loc>https://everymovieplug.com/articles/Tom-Cruise-Digger</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/undercover-brother</loc>
+    <loc>https://everymovieplug.com/articles/undercover-brother</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/avengers-endgame-retakes-box-office-crown</loc>
+    <loc>https://everymovieplug.com/articles/avengers-endgame-retakes-box-office-crown</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/no-stars-no-problem</loc>
+    <loc>https://everymovieplug.com/articles/no-stars-no-problem</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/fast-forever</loc>
+    <loc>https://everymovieplug.com/articles/fast-forever</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/apocalypto-2006</loc>
+    <loc>https://everymovieplug.com/articles/apocalypto-2006</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/inception-dream-logic-explained</loc>
+    <loc>https://everymovieplug.com/articles/inception-dream-logic-explained</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/denis-villeneuve-tension-sound-design</loc>
+    <loc>https://everymovieplug.com/articles/denis-villeneuve-tension-sound-design</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/coherence-single-location-thrillers</loc>
+    <loc>https://everymovieplug.com/articles/coherence-single-location-thrillers</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/anatomy-of-a-great-movie-twist</loc>
+    <loc>https://everymovieplug.com/articles/anatomy-of-a-great-movie-twist</loc>
     <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/zendaya-tom-holland-story</loc>
+    <loc>https://everymovieplug.com/articles/zendaya-tom-holland-story</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://everymovieplug.com/article/spider-man-brand-new-day</loc>
+    <loc>https://everymovieplug.com/articles/spider-man-brand-new-day</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <!-- News -->
+  <url>
+    <loc>https://everymovieplug.com/news/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/digger-opening-weekend-box-office</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/disclosure-day-streaming-peacock</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/endgame-encore-second-weekend-drop</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/holdovers-resident-evil-heart-of-the-beast</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/netflix-renews-a-different-world-crew-girl</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/october-2026-what-to-watch-tv-streaming</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/spider-man-brand-new-day-domestic-total</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/tv-casting-roundup-white-lotus-darkwing-duck</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/news/verity-box-office-opening</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

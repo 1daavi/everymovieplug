@@ -261,7 +261,7 @@
       <a class="brand" href="/" aria-label="Every Movie Plug"><span>EVERYMOVIEPLUG</span></a>
       <nav class="navrow" aria-label="Browse">
         <a class="chip primary" href="https://everymovieplug.com/trending">🔥 Trending Now</a>
-        <a class="chip" href="articles.html">📰 Articles</a>
+        <a class="chip" href="/articles/">📰 Articles</a>
         <span class="sep" aria-hidden="true"></span>
         <button class="chip" data-type="movie" aria-pressed="false">🎞️ Movies</button>
         <button class="chip" data-type="tv" aria-pressed="false">📺 TV Shows</button>
@@ -294,7 +294,7 @@
         <div class="rail" id="tv"></div>
       </div>
       <div class="row" id="rowArticles">
-        <div class="sec-head"><div><h2>Latest Articles</h2><small>Fresh from Every Movie Plug</small></div><a class="more" href="articles.html">Read all →</a></div>
+        <div class="sec-head"><div><h2>Latest Articles</h2><small>Fresh from Every Movie Plug</small></div><a class="more" href="/articles/">Read all →</a></div>
         <div class="rail" id="articles"></div>
       </div>
     </section>
@@ -413,14 +413,14 @@
     document.addEventListener("click", e => { if (openBtn && !panel.contains(e.target) && !openBtn.contains(e.target)) closePanel(); });
     document.addEventListener("keydown", e => { if (e.key === "Escape") { closePanel(); closeModal(); } });
     addEventListener("resize", closePanel);
-    /* Latest 15 articles: read straight from articles.html, so a new article added there shows up here automatically. */
+    /* Latest 15 articles: read straight from /articles/ (articles/index.html), so a new article added there shows up here automatically. */
     async function loadArticles() {
       const box = $("articles"); if (!box) return;
       box.innerHTML = skeleton();
       try {
-        const res = await fetch("articles.html", { cache: "no-cache" });
+        const res = await fetch("/articles/", { cache: "no-cache" });
         if (!res.ok) throw new Error("HTTP " + res.status);
-        const base = new URL("articles.html", location.href);
+        const base = new URL("/articles/", location.href);
         const doc = new DOMParser().parseFromString(await res.text(), "text/html");
         const items = [...doc.querySelectorAll(".article-card")].map((a, n) => {
           const img = a.querySelector(".article-thumbnail img"), date = a.querySelector(".article-date")?.textContent.trim() || "";
@@ -439,7 +439,7 @@
           <div class="poster${a.img ? '' : ' nop'}">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}</div>
           <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`).join("");
       } catch (e) {
-        box.innerHTML = '<p class="note">Couldn’t load articles right now. <a href="articles.html" style="text-decoration:underline">Browse all articles</a>.</p>';
+        box.innerHTML = '<p class="note">Couldn’t load articles right now. <a href="/articles/" style="text-decoration:underline">Browse all articles</a>.</p>';
       }
     }
 
@@ -460,7 +460,7 @@
             ${summary ? `<p>${esc(summary)}</p>` : ""}
             <div class="m-links">
               <a class="chip primary" href="${esc(a.href)}">Continue reading &rarr;</a>
-              <a class="chip" href="articles.html">More articles</a>
+              <a class="chip" href="/articles/">More articles</a>
               <button class="chip" onclick="shareArticle(${n}, this)">&#128279; Share</button>
               <a class="chip" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">Discuss on X</a>
             </div>
@@ -483,7 +483,7 @@
       }).catch(() => { a.summary = ""; a.mins = 0; });
       return false;
     }
-    /* Shared links drop the .html ending: /article/name.html -> /article/name */
+    /* Shared links drop the .html ending: /articles/name.html -> /articles/name */
     function cleanArticleUrl(href) {
       try { const u = new URL(href, location.href); u.pathname = u.pathname.replace(/\.html$/i, ""); return u.toString(); }
       catch (e) { return href; }
