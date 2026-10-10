@@ -24,6 +24,8 @@ jobs:
         run: pip install requests pillow
 
       - name: Download images from TMDB
+        id: fetch
+        continue-on-error: true   # still commit the images that worked, then fail the run below
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: python scripts/fetch_tmdb_images.py
@@ -37,3 +39,9 @@ jobs:
           git commit -m "Add TMDB images for news posts"
           git pull --rebase
           git push
+
+      - name: Report missing images
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "Some posts got no image. See the 'Download images from TMDB' step for which ones."
+          exit 1
