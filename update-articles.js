@@ -6,8 +6,10 @@
  * linked in articles/index.html, reads its title, thumbnail, excerpt and date and
  * adds a card to the top of the list. Existing cards are never touched.
  *
+ * It now handles BOTH sections: /articles (list cards) and /news (tiles in news/index.html).
+ *
  * Usage (run from your site root):   node update-articles.js
- * Options:  --listing=articles/index.html   --dir=articles
+ * Options:  --only=articles   or   --only=news
  */
 const fs = require("fs");
 const path = require("path");
@@ -15,8 +17,6 @@ const path = require("path");
 const args = Object.fromEntries(
   process.argv.slice(2).map(a => a.replace(/^--/, "").split("="))
 );
-const LISTING = args.listing || "articles/index.html"; // page that shows the cards
-const DIR = args.dir || "articles";               // folder with your articles
 const ASSETS = args.assets || "articleassets";   // folder with your images
 const SKIP = ["index.html"];                     // files to ignore
 const SITE = /^https?:\/\/(www\.)?everymovieplug\.com\//i; // your own domain
@@ -50,9 +50,10 @@ function getTitle(html) {
   return t.replace(/\s*[|\-–—]\s*Every Movie Plug\s*$/i, "").trim();
 }
 
-function getExcerpt(html) {
-  // 1) the subtitle shown under the headline
-  let e = "";
+function getExcerpt(html, preferMeta) {
+  // 1) the subtitle shown under the headline (news: the meta description, which is what the tiles show)
+  let e = preferMeta ? meta(html, ["description", "og:description"]) : "";
+  if (e) return e.length > 200 ? e.slice(0, 197).replace(/\s+\S*$/, "…") : e;
   const sub = html.match(/<p[^>]*class=["'][^"']*article-subtitle[^"']*["'][^>]*>([\s\S]*?)<\/p>/i);
   if (sub) e = clean(sub[1]);
   // 2) meta description  3) first long paragraph in the body
@@ -116,34 +117,22 @@ function getDate(html, file) {
 const fmtDate = d => d.toLocaleDateString("en-US",
   { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 
-/* ---------- main ---------- */
-if (!fs.existsSync(LISTING)) { console.error(`Can't find ${LISTING}`); process.exit(1); }
-if (!fs.existsSync(DIR)) { console.error(`Can't find folder ${DIR}/`); process.exit(1); }
+/* ---------- section settings ---------- */
+// news tiles get a small label: set <meta name="category" content="Box Office"> in a story to choose it,
+// otherwise it is guessed from the headline and description.
+function getTag(html, title, excerpt) {
+  const m = meta(html, ["category", "article:section"]);
+  if (m) return m;
+  const t = (title + " " + excerpt).toLowerCase();
+  if (/renew|casting/.test(t)) return "TV";
+  if (/box office|opening weekend|opens with|debuts at|grossed|domestic|million/.test(t)) return "Box Office";
+  if (/stream|peacock|netflix|disney\+|hulu|max\b|prime video|apple tv|what to watch/.test(t)) return "Streaming";
+  if (/season|series|casting|renew|tv\b/.test(t)) return "TV";
+  return "News";
+}
 
-let listing = fs.readFileSync(LISTING, "utf8");
-const linked = new Set(
-  [...listing.matchAll(/class="article-card"[^>]*>/g)].length
-    ? [...listing.matchAll(/<a[^>]+href=["']([^"']+)["'][^>]*class=["']article-card["']/g)]
-        .map(m => decodeURIComponent(path.basename(m[1])).toLowerCase())
-    : []
-);
-
-const fresh = fs.readdirSync(DIR)
-  .filter(f => f.toLowerCase().endsWith(".html") && !SKIP.includes(f.toLowerCase()))
-  .filter(f => !linked.has(f.toLowerCase()));
-
-if (!fresh.length) { console.log("No new articles found."); process.exit(0); }
-
-const cards = fresh.map(f => {
-  const file = path.join(DIR, f);
-  const html = fs.readFileSync(file, "utf8");
-  const title = getTitle(html) || f.replace(/\.html$/, "").replace(/-/g, " ");
-  const date = getDate(html, file);
-  return { f, title, date, excerpt: getExcerpt(html), img: getImage(html, file) };
-}).sort((a, b) => b.date - a.date);
-
-const cardHtml = c => `  <!-- ${esc(c.title)} -->
-  <a href="/${DIR}/${encodeURI(c.f)}" class="article-card">
+const articleCard = c => `  <!-- ${esc(c.title)} -->
+  <a href="/${c.dir}/${encodeURI(c.f)}" class="article-card">
     <div class="article-thumbnail">
       ${c.img ? `<img src="${esc(c.img)}" alt="${esc(c.title)}" loading="lazy">` : ""}
     </div>
@@ -155,9 +144,74 @@ const cardHtml = c => `  <!-- ${esc(c.title)} -->
   </a>
 `;
 
-const open = /<main[^>]*class=["'][^"']*articles-grid[^"']*["'][^>]*>\s*/i;
-if (!open.test(listing)) { console.error('Could not find <main class="articles-grid">'); process.exit(1); }
-listing = listing.replace(open, m => m + "\n" + cards.map(cardHtml).join("\n") + "\n");
+const newsTile = c => `            <!-- ${esc(c.title)} -->
+            <a class="tile" href="/${c.dir}/${encodeURI(c.f)}" style="--i:0">
+                <div class="tile-thumb">
+                    ${c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ""}
+                    <span class="tile-tag">${esc(c.tag)}</span>
+                </div>
+                <div class="tile-body">
+                    <time class="tile-date" datetime="${c.date.toISOString().slice(0, 10)}">${fmtDate(c.date)}</time>
+                    <h2 class="tile-title">${esc(c.title)}</h2>
+                    <p class="tile-excerpt">${esc(c.excerpt)}</p>
+                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+            </a>
+`;
 
-fs.writeFileSync(LISTING, listing);
-cards.forEach(c => console.log(`Added: ${c.title}  (${fmtDate(c.date)})${c.img ? "" : "  [no thumbnail found]"}`));
+const SECTIONS = {
+  articles: {
+    dir: "articles", listing: "articles/index.html", card: articleCard, preferMeta: false,
+    linked: /<a[^>]+href=["']([^"']+)["'][^>]*class=["']article-card["']/g,
+    open: /<main[^>]*class=["'][^"']*articles-grid[^"']*["'][^>]*>\s*/i,
+    openHint: '<main class="articles-grid">',
+  },
+  news: {
+    dir: "news", listing: "news/index.html", card: newsTile, preferMeta: true,
+    linked: /<a[^>]*class=["']tile["'][^>]*href=["']([^"']+)["']/g,
+    open: /<div[^>]*class=["']tiles["'][^>]*>\s*/i,
+    openHint: '<div class="tiles" id="tiles">',
+  },
+};
+
+/* ---------- main ---------- */
+function run(sec) {
+  const { dir: DIR, listing: LISTING } = sec;
+  if (!fs.existsSync(LISTING)) { console.error(`Can't find ${LISTING}`); return 1; }
+  if (!fs.existsSync(DIR)) { console.error(`Can't find folder ${DIR}/`); return 1; }
+
+  let listing = fs.readFileSync(LISTING, "utf8");
+  const linked = new Set([...listing.matchAll(sec.linked)]
+    .map(m => decodeURIComponent(path.basename(m[1])).toLowerCase()));
+
+  const fresh = fs.readdirSync(DIR)
+    .filter(f => f.toLowerCase().endsWith(".html") && !SKIP.includes(f.toLowerCase()))
+    .filter(f => !linked.has(f.toLowerCase()));
+
+  if (!fresh.length) { console.log(`[${DIR}] No new items found.`); return 0; }
+
+  const cards = fresh.map(f => {
+    const file = path.join(DIR, f);
+    const html = fs.readFileSync(file, "utf8");
+    const title = getTitle(html) || f.replace(/\.html$/, "").replace(/-/g, " ");
+    const excerpt = getExcerpt(html, sec.preferMeta);
+    return { f, dir: DIR, title, excerpt, date: getDate(html, file), img: getImage(html, file), tag: getTag(html, title, excerpt) };
+  }).sort((a, b) => b.date - a.date);
+
+  if (!sec.open.test(listing)) { console.error(`Could not find ${sec.openHint} in ${LISTING}`); return 1; }
+  listing = listing.replace(sec.open, m => m + "\n" + cards.map(sec.card).join("\n") + "\n");
+  // keep the staggered entrance animation in order (news tiles)
+  let n = 0;
+  listing = listing.replace(/(<a class="tile"[^>]*style="--i:)\d+(")/g, (_, a, b) => a + (n++) + b);
+
+  fs.writeFileSync(LISTING, listing);
+  cards.forEach(c => console.log(`[${DIR}] Added: ${c.title}  (${fmtDate(c.date)})${c.img ? "" : "  [no thumbnail found]"}`));
+  return 0;
+}
+
+const only = args.only;
+const targets = only ? [only] : Object.keys(SECTIONS);
+if (targets.some(t => !SECTIONS[t])) { console.error("--only must be articles or news"); process.exit(1); }
+let failed = 0;
+targets.forEach(t => { failed += run(SECTIONS[t]); });
+process.exit(failed ? 1 : 0);
