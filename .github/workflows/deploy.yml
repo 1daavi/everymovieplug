@@ -1,0 +1,27 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject keys
+        env:
+          TMDB: ${{ secrets.TMDB_API_KEY }}
+          OMDB: ${{ secrets.OMDB_API_KEY }}
+          WM: ${{ secrets.WATCHMODE_API_KEY }}
+        run: |
+          sed -i "s|__TMDB_API_KEY__|$TMDB|g; s|__OMDB_API_KEY__|$OMDB|g; s|__WATCHMODE_API_KEY__|$WM|g" index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - uses: actions/deploy-pages@v4
