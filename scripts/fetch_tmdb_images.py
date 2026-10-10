@@ -6,7 +6,10 @@ For each post it saves two files:
   <slug>-full.jpg  1200x630 crop for og:image / twitter:image
 
 How it knows which title to look up
-  1. Each post in news/ can carry a line in its <head>:
+  0. Nothing to do for a normal post: if a post has no tag and is not in TITLES, the script reads
+     the film/show titles you put in italics (<em>Animals</em>) in the headline, subtitle and text,
+     asks TMDB for an exact title match, and uses the first one it finds (newest/most popular wins).
+  1. To choose the title yourself, a post can carry a line in its <head>:
          <meta name="tmdb" content="movie|Other Mommy|2026">
      Formats:  movie|Title|Year   tv|Title|Year   movie|Title A;Title B|   movie|1234567
      (a TMDB id is the number in the film's TMDB web address; use it to fix a wrong match)
@@ -29,6 +32,7 @@ import io
 import os
 import re
 import sys
+import datetime
 
 import requests
 from PIL import Image, ImageFilter
@@ -86,8 +90,57 @@ def collect_jobs():
             except ValueError as e:
                 print(f"::warning::{slug}: bad tmdb meta tag ({e})")
         elif slug not in jobs:
-            print(f'::warning::{slug}: no <meta name="tmdb"> tag and no TITLES entry, so no image will be fetched')
+            jobs[slug] = ("auto", titles_from_page(path), None)
     return jobs
+
+
+def _norm(t):
+    return re.sub(r"[^a-z0-9]+", " ", html.unescape(t).lower()).strip()
+
+
+def titles_from_page(path):
+    """Titles written in italics, in page order: headline, subtitle, then the story text."""
+    with open(path, encoding="utf-8", errors="replace") as f:
+        text = f.read()
+    start = text.find("<main")
+    text = text[start if start >= 0 else 0:]
+    end = text.find("article-sources")
+    text = text[:end] if end >= 0 else text
+    out = []
+    for m in re.finditer(r"<em>(.*?)</em>", text, re.S | re.I):
+        t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", m.group(1)))).strip()
+        if 2 <= len(t) <= 60 and t.lower() not in [x.lower() for x in out]:
+            out.append(t)
+    return out
+
+
+def _variants(title):
+    """'The Batman Part II' -> also try 'The Batman' (sequels are often missing on TMDB)."""
+    yield title
+    short = re.sub(r"[\s:\-]*(part\s+(?:[ivx]+|\d+)|chapter\s+\d+|\d+)$", "", title, flags=re.I).strip()
+    if short and short.lower() != title.lower():
+        yield short
+
+
+def auto_find(titles, key):
+    """Try each italic title: exact title match on TMDB (movie or tv), prefer recent releases, then popularity."""
+    if not titles:
+        raise LookupError("no italic (<em>) titles on the page to search for; add a <meta name=\"tmdb\"> tag")
+    recent = datetime.date.today().year - 2
+    for title in titles:
+        for variant in _variants(title):
+            results = api_get("/search/multi", key, query=variant).get("results", [])
+            exact = [r for r in results
+                     if r.get("media_type") in ("movie", "tv")
+                     and _norm(r.get("title") or r.get("name") or "") == _norm(variant)
+                     and (r.get("backdrop_path") or r.get("poster_path"))]
+            if not exact:
+                continue
+            fresh = [r for r in exact if (year_of(r) or 0) >= recent]
+            best = max(fresh or exact, key=lambda r: r.get("popularity", 0))
+            print(f"       auto-matched {variant!r} on TMDB")
+            return best["media_type"], best
+    raise LookupError(f"none of {titles!r} matched a movie or show on TMDB; add a <meta name=\"tmdb\"> tag")
 
 
 API = "https://api.themoviedb.org/3"
@@ -191,7 +244,10 @@ def main():
             print(f"[SKIP] {slug}: images already exist")
             continue
         try:
-            hit = find_hit(kind, query, year, key)
+            if kind == "auto":
+                kind, hit = auto_find(query, key)
+            else:
+                hit = find_hit(kind, query, year, key)
             if not hit:
                 raise LookupError(f"no TMDB match for {query!r} ({year})")
             name = hit.get("title") or hit.get("name")
@@ -211,9 +267,9 @@ def main():
     print()
     if missing:
         print("Missing images for:", ", ".join(missing))
-        print("Fix those lines in TITLES (try the TMDB id) and run the workflow again.")
-    else:
-        print("Done. All images are in place.")
+        print('Fix: add <meta name="tmdb" content="movie|Exact Title|Year"> (or the TMDB id) to the post, then run the workflow again.')
+        sys.exit(1)  # the workflow still commits the images that did work, then shows this run as failed
+    print("Done. All images are in place.")
 
 
 if __name__ == "__main__":
