@@ -327,7 +327,7 @@
 
   <script>
     /* ===== CONFIG ===== */
-    const TMDB_API_KEY = "6c26404d2252b5ee3712ebe31f465959";   // paste the same TMDB key you use in trending.html (v3 key or v4 token)
+    // API keys live on the server (see functions/api/[[path]].js). Nothing secret belongs in this file.
     const TREND_URL = "https://everymovieplug.com/trending";
 
     const $ = id => document.getElementById(id);
@@ -338,14 +338,12 @@
     const F = { type: "all", genre: "", country: "" };
 
     /* ---- TMDB ---- */
-    const isV4 = TMDB_API_KEY.startsWith("eyJ");
     async function tmdb(path, params = {}) {
-      const u = new URL("https://api.themoviedb.org/3" + path);
+      const u = new URL("/api/tmdb" + path, location.origin);
       Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));
-      if (!isV4) u.searchParams.set("api_key", TMDB_API_KEY);
-      const ck = "emp_home_" + u.pathname + u.search.replace(/api_key=[^&]*&?/, "");
+      const ck = "emp_home_" + u.pathname + u.search;
       try { const c = JSON.parse(sessionStorage.getItem(ck)); if (c && Date.now() - c.t < 18e5) return c.d; } catch {}
-      const r = await fetch(u, isV4 ? { headers: { Authorization: "Bearer " + TMDB_API_KEY } } : {});
+      const r = await fetch(u);
       if (!r.ok) throw new Error(r.status === 401 ? "TMDB rejected the API key." : "TMDB error " + r.status);
       const d = await r.json();
       try { sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), d })); } catch {}
@@ -381,7 +379,6 @@
         $(h).textContent = (filtered ? "Popular " : "Trending ") + label;
         if ($(row).hidden) return;
         $(el).innerHTML = skeleton();
-        if (!TMDB_API_KEY) { $(el).innerHTML = '<p class="note">Add your TMDB key in the CONFIG block of this page to show live titles.</p>'; return; }
         try {
           const r = await fetchRow(t);
           $(el).innerHTML = r === null ? `<p class="note">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre.</p>`
@@ -553,7 +550,7 @@ function setHash(type, id, title, fromHash) {
     addEventListener("popstate", () => { if (location.hash.slice(1)) openFromHash(); else closeModal(true); });
 
     /* ===== Movie popup (same as trending page) ===== */
-    const IMG = "https://image.tmdb.org/t/p/", OMDB_API_KEY = "92cabd79";
+    const IMG = "https://image.tmdb.org/t/p/";
     let MAGNETS = {}, WATCH = {}, TRAILER = null;
     const magnetsReady = fetch("magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
     const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
@@ -631,22 +628,19 @@ function setHash(type, id, title, fromHash) {
       location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
     }
 
-    // OPTIONAL: free key from api.watchmode.com. With it, each streaming logo opens the movie/show's own page in the app
-    // (TMDB can't provide that). Without it, logos fall back to a search on the service's site.
-    const WATCHMODE_API_KEY = "FmWHKsgW7G29l6FMwYz5dsxlvhzxLdi8Jtku1xI8";
+    // Watchmode deep links: each streaming logo opens the title's own page in the app. The key is added server-side by /api/watchmode.
     const DEEP = {};
     const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
     async function loadDeepLinks(type, id, region) {
-      if (!WATCHMODE_API_KEY) return;
       const ck = `wm:${type}:${id}:${region}`;
       if (DEEP[ck]) return;
       try {
         const cached = sessionStorage.getItem(ck);
         if (cached) { DEEP[ck] = JSON.parse(cached); return; }
-        const sr = await (await fetch(`https://api.watchmode.com/v1/search/?apiKey=${WATCHMODE_API_KEY}&search_field=tmdb_${type}_id&search_value=${id}`)).json();
+        const sr = await (await fetch(`/api/watchmode/search?search_field=tmdb_${type}_id&search_value=${id}`)).json();
         const wid = sr.title_results && sr.title_results[0] && sr.title_results[0].id;
         if (!wid) { DEEP[ck] = []; return; }
-        const src = await (await fetch(`https://api.watchmode.com/v1/title/${wid}/sources/?apiKey=${WATCHMODE_API_KEY}&regions=${region}`)).json();
+        const src = await (await fetch(`/api/watchmode/title/${wid}/sources?regions=${region}`)).json();
         DEEP[ck] = Array.isArray(src) ? src : [];
         try { sessionStorage.setItem(ck, JSON.stringify(DEEP[ck])); } catch {}
       } catch { DEEP[ck] = []; }
@@ -689,9 +683,9 @@ function setHash(type, id, title, fromHash) {
         await magnetsReady;
         const meta = [yr, d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
         let scores = "";
-        if (OMDB_API_KEY && imdb) {
+        if (imdb) {
           try {
-            const o = await (await fetch(`https://www.omdbapi.com/?i=${imdb}&apikey=${OMDB_API_KEY}`)).json();
+            const o = await (await fetch(`/api/omdb?i=${imdb}`)).json();
             const rows = (o.Ratings || []).map(r => `<div><b>${esc(r.Value)}</b><i>${esc(r.Source.replace("Internet Movie Database", "IMDb"))}</i></div>`).join("");
             if (rows) scores = `<div class="m-scores">${rows}</div>`;
           } catch {}

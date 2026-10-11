@@ -89,10 +89,6 @@
       <p id="updated" class="text-[11px] uppercase tracking-widest font-semibold text-slate-500 mt-4"></p>
     </section>
 
-    <div id="setup" class="hidden glass-card rounded-3xl p-6 max-w-2xl mx-auto text-sm text-slate-300 space-y-2">
-      <p class="font-bold text-white">6c26404d2252b5ee3712ebe31f465959</p>
-      <p>Open this file, find <code class="text-amber-400">TMDB_API_KEY</code> in the config block at the bottom, and paste your key. Either the v3 API key or the v4 "Read Access Token" works.</p>
-    </div>
     <div id="error" class="hidden glass-card rounded-3xl p-6 max-w-2xl mx-auto text-sm text-amber-400 text-center"></div>
 
     <section id="searchSec" class="hidden space-y-8 scroll-mt-6">
@@ -142,24 +138,21 @@
 </footer>
 
 <script>
-/* ============ CONFIG: edit these ============ */
-const TMDB_API_KEY = "6c26404d2252b5ee3712ebe31f465959";        // v3 API key OR v4 Read Access Token (starts with "eyJ")
-const OMDB_API_KEY = "92cabd79";        // OPTIONAL: free key from omdbapi.com adds IMDb / Rotten Tomatoes / Metacritic scores in the popup
+/* ============ CONFIG ============ */
+// API keys live on the server (functions/api/[[path]].js). Nothing secret belongs in this file.
 const NEW_WITHIN_DAYS = 90;     // what counts as "new"
 const CACHE_MINUTES = 60;       // refresh from TMDB at most this often
 /* ============================================ */
 
-const API = "https://api.themoviedb.org/3", IMG = "https://image.tmdb.org/t/p/";
+const API = "/api/tmdb", IMG = "https://image.tmdb.org/t/p/";
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const isV4 = TMDB_API_KEY.startsWith("eyJ");
 
 async function tmdb(path, params = {}) {
-  const url = new URL(API + path);
+  const url = new URL(API + path, location.origin);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  if (!isV4) url.searchParams.set("api_key", TMDB_API_KEY);
-  const res = await fetch(url, isV4 ? { headers: { Authorization: "Bearer " + TMDB_API_KEY } } : {});
-  if (!res.ok) throw new Error(res.status === 401 ? "TMDB rejected the API key (401). Check it and try again." : "TMDB error " + res.status);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(res.status === 401 ? "TMDB rejected the server API key (401). Check the TMDB_API_KEY secret." : "TMDB error " + res.status);
   return res.json();
 }
 
@@ -168,7 +161,7 @@ const today = new Date(), since = new Date(Date.now() - NEW_WITHIN_DAYS * 864e5)
 
 async function load() {
   const key = "emp_tmdb_v1", c = (() => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } })();
-  if (c && Date.now() - c.t < CACHE_MINUTES * 6e4 && c.k === TMDB_API_KEY.slice(-6)) return c.d;
+  if (c && Date.now() - c.t < CACHE_MINUTES * 6e4) return c.d;
   const [m, t, mg, tg] = await Promise.all([
     tmdb("/discover/movie", { sort_by: "popularity.desc", "primary_release_date.gte": ymd(since), "primary_release_date.lte": ymd(today), "vote_count.gte": 5, include_adult: false, language: "en-US", with_original_language: "en" }),
     tmdb("/discover/tv", { sort_by: "popularity.desc", "first_air_date.gte": ymd(since), "first_air_date.lte": ymd(today), "vote_count.gte": 3, include_adult: false, language: "en-US", with_original_language: "en" }),
@@ -176,7 +169,7 @@ async function load() {
   ]);
   const genres = Object.fromEntries([...mg.genres, ...tg.genres].map(g => [g.id, g.name]));
   const d = { movies: m.results.slice(0, 10), tv: t.results.slice(0, 10), genres, at: Date.now() };
-  try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), k: TMDB_API_KEY.slice(-6), d })); } catch {}
+  try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch {}
   return d;
 }
 
@@ -277,22 +270,19 @@ function openProvider(e, a) {
   location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
 }
 
-// OPTIONAL: free key from api.watchmode.com. With it, each streaming logo opens the movie/show's own page in the app
-// (TMDB can't provide that). Without it, logos fall back to a search on the service's site.
-const WATCHMODE_API_KEY = "FmWHKsgW7G29l6FMwYz5dsxlvhzxLdi8Jtku1xI8";
+// Watchmode deep links: each streaming logo opens the title's own page in the app. The key is added server-side by /api/watchmode.
 const DEEP = {};
 const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
 async function loadDeepLinks(type, id, region) {
-  if (!WATCHMODE_API_KEY) return;
   const ck = `wm:${type}:${id}:${region}`;
   if (DEEP[ck]) return;
   try {
     const cached = sessionStorage.getItem(ck);
     if (cached) { DEEP[ck] = JSON.parse(cached); return; }
-    const sr = await (await fetch(`https://api.watchmode.com/v1/search/?apiKey=${WATCHMODE_API_KEY}&search_field=tmdb_${type}_id&search_value=${id}`)).json();
+    const sr = await (await fetch(`/api/watchmode/search?search_field=tmdb_${type}_id&search_value=${id}`)).json();
     const wid = sr.title_results && sr.title_results[0] && sr.title_results[0].id;
     if (!wid) { DEEP[ck] = []; return; }
-    const src = await (await fetch(`https://api.watchmode.com/v1/title/${wid}/sources/?apiKey=${WATCHMODE_API_KEY}&regions=${region}`)).json();
+    const src = await (await fetch(`/api/watchmode/title/${wid}/sources?regions=${region}`)).json();
     DEEP[ck] = Array.isArray(src) ? src : [];
     try { sessionStorage.setItem(ck, JSON.stringify(DEEP[ck])); } catch {}
   } catch { DEEP[ck] = []; }
@@ -377,9 +367,9 @@ async function openModal(type, id, fromHash) {
     TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
     const meta = [(d.release_date || d.first_air_date || "").slice(0, 4), d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
     let extra = "";
-    if (OMDB_API_KEY && imdb) {
+    if (imdb) {
       try {
-        const o = await (await fetch(`https://www.omdbapi.com/?i=${imdb}&apikey=${OMDB_API_KEY}`)).json();
+        const o = await (await fetch(`/api/omdb?i=${imdb}`)).json();
         const rows = (o.Ratings || []).map(r => `<div class="glass-card rounded-2xl px-4 py-3 text-center"><div class="text-lg font-extrabold text-white">${esc(r.Value)}</div><div class="text-[10px] uppercase tracking-widest text-slate-400">${esc(r.Source.replace("Internet Movie Database","IMDb"))}</div></div>`).join("");
         if (rows) extra = `<div class="grid grid-cols-3 gap-3 mt-5">${rows}</div>`;
       } catch {}
@@ -439,7 +429,6 @@ $("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(
 $("qClear").addEventListener("click", () => { $("q").value = ""; $("qClear").classList.add("hidden"); runSearch(""); $("q").focus(); });
 
 (async function init() {
-  if (!TMDB_API_KEY) { $("setup").classList.remove("hidden"); return; }
   $("movies").innerHTML = $("tv").innerHTML = skeletons();
   try {
     const d = await load();
