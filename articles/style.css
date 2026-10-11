@@ -10,6 +10,7 @@
   --link: #0969da;
   --link-hover: #044289;
   --shadow: rgba(0, 0, 0, 0.05);
+  --pill-fg: #6d28d9; --pill-bg: rgba(124, 58, 237, 0.08); --pill-edge: rgba(124, 58, 237, 0.35);
 }
 
 /* Dark mode: follows the visitor's system setting by default */
@@ -24,6 +25,7 @@
     --link: #a5b4fc;
     --link-hover: #ffffff;
     --shadow: rgba(0, 0, 0, 0.6);
+    --pill-fg: #c4b5fd; --pill-bg: rgba(168, 85, 247, 0.1); --pill-edge: rgba(168, 85, 247, 0.35);
   }
 }
 
@@ -39,6 +41,7 @@
   --link: #a5b4fc;
   --link-hover: #ffffff;
   --shadow: rgba(0, 0, 0, 0.6);
+  --pill-fg: #c4b5fd; --pill-bg: rgba(168, 85, 247, 0.1); --pill-edge: rgba(168, 85, 247, 0.35);
 }
 
 :root[data-theme="light"] {
@@ -66,17 +69,34 @@ nav {
   margin: 0 auto 24px auto;
 }
 
+/* Back button: same rounded pill as "Explore more" on the homepage */
 nav a {
-  color: var(--link);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--pill-fg);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid var(--pill-edge);
+  background: var(--pill-bg);
+  white-space: nowrap;
+  transition: transform 0.3s cubic-bezier(.16, 1, .3, 1), background 0.3s;
 }
 
-nav a:hover {
-  text-decoration: underline;
-  color: var(--link-hover);
+nav a:hover,
+nav a:focus-visible {
+  transform: translateX(-3px);
+  background: var(--pill-edge);
+  color: var(--pill-fg);
+  text-decoration: none;
+}
+
+nav a:active {
+  transform: scale(0.96);
+  transition-duration: 0.12s;
 }
 
 /* Article Container */
