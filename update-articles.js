@@ -4,7 +4,7 @@
  *
  * Scans the /articles folder, and for every .html file that is NOT already
  * linked in articles/index.html, reads its title, thumbnail, excerpt and date and
- * adds a card to the top of the list. Existing cards are never touched.
+ * adds a tile to the top of the grid. Existing cards are never touched.
  *
  * It now handles BOTH sections: /articles (list cards) and /news (tiles in news/index.html).
  *
@@ -34,11 +34,13 @@ const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;")
 const clean = s => decode((s || "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 function meta(html, keys) {
+  // the value runs to the matching closing quote, so apostrophes inside "double-quoted" text no longer cut it short
   for (const key of keys) {
-    const re1 = new RegExp(`<meta[^>]+(?:property|name)=["']${key}["'][^>]*content=["']([^"']*)["']`, "i");
-    const re2 = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*(?:property|name)=["']${key}["']`, "i");
+    const re1 = new RegExp(`<meta[^>]+(?:property|name)=["']${key}["'][^>]*?content=(?:"([^"]*)"|'([^']*)')`, "i");
+    const re2 = new RegExp(`<meta[^>]+content=(?:"([^"]*)"|'([^']*)')[^>]*?(?:property|name)=["']${key}["']`, "i");
     const m = html.match(re1) || html.match(re2);
-    if (m && m[1].trim()) return decode(m[1].trim());
+    const v = m && (m[1] ?? m[2]);
+    if (v && v.trim()) return decode(v.trim());
   }
   return "";
 }
@@ -131,20 +133,7 @@ function getTag(html, title, excerpt) {
   return "News";
 }
 
-const articleCard = c => `  <!-- ${esc(c.title)} -->
-  <a href="/${c.dir}/${encodeURI(c.f)}" class="article-card">
-    <div class="article-thumbnail">
-      ${c.img ? `<img src="${esc(c.img)}" alt="${esc(c.title)}" loading="lazy">` : ""}
-    </div>
-    <div class="article-content">
-      <div class="article-date">${fmtDate(c.date)}</div>
-      <h2 class="article-title">${esc(c.title)}</h2>
-      <p class="article-excerpt">${esc(c.excerpt)}</p>
-    </div>
-  </a>
-`;
-
-const newsTile = c => `            <!-- ${esc(c.title)} -->
+const tileCard = label => c => `            <!-- ${esc(c.title)} -->
             <a class="tile" href="/${c.dir}/${encodeURI(c.f)}" style="--i:0">
                 <div class="tile-thumb">
                     ${c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ""}
@@ -154,17 +143,19 @@ const newsTile = c => `            <!-- ${esc(c.title)} -->
                     <time class="tile-date" datetime="${c.date.toISOString().slice(0, 10)}">${fmtDate(c.date)}</time>
                     <h2 class="tile-title">${esc(c.title)}</h2>
                     <p class="tile-excerpt">${esc(c.excerpt)}</p>
-                    <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="tile-more">${label} <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
 `;
+const newsTile = tileCard("Read story"), articleCard = tileCard("Read article");
 
 const SECTIONS = {
   articles: {
     dir: "articles", listing: "articles/index.html", card: articleCard, preferMeta: false,
-    linked: /<a[^>]+href=["']([^"']+)["'][^>]*class=["']article-card["']/g,
-    open: /<main[^>]*class=["'][^"']*articles-grid[^"']*["'][^>]*>\s*/i,
-    openHint: '<main class="articles-grid">',
+    linked: /<a[^>]*class=["']tile["'][^>]*href=["']([^"']+)["']/g,
+    open: /<div[^>]*class=["']tiles["'][^>]*>\s*/i,
+    openHint: '<div class="tiles" id="tiles">',
+    tag: "Article",
   },
   news: {
     dir: "news", listing: "news/index.html", card: newsTile, preferMeta: true,
@@ -195,7 +186,7 @@ function run(sec) {
     const html = fs.readFileSync(file, "utf8");
     const title = getTitle(html) || f.replace(/\.html$/, "").replace(/-/g, " ");
     const excerpt = getExcerpt(html, sec.preferMeta);
-    return { f, dir: DIR, title, excerpt, date: getDate(html, file), img: getImage(html, file), tag: getTag(html, title, excerpt) };
+    return { f, dir: DIR, title, excerpt, date: getDate(html, file), img: getImage(html, file), tag: sec.tag ? (meta(html, ["category", "article:section"]) || sec.tag) : getTag(html, title, excerpt) };
   }).sort((a, b) => b.date - a.date);
 
   if (!sec.open.test(listing)) { console.error(`Could not find ${sec.openHint} in ${LISTING}`); return 1; }

@@ -294,6 +294,10 @@
         <div class="sec-head"><div><h2 id="hTv">Trending TV Shows</h2><small>Live from TMDB</small></div><a class="more" data-more href="https://everymovieplug.com/trending">Explore more →</a></div>
         <div class="rail" id="tv"></div>
       </div>
+      <div class="row" id="rowNews">
+        <div class="sec-head"><div><h2>Latest News</h2><small>Headlines from Every Movie Plug</small></div><a class="more" href="/news/">Read all →</a></div>
+        <div class="rail" id="news"></div>
+      </div>
       <div class="row" id="rowArticles">
         <div class="sec-head"><div><h2>Latest Articles</h2><small>Fresh from Every Movie Plug</small></div><a class="more" href="/articles/">Read all →</a></div>
         <div class="rail" id="articles"></div>
@@ -411,61 +415,69 @@
     document.addEventListener("click", e => { if (openBtn && !panel.contains(e.target) && !openBtn.contains(e.target)) closePanel(); });
     document.addEventListener("keydown", e => { if (e.key === "Escape") { closePanel(); closeModal(); } });
     addEventListener("resize", closePanel);
-    /* Latest 15 articles: read straight from /articles/ (articles/index.html), so a new article added there shows up here automatically. */
-    async function loadArticles() {
-      const box = $("articles"); if (!box) return;
+    /* Latest news (10) and latest articles (15): read straight from /news/ and /articles/. Both index pages use the same
+       .tile markup, so a story published or edited there shows up here automatically (the page is fetched fresh each visit). */
+    const FEEDS = {
+      news:     { dir: "/news/",     box: "news",     max: 10, label: "News",    more: "More news",     browse: "Browse all news" },
+      articles: { dir: "/articles/", box: "articles", max: 15, label: "Article", more: "More articles", browse: "Browse all articles" }
+    };
+    const POSTS = { news: [], articles: [] };
+    let POST_TOK = 0;
+    async function loadFeed(kind) {
+      const f = FEEDS[kind], box = $(f.box); if (!box) return;
       box.innerHTML = skeleton();
       try {
-        const res = await fetch("/articles/", { cache: "no-cache" });
+        const res = await fetch(f.dir, { cache: "no-cache" });
         if (!res.ok) throw new Error("HTTP " + res.status);
-        const base = new URL("/articles/", location.href);
+        const base = new URL(f.dir, location.href);
         const doc = new DOMParser().parseFromString(await res.text(), "text/html");
-        const items = [...doc.querySelectorAll(".article-card")].map((a, n) => {
-          const img = a.querySelector(".article-thumbnail img"), date = a.querySelector(".article-date")?.textContent.trim() || "";
+        const items = [...doc.querySelectorAll("a.tile")].map((a, n) => {
+          const img = a.querySelector(".tile-thumb img"), t = a.querySelector(".tile-date");
+          const date = t?.textContent.trim() || "";
           return {
-            n, date, time: Date.parse(date) || 0,
+            n, date, time: Date.parse(t?.getAttribute("datetime") || "") || Date.parse(date) || 0,
             href: new URL(a.getAttribute("href"), base).href,
             img: img ? new URL(img.getAttribute("src"), base).href : "",
             alt: img?.getAttribute("alt") || "",
-            title: a.querySelector(".article-title")?.textContent.trim() || "Untitled",
-            excerpt: a.querySelector(".article-excerpt")?.textContent.trim() || ""
+            tag: a.querySelector(".tile-tag")?.textContent.trim() || f.label,
+            title: a.querySelector(".tile-title")?.textContent.trim() || "Untitled",
+            excerpt: a.querySelector(".tile-excerpt")?.textContent.trim() || ""
           };
-        }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, 15);
-        if (!items.length) throw new Error("No articles found");
-        ARTICLES = items;
-        box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openArticle(event,${n})" aria-label="Preview ${esc(a.title)}">
+        }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, f.max);
+        if (!items.length) throw new Error("Nothing found");
+        POSTS[kind] = items;
+        box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openPost(event,'${kind}',${n})" aria-label="Preview ${esc(a.title)}">
           <div class="poster${a.img ? '' : ' nop'}">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}</div>
           <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`).join("");
       } catch (e) {
-        box.innerHTML = '<p class="note">Couldn’t load articles right now. <a href="/articles/" style="text-decoration:underline">Browse all articles</a>.</p>';
+        box.innerHTML = `<p class="note">Couldn’t load ${kind} right now. <a href="${f.dir}" style="text-decoration:underline">${f.browse}</a>.</p>`;
       }
     }
 
-    /* ===== Article preview popup (reuses the movie popup shell) ===== */
-    let ARTICLES = [], ARTICLE_TOK = 0;
-    function openArticle(ev, n) {
+    /* ===== News / article preview popup (reuses the movie popup shell) ===== */
+    function openPost(ev, kind, n) {
       if (ev && (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button > 0)) return true; // let "open in new tab" work normally
-      const a = ARTICLES[n]; if (!a) return true;
-      const tok = ++ARTICLE_TOK;
+      const f = FEEDS[kind], a = POSTS[kind][n]; if (!a) return true;
+      const tok = ++POST_TOK;
       $("modal").classList.add("open"); document.body.style.overflow = "hidden";
       const hero = a.img ? `<div class="m-hero" style="background-image:url('${esc(a.img.replace(/'/g, "%27"))}')"></div>` : '<div class="m-hero none"></div>';
       const draw = (summary, mins) => {
-        if (tok !== ARTICLE_TOK) return;
+        if (tok !== POST_TOK) return;
         $("modalBody").innerHTML = `${hero}
           <div class="m-body">
             <div class="m-title"><div><h3>${esc(a.title)}</h3><p>${esc(a.date)} · Every Movie Plug${mins ? " · " + mins + " min read" : ""}</p></div></div>
-            <div class="m-tags"><span class="tag">Article</span></div>
+            <div class="m-tags"><span class="tag">${esc(a.tag)}</span></div>
             ${summary ? `<p>${esc(summary)}</p>` : ""}
             <div class="m-links">
               <a class="chip primary" href="${esc(a.href)}">Continue reading &rarr;</a>
-              <a class="chip" href="/articles/">More articles</a>
-              <button class="chip" onclick="shareArticle(${n}, this)">&#128279; Share</button>
+              <a class="chip" href="${f.dir}">${f.more}</a>
+              <button class="chip" onclick="sharePost('${kind}',${n}, this)">&#128279; Share</button>
               <a class="chip" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">Discuss on X</a>
             </div>
           </div>`;
       };
       draw(a.excerpt, 0);
-      // Pull a richer summary + reading time from the article itself
+      // Pull a richer summary + reading time from the story itself
       if (a.summary !== undefined) { draw(a.summary || a.excerpt, a.mins); return false; }
       fetch(a.href).then(r => r.ok ? r.text() : Promise.reject()).then(html => {
         const doc = new DOMParser().parseFromString(html, "text/html");
@@ -486,8 +498,8 @@
       try { const u = new URL(href, location.href); u.pathname = u.pathname.replace(/\.html$/i, ""); return u.toString(); }
       catch (e) { return href; }
     }
-    function shareArticle(n, btn) {
-      const a = ARTICLES[n]; if (!a) return;
+    function sharePost(kind, n, btn) {
+      const a = POSTS[kind][n]; if (!a) return;
       const url = cleanArticleUrl(a.href);
       if (navigator.share) { navigator.share({ title: a.title, url }).catch(() => {}); return; }
       navigator.clipboard.writeText(url).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", url));
@@ -507,7 +519,8 @@
       new MutationObserver(sync).observe(rail, { childList: true }); sync();
     });
     $("featured") && loadRows();
-    $("rowArticles") && loadArticles();
+    $("rowNews") && loadFeed("news");
+    $("rowArticles") && loadFeed("articles");
 
 
     /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
@@ -710,7 +723,7 @@ function setHash(type, id, title, fromHash) {
         loadDeepLinks(type, id, REGION).then(renderWatch);
       } catch (e) { $("modalBody").innerHTML = `<div class="m-load" style="color:#fbbf24">${esc(e.message)}</div>`; }
     }
-    function closeModal(fromPop) { ARTICLE_TOK++; $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
+    function closeModal(fromPop) { POST_TOK++; $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
 
     /* ---- Follower count ---- */
     document.addEventListener("DOMContentLoaded", () => {

@@ -31,11 +31,13 @@ const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;")
 const clean = s => decode((s || "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 function meta(html, keys) {
+  // the value runs to the matching closing quote, so apostrophes inside "double-quoted" text no longer cut it short
   for (const key of keys) {
-    const re1 = new RegExp(`<meta[^>]+(?:property|name)=["']${key}["'][^>]*content=["']([^"']*)["']`, "i");
-    const re2 = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*(?:property|name)=["']${key}["']`, "i");
+    const re1 = new RegExp(`<meta[^>]+(?:property|name)=["']${key}["'][^>]*?content=(?:"([^"]*)"|'([^']*)')`, "i");
+    const re2 = new RegExp(`<meta[^>]+content=(?:"([^"]*)"|'([^']*)')[^>]*?(?:property|name)=["']${key}["']`, "i");
     const m = html.match(re1) || html.match(re2);
-    if (m && m[1].trim()) return decode(m[1].trim());
+    const v = m && (m[1] ?? m[2]);
+    if (v && v.trim()) return decode(v.trim());
   }
   return "";
 }

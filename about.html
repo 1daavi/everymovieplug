@@ -146,13 +146,17 @@
 .back-link:hover {
   text-decoration: underline;
 }
+      .back-pill{display:inline-flex;align-items:center;gap:.4rem;color:#c4b5fd;text-decoration:none;font-size:.8rem;font-weight:600;padding:.45rem .9rem;border-radius:9999px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.1);white-space:nowrap;transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s;}
+    .back-pill:hover,.back-pill:focus-visible{transform:translateX(-3px);background:rgba(168,85,247,.2);color:#c4b5fd}
+    .back-pill:active{transform:scale(.96);transition-duration:.12s}
+
   </style>
 </head>
 <body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
 
 <div class="max-w-6xl mx-auto px-4 pt-6 w-full">
-  <a href="index.html" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <a href="index.html" class="back-pill">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
     </svg>
     Back to Home
