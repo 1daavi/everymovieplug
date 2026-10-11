@@ -21,8 +21,10 @@
         body { padding: 24px 20px 0; max-width: 1280px; margin: 0 auto; min-height: 100vh; transition: opacity .25s ease; }
         body.leaving { opacity: 0; }
 
-        .top-link { display: inline-block; color: var(--link); text-decoration: none; font-weight: 500; font-size: .95rem; margin-bottom: 28px; transition: transform .2s ease, color .2s ease; }
-        .top-link:hover { color: var(--link-hover); transform: translateX(-4px); }
+        .top-link{display:inline-flex;align-items:center;gap:.4rem;color:#c4b5fd;text-decoration:none;font-size:.8rem;font-weight:600;padding:.45rem .9rem;border-radius:9999px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.1);white-space:nowrap;transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s;margin-bottom:28px;}
+        .top-link:hover,.top-link:focus-visible{transform:translateX(-3px);background:rgba(168,85,247,.2);color:#c4b5fd}
+        .top-link:active{transform:scale(.96);transition-duration:.12s}
+
 
         .news-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
         .news-head h1 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.15; background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
@@ -253,7 +255,7 @@
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
                     <h2 class="tile-title">Digger Heads for a Steep Second-Weekend Drop</h2>
-                    <p class="tile-excerpt">Tom Cruise</p>
+                    <p class="tile-excerpt">Tom Cruise's Digger is projected to earn about $3 million in its second weekend, taking its ten-day domestic total to roughly $14 million.</p>
                     <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
@@ -267,7 +269,7 @@
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
                     <h2 class="tile-title">Little House on the Prairie Wraps Season 2 and Adds 10 Cast Members</h2>
-                    <p class="tile-excerpt">Netflix</p>
+                    <p class="tile-excerpt">Netflix's Little House on the Prairie has finished filming Season 2, with ten new actors joining the cast. No release date has been announced.</p>
                     <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
@@ -295,7 +297,7 @@
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
                     <h2 class="tile-title">Other Mommy Takes No. 1 Despite a D+ CinemaScore</h2>
-                    <p class="tile-excerpt">Universal</p>
+                    <p class="tile-excerpt">Universal's horror film Other Mommy is headed for about $28 million this weekend, even with a 20% critics score and a D+ from audiences.</p>
                     <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
@@ -309,7 +311,7 @@
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
                     <h2 class="tile-title">The Social Reckoning Opens Soft With Around $6 Million</h2>
-                    <p class="tile-excerpt">Aaron Sorkin</p>
+                    <p class="tile-excerpt">Aaron Sorkin's The Social Reckoning earned about $2.1 million on Friday and is on course for roughly $6 million, far below The Social Network's debut.</p>
                     <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>

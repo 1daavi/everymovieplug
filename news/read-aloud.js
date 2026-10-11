@@ -1,4 +1,4 @@
-/* Read-aloud for Every Movie Plug articles. Uses the browser's built-in speech (no API, no cost). */
+/* Read-aloud for Every Movie Plug NEWS stories (news/read-aloud.js; the articles have their own copy in articles/). Uses the browser's built-in speech (no API, no cost). */
 (function () {
   "use strict";
   if (!("speechSynthesis" in window) || !window.SpeechSynthesisUtterance) return;
@@ -94,7 +94,7 @@
   rateSel.value = String(rate); if (rateSel.value !== String(rate)) { rate = 1; rateSel.value = "1"; }
 
   function paint() {
-    btn.innerHTML = playing ? ICON.pause + "<span>Pause reading</span>" : (paused ? ICON.play + "<span>Resume reading</span>" : ICON.speaker + "<span>Listen to this article \u00B7 " + mins + " min</span>");
+    btn.innerHTML = playing ? ICON.pause + "<span>Pause reading</span>" : (paused ? ICON.play + "<span>Resume reading</span>" : ICON.speaker + "<span>Listen to this news \u00B7 " + mins + " min</span>");
     mainBtn.innerHTML = playing ? ICON.pause : ICON.play;
     countEl.textContent = active ? "Part " + (Math.min(ui, units.length - 1) + 1) + " of " + units.length + " \u00B7 tap any paragraph to start there" : "";
     bar.classList.toggle("on", active);
