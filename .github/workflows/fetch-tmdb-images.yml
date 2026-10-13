@@ -34,6 +34,9 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
+          # Never overwrite images already in the repo (for example ones you replaced by hand).
+          # Only brand-new files get committed. To force a re-fetch, delete the image and commit the deletion first.
+          git checkout -- articleassets 2>/dev/null || true
           git add articleassets
           if git diff --cached --quiet; then echo "No new images"; exit 0; fi
           git commit -m "Add TMDB images for news posts"
