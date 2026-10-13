@@ -12,6 +12,11 @@ on:
 permissions:
   contents: write
 
+# One sitemap run at a time. A newer run waits instead of racing the older one to push.
+concurrency:
+  group: update-sitemap
+  cancel-in-progress: false
+
 jobs:
   sitemap:
     runs-on: ubuntu-latest
@@ -22,13 +27,35 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: node generate-sitemap.js
-      - name: Commit sitemap if changed
+      - name: Generate and commit sitemap
         run: |
-          if [[ -n "$(git status --porcelain sitemap.xml)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3 4 5; do
+            # Always build on the newest main. Other workflows (e.g. the TMDB image fetch)
+            # also push, so the branch may have moved since this job started.
+            git fetch origin main
+            git reset --hard origin/main
+
+            node generate-sitemap.js
+
+            if [[ -z "$(git status --porcelain sitemap.xml)" ]]; then
+              echo "Sitemap already up to date."
+              exit 0
+            fi
+
             git add sitemap.xml
             git commit -m "Update sitemap.xml"
-            git push
-          fi
+
+            if git push origin HEAD:main; then
+              echo "Sitemap pushed on attempt $attempt."
+              exit 0
+            fi
+
+            echo "Push rejected (main moved). Retrying from the latest main..."
+            sleep $((attempt * 5))
+          done
+
+          echo "::error::Could not push sitemap.xml after 5 attempts."
+          exit 1
