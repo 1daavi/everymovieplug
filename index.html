@@ -223,6 +223,10 @@
     .m-x { position:absolute; top:1rem; right:1rem; z-index:5; width:36px; height:36px; border-radius:50%; border:0; background:rgba(255,255,255,.12); color:#fff; font-size:1.3rem; line-height:1; cursor:pointer; }
     .m-hero { height:15rem; background-size:cover; background-position:center; border-radius:28px 28px 0 0; position:relative; }
     .m-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(to top,#0e0e16,transparent); }
+    .m-hero.link { cursor:pointer; }
+    .m-open { position:absolute; right:1rem; bottom:3.4rem; z-index:2; display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .85rem; border-radius:9999px; font-size:.72rem; font-weight:600; color:#fff; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.25); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:background .3s,transform .3s var(--ease-out); pointer-events:none; }
+    .m-hero.link:hover .m-open,.m-hero.link:focus-visible .m-open { background:rgba(168,85,247,.55); transform:translateY(-2px); }
+    .m-hero.link:focus-visible { outline:2px solid var(--purple-accent); outline-offset:-3px; }
     .m-hero.none { height:3rem; } .m-hero.none::after { display:none; }
     .m-hero.vid { height:auto; background:#000; overflow:hidden; } .m-hero.vid::after { display:none; }
     .yt { display:block; text-align:center; font-size:.7rem; color:var(--text-secondary); text-decoration:none; padding:.5rem; background:rgba(0,0,0,.6); }
@@ -501,8 +505,9 @@
     function sharePost(kind, n, btn) {
       const a = POSTS[kind][n]; if (!a) return;
       const url = cleanArticleUrl(a.href);
-      if (navigator.share) { navigator.share({ title: a.title, url }).catch(() => {}); return; }
-      navigator.clipboard.writeText(url).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", url));
+      if (navigator.share) { navigator.share({ title: a.title, text: a.title, url }).catch(() => {}); return; }
+      const msg = a.title + "\n" + url;
+      navigator.clipboard.writeText(msg).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", msg));
     }
     /* ---- Scroll arrows for each rail (hidden on touch devices, which swipe) ---- */
     document.querySelectorAll(".row").forEach(row => {
@@ -677,9 +682,10 @@ function setHash(type, id, title, fromHash) {
       box.innerHTML = rows || `<p class="m-credit">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
     }
     async function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); if (CUR) { await loadDeepLinks(CUR.type, CUR.id, REGION); renderWatch(); } }
+    function openFullPage(el) { const u = el && el.dataset.href; if (u) location.href = u; }
     function playTrailer(k) {
       const h = $("mHero"); if (!h || !/^[\w-]+$/.test(k)) return;
-      h.removeAttribute("style"); h.className = "m-hero vid";
+      h.removeAttribute("style"); h.className = "m-hero vid"; ["role", "tabindex", "aria-label", "data-href", "onclick", "onkeydown"].forEach(a => h.removeAttribute(a));
       h.innerHTML = `<div style="aspect-ratio:16/9"><iframe style="width:100%;height:100%;border:0" src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : ""}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer">Video not playing? Watch on YouTube &rarr;</a>`;
       $("mBody").style.marginTop = "0"; h.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
@@ -703,9 +709,10 @@ function setHash(type, id, title, fromHash) {
             if (rows) scores = `<div class="m-scores">${rows}</div>`;
           } catch {}
         }
+        const pageUrl = `/${type}/${id}-${slugify(title) || "title"}`;
         const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="chip">${t}</a>`;
         $("modalBody").innerHTML = `
-          ${d.backdrop_path ? `<div id="mHero" class="m-hero" style="background-image:url(${IMG}w780${d.backdrop_path})"></div>` : '<div id="mHero" class="m-hero none"></div>'}
+          ${d.backdrop_path ? `<div id="mHero" class="m-hero link" style="background-image:url(${IMG}w780${d.backdrop_path})" role="link" tabindex="0" aria-label="Open the full page for ${esc(title)}" data-href="${esc(pageUrl)}" onclick="openFullPage(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFullPage(this)}"><span class="m-open">&#10530; Open full page</span></div>` : '<div id="mHero" class="m-hero none"></div>'}
           <div id="mBody" class="m-body">
             <div class="m-title">${ring(d.vote_average, 64)}<div><h3>${esc(title)}</h3><p>${esc(meta)} · TMDB score from ${(d.vote_count || 0).toLocaleString()} votes</p></div></div>
             <div class="m-tags">${(d.genres || []).map(g => `<span class="tag">${esc(g.name)}</span>`).join("")}</div>
@@ -717,7 +724,7 @@ function setHash(type, id, title, fromHash) {
               <div id="mWatch"></div>
               <p class="m-credit">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></p>
             </div>
-            <div class="m-links">${magnetBtn(magnetFor(type, id))}${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
+            <div class="m-links">${magnetBtn(magnetFor(type, id))}<a href="${esc(pageUrl)}" class="chip">&#10530; Full page</a>${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
           </div>`;
         renderWatch();
         loadDeepLinks(type, id, REGION).then(renderWatch);
