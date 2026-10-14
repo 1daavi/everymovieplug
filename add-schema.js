@@ -20,7 +20,6 @@ const path = require("path");
 const SITE = "https://everymovieplug.com";
 const NAME = "Every Movie Plug";
 const LOGO = `${SITE}/web-app-manifest-512x512.png`;
-const MARK = 'id="emp-schema"';
 const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
 
 const decode = s => (s || "")
@@ -44,22 +43,22 @@ const publisher = () => ({ "@type": "Organization", name: NAME, url: `${SITE}/`,
   logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 } });
 const crumbs = items => ({ "@type": "BreadcrumbList", itemListElement: items.map(([name, url], i) =>
   ({ "@type": "ListItem", position: i + 1, name, item: url })) });
-const block = graph => `<script type="application/ld+json" ${MARK}>\n${
-  JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2).replace(/</g, "\\u003c")}\n    </script>`;
+// One <script> per item (no @graph wrapper): every checker and crawler reads this form, including
+// simple third-party SEO tools that do not look inside @graph.
+const block = graph => graph.map((item, n) => `<script type="application/ld+json" id="emp-schema-${n}">\n${
+  JSON.stringify({ "@context": "https://schema.org", ...item }, null, 2).replace(/</g, "\\u003c")}\n    </script>`).join("\n    ");
 
 function inject(file, graph) {
-  let html = fs.readFileSync(file, "utf8");
+  const html = fs.readFileSync(file, "utf8");
   const tag = block(graph);
-  const had = new RegExp(`<script[^>]*${MARK}[^>]*>[\\s\\S]*?</script>`, "i");
+  const mine = /[ \t]*<script[^>]*id="emp-schema[^"]*"[^>]*>[\s\S]*?<\/script>[ \t]*\n?/gi;
+  const clean = html.replace(mine, "");
   let out;
-  if (had.test(html)) out = html.replace(had, () => tag);
-  else {
-    // homepage: replace the old hand-written Organization block instead of adding a second one
-    const old = /<script type="application\/ld\+json">\s*\{[^<]*"@type":\s*"Organization"[^<]*\}\s*<\/script>/i;
-    if (old.test(html)) out = html.replace(old, () => tag);
-    else if (/<\/head>/i.test(html)) out = html.replace(/<\/head>/i, () => `    ${tag}\n</head>`);
-    else return false;
-  }
+  // homepage: replace the old hand-written Organization block instead of adding a second one
+  const old = /<script type="application\/ld\+json">\s*\{[^<]*"@type":\s*"Organization"[^<]*\}\s*<\/script>/i;
+  if (old.test(clean)) out = clean.replace(old, () => tag);
+  else if (/<\/head>/i.test(clean)) out = clean.replace(/<\/head>/i, () => `    ${tag}\n</head>`);
+  else return false;
   if (out === html) return false;
   fs.writeFileSync(file, out);
   return true;
