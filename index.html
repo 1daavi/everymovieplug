@@ -709,7 +709,7 @@ function setHash(type, id, title, fromHash) {
             if (rows) scores = `<div class="m-scores">${rows}</div>`;
           } catch {}
         }
-        const pageUrl = `/${type}/${id}-${slugify(title) || "title"}`;
+        const pageUrl = `/title.html?type=${type}&id=${id}`;   // always works: opens title.html directly, no server function needed
         const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="chip">${t}</a>`;
         $("modalBody").innerHTML = `
           ${d.backdrop_path ? `<div id="mHero" class="m-hero link" style="background-image:url(${IMG}w780${d.backdrop_path})" role="link" tabindex="0" aria-label="Open the full page for ${esc(title)}" data-href="${esc(pageUrl)}" onclick="openFullPage(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFullPage(this)}"><span class="m-open">&#10530; Open full page</span></div>` : '<div id="mHero" class="m-hero none"></div>'}
@@ -724,7 +724,7 @@ function setHash(type, id, title, fromHash) {
               <div id="mWatch"></div>
               <p class="m-credit">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></p>
             </div>
-            <div class="m-links">${magnetBtn(magnetFor(type, id))}<a href="${esc(pageUrl)}" class="chip">&#10530; Full page</a>${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
+            <div class="m-links">${magnetBtn(magnetFor(type, id))}${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
           </div>`;
         renderWatch();
         loadDeepLinks(type, id, REGION).then(renderWatch);
