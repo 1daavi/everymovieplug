@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Every Movie Plug</title>
+  <meta name="description" content="Ratings, trailer, cast and where to watch on Every Movie Plug.">
+  <!--EMP_META-->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <style>
+    :root { --bg-color:#000; --glass-card-bg:rgba(255,255,255,.04); --border-color:rgba(255,255,255,.12); --indigo-accent:#6366f1; --purple-accent:#a855f7;
+      --text-primary:#f5f5f7; --text-secondary:#86868b; --font-apple:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif; --ease-out:cubic-bezier(.16,1,.3,1); }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { -webkit-tap-highlight-color:transparent; }
+    a,button { -webkit-tap-highlight-color:transparent; touch-action:manipulation; font:inherit; color:inherit; }
+    a:focus-visible,button:focus-visible,select:focus-visible { outline:2px solid var(--purple-accent); outline-offset:3px; }
+    body { font-family:var(--font-apple); background:var(--bg-color); color:var(--text-primary); min-height:100vh; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    .mesh-bg { position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 20% 25%,rgba(99,102,241,.18) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(168,85,247,.15) 0%,transparent 50%),radial-gradient(circle at 50% 40%,rgba(30,30,50,.7) 0%,transparent 80%); }
+    @keyframes rise { from { opacity:0; transform:translateY(18px); } }
+    @keyframes shimmer { to { background-position:-200% 0; } }
+    .glass { background:var(--glass-card-bg); border:1px solid var(--border-color); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); box-shadow:0 10px 30px rgba(0,0,0,.4); }
+
+    .topbar { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.6); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid rgba(255,255,255,.08); }
+    .topbar-in { max-width:1100px; margin:0 auto; padding:.7rem 1.25rem; display:flex; align-items:center; gap:.6rem; }
+    .brand { font-weight:800; letter-spacing:.08em; text-decoration:none; white-space:nowrap; font-size:1rem; margin-right:auto; }
+    .brand span { background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.5rem .95rem; border-radius:9999px; background:var(--glass-card-bg); border:1px solid var(--border-color); color:#d4d4d8; font-size:.8rem; font-weight:500; text-decoration:none; cursor:pointer; white-space:nowrap; transition:transform .3s var(--ease-out),background .3s; }
+    .chip:hover { background:rgba(168,85,247,.18); } .chip:active { transform:scale(.96); }
+    .chip.primary { color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); box-shadow:0 4px 20px rgba(99,102,241,.3); }
+    .chip svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+
+    .page { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 1.25rem 2rem; }
+    .backdrop { position:relative; height:min(46vw,26rem); min-height:13rem; margin:0 -1.25rem; background-size:cover; background-position:center 20%; }
+    .backdrop { -webkit-mask-image:linear-gradient(to bottom,#000 45%,transparent); mask-image:linear-gradient(to bottom,#000 45%,transparent); }
+    .backdrop.vid { -webkit-mask-image:none; mask-image:none; }
+    .backdrop::after { content:""; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,.1)); }
+    .backdrop.none { height:4rem; min-height:0; background:none; } .backdrop.none::after { display:none; }
+    .backdrop.vid { height:auto; min-height:0; background:#000; } .backdrop.vid::after { display:none; }
+    .backdrop .ratio { aspect-ratio:16/9; max-height:34rem; margin:0 auto; } .backdrop iframe { width:100%; height:100%; border:0; display:block; }
+    .backdrop .yt { display:block; text-align:center; font-size:.72rem; color:var(--text-secondary); text-decoration:none; padding:.55rem; background:rgba(0,0,0,.7); }
+    .head { position:relative; display:grid; grid-template-columns:minmax(150px,230px) 1fr; gap:1.75rem; margin-top:-8rem; align-items:end; animation:rise .7s var(--ease-out) backwards; }
+    .head.noback { margin-top:0; }
+    .poster { aspect-ratio:2/3; border-radius:20px; overflow:hidden; background:linear-gradient(160deg,#1a1a26,#0c0c12); border:1px solid var(--border-color); box-shadow:0 24px 60px rgba(0,0,0,.7); }
+    .poster img { width:100%; height:100%; object-fit:cover; display:block; }
+    .titleblock { display:flex; flex-direction:column; gap:.8rem; padding-bottom:.25rem; min-width:0; }
+    .titleblock h1 { font-size:clamp(1.7rem,4.4vw,2.9rem); font-weight:800; letter-spacing:-.025em; line-height:1.08; }
+    .meta { font-size:.82rem; color:var(--text-secondary); }
+    .rate { display:inline-flex; align-items:center; gap:.3rem; align-self:flex-start; padding:.4rem .75rem; border-radius:9999px; font-size:.95rem; font-weight:700; background:rgba(0,0,0,.7); border:1px solid rgba(255,255,255,.15); }
+    .tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .tag { padding:.25rem .75rem; border-radius:9999px; font-size:.7rem; font-weight:600; color:#c4b5fd; background:rgba(168,85,247,.15); }
+    .actions { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .body { display:flex; flex-direction:column; gap:1.75rem; margin-top:2rem; animation:rise .8s .12s var(--ease-out) backwards; }
+    .tagline { font-style:italic; color:var(--text-secondary); }
+    .overview { font-size:1.02rem; line-height:1.75; color:#d4d4d8; max-width:70ch; }
+    .scores { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:.75rem; max-width:480px; }
+    .scores div { padding:.8rem; border-radius:16px; text-align:center; background:var(--glass-card-bg); border:1px solid var(--border-color); }
+    .scores b { display:block; font-size:1.15rem; } .scores i { font-style:normal; font-size:.6rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); }
+    section h2 { font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); font-weight:700; }
+    .sec-head { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.9rem; }
+    .sel { background:rgba(255,255,255,.06); border:1px solid var(--border-color); border-radius:9999px; padding:.4rem .8rem; font-size:.75rem; color:#d4d4d8; max-width:12rem; outline:none; }
+    .sel option { background:#0e0e16; }
+    .w-row { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem .75rem; margin-bottom:.7rem; }
+    .w-row > span { width:6.5rem; flex:none; font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text-secondary); }
+    .w-logos { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .w-logos img { width:44px; height:44px; border-radius:12px; border:1px solid var(--border-color); display:block; transition:transform .3s var(--ease-out); }
+    .w-logos a:hover img { transform:scale(1.1); }
+    .credit { font-size:.65rem; color:#6b6b73; margin-top:.4rem; } .credit a { color:inherit; }
+    .cast { display:grid; grid-auto-flow:column; grid-auto-columns:104px; gap:.8rem; overflow-x:auto; padding-bottom:.5rem; scrollbar-width:thin; }
+    .person { text-align:center; font-size:.72rem; } .person b { display:block; font-weight:600; margin-top:.4rem; line-height:1.25; } .person span { color:var(--text-secondary); display:block; line-height:1.25; }
+    .person .ph { width:104px; height:104px; border-radius:50%; overflow:hidden; background:#16161f; border:1px solid var(--border-color); }
+    .person img { width:100%; height:100%; object-fit:cover; display:block; }
+    .note { padding:3rem 1rem; text-align:center; color:var(--text-secondary); font-size:.9rem; }
+    .sk { background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.09),rgba(255,255,255,.04)); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:12px; }
+    footer { position:relative; z-index:1; text-align:center; padding:1.5rem 1rem 2.5rem; font-size:.72rem; color:#6b6b73; }
+    footer a { color:inherit; margin:0 .4rem; }
+    #toast { position:fixed; left:50%; bottom:1.5rem; transform:translate(-50%,20px); z-index:100; padding:.7rem 1.1rem; border-radius:9999px; background:#18181f; border:1px solid var(--border-color); font-size:.85rem; opacity:0; pointer-events:none; transition:opacity .2s,transform .25s var(--ease-out); }
+    #toast.show { opacity:1; transform:translate(-50%,0); }
+    @media (max-width:700px) {
+      .head { grid-template-columns:1fr; margin-top:-6rem; gap:1.1rem; justify-items:start; }
+      .poster { width:150px; }
+      .w-row > span { width:100%; }
+      .hide-sm { display:none; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="mesh-bg" aria-hidden="true"></div>
+  <header class="topbar"><div class="topbar-in">
+    <a class="brand" href="/" aria-label="Every Movie Plug"><span>EVERYMOVIEPLUG</span></a>
+    <a class="chip" id="back" href="/trending">&larr; <span>Back</span></a>
+    <button class="chip primary" type="button" id="shareTop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 7.5 12 3l4.5 4.5M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></svg>Share</button>
+  </div></header>
+
+  <main class="page" id="app">
+    <!--EMP_SSR-->
+    <div class="note" id="loading">Loading…</div>
+  </main>
+
+  <footer>
+    <a href="/">Home</a><a href="/trending">Trending</a><a href="/news/">News</a><a href="/articles/">Articles</a><a href="/privacy-policy.html">Privacy Policy</a>
+    <p style="margin-top:.8rem">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const IMG = "https://image.tmdb.org/t/p/";
+    const slugify = t => String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    let CUR = null, WATCH = {}, TRAILER = null, MAGNETS = {};
+    let REGION = (() => { try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {} const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean); return (r || "US").toUpperCase(); })();
+    const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
+
+    /* ---- Which title is this? /movie/603-the-matrix, or /title.html?type=movie&id=603 ---- */
+    function whichTitle() {
+      let m = location.pathname.match(/\/(movie|tv)\/(\d+)/);
+      if (m) return { type: m[1], id: m[2] };
+      const q = new URLSearchParams(location.search), t = q.get("type"), id = q.get("id");
+      if (/^(movie|tv)$/.test(t || "") && /^\d+$/.test(id || "")) return { type: t, id };
+      m = location.hash.slice(1).match(/^(movie|tv)-(\d+)/);
+      return m ? { type: m[1], id: m[2] } : null;
+    }
+
+    const PROVIDER_LINKS = [
+  // [name pattern, web search URL, Android app package (optional)]
+  [/netflix/i, q => `https://www.netflix.com/search?q=${q}`, "com.netflix.mediaclient"],
+  [/amazon prime|prime video|amazon video|^amazon$/i, q => `https://www.primevideo.com/search/?phrase=${q}`, "com.amazon.avod.thirdpartyclient"],
+  [/apple tv|itunes/i, q => `https://tv.apple.com/search?term=${q}`, "com.apple.atve.androidtv.appletv"],
+  [/disney/i, q => `https://www.disneyplus.com/search?q=${q}`, "com.disney.disneyplus"],
+  [/\bmax\b|hbo/i, q => `https://play.max.com/search?q=${q}`, "com.wbd.stream"],
+  [/hulu/i, q => `https://www.hulu.com/search?q=${q}`, "com.hulu.plus"],
+  [/paramount/i, q => `https://www.paramountplus.com/search/?q=${q}`, "com.cbs.app"],
+  [/peacock/i, q => `https://www.peacocktv.com/search?q=${q}`, "com.peacocktv.peacockandroid"],
+  [/youtube/i, q => `https://www.youtube.com/results?search_query=${q}`, "com.google.android.youtube"],
+  [/google play/i, q => `https://play.google.com/store/search?q=${q}&c=movies`, "com.android.vending"],
+  [/tubi/i, q => `https://tubitv.com/search/${q}`, "com.tubitv"],
+  [/pluto/i, q => `https://pluto.tv/search/details?query=${q}`, "tv.pluto.android"],
+  [/mubi/i, q => `https://mubi.com/en/search/films?query=${q}`, "com.mubi"],
+  [/crunchyroll/i, q => `https://www.crunchyroll.com/search?q=${q}`, "com.crunchyroll.crunchyroid"],
+  [/showmax/i, q => `https://www.showmax.com/eng/search?q=${q}`],
+  [/shudder/i, q => `https://www.shudder.com/search?q=${q}`],
+  [/starz/i, q => `https://www.starz.com/us/en/search?q=${q}`],
+  [/amc\+|amc plus/i, q => `https://www.amcplus.com/search?q=${q}`],
+  [/bbc iplayer/i, q => `https://www.bbc.co.uk/iplayer/search?q=${q}`],
+  [/plex/i, q => `https://watch.plex.tv/search?q=${q}`],
+  [/fandango|vudu/i, q => `https://www.fandangoathome.com/search?searchString=${q}`],
+  [/criterion/i, q => `https://www.criterionchannel.com/search?q=${q}`],
+  [/kanopy/i, q => `https://www.kanopy.com/en/search?query=${q}`],
+  [/hoopla/i, q => `https://www.hoopladigital.com/search?q=${q}`],
+  [/britbox/i, q => `https://www.britbox.com/us/search?q=${q}`],
+  [/mgm\+|mgm plus/i, q => `https://www.mgmplus.com/search?q=${q}`],
+  [/roku channel/i, q => `https://therokuchannel.roku.com/search/${q}`],
+  [/microsoft store/i, q => `https://www.microsoft.com/en-us/search/shop/movies?q=${q}`],
+  [/viki/i, q => `https://www.viki.com/search?q=${q}`],
+  [/hotstar/i, q => `https://www.hotstar.com/in/search?q=${q}`],
+  [/zee5/i, q => `https://www.zee5.com/search?q=${q}`],
+  [/sony ?liv/i, q => `https://www.sonyliv.com/search?q=${q}`],
+  [/itvx|itv hub/i, q => `https://www.itv.com/watch/search?q=${q}`],
+  [/channel 4/i, q => `https://www.channel4.com/search?q=${q}`],
+  [/my5|channel 5/i, q => `https://www.channel5.com/search?q=${q}`],
+  [/^now( tv)?$|sky go/i, q => `https://www.nowtv.com/search?q=${q}`],
+  [/^stan$/i, q => `https://www.stan.com.au/search?q=${q}`],
+  [/binge/i, q => `https://binge.com.au/search?q=${q}`],
+  [/crave/i, q => `https://www.crave.ca/en/search?q=${q}`],
+  [/viaplay/i, q => `https://viaplay.com/search?query=${q}`],
+  [/arte/i, q => `https://www.arte.tv/en/search/?q=${q}`],
+  [/gaia/i, q => `https://www.gaia.com/search?q=${q}`]
+];
+// "Max Amazon Channel", "Paramount Plus Apple TV Channel" etc. are add-ons: use the brand itself.
+const cleanProvider = n => String(n || "").replace(/\s+(amazon|apple tv|roku premium|prime video)\s+channel$/i, "").trim();
+const providerHit = p => PROVIDER_LINKS.find(([re]) => re.test(cleanProvider(p.provider_name)));
+// TMDB's API only returns a JustWatch/TMDB redirect, so build a direct link on the provider's own site instead.
+function providerUrl(p, title) {
+  const hit = providerHit(p);
+  if (hit) return hit[1](encodeURIComponent(title || ""));
+  // Unknown service: Google "I'm Feeling Lucky" jumps to the top result (the service's own site) rather than a results page.
+  return `https://www.google.com/search?btnI=1&q=${encodeURIComponent(cleanProvider(p.provider_name) + " " + (title || "") + " watch official site")}`;
+}
+const providerPkg = p => (providerHit(p) || [])[2] || "";
+// On Android, hand off straight to the installed app; if it isn't installed Chrome opens the website instead.
+function openProvider(e, a) {
+  const pkg = a.dataset.pkg;
+  if (!pkg || !/android/i.test(navigator.userAgent)) return;
+  e.preventDefault();
+  const u = new URL(a.href);
+  location.href = `intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};S.browser_fallback_url=${encodeURIComponent(a.href)};end`;
+}
+
+// Watchmode deep links: each streaming logo opens the title's own page in the app. The key is added server-side by /api/watchmode.
+const DEEP = {};
+const WM_TYPE = { flatrate: "sub", free: "free", ads: "free", rent: "rent", buy: "buy" };
+async function loadDeepLinks(type, id, region) {
+  const ck = `wm:${type}:${id}:${region}`;
+  if (DEEP[ck]) return;
+  try {
+    const cached = sessionStorage.getItem(ck);
+    if (cached) { DEEP[ck] = JSON.parse(cached); return; }
+    const sr = await (await fetch(`/api/watchmode/search?search_field=tmdb_${type}_id&search_value=${id}`)).json();
+    const wid = sr.title_results && sr.title_results[0] && sr.title_results[0].id;
+    if (!wid) { DEEP[ck] = []; return; }
+    const src = await (await fetch(`/api/watchmode/title/${wid}/sources?regions=${region}`)).json();
+    DEEP[ck] = Array.isArray(src) ? src : [];
+    try { sessionStorage.setItem(ck, JSON.stringify(DEEP[ck])); } catch {}
+  } catch { DEEP[ck] = []; }
+}
+function deepLink(p, group) {
+  if (!CUR) return null;
+  const list = DEEP[`wm:${CUR.type}:${CUR.id}:${REGION}`] || [];
+  const hit = providerHit(p), norm = n => String(n).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const same = list.filter(s => s.web_url && ((hit && providerHit({ provider_name: s.name }) === hit) || norm(s.name) === norm(cleanProvider(p.provider_name))));
+  return same.find(s => s.type === WM_TYPE[group]) || same[0] || null;
+}
+
+
+    let tt; function showToast(m) { const el = $("toast"); el.textContent = m; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2200); }
+    const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
+
+    function renderWatch() {
+      const sel = $("region"), box = $("watch"); if (!sel || !box) return;
+      const codes = Object.keys(WATCH).sort((a, b) => regionName(a).localeCompare(regionName(b)));
+      if (!codes.length) { sel.hidden = true; box.innerHTML = '<p class="credit">No streaming info available yet.</p>'; return; }
+      if (!WATCH[REGION]) codes.unshift(REGION);
+      sel.innerHTML = codes.map(c => `<option value="${esc(c)}"${c === REGION ? " selected" : ""}>${esc(regionName(c))}</option>`).join("");
+      const w = WATCH[REGION], groups = [["flatrate", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
+      const rows = w ? groups.filter(([k]) => w[k]?.length).map(([k, l]) => `<div class="w-row"><span>${l}</span><div class="w-logos">${w[k].map(p => `<a href="${esc((deepLink(p, k) || {}).web_url || providerUrl(p, CUR && CUR.title))}" data-pkg="${esc(providerPkg(p))}" onclick="openProvider(event,this)" target="_blank" rel="noopener noreferrer" title="Watch on ${esc(p.provider_name)}"><img src="${IMG}w92${p.logo_path}" alt="${esc(p.provider_name)}" loading="lazy"></a>`).join("")}</div></div>`).join("") : "";
+      box.innerHTML = rows || `<p class="credit" style="font-size:.8rem">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
+    }
+    async function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); await loadDeepLinks(CUR.type, CUR.id, REGION); renderWatch(); }
+
+    function playTrailer() {
+      if (!TRAILER) return; const h = $("backdrop"), k = TRAILER.key;
+      h.removeAttribute("style"); h.className = "backdrop vid";
+      h.innerHTML = `<div class="ratio"><iframe src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : ""}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="yt" href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer">Video not playing? Watch on YouTube &rarr;</a>`;
+      $("head").classList.add("noback"); scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* ---- Share: the title always travels with the link ---- */
+    function shareTitle() { return CUR ? CUR.name : document.title.replace(/\s*\|\s*Every Movie Plug$/, ""); }
+    function shareUrl() { return CUR ? `${location.origin}/${CUR.type}/${CUR.id}-${slugify(CUR.title) || "title"}` : location.origin + location.pathname; }
+    function shareTitleNow() {
+      const data = { title: shareTitle(), text: shareTitle() + " on Every Movie Plug", url: shareUrl() };
+      if (navigator.share) { navigator.share(data).catch(() => {}); return; }
+      const msg = data.title + "\n" + data.url;
+      (navigator.clipboard ? navigator.clipboard.writeText(msg) : Promise.reject()).then(() => showToast("Link copied ✓")).catch(() => prompt("Copy this link", msg));
+    }
+    $("shareTop").onclick = shareTitleNow;
+    $("back").addEventListener("click", e => {
+      try { if (history.length > 1 && document.referrer && new URL(document.referrer).origin === location.origin) { e.preventDefault(); history.back(); } } catch {}
+    });
+
+    function setMeta(sel, attr, val) { let el = document.head.querySelector(sel); if (!el) { el = document.createElement("meta"); const m = sel.match(/\[(\w+:?\w*)="([^"]+)"\]/); el.setAttribute(m[1], m[2]); document.head.appendChild(el); } el.setAttribute(attr, val); }
+
+    async function load() {
+      const w = whichTitle(), app = $("app");
+      if (!w) { app.innerHTML = '<div class="note">We couldn’t tell which title to show. <a href="/trending" style="color:#c4b5fd">Browse trending</a></div>'; return; }
+      const magnets = fetch("/magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
+      let d;
+      try {
+        const r = await fetch(`/api/tmdb/${w.type}/${w.id}?append_to_response=external_ids,videos,watch/providers,credits&include_video_language=en,null&language=en-US`);
+        if (!r.ok) throw new Error(r.status === 404 ? "We couldn’t find that title." : "TMDB error " + r.status);
+        d = await r.json();
+      } catch (e) { app.innerHTML = `<div class="note" style="color:#fbbf24">${esc(e.message || "Couldn’t load this title right now.")}<br><br><a class="chip" href="/trending">Browse trending</a></div>`; return; }
+      await magnets;
+
+      const title = d.title || d.name, imdb = d.external_ids?.imdb_id, yr = (d.release_date || d.first_air_date || "").slice(0, 4), name = yr ? `${title} (${yr})` : title;
+      CUR = { type: w.type, id: w.id, title, name };
+      WATCH = d["watch/providers"]?.results || {};
+      const vids = (d.videos?.results || []).filter(v => v.site === "YouTube" && /^[\w-]+$/.test(v.key));
+      TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
+      const meta = [yr, d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : ""), w.type === "tv" ? "TV Show" : "Movie"].filter(Boolean).join(" · ");
+      const canon = shareUrl();
+      document.title = `${name} | Every Movie Plug`;
+      let c = document.head.querySelector('link[rel="canonical"]'); if (!c) { c = document.createElement("link"); c.rel = "canonical"; document.head.appendChild(c); } c.href = canon;
+      history.replaceState(null, "", new URL(canon).pathname);
+
+      const score = d.vote_average ? `<span class="rate" style="color:${d.vote_average >= 7 ? "#34d399" : d.vote_average >= 5 ? "#fbbf24" : "#f87171"}">&#9733; ${d.vote_average.toFixed(1)}</span>` : "";
+      const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="chip">${t}</a>`;
+      const mg = magnetFor(w.type, w.id), magnet = (typeof mg === "string" && mg.startsWith("magnet:?")) ? `<a href="${esc(mg)}" class="chip primary" title="Opens in your torrent app">&#11015; Download (Magnet)</a>` : "";
+      const cast = (d.credits?.cast || []).slice(0, 14);
+      const crew = (d.credits?.crew || []).filter(p => p.job === "Director").slice(0, 3).map(p => p.name);
+      app.innerHTML = `
+        <div id="backdrop" class="backdrop${d.backdrop_path ? "" : " none"}"${d.backdrop_path ? ` style="background-image:url(${IMG}w1280${d.backdrop_path})"` : ""}></div>
+        <div class="head${d.backdrop_path ? "" : " noback"}" id="head">
+          <div class="poster">${d.poster_path ? `<img src="${IMG}w500${d.poster_path}" alt="${esc(title)} poster">` : ""}</div>
+          <div class="titleblock">
+            ${score}
+            <h1>${esc(title)}</h1>
+            <p class="meta">${esc(meta)}${d.vote_count ? ` · TMDB score from ${d.vote_count.toLocaleString()} votes` : ""}${crew.length ? `<br>Directed by ${esc(crew.join(", "))}` : ""}</p>
+            <div class="tags">${(d.genres || []).map(g => `<span class="tag">${esc(g.name)}</span>`).join("")}</div>
+            <div class="actions">
+              ${magnet}${TRAILER ? `<button class="chip primary" type="button" onclick="playTrailer()">&#9654; Watch trailer</button>` : ""}
+              <button class="chip" type="button" onclick="shareTitleNow()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 7.5 12 3l4.5 4.5M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></svg>Share</button>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <section>
+            ${d.tagline ? `<p class="tagline" style="margin-bottom:.6rem">${esc(d.tagline)}</p>` : ""}
+            <p class="overview">${esc(d.overview || "No synopsis available yet.")}</p>
+          </section>
+          <div id="scores"></div>
+          <section>
+            <div class="sec-head"><h2>Where to watch</h2><select id="region" class="sel" onchange="setRegion(this.value)" aria-label="Choose country"></select></div>
+            <div id="watch"><div class="sk" style="height:44px;width:60%"></div></div>
+            <p class="credit">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></p>
+          </section>
+          ${cast.length ? `<section><div class="sec-head"><h2>Top cast</h2></div><div class="cast">${cast.map(p => `<div class="person"><div class="ph">${p.profile_path ? `<img src="${IMG}w185${p.profile_path}" alt="${esc(p.name)}" loading="lazy">` : ""}</div><b>${esc(p.name)}</b><span>${esc(p.character || "")}</span></div>`).join("")}</div></section>` : ""}
+          <section><div class="actions">
+            ${L(`https://www.themoviedb.org/${w.type}/${w.id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}
+            <a class="chip" href="/articles/?q=${encodeURIComponent(title)}">Read our articles</a><a class="chip" href="/trending">More trending</a>
+          </div></section>
+        </div>`;
+      renderWatch();
+      loadDeepLinks(w.type, w.id, REGION).then(renderWatch);
+      if (imdb) fetch(`/api/omdb?i=${imdb}`).then(r => r.json()).then(o => {
+        const rows = (o.Ratings || []).map(r => `<div><b>${esc(r.Value)}</b><i>${esc(r.Source.replace("Internet Movie Database", "IMDb"))}</i></div>`).join("");
+        if (rows && $("scores")) $("scores").innerHTML = `<div class="scores">${rows}</div>`;
+      }).catch(() => {});
+    }
+    load();
+  </script>
+</body>
+</html>
