@@ -1,0 +1,133 @@
+#!/usr/bin/env node
+/**
+ * Every Movie Plug - schema.org markup (JSON-LD) for Google
+ *
+ * Adds structured data to every page and refreshes it on re-runs (safe to run any time):
+ *   news/<post>.html      NewsArticle + BreadcrumbList
+ *   articles/<post>.html  Article     + BreadcrumbList
+ *   news/index.html, articles/index.html   CollectionPage (+ list of the latest posts) + BreadcrumbList
+ *   index.html            Organization + WebSite
+ *
+ * Everything is read from the page itself (title, description, date, image, canonical, category),
+ * so nothing needs to be typed in. Author and publisher are "Every Movie Plug".
+ * Dates are written in ISO 8601 (2026-10-14), which is what Google expects.
+ *
+ * Usage (from the site root):   node add-schema.js
+ */
+const fs = require("fs");
+const path = require("path");
+
+const SITE = "https://everymovieplug.com";
+const NAME = "Every Movie Plug";
+const LOGO = `${SITE}/web-app-manifest-512x512.png`;
+const MARK = 'id="emp-schema"';
+const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+
+const decode = s => (s || "")
+  .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n))
+  .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+  .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+  .replace(/&nbsp;/g, " ").replace(/&rsquo;|&lsquo;/g, "'").replace(/&ldquo;|&rdquo;/g, '"')
+  .replace(/&amp;/g, "&");
+const text = s => decode((s || "").replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
+const meta = (html, attr, key) => {
+  const m = html.match(new RegExp(`<meta[^>]*\\b${attr}=["']${key}["'][^>]*>`, "i"));
+  const c = m && m[0].match(/content=("([^"]*)"|'([^']*)')/i);
+  return c ? decode(c[2] ?? c[3]).trim() : "";
+};
+const isoDate = s => {
+  const m = /^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/.exec(s || "");
+  const mo = m && MONTHS.indexOf(m[1].toLowerCase());
+  return m && mo >= 0 ? `${m[3]}-${String(mo + 1).padStart(2, "0")}-${String(+m[2]).padStart(2, "0")}` : "";
+};
+const publisher = () => ({ "@type": "Organization", name: NAME, url: `${SITE}/`,
+  logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 } });
+const crumbs = items => ({ "@type": "BreadcrumbList", itemListElement: items.map(([name, url], i) =>
+  ({ "@type": "ListItem", position: i + 1, name, item: url })) });
+const block = graph => `<script type="application/ld+json" ${MARK}>\n${
+  JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2).replace(/</g, "\\u003c")}\n    </script>`;
+
+function inject(file, graph) {
+  let html = fs.readFileSync(file, "utf8");
+  const tag = block(graph);
+  const had = new RegExp(`<script[^>]*${MARK}[^>]*>[\\s\\S]*?</script>`, "i");
+  let out;
+  if (had.test(html)) out = html.replace(had, () => tag);
+  else {
+    // homepage: replace the old hand-written Organization block instead of adding a second one
+    const old = /<script type="application\/ld\+json">\s*\{[^<]*"@type":\s*"Organization"[^<]*\}\s*<\/script>/i;
+    if (old.test(html)) out = html.replace(old, () => tag);
+    else if (/<\/head>/i.test(html)) out = html.replace(/<\/head>/i, () => `    ${tag}\n</head>`);
+    else return false;
+  }
+  if (out === html) return false;
+  fs.writeFileSync(file, out);
+  return true;
+}
+
+function postGraph(file, section, kind) {
+  const html = fs.readFileSync(file, "utf8");
+  const url = meta(html, "rel", "canonical") || (html.match(/<link[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)/i) || [])[1]
+    || `${SITE}/${section}/${path.basename(file)}`;
+  const h1 = text((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1]);
+  const headline = meta(html, "property", "og:title") || h1 || text((html.match(/<title>([\s\S]*?)<\/title>/i) || [])[1]);
+  const sub = text((html.match(/class="article-subtitle"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]);
+  const firstP = text((html.match(/class="article-content"[^>]*>[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/i) || [])[1]).slice(0, 200);
+  const desc = meta(html, "name", "description") || meta(html, "property", "og:description") || sub || firstP;
+  // older pages without social tags: fall back to the first picture in the post, then the site image
+  const firstImg = (html.match(/<img[^>]*\bsrc=["']([^"']+)["']/i) || [])[1];
+  const abs = u => { try { return u ? new URL(u, `${SITE}/${section}/x.html`).href : ""; } catch { return ""; } };
+  const image = meta(html, "property", "og:image") || meta(html, "name", "twitter:image") || abs(firstImg) || `${SITE}/og-image.jpg`;
+  const date = isoDate(text((html.match(/class="article-date"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]));
+  const cat = meta(html, "name", "category");
+  const crumbName = section === "news" ? "News" : "Articles";
+  const art = {
+    "@type": kind, "@id": `${url}#article`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    headline: headline.slice(0, 110), description: desc, url,
+    author: { "@type": "Organization", name: NAME, url: `${SITE}/` },
+    publisher: publisher(), isPartOf: { "@id": `${SITE}/#website` }, inLanguage: "en",
+  };
+  if (image) art.image = [image];
+  if (date) { art.datePublished = date; art.dateModified = date; }
+  if (cat && kind === "NewsArticle") art.articleSection = cat;
+  for (const k of Object.keys(art)) if (art[k] === "" ) delete art[k];
+  return [art, crumbs([["Home", `${SITE}/`], [crumbName, `${SITE}/${section}/`], [headline, url]])];
+}
+
+function listGraph(file, section) {
+  const html = fs.readFileSync(file, "utf8");
+  const url = `${SITE}/${section}/`;
+  const title = section === "news" ? "Movie and TV News" : "Movie and TV Articles";
+  const desc = meta(html, "name", "description");
+  const hrefs = [...new Set([...html.matchAll(new RegExp(`href=["'](?:${SITE.replace(/\./g, "\\.")})?/${section}/([^"'#?/]+\\.html)["']`, "g"))].map(m => m[1]))]
+    .filter(h => h !== "index.html").slice(0, 20);
+  return [{
+    "@type": "CollectionPage", "@id": `${url}#page`, url, name: `${title} | ${NAME}`,
+    ...(desc && { description: desc }), isPartOf: { "@id": `${SITE}/#website` }, inLanguage: "en",
+    mainEntity: { "@type": "ItemList", itemListElement: hrefs.map((h, i) =>
+      ({ "@type": "ListItem", position: i + 1, url: `${SITE}/${section}/${h}` })) },
+  }, crumbs([["Home", `${SITE}/`], [section === "news" ? "News" : "Articles", url]])];
+}
+
+const homeGraph = () => [
+  { "@type": "Organization", "@id": `${SITE}/#organization`, name: NAME, url: `${SITE}/`,
+    logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 } },
+  { "@type": "WebSite", "@id": `${SITE}/#website`, name: NAME, url: `${SITE}/`,
+    publisher: { "@id": `${SITE}/#organization` }, inLanguage: "en" },
+];
+
+let changed = 0, total = 0;
+const run = (file, graph) => { total++; if (inject(file, graph)) { changed++; console.log("schema:", file); } };
+
+if (fs.existsSync("index.html")) run("index.html", homeGraph());
+for (const [section, kind] of [["news", "NewsArticle"], ["articles", "Article"]]) {
+  if (!fs.existsSync(section)) continue;
+  for (const f of fs.readdirSync(section).sort()) {
+    if (!f.endsWith(".html")) continue;
+    const file = path.join(section, f);
+    try { run(file, f === "index.html" ? listGraph(file, section) : postGraph(file, section, kind)); }
+    catch (e) { console.log(`::warning::${file}: ${e.message}`); }
+  }
+}
+console.log(`Schema checked on ${total} pages, updated ${changed}.`);

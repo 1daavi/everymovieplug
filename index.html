@@ -70,14 +70,35 @@
   <meta name="twitter:image:alt" content="Every Movie Plug Preview Banner">
   
   <!-- Schema.org Structured Data -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" id="emp-schema">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://everymovieplug.com/#organization",
+      "name": "Every Movie Plug",
       "url": "https://everymovieplug.com/",
-      "logo": "https://everymovieplug.com/og-image.jpg"
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://everymovieplug.com/web-app-manifest-512x512.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://everymovieplug.com/#website",
+      "name": "Every Movie Plug",
+      "url": "https://everymovieplug.com/",
+      "publisher": {
+        "@id": "https://everymovieplug.com/#organization"
+      },
+      "inLanguage": "en"
     }
-  </script>
+  ]
+}
+    </script>
 
   <style>
     :root { --bg-color:#000; --glass-bg:rgba(255,255,255,.03); --glass-card-bg:rgba(255,255,255,.04); --border-color:rgba(255,255,255,.12);
