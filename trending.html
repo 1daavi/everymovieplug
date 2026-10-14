@@ -310,9 +310,10 @@ function renderWatch() {
   box.innerHTML = rows || `<p class="text-xs text-slate-500">Not available to stream, rent or buy in ${esc(regionName(REGION))} yet. Try another region.</p>`;
 }
 async function setRegion(c) { REGION = c; try { localStorage.setItem("emp_region", c); } catch {} renderWatch(); if (CUR) { await loadDeepLinks(CUR.type, CUR.id, REGION); renderWatch(); } }
+function openFullPage(el) { const u = el && el.dataset.href; if (u) location.href = u; }
 function playTrailer(k) {
   const h = $("mHero"); if (!h || !/^[\w-]+$/.test(k)) return;
-  h.removeAttribute("style"); h.className = "w-full rounded-t-3xl overflow-hidden bg-black";
+  h.removeAttribute("style"); h.className = "w-full rounded-t-3xl overflow-hidden bg-black"; ["role", "tabindex", "aria-label", "data-href", "onclick", "onkeydown"].forEach(a => h.removeAttribute(a));
   const origin = location.protocol.startsWith("http") ? "&origin=" + encodeURIComponent(location.origin) : "";
   h.innerHTML = `<div class="aspect-video"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${k}?autoplay=1&rel=0&playsinline=1${origin}" title="Trailer" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <a href="https://www.youtube.com/watch?v=${k}" target="_blank" rel="noopener noreferrer" class="block text-center text-[11px] text-slate-400 hover:text-white py-2 bg-black/60">Video not playing? Watch on YouTube &rarr;</a>`;
@@ -378,9 +379,10 @@ async function openModal(type, id, fromHash) {
         if (rows) extra = `<div class="grid grid-cols-3 gap-3 mt-5">${rows}</div>`;
       } catch {}
     }
+    const pageUrl = `/${type}/${id}-${slugify(title) || "title"}`;
     const link = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">${t}</a>`;
     $("modalBody").innerHTML = `
-      ${d.backdrop_path ? `<div id="mHero" class="h-48 sm:h-64 bg-cover bg-center rounded-t-3xl relative" style="background-image:url(${IMG}w780${d.backdrop_path})"><div class="absolute inset-0 bg-gradient-to-t from-[#0e0e16] to-transparent"></div></div>` : '<div id="mHero" class="h-12"></div>'}
+      ${d.backdrop_path ? `<div id="mHero" class="group h-48 sm:h-64 bg-cover bg-center rounded-t-3xl relative cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400" style="background-image:url(${IMG}w780${d.backdrop_path})" role="link" tabindex="0" aria-label="Open the full page for ${esc(title)}" data-href="${esc(pageUrl)}" onclick="openFullPage(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFullPage(this)}"><div class="absolute inset-0 bg-gradient-to-t from-[#0e0e16] to-transparent"></div><span class="absolute right-4 bottom-14 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-semibold text-white bg-black/55 border border-white/25 backdrop-blur-md group-hover:bg-purple-500/60 group-focus-visible:bg-purple-500/60 transition-colors pointer-events-none">&#10530; Open full page</span></div>` : '<div id="mHero" class="h-12"></div>'}
       <div id="mBody" class="p-6 sm:p-8 -mt-10 relative space-y-4">
         <div class="flex items-center gap-4">${ring(d.vote_average, 64)}
           <div><h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">${esc(title)}</h3>
@@ -395,7 +397,7 @@ async function openModal(type, id, fromHash) {
           <div id="mWatch" class="space-y-3"></div>
           <p class="text-[10px] text-slate-600">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-400">JustWatch</a></p>
         </div>
-        <div class="flex flex-wrap gap-2 pt-2">${TRAILER ? `<button onclick="playTrailer('${TRAILER.key}')" class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-xs font-semibold text-white transition-colors">&#9654; Watch trailer</button>` : ""}${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button onclick="copyShare(this)" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">&#128279; Copy share link</button> </div>
+        <div class="flex flex-wrap gap-2 pt-2"><a href="${esc(pageUrl)}" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">&#10530; Full page</a>${TRAILER ? `<button onclick="playTrailer('${TRAILER.key}')" class="px-4 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-xs font-semibold text-white transition-colors">&#9654; Watch trailer</button>` : ""}${link(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? link(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? link(esc(d.homepage), "Official site") : ""} ${link("https://x.com/everymovieplug", "Discuss on X")} ${link(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button onclick="copyShare(this)" class="px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-colors">&#128279; Copy share link</button> </div>
        
       </div>`;
     renderWatch();
