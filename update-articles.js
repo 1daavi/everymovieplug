@@ -165,11 +165,34 @@ const SECTIONS = {
   },
 };
 
+/* ---------- make sure every story page has the share button ---------- */
+// Adds <script src="/share.js" defer></script> to any story page that is missing it
+// (right after its read-aloud script, otherwise just before </body>). Pages that already have it are left alone.
+function ensureShare(DIR) {
+  const tag = '<script src="/share.js" defer></script>';
+  let added = 0;
+  for (const f of fs.readdirSync(DIR)) {
+    if (!f.toLowerCase().endsWith(".html") || SKIP.includes(f.toLowerCase())) continue;
+    const file = path.join(DIR, f);
+    const html = fs.readFileSync(file, "utf8");
+    if (/share\.js/i.test(html) || !/class=["'][^"']*article-header/i.test(html)) continue;   // already there, or not a story page
+    let out = html.replace(/^([ \t]*)(<script[^>]*read-aloud\.js[^>]*><\/script>)/im, (m, ind) => m + "\n" + ind + tag);
+    if (out === html) out = html.replace(/<\/body>/i, "    " + tag + "\n</body>");
+    if (out === html) { console.log(`[${DIR}] Could not add the share button to ${f} (no read-aloud script or </body> found)`); continue; }
+    fs.writeFileSync(file, out);
+    console.log(`[${DIR}] Added share button to: ${f}`);
+    added++;
+  }
+  return added;
+}
+
 /* ---------- main ---------- */
 function run(sec) {
   const { dir: DIR, listing: LISTING } = sec;
   if (!fs.existsSync(LISTING)) { console.error(`Can't find ${LISTING}`); return 1; }
   if (!fs.existsSync(DIR)) { console.error(`Can't find folder ${DIR}/`); return 1; }
+
+  ensureShare(DIR);
 
   let listing = fs.readFileSync(LISTING, "utf8");
   const linked = new Set([...listing.matchAll(sec.linked)]
