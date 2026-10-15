@@ -53,7 +53,7 @@
   <meta property="og:url" content="https://everymovieplug.com/">
   <meta property="og:site_name" content="Every Movie Plug">
   <meta property="og:title" content="Every Movie Plug">
-  <meta property="og:description" content="We're cooking up something special. Follow our journey on X for updates.">
+  <meta property="og:description" content="Discover trending movies and TV shows, read film news and articles, and play games at Every Movie Plug.">
   <meta property="og:image" content="https://everymovieplug.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="628">
@@ -65,7 +65,7 @@
   <meta name="twitter:url" content="https://everymovieplug.com/">
   <meta name="twitter:creator" content="@everymovieplug">
   <meta name="twitter:title" content="Every Movie Plug - Curating cinema history, scene breakdowns, and film analysis.">
-  <meta name="twitter:description" content="Follow our journey on X for updates. We'd love to hear from you"> 
+  <meta name="twitter:description" content="Trending movies and TV shows, film news, articles and games. Follow @everymovieplug on X."> 
   <meta name="twitter:image" content="https://everymovieplug.com/twitter-card.jpg">
   <meta name="twitter:image:alt" content="Every Movie Plug Preview Banner">
   
@@ -247,6 +247,33 @@
     .m-links { display:flex; flex-wrap:wrap; gap:.5rem; padding-top:.25rem; }
     .m-load { padding:4rem 1rem; text-align:center; color:var(--text-secondary); font-size:.85rem; }
     @media (max-width:640px) { .m-body { padding:0 1.1rem 1.25rem; } .m-hero { height:11rem; } .m-title h3 { font-size:1.3rem; } .w-row > span { width:100%; } }
+    /* Hero + search */
+    .hero { display:flex; flex-direction:column; align-items:center; text-align:center; gap:.8rem; padding:1.75rem 1.25rem; border-radius:24px; }
+    .hero h1 { font-size:clamp(1.5rem,4.5vw,2.3rem); font-weight:800; letter-spacing:-.03em; }
+    .hero p { font-size:.88rem; color:var(--text-secondary); max-width:560px; }
+    .hero .hint { font-size:.7rem; color:var(--text-secondary); opacity:.8; }
+    .searchbar { display:flex; gap:.5rem; width:100%; max-width:640px; }
+    .searchbar input { flex:1; min-width:0; padding:.8rem 1.15rem; border-radius:9999px; background:rgba(255,255,255,.06); border:1px solid var(--border-color); color:var(--text-primary); font:inherit; font-size:1rem; outline:none; transition:border-color .3s,background .3s; }
+    .searchbar input::placeholder { color:var(--text-secondary); }
+    .searchbar input:focus { border-color:rgba(168,85,247,.65); background:rgba(255,255,255,.09); }
+    .searchbar .chip { padding:.7rem 1.3rem; font-size:.88rem; }
+    /* About section */
+    .feats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+    .feat { display:flex; flex-direction:column; gap:.5rem; padding:1.25rem; border-radius:20px; text-decoration:none; text-align:left; position:relative; transition:transform .4s var(--ease-out),border-color .3s,box-shadow .4s; }
+    .feat-ic { font-size:1.6rem; line-height:1; }
+    .feat h3 { font-size:.98rem; font-weight:700; letter-spacing:-.01em; }
+    .feat p { font-size:.8rem; line-height:1.55; color:var(--text-secondary); }
+    .about-text { margin-top:1.1rem; font-size:.82rem; line-height:1.65; color:var(--text-secondary); text-align:center; }
+    @media (hover:hover) { .feat:hover { transform:translateY(-4px); border-color:rgba(168,85,247,.45); box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(139,92,246,.15); } }
+    @media (max-width:980px) { .feats { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:640px) { .feats { grid-template-columns:1fr; } .searchbar .chip { padding:.7rem 1rem; } }
+    .feats.gen { grid-template-columns:repeat(4,1fr); gap:.85rem; }
+    .gcard { padding:1rem 1.1rem; gap:.35rem; }
+    .gcard .feat-ic { font-size:1.35rem; }
+    .gcard h3 { font-size:.92rem; }
+    .gcard p { font-size:.75rem; }
+    @media (max-width:980px) { .feats.gen { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:640px) { .feats.gen { grid-template-columns:repeat(2,1fr); } }
   </style>
     <script type="application/ld+json" id="emp-schema-0">
 {
@@ -292,6 +319,7 @@
         <button class="chip" data-type="tv" aria-pressed="false">📺 TV Shows</button>
         <button class="chip" id="genreBtn" aria-haspopup="true" aria-expanded="false">Genre ▾</button>
         <button class="chip" id="countryBtn" aria-haspopup="true" aria-expanded="false">Country ▾</button>
+        <a class="chip" href="https://playground.google/g/fyVDKb" target="_blank" rel="noopener noreferrer">🎮 Games</a>
       </nav>
       <div class="top-actions">
         <a class="chip" href="https://x.com/intent/follow?screen_name=everymovieplug" target="_blank" rel="noopener noreferrer">𝕏 Follow</a>
@@ -302,11 +330,16 @@
   <div class="panel" id="panel" role="menu"></div>
 
   <main class="wrap">
-    <section class="strip glass" aria-label="Site status">
-      <span class="badge"><span class="dot" aria-hidden="true"></span>We've noticed your presence</span>
-      <h1>We’re cooking up <span class="highlight">something special</span>.</h1>
-      <p>Every Movie Plug is getting a brand new look and experience. Follow our journey on X for updates.</p>
+    <section class="hero glass" aria-label="Search Every Movie Plug">
+      <h1>Find your next <span class="highlight">watch</span></h1>
+      <p>Trending movies and TV shows, film news, in-depth articles and games, all in one place.</p>
+      <form class="searchbar" id="searchForm" role="search" autocomplete="off">
+        <input id="searchInput" type="search" name="q" placeholder="Search articles, news, movies &amp; TV shows…" aria-label="Search articles, news, movies and TV shows" enterkeyhint="search">
+        <button class="chip primary" type="submit" aria-label="Search articles, news, movies and TV shows">&#128269; Search</button>
+      </form>
+      <small class="hint">Searches our articles and news, plus every movie and TV show on TMDB.</small>
     </section>
+    <section id="searchResults" aria-label="Search results" hidden></section>
 
     <section id="featured" aria-label="Featured movies and TV shows">
       <div class="activebar" id="activebar" hidden></div>
@@ -328,19 +361,35 @@
       </div>
     </section>
 
-    <section aria-label="Trending hits on X">
-      <div class="hits-head">
-        <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Trending Hits</h2>
-        <a class="stat glass" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer"><b id="follower-count">2.3M+</b><span>Film Lovers on X · @everymovieplug ↗</span></a>
+    <section aria-label="Explore by genre">
+      <div class="sec-head"><div><h2>Explore by genre</h2><small>Pick a genre to see what is popular right now</small></div><a class="more" href="https://everymovieplug.com/trending">All trending →</a></div>
+      <div class="feats gen">
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Action"><span class="feat-ic" aria-hidden="true">💥</span><h3>Action</h3><p>Big set pieces, chases and fights.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Adventure"><span class="feat-ic" aria-hidden="true">🧭</span><h3>Adventure</h3><p>Quests, journeys and far-off places.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Animation"><span class="feat-ic" aria-hidden="true">🎨</span><h3>Animation</h3><p>Hand-drawn, CGI and stop-motion stories.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Comedy"><span class="feat-ic" aria-hidden="true">😂</span><h3>Comedy</h3><p>Laugh-out-loud films and sitcoms.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Crime"><span class="feat-ic" aria-hidden="true">🕵️</span><h3>Crime</h3><p>Heists, investigations and the underworld.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Documentary"><span class="feat-ic" aria-hidden="true">🎥</span><h3>Documentary</h3><p>True stories and real people.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Drama"><span class="feat-ic" aria-hidden="true">🎭</span><h3>Drama</h3><p>Character-driven stories that stay with you.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Family"><span class="feat-ic" aria-hidden="true">👨‍👩‍👧</span><h3>Family</h3><p>Something for every age on the sofa.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Fantasy"><span class="feat-ic" aria-hidden="true">🐉</span><h3>Fantasy</h3><p>Magic, myth and invented worlds.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?type=movie&genre=Horror"><span class="feat-ic" aria-hidden="true">👻</span><h3>Horror</h3><p>Scares, suspense and the supernatural.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Mystery"><span class="feat-ic" aria-hidden="true">🔍</span><h3>Mystery</h3><p>Puzzles, clues and twists.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?type=movie&genre=Romance"><span class="feat-ic" aria-hidden="true">💕</span><h3>Romance</h3><p>Love stories, from sweet to sweeping.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Sci-Fi"><span class="feat-ic" aria-hidden="true">🚀</span><h3>Sci-Fi</h3><p>Space, technology and the future.</p></a>
+        <a class="feat glass gcard" href="https://everymovieplug.com/trending?type=movie&genre=Thriller"><span class="feat-ic" aria-hidden="true">⚡</span><h3>Thriller</h3><p>Tension that keeps you on the edge.</p></a>
       </div>
-      <div class="posts" id="top-posts-container"></div>
     </section>
 
-    <section class="countdown glass" id="countdown" aria-label="Launch countdown">
-      <div><h2>The new Every Movie Plug launches soon</h2><p>Jan 1, 2027 · Follow us on X to be first in.</p></div>
-      <div class="cd" id="cdBoxes">
-        <div><b id="days">00</b><i>Days</i></div><div><b id="hours">00</b><i>Hours</i></div><div><b id="minutes">00</b><i>Mins</i></div><div><b id="seconds">00</b><i>Secs</i></div>
+    <section class="about" aria-label="About Every Movie Plug">
+      <div class="sec-head"><div><h2>What you’ll find on Every Movie Plug</h2><small>Built for people who love film and television</small></div></div>
+      <div class="feats">
+        <a class="feat glass" href="https://everymovieplug.com/trending"><span class="feat-ic" aria-hidden="true">&#127910;</span><h3>Trending movies &amp; TV</h3><p>See what the world is watching this week, filter by genre or country, and check where each title is streaming.</p></a>
+        <a class="feat glass" href="/news/"><span class="feat-ic" aria-hidden="true">&#128240;</span><h3>Film news</h3><p>Headlines and updates from the world of cinema and television, published by our editors.</p></a>
+        <a class="feat glass" href="/articles/"><span class="feat-ic" aria-hidden="true">&#128221;</span><h3>Articles &amp; analysis</h3><p>Cinema history, scene breakdowns and film analysis for viewers who want more than a trailer.</p></a>
+        <a class="feat glass" href="https://playground.google/g/fyVDKb" target="_blank" rel="noopener noreferrer"><span class="feat-ic" aria-hidden="true">&#127918;</span><h3>Games</h3><p>Take a break and play a game on Google Playground, right from your browser.</p></a>
       </div>
+      <p class="about-text">Every Movie Plug is an independent film and TV discovery site. Movie and TV data comes from TMDB, and streaming availability is provided by JustWatch. Follow <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="footer-link" style="text-transform:none;letter-spacing:0">@everymovieplug</a> on X for daily recommendations.</p>
     </section>
 
     <nav class="links" aria-label="About and contact">
@@ -445,7 +494,7 @@
       news:     { dir: "/news/",     box: "news",     max: 10, label: "News",    more: "More news",     browse: "Browse all news" },
       articles: { dir: "/articles/", box: "articles", max: 15, label: "Article", more: "More articles", browse: "Browse all articles" }
     };
-    const POSTS = { news: [], articles: [] };
+    const POSTS = { news: [], articles: [] }, FULL = { news: [], articles: [] };
     let POST_TOK = 0;
     async function loadFeed(kind) {
       const f = FEEDS[kind], box = $(f.box); if (!box) return;
@@ -467,7 +516,8 @@
             title: a.querySelector(".tile-title")?.textContent.trim() || "Untitled",
             excerpt: a.querySelector(".tile-excerpt")?.textContent.trim() || ""
           };
-        }).sort((a, b) => b.time - a.time || a.n - b.n).slice(0, f.max);
+        }).sort((a, b) => b.time - a.time || a.n - b.n);
+        FULL[kind] = items.slice(); items.length = Math.min(items.length, f.max);
         if (!items.length) throw new Error("Nothing found");
         POSTS[kind] = items;
         box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openPost(event,'${kind}',${n})" aria-label="Preview ${esc(a.title)}">
@@ -544,9 +594,43 @@
       new MutationObserver(sync).observe(rail, { childList: true }); sync();
     });
     $("featured") && loadRows();
-    $("rowNews") && loadFeed("news");
-    $("rowArticles") && loadFeed("articles");
+    const feedsReady = Promise.all([loadFeed("news"), loadFeed("articles")]);
 
+    /* ===== Search: articles, news, movies and TV ===== */
+    let SEARCH_TOK = 0;
+    const postCard = a => `<a class="mcard glass" href="${esc(a.href)}" aria-label="${esc(a.title)}">
+      <div class="poster${a.img ? '' : ' nop'}">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}</div>
+      <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`;
+    const resRow = (title, html) => `<div class="row"><div class="sec-head"><div><h2>${title}</h2></div></div><div class="rail">${html}</div></div>`;
+    function clearSearch() {
+      SEARCH_TOK++; $("searchResults").hidden = true; $("searchResults").innerHTML = "";
+      $("featured").hidden = false; $("searchInput").value = "";
+    }
+    $("searchForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const q = $("searchInput").value.trim(); if (!q) return clearSearch();
+      const tok = ++SEARCH_TOK, box = $("searchResults");
+      $("featured").hidden = true; closePanel(); box.hidden = false;
+      box.innerHTML = `<div class="activebar">Searching for <b>${esc(q)}</b>…</div>`;
+      let err = "";
+      const [r] = await Promise.all([
+        tmdb("/search/multi", { query: q, include_adult: false, language: "en-US" }).catch(x => { err = x.message; return { results: [] }; }),
+        feedsReady
+      ]);
+      if (tok !== SEARCH_TOK) return;
+      const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+      const find = kind => FULL[kind].filter(a => { const t = (a.title + " " + a.excerpt + " " + a.tag).toLowerCase(); return words.every(w => t.includes(w)); });
+      const titles = (r.results || []).filter(i => i.media_type === "movie" || i.media_type === "tv").slice(0, 15);
+      const arts = find("articles"), news = find("news");
+      let out = `<div class="activebar">Results for <b>${esc(q)}</b> <button class="chip" type="button" onclick="clearSearch()">Clear ✕</button></div>`;
+      if (arts.length) out += resRow("Articles", arts.map(postCard).join(""));
+      if (news.length) out += resRow("News", news.map(postCard).join(""));
+      if (titles.length) out += resRow("Movies &amp; TV", titles.map(i => card(i, i.media_type)).join(""));
+      if (!arts.length && !news.length && !titles.length)
+        out += `<p class="note">${err ? esc(err) : "No articles, news, movies or TV shows matched your search. Try a different title or keyword."}</p>`;
+      box.innerHTML = out;
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 
     /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
     const BASE_TITLE = document.title; let hashPushed = false; const SLUG_MAP = {};
@@ -589,10 +673,7 @@ function setHash(type, id, title, fromHash) {
 
     /* ===== Movie popup (same as trending page) ===== */
     const IMG = "https://image.tmdb.org/t/p/";
-    let MAGNETS = {}, WATCH = {}, TRAILER = null;
-    const magnetsReady = fetch("magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
-    const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
-    const magnetBtn = m => (typeof m === "string" && m.startsWith("magnet:?")) ? `<a href="${esc(m)}" class="chip primary" title="Opens in your torrent app">&#11015; Download (Magnet)</a>` : "";
+    let WATCH = {}, TRAILER = null;
     let REGION = (() => { try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {} const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean); return (r || "US").toUpperCase(); })();
     const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
     function ring(score) {
@@ -719,7 +800,6 @@ function setHash(type, id, title, fromHash) {
         setHash(type, id, title, fromHash);
         const vids = (d.videos?.results || []).filter(v => v.site === "YouTube" && /^[\w-]+$/.test(v.key));
         TRAILER = vids.find(v => v.type === "Trailer" && v.official) || vids.find(v => v.type === "Trailer") || vids.find(v => v.type === "Teaser") || null;
-        await magnetsReady;
         const meta = [yr, d.runtime ? d.runtime + " min" : (d.number_of_seasons ? d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : "") : "")].filter(Boolean).join(" · ");
         let scores = "";
         if (imdb) {
@@ -744,7 +824,7 @@ function setHash(type, id, title, fromHash) {
               <div id="mWatch"></div>
               <p class="m-credit">Streaming data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></p>
             </div>
-            <div class="m-links">${magnetBtn(magnetFor(type, id))}${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
+            <div class="m-links">${TRAILER ? `<button class="chip primary" onclick="playTrailer('${TRAILER.key}')">&#9654; Watch trailer</button>` : ""}${L(`https://www.themoviedb.org/${type}/${id}`, "View on TMDB")}${imdb ? L(`https://www.imdb.com/title/${imdb}/`, "View on IMDb") : ""}${d.homepage ? L(esc(d.homepage), "Official site") : ""}${L("https://x.com/everymovieplug", "Discuss on X")}${L(`articles.html?q=${encodeURIComponent(title)}`, "Read our article")}<button class="chip" onclick="copyShare(this)">&#128279; Copy share link</button></div>
           </div>`;
         renderWatch();
         loadDeepLinks(type, id, REGION).then(renderWatch);
@@ -752,35 +832,9 @@ function setHash(type, id, title, fromHash) {
     }
     function closeModal(fromPop) { POST_TOK++; $("modal").classList.remove("open"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
 
-    /* ---- Follower count ---- */
-    document.addEventListener("DOMContentLoaded", () => {
-      const el = $("follower-count"), t0 = performance.now();
-      (function step(now) { const p = Math.min((now - t0) / 1200, 1); el.textContent = ((1 - Math.pow(1 - p, 3)) * 2.3).toFixed(1) + "M+"; if (p < 1) requestAnimationFrame(step); })(t0);
-    });
-
-    /* ---- Countdown (Jan 1, 2027) ---- */
-    const targetDate = new Date("January 1, 2027 00:00:00").getTime();
-    function updateCountdown() {
-      const d = targetDate - Date.now();
-      if (d <= 0) { $("cdBoxes").innerHTML = "<b>We are live!</b>"; return; }
-      const v = { days: Math.floor(d / 864e5), hours: Math.floor(d % 864e5 / 36e5), minutes: Math.floor(d % 36e5 / 6e4), seconds: Math.floor(d % 6e4 / 1e3) };
-      for (const k in v) $(k).textContent = String(v[k]).padStart(2, "0");
-    }
-    setInterval(updateCountdown, 1000); updateCountdown();
-
-    /* ---- Trending hits (X posts) ---- */
-    const featuredPosts = [
-      { tag: "Movie Trivia", date: "Top Hit", content: "Did you know? In Christopher Nolan's <i>Inception</i>, the main characters' names (Dom, Robert, Eames, Arthur, Mal, Ariadne) spell out 'DREAM' when combined.", views: "1.4M", likes: "42.8K", link: "https://x.com/everymovieplug" },
-      { tag: "Hidden Gem", date: "Recommendation", content: "If you love tight, single-location psychological thrillers, add <i>Coherence</i> (2013) to your weekend watchlist immediately.", views: "890K", likes: "21.5K", link: "https://x.com/everymovieplug" },
-      { tag: "Director Breakdown", date: "Cinema Art", content: "Denis Villeneuve's use of scale and atmospheric sound design creates pure cinematic tension unlike anyone else in modern sci-fi.", views: "2.1M", likes: "68.2K", link: "https://x.com/everymovieplug" }
-    ];
-    $("top-posts-container").innerHTML = featuredPosts.map(p => `
-      <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="post-card">
-        <div class="post-header"><span class="post-badge">${p.tag}</span><span class="post-date">${p.date}</span></div>
-        <div class="post-body">"${p.content}"</div>
-        <div class="post-metrics"><span>👁️ ${p.views}</span><span>❤️ ${p.likes}</span><span style="margin-left:auto;color:#a5b4fc">View on X ↗</span></div>
-      </a>`).join("");
-
+    
+    
+    
     /* ---- Share, toast, tap ripple + haptics ---- */
     function shareWebsite() {
       if (navigator.share) navigator.share({ title: "Every Movie Plug", text: "Every Movie Plug is getting a brand new look!", url: location.href }).catch(() => {});
@@ -797,7 +851,6 @@ function setHash(type, id, title, fromHash) {
       d.className = "ripple"; d.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s / 2}px;top:${e.clientY - r.top - s / 2}px`;
       l.appendChild(d); d.addEventListener("animationend", () => d.remove());
     }, { passive: true });
-    const sec = $("seconds"); new MutationObserver(() => { sec.classList.remove("tick"); void sec.offsetWidth; sec.classList.add("tick"); }).observe(sec, { childList: true, characterData: true, subtree: true });
     if (location.hash) openFromHash();
   </script>
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">

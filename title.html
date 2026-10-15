@@ -112,7 +112,7 @@
     const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const IMG = "https://image.tmdb.org/t/p/";
     const slugify = t => String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-    let CUR = null, WATCH = {}, TRAILER = null, MAGNETS = {};
+    let CUR = null, WATCH = {}, TRAILER = null;
     let REGION = (() => { try { const s = localStorage.getItem("emp_region"); if (s) return s; } catch {} const r = (navigator.languages || [navigator.language]).map(l => (l || "").split("-")[1]).find(Boolean); return (r || "US").toUpperCase(); })();
     const regionName = c => { try { return new Intl.DisplayNames(["en"], { type: "region" }).of(c); } catch { return c; } };
 
@@ -218,7 +218,6 @@ function deepLink(p, group) {
 
 
     let tt; function showToast(m) { const el = $("toast"); el.textContent = m; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2200); }
-    const magnetFor = (t, id) => MAGNETS[t + ":" + id] || (t === "movie" ? MAGNETS[String(id)] : "") || "";
 
     function renderWatch() {
       const sel = $("region"), box = $("watch"); if (!sel || !box) return;
@@ -258,14 +257,12 @@ function deepLink(p, group) {
     async function load() {
       const w = whichTitle(), app = $("app");
       if (!w) { app.innerHTML = '<div class="note">We couldn’t tell which title to show. <a href="/trending" style="color:#c4b5fd">Browse trending</a></div>'; return; }
-      const magnets = fetch("/magnets.json?v=" + Math.floor(Date.now() / 36e5)).then(r => r.ok ? r.json() : {}).then(j => { MAGNETS = j || {}; }).catch(() => {});
       let d;
       try {
         const r = await fetch(`/api/tmdb/${w.type}/${w.id}?append_to_response=external_ids,videos,watch/providers,credits&include_video_language=en,null&language=en-US`);
         if (!r.ok) throw new Error(r.status === 404 ? "We couldn’t find that title." : "TMDB error " + r.status);
         d = await r.json();
       } catch (e) { app.innerHTML = `<div class="note" style="color:#fbbf24">${esc(e.message || "Couldn’t load this title right now.")}<br><br><a class="chip" href="/trending">Browse trending</a></div>`; return; }
-      await magnets;
 
       const title = d.title || d.name, imdb = d.external_ids?.imdb_id, yr = (d.release_date || d.first_air_date || "").slice(0, 4), name = yr ? `${title} (${yr})` : title;
       CUR = { type: w.type, id: w.id, title, name };
@@ -280,7 +277,6 @@ function deepLink(p, group) {
 
       const score = d.vote_average ? `<span class="rate" style="color:${d.vote_average >= 7 ? "#34d399" : d.vote_average >= 5 ? "#fbbf24" : "#f87171"}">&#9733; ${d.vote_average.toFixed(1)}</span>` : "";
       const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener noreferrer" class="chip">${t}</a>`;
-      const mg = magnetFor(w.type, w.id), magnet = (typeof mg === "string" && mg.startsWith("magnet:?")) ? `<a href="${esc(mg)}" class="chip primary" title="Opens in your torrent app">&#11015; Download (Magnet)</a>` : "";
       const cast = (d.credits?.cast || []).slice(0, 14);
       const crew = (d.credits?.crew || []).filter(p => p.job === "Director").slice(0, 3).map(p => p.name);
       app.innerHTML = `
@@ -293,7 +289,7 @@ function deepLink(p, group) {
             <p class="meta">${esc(meta)}${d.vote_count ? ` · TMDB score from ${d.vote_count.toLocaleString()} votes` : ""}${crew.length ? `<br>Directed by ${esc(crew.join(", "))}` : ""}</p>
             <div class="tags">${(d.genres || []).map(g => `<span class="tag">${esc(g.name)}</span>`).join("")}</div>
             <div class="actions">
-              ${magnet}${TRAILER ? `<button class="chip primary" type="button" onclick="playTrailer()">&#9654; Watch trailer</button>` : ""}
+              ${TRAILER ? `<button class="chip primary" type="button" onclick="playTrailer()">&#9654; Watch trailer</button>` : ""}
               <button class="chip" type="button" onclick="shareTitleNow()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 7.5 12 3l4.5 4.5M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></svg>Share</button>
             </div>
           </div>
