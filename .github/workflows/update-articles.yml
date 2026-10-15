@@ -12,6 +12,7 @@
          - uses: actions/checkout@v4
          - run: node update-articles.js
          - run: node add-schema.js
+         - run: node add-adsense.js articles
          - run: |
              git config user.name "github-actions"
              git config user.email "github-actions@users.noreply.github.com"
