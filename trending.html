@@ -59,6 +59,18 @@
     .back-pill:hover,.back-pill:focus-visible{transform:translateX(-3px);background:rgba(168,85,247,.2);color:#c4b5fd}
     .back-pill:active{transform:scale(.96);transition-duration:.12s}
 
+    .fchip{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border-radius:9999px;font-size:.78rem;font-weight:500;color:#cbd5e1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);white-space:nowrap;cursor:pointer;transition:all .25s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .fchip:hover{color:#fff;border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.12)}
+    .fchip:active{transform:scale(.96)}
+    .fchip.on{color:#fff;background:rgba(139,92,246,.28);border-color:rgba(139,92,246,.7)}
+    .fchip.cta{color:#fff;border-color:transparent;background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 4px 20px rgba(99,102,241,.3)}
+    .fchip:disabled{opacity:.5;cursor:default}
+    .fchip:focus-visible,.fsel:focus-visible{outline:2px solid #a855f7;outline-offset:2px}
+    .fsel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:.5rem .9rem;font-size:.78rem;color:#e2e8f0;outline:none;max-width:100%}
+    .fsel option{background:#0e0e16}
+    .frow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+    .frow>label{width:4.5rem;flex:none;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#64748b}
+    @media (max-width:640px){.frow>label{width:100%}}
   </style>
 </head>
 <body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative">
@@ -84,12 +96,13 @@
       <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.08] mb-6">
         Latest Movies & TV Shows <span class="italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-brand-100 to-brand-400">Recommendations</span>
       </h1>
-      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">See what's popular today.</p>
+      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">See what is popular right now. Filter by mood, genre, country and decade, or search movies, TV shows, articles and news.</p>
       <div class="relative max-w-xl mx-auto mt-8">
         <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="q" type="search" autocomplete="off" placeholder="Search any movie or TV show…" aria-label="Search movies and TV shows" class="w-full glass-card rounded-full pl-12 pr-12 py-4 text-sm text-white placeholder-slate-500 outline-none focus:border-brand-500/60 focus:shadow-[0_0_25px_rgba(139,92,246,.2)] transition-all">
+        <input id="q" type="search" autocomplete="off" placeholder="Search movies, TV shows, articles &amp; news…" aria-label="Search movies, TV shows, articles and news" class="w-full glass-card rounded-full pl-12 pr-12 py-4 text-sm text-white placeholder-slate-500 outline-none focus:border-brand-500/60 focus:shadow-[0_0_25px_rgba(139,92,246,.2)] transition-all">
         <button id="qClear" type="button" aria-label="Clear search" class="hidden absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white text-base leading-none">&times;</button>
       </div>
+      <div id="sTabs" class="flex flex-wrap justify-center gap-2 mt-4" role="group" aria-label="Search category"></div>
       <p id="updated" class="text-[11px] uppercase tracking-widest font-semibold text-slate-500 mt-4"></p>
     </section>
 
@@ -100,10 +113,48 @@
         <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Search Results</h2>
         <p id="searchTitle" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"></p></div>
       </div>
-      <div id="searchGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+      <div id="searchBody" class="space-y-10"></div>
     </section>
 
-    <section class="space-y-8">
+    <section id="filters" aria-label="Browse filters" class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 scroll-mt-6">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Browse &amp; filter</h2>
+        <div class="flex gap-2"><button id="surprise" type="button" class="fchip cta">&#127922; Surprise me</button><button id="reset" type="button" class="fchip hidden">Reset &#10005;</button></div>
+      </div>
+      <div class="frow"><label>Show</label><div id="fType" class="flex gap-2 flex-wrap"></div></div>
+      <div class="frow"><label>Mood</label><div id="fMood" class="flex gap-2 flex-wrap"></div></div>
+      <div class="frow"><label>Genre</label><div id="fGenre" class="flex gap-2 flex-wrap"></div></div>
+      <div class="frow"><label>Refine</label>
+        <select id="fCountry" class="fsel" aria-label="Country"></select>
+        <select id="fDecade" class="fsel" aria-label="Decade"></select>
+        <select id="fRating" class="fsel" aria-label="Minimum rating"></select>
+        <select id="fSort" class="fsel" aria-label="Sort by"></select>
+      </div>
+    </section>
+
+    <section id="browseSec" class="hidden space-y-14 scroll-mt-6" aria-live="polite">
+      <p id="browseSummary" class="text-sm text-slate-400"></p>
+      <div id="bxmovie" class="space-y-6">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+          <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Movies</h2>
+          <p id="tmovie" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"></p>
+          <p id="cmovie" class="text-xs text-slate-500 mt-1"></p></div>
+        </div>
+        <div id="gmovie" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+        <div class="text-center"><button id="mmovie" type="button" data-more="movie" class="fchip hidden">Load more</button></div>
+      </div>
+      <div id="bxtv" class="space-y-6">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+          <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">TV Shows</h2>
+          <p id="ttv" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"></p>
+          <p id="ctv" class="text-xs text-slate-500 mt-1"></p></div>
+        </div>
+        <div id="gtv" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
+        <div class="text-center"><button id="mtv" type="button" data-more="tv" class="fchip hidden">Load more</button></div>
+      </div>
+    </section>
+
+    <section id="secMovies" class="space-y-8">
       <div class="flex items-end justify-between">
         <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Now Trending</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">New Movies</p></div>
@@ -111,7 +162,7 @@
       <div id="movies" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6"></div>
     </section>
 
-    <section class="space-y-8">
+    <section id="secTv" class="space-y-8">
       <div class="flex items-end justify-between">
         <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Binge Worthy</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">New TV Shows</p></div>
@@ -135,8 +186,11 @@
   <nav class="flex flex-wrap justify-center items-center gap-3 mb-5" aria-label="Footer">
     <a href="index.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Home</a>
     <a href="/articles/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Articles</a>
-    <a href="mailto:admin@everymovieplug.com" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Contact Us</a>
+    <a href="mailto:contact@everymovieplug.com" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Contact Us</a>
     <a href="privacy-policy.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
+    <a href="about.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">About Us</a>
+    <a href="/news/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">News</a>
+    <a href="terms-of-service.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Terms of Service</a>
   </nav>
   <p class="text-xs uppercase tracking-[0.06em] font-medium text-slate-500 opacity-80">&copy; Every Movie Plug</p>
 </footer>
@@ -321,7 +375,7 @@ function playTrailer(k) {
 }
 
 /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
-const BASE_TITLE = document.title; let hashPushed = false; const SLUG_MAP = {};
+let BASE_TITLE = document.title; let hashPushed = false; const SLUG_MAP = {};
 const slugify = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 let CUR = null;
 function copyShare(btn) {
@@ -407,25 +461,201 @@ async function openModal(type, id, fromHash) {
 function closeModal(fromPop) { $("modal").classList.add("hidden"); $("modal").classList.remove("flex"); document.body.style.overflow = ""; $("modalBody").innerHTML = ""; clearHash(fromPop === true); }
 document.addEventListener("keydown", e => e.key === "Escape" && closeModal());
 
-/* ---------- Search ---------- */
-let GENRES = {}, searchTimer, searchSeq = 0;
+/* ---------- Browse filters (genre, mood, country, decade, rating, sort) ---------- */
+let GENRES = {};
+const GENRE_LIST = [["Action",28,10759,"💥"],["Adventure",12,10759,"🧭"],["Animation",16,16,"🎨"],["Comedy",35,35,"😂"],["Crime",80,80,"🕵️"],["Documentary",99,99,"🎥"],["Drama",18,18,"🎭"],["Family",10751,10751,"👨‍👩‍👧"],["Fantasy",14,10765,"🐉"],["Horror",27,null,"👻"],["Mystery",9648,9648,"🔍"],["Romance",10749,null,"💕"],["Sci-Fi",878,10765,"🚀"],["Thriller",53,null,"⚡"]];
+const COUNTRIES = [["NG","Nigeria"],["GH","Ghana"],["ZA","South Africa"],["US","United States"],["GB","United Kingdom"],["IN","India"],["KR","South Korea"],["JP","Japan"],["CN","China"],["FR","France"],["DE","Germany"],["ES","Spain"],["IT","Italy"],["MX","Mexico"],["BR","Brazil"],["CA","Canada"],["AU","Australia"],["TR","Turkey"]];
+const flag = c => String.fromCodePoint(...[...c].map(x => 127397 + x.charCodeAt(0)));
+// Moods map to TMDB genre ids ("|" means any of them); TV uses its own ids.
+const MOODS = [
+  { k: "feelgood", label: "😊 Feel-good",       movie: "35|10751",     tv: "35|10751" },
+  { k: "edge",     label: "😰 Edge of your seat", movie: "53|80",        tv: "80|9648" },
+  { k: "mind",     label: "🧠 Mind-bending",    movie: "878|9648",     tv: "10765|9648" },
+  { k: "date",     label: "💞 Date night",      movie: "10749|35",     tv: "35|18" },
+  { k: "family",   label: "🍿 Family night",    movie: "10751|16",     tv: "10751|16" },
+  { k: "epic",     label: "⚔️ Epic adventure",  movie: "12|14|28",     tv: "10759|10765" },
+  { k: "spooky",   label: "👻 Spooky",          movie: "27|9648",      tv: "9648" }
+];
+const DECADES = [["2020", "2020s"], ["2010", "2010s"], ["2000", "2000s"], ["1990", "1990s"], ["1980", "1980s"], ["1970", "1970s"], ["pre", "Before 1970"]];
+const SORTS = [["trending", "🔥 Trending"], ["rating", "⭐ Top rated"], ["newest", "🆕 Newest"], ["votes", "🗳️ Most voted"]];
+const SORT_WORD = { trending: "Popular", rating: "Top rated", newest: "Newest", votes: "Most voted" };
+const DEFAULTS = { type: "all", genre: "", mood: "", country: "", decade: "", rating: "", sort: "trending" };
+const F = { ...DEFAULTS };
+const POOL = { movie: [], tv: [] }, B = { movie: { page: 0, total: 1, seq: 0 }, tv: { page: 0, total: 1, seq: 0 } };
+const isDefault = () => !F.genre && !F.mood && !F.country && !F.decade && !F.rating && F.sort === "trending";
+const ORIG_TITLE = document.title;
+const moodName = k => MOODS.find(m => m.k === k).label.replace(/^\S+\s+/, "");
+const countryName = c => (COUNTRIES.find(x => x[0] === c) || [, c])[1];
+
+function readUrl() {
+  const q = new URLSearchParams(location.search);
+  const t = q.get("type"); if (t === "movie" || t === "tv") F.type = t;
+  const g = (q.get("genre") || "").toLowerCase(), gm = GENRE_LIST.find(x => x[0].toLowerCase() === g); if (gm) F.genre = gm[0];
+  const m = q.get("mood"); if (MOODS.some(x => x.k === m)) { F.mood = m; F.genre = ""; }
+  const c = (q.get("country") || "").toUpperCase(); if (COUNTRIES.some(x => x[0] === c)) F.country = c;
+  const d = q.get("decade"); if (DECADES.some(x => x[0] === d)) F.decade = d;
+  const r = q.get("rating"); if (["5", "6", "7", "8"].includes(r)) F.rating = r;
+  const s = q.get("sort"); if (SORTS.some(x => x[0] === s)) F.sort = s;
+}
+function writeUrl() {
+  const q = new URLSearchParams();
+  Object.keys(DEFAULTS).forEach(k => { if (F[k] !== DEFAULTS[k]) q.set(k, F[k]); });
+  history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+}
+const chip = (k, v, label, on) => `<button type="button" class="fchip${on ? " on" : ""}" data-k="${k}" data-v="${esc(v)}" aria-pressed="${on}">${label}</button>`;
+function initSelects() {
+  const opt = (v, l) => `<option value="${esc(v)}">${l}</option>`;
+  $("fCountry").innerHTML = opt("", "🌍 Any country") + COUNTRIES.map(c => opt(c[0], flag(c[0]) + " " + c[1])).join("");
+  $("fDecade").innerHTML = opt("", "📅 Any decade") + DECADES.map(d => opt(d[0], d[1])).join("");
+  $("fRating").innerHTML = opt("", "★ Any rating") + ["5", "6", "7", "8"].map(r => opt(r, r + "+ ★")).join("");
+  $("fSort").innerHTML = SORTS.map(s => opt(s[0], s[1])).join("");
+}
+function renderFilters() {
+  $("fType").innerHTML = [["all", "All"], ["movie", "🎞️ Movies"], ["tv", "📺 TV Shows"]].map(([v, l]) => chip("type", v, l, F.type === v)).join("");
+  $("fMood").innerHTML = MOODS.map(m => chip("mood", m.k, m.label, F.mood === m.k)).join("");
+  $("fGenre").innerHTML = GENRE_LIST.map(g => chip("genre", g[0], g[3] + " " + g[0], F.genre === g[0])).join("");
+  $("fCountry").value = F.country; $("fDecade").value = F.decade; $("fRating").value = F.rating; $("fSort").value = F.sort;
+  $("reset").classList.toggle("hidden", isDefault() && F.type === "all");
+}
+function browseParams(t, page) {
+  const isM = t === "movie", dk = isM ? "primary_release_date" : "first_air_date";
+  const p = { include_adult: false, language: "en-US", page };
+  let gw = "";
+  if (F.mood) gw = MOODS.find(m => m.k === F.mood)[t];
+  else if (F.genre) { const g = GENRE_LIST.find(x => x[0] === F.genre); gw = g ? String(isM ? g[1] : (g[2] || "")) : ""; if (!gw) return null; }
+  if (gw) p.with_genres = gw;
+  if (F.country) p.with_origin_country = F.country;
+  if (F.rating) p["vote_average.gte"] = F.rating;
+  p.sort_by = F.sort === "rating" ? "vote_average.desc" : F.sort === "votes" ? "vote_count.desc" : F.sort === "newest" ? dk + ".desc" : "popularity.desc";
+  p["vote_count.gte"] = F.sort === "rating" ? (F.country ? 50 : isM ? 300 : 100) : F.sort === "newest" ? 10 : (F.country ? 5 : 50);
+  let from = "", to = ymd(today);
+  if (F.decade === "pre") to = "1969-12-31";
+  else if (F.decade) { const s = +F.decade; from = s + "-01-01"; if (s + 9 < today.getFullYear()) to = (s + 9) + "-12-31"; }
+  if (from) p[dk + ".gte"] = from;
+  p[dk + ".lte"] = to;
+  return p;
+}
+const browseTitle = t => `${SORT_WORD[F.sort]} ${F.mood ? moodName(F.mood) + " " : F.genre ? F.genre + " " : ""}${t === "movie" ? "Movies" : "TV Shows"}`;
+async function loadBrowse(t, reset) {
+  const s = B[t], grid = $("g" + t), more = $("m" + t), cnt = $("c" + t), seq = ++s.seq;
+  if (reset) { s.page = 0; s.total = 1; POOL[t] = []; grid.innerHTML = skeletons(); more.classList.add("hidden"); cnt.textContent = ""; }
+  const p = browseParams(t, s.page + 1);
+  if (!p) { grid.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm py-8">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre or a mood.</p>`; return; }
+  more.disabled = true;
+  try {
+    const r = await tmdb(`/discover/${t}`, p);
+    if (seq !== s.seq) return;
+    s.page = r.page; s.total = Math.min(r.total_pages, 500);
+    if (reset) grid.innerHTML = "";
+    POOL[t].push(...r.results);
+    if (!r.results.length && reset) grid.innerHTML = '<p class="col-span-full text-center text-slate-400 text-sm py-8">Nothing found for this combination yet. Try loosening a filter.</p>';
+    else grid.insertAdjacentHTML("beforeend", r.results.map(i => card(i, t, GENRES)).join(""));
+    cnt.textContent = r.total_results ? r.total_results.toLocaleString() + " titles match" : "";
+    more.classList.toggle("hidden", s.page >= s.total);
+  } catch (e) {
+    if (seq !== s.seq) return;
+    if (reset) grid.innerHTML = `<p class="col-span-full text-center text-amber-400 text-sm py-8">${esc(e.message)}</p>`; else cnt.textContent = e.message;
+  } finally { more.disabled = false; }
+}
+function apply() {
+  renderFilters(); writeUrl();
+  const def = isDefault();
+  $("browseSec").classList.toggle("hidden", def);
+  $("secMovies").classList.toggle("hidden", !def || F.type === "tv");
+  $("secTv").classList.toggle("hidden", !def || F.type === "movie");
+  if (def) { document.title = BASE_TITLE = ORIG_TITLE; return; }
+  const bits = [];
+  if (F.mood) bits.push(moodName(F.mood)); else if (F.genre) bits.push(F.genre);
+  if (F.country) bits.push(flag(F.country) + " " + countryName(F.country));
+  if (F.decade) bits.push(DECADES.find(d => d[0] === F.decade)[1]);
+  if (F.rating) bits.push(F.rating + "+ ★");
+  $("browseSummary").textContent = "Showing " + SORT_WORD[F.sort].toLowerCase() + " titles · " + (bits.join(" · ") || "all");
+  const first = F.type === "tv" ? "tv" : "movie";
+  document.title = BASE_TITLE = browseTitle(first) + (F.country ? " from " + countryName(F.country) : "") + " | Every Movie Plug";
+  ["movie", "tv"].forEach(t => {
+    const show = F.type === "all" || F.type === t;
+    $("bx" + t).classList.toggle("hidden", !show);
+    if (show) { $("t" + t).textContent = browseTitle(t); loadBrowse(t, true); }
+  });
+}
+$("filters").addEventListener("click", e => {
+  const b = e.target.closest("[data-k]"); if (!b) return;
+  const k = b.dataset.k, v = b.dataset.v;
+  if (k === "type") F.type = v;
+  else { F[k] = F[k] === v ? "" : v; if (k === "mood" && F.mood) F.genre = ""; if (k === "genre" && F.genre) F.mood = ""; }
+  apply();
+});
+$("filters").addEventListener("change", e => {
+  const map = { fCountry: "country", fDecade: "decade", fRating: "rating", fSort: "sort" };
+  if (map[e.target.id]) { F[map[e.target.id]] = e.target.value; apply(); }
+});
+$("reset").addEventListener("click", () => { Object.assign(F, DEFAULTS); apply(); });
+document.addEventListener("click", e => { const m = e.target.closest("[data-more]"); if (m) loadBrowse(m.dataset.more, false); });
+$("surprise").addEventListener("click", () => {
+  const pool = (F.type === "all" ? ["movie", "tv"] : [F.type]).flatMap(t => POOL[t].map(i => [t, i.id]));
+  if (!pool.length) return;
+  const [t, id] = pool[Math.floor(Math.random() * pool.length)];
+  openModal(t, id);
+});
+
+/* ---------- Search: movies, TV shows, articles and news ---------- */
+let searchTimer, searchSeq = 0, SCAT = "all";
+const SCATS = [["all", "All"], ["movie", "🎞️ Movies"], ["tv", "📺 TV Shows"], ["article", "📝 Articles"], ["news", "📰 News"]];
+const SPLACE = { all: "Search movies, TV shows, articles & news…", movie: "Search movies…", tv: "Search TV shows…", article: "Search articles…", news: "Search news…" };
+const FEED_DIR = { article: "/articles/", news: "/news/" }, FEED_CACHE = {};
+async function getFeed(kind) {
+  if (FEED_CACHE[kind]) return FEED_CACHE[kind];
+  try {
+    const res = await fetch(FEED_DIR[kind], { cache: "no-cache" }); if (!res.ok) throw new Error();
+    const base = new URL(FEED_DIR[kind], location.href), doc = new DOMParser().parseFromString(await res.text(), "text/html");
+    FEED_CACHE[kind] = [...doc.querySelectorAll("a.tile")].map(a => {
+      const img = a.querySelector(".tile-thumb img");
+      return { href: new URL(a.getAttribute("href"), base).href, img: img ? new URL(img.getAttribute("src"), base).href : "", alt: img?.getAttribute("alt") || "",
+        title: a.querySelector(".tile-title")?.textContent.trim() || "Untitled", date: a.querySelector(".tile-date")?.textContent.trim() || "",
+        tag: a.querySelector(".tile-tag")?.textContent.trim() || "", excerpt: a.querySelector(".tile-excerpt")?.textContent.trim() || "" };
+    });
+  } catch { FEED_CACHE[kind] = []; }
+  return FEED_CACHE[kind];
+}
+const postCard = a => `<a href="${esc(a.href)}" class="glass-card glass-card-interactive rounded-3xl overflow-hidden text-left group flex flex-col">
+  <div class="relative aspect-[2/3] overflow-hidden bg-slate-900">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.remove()">` : `<div class="w-full h-full flex items-center justify-center text-slate-600 text-xs p-4 text-center">${esc(a.title)}</div>`}
+    ${a.tag ? `<span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-black/70 border border-white/15 text-[10px] font-bold uppercase tracking-wider text-brand-400">${esc(a.tag)}</span>` : ""}</div>
+  <div class="p-4 space-y-1"><h3 class="text-sm font-bold text-white leading-snug line-clamp-2">${esc(a.title)}</h3><p class="text-[11px] text-slate-400">${esc(a.date)}</p></div></a>`;
+const sGrid = "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6";
+const sSec = (title, n, html) => `<div class="space-y-4"><h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">${title} <span class="text-slate-600">· ${n}</span></h3><div class="${sGrid}">${html}</div></div>`;
+function renderTabs() {
+  $("sTabs").innerHTML = SCATS.map(([v, l]) => `<button type="button" class="fchip${SCAT === v ? " on" : ""}" data-cat="${v}" aria-pressed="${SCAT === v}">${l}</button>`).join("");
+  $("q").placeholder = SPLACE[SCAT];
+}
 async function runSearch(v) {
   const sec = $("searchSec"), seq = ++searchSeq;
   if (v.length < 2) { sec.classList.add("hidden"); return; }
   sec.classList.remove("hidden");
   $("searchTitle").textContent = "“" + v + "”";
-  $("searchGrid").innerHTML = skeletons();
-  try {
-    const r = await tmdb("/search/multi", { query: v, include_adult: false, language: "en-US" });
-    if (seq !== searchSeq) return;
-    const items = r.results.filter(i => i.media_type === "movie" || i.media_type === "tv").slice(0, 10);
-    $("searchGrid").innerHTML = items.length
-      ? items.map(i => card(i, i.media_type, GENRES)).join("")
-      : '<p class="col-span-full text-center text-slate-400 text-sm py-8">No movies or shows found. Try another title.</p>';
-  } catch (e) {
-    if (seq === searchSeq) $("searchGrid").innerHTML = `<p class="col-span-full text-center text-amber-400 text-sm py-8">${esc(e.message)}</p>`;
-  }
+  $("searchBody").innerHTML = `<div class="${sGrid}">${skeletons()}</div>`;
+  const wantsMedia = SCAT === "all" || SCAT === "movie" || SCAT === "tv";
+  const kinds = SCAT === "all" ? ["article", "news"] : (SCAT === "article" || SCAT === "news") ? [SCAT] : [];
+  let err = "";
+  const mediaP = !wantsMedia ? Promise.resolve([]) : SCAT === "all"
+    ? tmdb("/search/multi", { query: v, include_adult: false, language: "en-US" }).then(r => r.results.filter(i => i.media_type === "movie" || i.media_type === "tv"))
+    : tmdb("/search/" + SCAT, { query: v, include_adult: false, language: "en-US" }).then(r => r.results.map(i => ({ ...i, media_type: SCAT })));
+  const [media, feeds] = await Promise.all([mediaP.catch(e => { err = e.message; return []; }), Promise.all(kinds.map(getFeed))]);
+  if (seq !== searchSeq) return;
+  const words = v.toLowerCase().split(/\s+/).filter(Boolean);
+  const match = list => list.filter(a => { const t = (a.title + " " + a.excerpt + " " + a.tag).toLowerCase(); return words.every(w => t.includes(w)); });
+  const lim = SCAT === "all" ? 10 : 20;
+  let out = "";
+  const items = media.slice(0, lim);
+  if (items.length) out += sSec(SCAT === "movie" ? "Movies" : SCAT === "tv" ? "TV Shows" : "Movies &amp; TV", items.length, items.map(i => card(i, i.media_type, GENRES)).join(""));
+  kinds.forEach((k, n) => { const m = match(feeds[n]); if (m.length) out += sSec(k === "article" ? "Articles" : "News", m.length, m.map(postCard).join("")); });
+  if (!out) out = `<p class="text-center text-slate-400 text-sm py-8">${err ? esc(err) : "Nothing matched your search. Try another title or keyword, or switch category."}</p>`;
+  $("searchBody").innerHTML = out;
 }
+$("sTabs").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]"); if (!b) return;
+  SCAT = b.dataset.cat; renderTabs();
+  const v = $("q").value.trim(); if (v.length >= 2) runSearch(v);
+});
 $("q").addEventListener("input", e => {
   const v = e.target.value.trim();
   $("qClear").classList.toggle("hidden", !v);
@@ -433,12 +663,14 @@ $("q").addEventListener("input", e => {
 });
 $("q").addEventListener("keydown", e => { if (e.key === "Enter") { clearTimeout(searchTimer); runSearch(e.target.value.trim()); } });
 $("qClear").addEventListener("click", () => { $("q").value = ""; $("qClear").classList.add("hidden"); runSearch(""); $("q").focus(); });
+renderTabs();
 
 (async function init() {
+  initSelects(); readUrl(); renderFilters();
   $("movies").innerHTML = $("tv").innerHTML = skeletons();
   try {
     const d = await load();
-    GENRES = d.genres;
+    GENRES = d.genres; POOL.movie = d.movies.slice(); POOL.tv = d.tv.slice();
     $("movies").innerHTML = d.movies.map(i => card(i, "movie", d.genres)).join("");
     $("tv").innerHTML = d.tv.map(i => card(i, "tv", d.genres)).join("");
     $("updated").textContent = "Updated " + new Date(d.at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
@@ -446,6 +678,8 @@ $("qClear").addEventListener("click", () => { $("q").value = ""; $("qClear").cla
     $("movies").innerHTML = $("tv").innerHTML = "";
     $("error").textContent = e.message; $("error").classList.remove("hidden");
   }
+  apply();
+  if (!isDefault() && location.search) $("filters").scrollIntoView({ behavior: "smooth", block: "start" });
 })();
 if (location.hash) openFromHash();
 </script>

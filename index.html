@@ -274,6 +274,8 @@
     .gcard p { font-size:.75rem; }
     @media (max-width:980px) { .feats.gen { grid-template-columns:repeat(3,1fr); } }
     @media (max-width:640px) { .feats.gen { grid-template-columns:repeat(2,1fr); } }
+    .moods { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.5rem; margin-top:1.1rem; }
+    .mood-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); margin-right:.25rem; }
   </style>
     <script type="application/ld+json" id="emp-schema-0">
 {
@@ -362,7 +364,7 @@
     </section>
 
     <section aria-label="Explore by genre">
-      <div class="sec-head"><div><h2>Explore by genre</h2><small>Pick a genre to see what is popular right now</small></div><a class="more" href="https://everymovieplug.com/trending">All trending →</a></div>
+      <div class="sec-head"><div><h2>Explore by genre</h2><small>Pick a genre or a mood and we will filter what is popular right now</small></div><a class="more" href="https://everymovieplug.com/trending">All trending →</a></div>
       <div class="feats gen">
         <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Action"><span class="feat-ic" aria-hidden="true">💥</span><h3>Action</h3><p>Big set pieces, chases and fights.</p></a>
         <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Adventure"><span class="feat-ic" aria-hidden="true">🧭</span><h3>Adventure</h3><p>Quests, journeys and far-off places.</p></a>
@@ -378,6 +380,15 @@
         <a class="feat glass gcard" href="https://everymovieplug.com/trending?type=movie&genre=Romance"><span class="feat-ic" aria-hidden="true">💕</span><h3>Romance</h3><p>Love stories, from sweet to sweeping.</p></a>
         <a class="feat glass gcard" href="https://everymovieplug.com/trending?genre=Sci-Fi"><span class="feat-ic" aria-hidden="true">🚀</span><h3>Sci-Fi</h3><p>Space, technology and the future.</p></a>
         <a class="feat glass gcard" href="https://everymovieplug.com/trending?type=movie&genre=Thriller"><span class="feat-ic" aria-hidden="true">⚡</span><h3>Thriller</h3><p>Tension that keeps you on the edge.</p></a>
+      </div>
+      <div class="moods"><span class="mood-label">Or pick a mood</span>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=feelgood">😊 Feel-good</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=edge">😰 Edge of your seat</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=mind">🧠 Mind-bending</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=date">💞 Date night</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=family">🍿 Family night</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=epic">⚔️ Epic adventure</a>
+        <a class="chip" href="https://everymovieplug.com/trending?mood=spooky">👻 Spooky</a>
       </div>
     </section>
 
