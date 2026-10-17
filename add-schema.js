@@ -91,7 +91,19 @@ function postGraph(file, section, kind) {
   if (date) { art.datePublished = date; art.dateModified = date; }
   if (cat && kind === "NewsArticle") art.articleSection = cat;
   for (const k of Object.keys(art)) if (art[k] === "" ) delete art[k];
-  return [art, crumbs([["Home", `${SITE}/`], [crumbName, `${SITE}/${section}/`], [headline, url]])];
+  // videos made with the site player (<div class="emp-player">): one VideoObject each, so Google can list them as video results
+  const videos = [];
+  for (const m of html.matchAll(/<div[^>]*class="emp-player"[^>]*>[\s\S]*?<video\b([^>]*)>/gi)) {
+    const attr = (src, n) => (src.match(new RegExp(`\\b${n}=["']([^"']*)["']`, "i")) || [])[1] || "";
+    const tag = m[0], vsrc = attr(m[1], "src"), poster = attr(m[1], "poster");
+    if (!vsrc || !date) continue;
+    const ttl = decode(attr(tag, "data-title")) || headline;
+    const at = u => { try { return new URL(u, url).href; } catch { return ""; } };
+    videos.push({ "@type": "VideoObject", name: ttl.slice(0, 110), description: desc || ttl,
+      thumbnailUrl: [at(poster) || image], uploadDate: date, contentUrl: at(vsrc),
+      publisher: { "@type": "Organization", name: NAME, url: `${SITE}/` } });
+  }
+  return [art, crumbs([["Home", `${SITE}/`], [crumbName, `${SITE}/${section}/`], [headline, url]]), ...videos];
 }
 
 function listGraph(file, section) {
