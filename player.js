@@ -127,6 +127,7 @@
     mute: '<svg viewBox="0 0 24 24"><path d="M4 9.5v5h3.6l4.6 3.9a.6.6 0 0 0 1-.46V6.06a.6.6 0 0 0-1-.46L7.6 9.5z"/><path d="m16.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     cc: '<svg viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm2.6 4.2A2.6 2.6 0 0 0 7.6 14.8c.8 0 1.4-.3 1.8-.9l-1-.7a1.2 1.2 0 1 1 0-2.1l1-.7c-.4-.6-1-.9-1.8-.9zm6.6 0a2.6 2.6 0 0 0 0 5.6c.8 0 1.4-.3 1.8-.9l-1-.7a1.2 1.2 0 1 1 0-2.1l1-.7c-.4-.6-1-.9-1.8-.9z"/></svg>',
     pip: '<svg viewBox="0 0 24 24"><path d="M4 5h16a1.5 1.5 0 0 1 1.5 1.5V11H20V6.5H4v11h6V19H4a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 4 5zm8 8h8.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H12a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1z"/></svg>',
+    dl: '<svg viewBox="0 0 24 24"><path d="M11 4h2v8.2l2.9-2.9 1.4 1.4L12 16.1l-5.3-5.4 1.4-1.4 2.9 2.9zM5 18h14v2H5z"/></svg>',
     fs: '<svg viewBox="0 0 24 24"><path d="M4 9V5a1 1 0 0 1 1-1h4v2H6v3zm16 0V5a1 1 0 0 0-1-1h-4v2h3v3zM4 15v4a1 1 0 0 0 1 1h4v-2H6v-3zm16 0v4a1 1 0 0 1-1 1h-4v-2h3v-3z"/></svg>',
     fsx: '<svg viewBox="0 0 24 24"><path d="M9 4v4a1 1 0 0 1-1 1H4V7h3V4zm6 0v4a1 1 0 0 0 1 1h4V7h-3V4zM9 20v-4a1 1 0 0 0-1-1H4v2h3v3zm6 0v-4a1 1 0 0 1 1-1h4v2h-3v3z"/></svg>'
   };
@@ -175,6 +176,7 @@
           '<input type="range" min="0" max="1" step="0.02" value="1" aria-label="Volume"></div>' +
         '<div class="emp-time">0:00 <span>/ 0:00</span></div><div class="emp-spacer"></div>' +
         (hasCC ? '<button type="button" class="emp-ccbtn" aria-label="Captions" aria-pressed="false">' + I.cc + '</button>' : '') +
+        (box.hasAttribute("data-download") ? '<button type="button" class="emp-dlbtn" aria-label="Download video" title="Download video">' + I.dl + '</button>' : '') +
         '<div class="emp-menuwrap"><button type="button" class="emp-speedbtn" aria-label="Playback speed" aria-haspopup="true" aria-expanded="false">1×</button>' +
           '<div class="emp-menu" role="menu"></div></div>' +
         ((document.pictureInPictureEnabled || v.webkitSupportsPresentationMode) ? '<button type="button" class="emp-pipbtn" aria-label="Picture in picture">' + I.pip + '</button>' : '') +
@@ -305,6 +307,13 @@
       if (e.key === "ArrowRight") { seekBy(5); e.preventDefault(); e.stopPropagation(); }
       if (e.key === "ArrowLeft") { seekBy(-5); e.preventDefault(); e.stopPropagation(); }
     });
+
+    var dlBtn = q(".emp-dlbtn");
+    if (dlBtn) dlBtn.onclick = function () {
+      var href = v.currentSrc || v.getAttribute("src") || "", name = box.getAttribute("data-download") || decodeURIComponent(href.split("?")[0].split("/").pop() || "video.mp4");
+      var a = document.createElement("a"); a.href = href; a.download = name; a.rel = "noopener"; document.body.appendChild(a); a.click(); a.remove();
+      say("Downloading…");
+    };
 
     // fullscreen, picture in picture, captions
     function isFs() { return document.fullscreenElement === box || document.webkitFullscreenElement === box; }
