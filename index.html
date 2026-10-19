@@ -276,6 +276,69 @@
     @media (max-width:640px) { .feats.gen { grid-template-columns:repeat(2,1fr); } }
     .moods { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.5rem; margin-top:1.1rem; }
     .mood-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); margin-right:.25rem; }
+
+    /* ===== Featured banner: popular new movies + TV (TMDB backdrops) ===== */
+    .fx { position:relative; border-radius:24px; overflow:hidden; isolation:isolate; background:#0b0b12; border:1px solid var(--border-color); box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 60px rgba(99,102,241,.12); height:clamp(400px,42vw,520px); }
+    .fx[hidden] { display:none; }
+    .fx-label { position:absolute; z-index:6; top:16px; left:18px; display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:9999px; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#e9d5ff; font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; pointer-events:none; }
+    .fx-label i { width:7px; height:7px; border-radius:50%; background:var(--purple-accent); box-shadow:0 0 10px var(--purple-accent); animation:fx-pulse 2s ease-in-out infinite; }
+    @keyframes fx-pulse { 50% { opacity:.35; transform:scale(.75); } }
+
+    .fx-sk { position:absolute; inset:0; background:linear-gradient(110deg,#0d0d16 30%,#1a1430 50%,#0d0d16 70%); background-size:200% 100%; animation:fx-shimmer 1.4s linear infinite; }
+    @keyframes fx-shimmer { to { background-position:-200% 0; } }
+
+    .fx-slide { position:absolute; inset:0; display:block; color:inherit; text-decoration:none; opacity:0; visibility:hidden; transition:opacity .8s ease, visibility 0s linear .8s; -webkit-tap-highlight-color:transparent; }
+    .fx-slide.on { opacity:1; visibility:visible; transition:opacity .8s ease, visibility 0s; z-index:2; }
+    .fx-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 22%; transform:scale(1.07); transition:transform 7s ease-out; }
+    .fx-slide.on .fx-img { transform:scale(1); }
+    .fx-slide::before { content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(90deg,rgba(5,4,12,.92) 0%,rgba(5,4,12,.6) 38%,rgba(5,4,12,.05) 72%), linear-gradient(0deg,rgba(5,4,12,.9) 0%,rgba(5,4,12,0) 48%); }
+    .fx-slide.noimg { background:linear-gradient(135deg,#1b1033,#0b0b12 60%,#2a1250); }
+
+    .fx-info { position:absolute; z-index:3; left:0; bottom:0; max-width:620px; padding:0 3.25rem 4.2rem; display:flex; flex-direction:column; gap:.7rem; transform:translateY(14px); opacity:0; transition:transform .8s var(--ease-out) .15s, opacity .8s ease .15s; }
+    .fx-slide.on .fx-info { transform:none; opacity:1; }
+    .fx-badges { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .fx-type, .fx-new { padding:4px 11px; border-radius:9999px; font-size:.68rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+    .fx-type { background:rgba(168,85,247,.25); border:1px solid rgba(168,85,247,.55); color:#e9d5ff; }
+    .fx-type.tv { background:rgba(99,102,241,.25); border-color:rgba(99,102,241,.6); color:#c7d2fe; }
+    .fx-new { background:rgba(52,211,153,.16); border:1px solid rgba(52,211,153,.5); color:#6ee7b7; }
+    .fx-title { font-size:clamp(1.6rem,3.6vw,2.7rem); line-height:1.1; font-weight:800; letter-spacing:-.025em; color:#fff; text-wrap:balance; text-shadow:0 2px 20px rgba(0,0,0,.5); }
+    .fx-meta { display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .9rem; color:rgba(255,255,255,.78); font-size:.88rem; }
+    .fx-rate { display:inline-flex; align-items:center; gap:.3rem; padding:.3rem .7rem; border-radius:9999px; background:rgba(0,0,0,.65); border:1px solid rgba(255,255,255,.18); font-weight:700; line-height:1; white-space:nowrap; }
+    .fx-rate small { font-weight:500; font-size:.72rem; color:rgba(255,255,255,.6); }
+    .fx-meta .fx-sep { width:3px; height:3px; border-radius:50%; background:rgba(255,255,255,.45); }
+    .fx-ov { color:rgba(255,255,255,.78); font-size:.95rem; line-height:1.55; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; max-width:56ch; }
+    .fx-cta { align-self:flex-start; display:inline-flex; align-items:center; gap:.5rem; margin-top:.3rem; padding:.62rem 1.2rem; border-radius:9999px; font-size:.86rem; font-weight:700; color:#fff; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); box-shadow:0 6px 24px rgba(99,102,241,.4); transition:transform .3s var(--ease-out), box-shadow .3s ease; }
+    @media (hover:hover) {
+      .fx-slide:hover .fx-cta { transform:translateY(-2px); box-shadow:0 10px 30px rgba(99,102,241,.6); }
+    }
+    .fx-slide:focus-visible { outline:2px solid #c4b5fd; outline-offset:-4px; }
+
+    .fx-nav { position:absolute; z-index:6; right:22px; bottom:20px; display:flex; align-items:center; gap:10px; pointer-events:none; }
+    .fx-dots { display:flex; align-items:center; gap:7px; padding:8px 12px; border-radius:9999px; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); pointer-events:auto; }
+    .fx-dot { position:relative; width:9px; height:9px; padding:0; border:0; border-radius:9999px; background:rgba(255,255,255,.35); cursor:pointer; overflow:hidden; transition:width .4s var(--ease-out), background .3s ease; }
+    .fx-dot::before { content:""; position:absolute; inset:-10px; }
+    .fx-dot:hover { background:rgba(255,255,255,.65); }
+    .fx-dot.on { width:30px; background:rgba(255,255,255,.28); }
+    .fx-dot i { position:absolute; inset:0; transform-origin:left; transform:scaleX(0); background:#fff; border-radius:inherit; }
+    .fx-dot.on i { animation:fx-fill var(--fx-dur,6500ms) linear forwards; }
+    .fx.paused .fx-dot.on i { animation-play-state:paused; }
+    .fx.static .fx-dot.on i { animation:none; transform:scaleX(1); }
+    @keyframes fx-fill { to { transform:scaleX(1); } }
+    .fx-dot:focus-visible, .fx-arr:focus-visible { outline:2px solid #c4b5fd; outline-offset:3px; }
+    .fx-arr { pointer-events:auto; width:36px; height:36px; display:grid; place-items:center; border-radius:50%; border:1px solid rgba(255,255,255,.16); background:rgba(0,0,0,.5); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#fff; cursor:pointer; transition:background .25s ease, transform .25s ease; }
+    .fx-arr svg { width:17px; height:17px; }
+    .fx-arr:hover { background:rgba(168,85,247,.55); transform:scale(1.08); }
+    @media (hover:none) { .fx-arr { display:none; } }
+
+    @media (max-width:640px) {
+      .fx { height:460px; border-radius:20px; }
+      .fx-label { top:12px; left:12px; }
+      .fx-slide::before { background:linear-gradient(0deg,rgba(5,4,12,.96) 0%,rgba(5,4,12,.7) 45%,rgba(5,4,12,.1) 80%); }
+      .fx-info { padding:0 1.15rem 4.1rem; gap:.55rem; }
+      .fx-ov { -webkit-line-clamp:2; font-size:.88rem; }
+      .fx-meta .fx-sep { display:none; }
+      .fx-nav { right:0; left:0; bottom:16px; justify-content:center; }
+    }
   </style>
     <script type="application/ld+json" id="emp-schema-0">
 {
@@ -334,6 +397,17 @@
   <div class="panel" id="panel" role="menu"></div>
 
   <main class="wrap">
+    <section class="fx" id="fx" aria-roledescription="carousel" aria-label="Popular new movies and TV shows">
+      <span class="fx-label"><i></i> New &amp; Popular</span>
+      <div class="fx-sk" id="fxSk"></div>
+      <div id="fxStage"></div>
+      <div class="fx-nav">
+        <button class="fx-arr" id="fxPrev" type="button" aria-label="Previous title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <div class="fx-dots" id="fxDots" role="tablist" aria-label="Choose title"></div>
+        <button class="fx-arr" id="fxNext" type="button" aria-label="Next title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </section>
+
     <section class="hero" aria-label="Search Every Movie Plug">
       <h1>Find your next <span class="highlight">watch</span></h1>
       <p>Trending movies and TV shows, film news, in-depth articles and games, all in one place.</p>
@@ -865,6 +939,110 @@ function setHash(type, id, title, fromHash) {
       l.appendChild(d); d.addEventListener("animationend", () => d.remove());
     }, { passive: true });
     if (location.hash) openFromHash();
+  </script>
+  <script>
+    /* ===== Featured banner: 4 popular new movies + 4 popular new TV shows (TMDB backdrops) =====
+       Uses the page's own tmdb() helper, so it goes through /api/tmdb and is cached for 30 min.
+       Each slide links straight to the title's full page: /title.html?type=movie|tv&id=… */
+    (function () {
+      var root = document.getElementById("fx"); if (!root) return;
+      var stage = document.getElementById("fxStage"), dotsEl = document.getElementById("fxDots"), sk = document.getElementById("fxSk");
+      var PER_TYPE = 4, SLIDE_MS = 6500, IMGB = "https://image.tmdb.org/t/p/";
+      var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var slides = [], dots = [], cur = 0, timer = null, touchX = null;
+
+      var MG = {28:"Action",12:"Adventure",16:"Animation",35:"Comedy",80:"Crime",99:"Documentary",18:"Drama",10751:"Family",14:"Fantasy",36:"History",27:"Horror",10402:"Music",9648:"Mystery",10749:"Romance",878:"Sci-Fi",10770:"TV Movie",53:"Thriller",10752:"War",37:"Western"};
+      var TG = {10759:"Action & Adventure",16:"Animation",35:"Comedy",80:"Crime",99:"Documentary",18:"Drama",10751:"Family",10762:"Kids",9648:"Mystery",10764:"Reality",10765:"Sci-Fi & Fantasy",10768:"War & Politics",37:"Western"};
+
+      var iso = function (d) { return d.toISOString().slice(0, 10); };
+      var ago = function (n) { return new Date(Date.now() - n * 864e5); };
+
+      /* newest releases, most popular first; widen the window until we have enough with a backdrop */
+      async function pull(type) {
+        var windows = [60, 120, 365], out = [];
+        for (var w of windows) {
+          var p = { sort_by: "popularity.desc", include_adult: false, language: "en-US", "vote_count.gte": 5 };
+          if (type === "movie") { p["primary_release_date.gte"] = iso(ago(w)); p["primary_release_date.lte"] = iso(new Date()); }
+          else { p["first_air_date.gte"] = iso(ago(w + 30)); p["first_air_date.lte"] = iso(new Date()); p.without_genres = "10767,10763,10766"; }
+          try { out = ((await tmdb("/discover/" + type, p)).results || []).filter(function (i) { return i.backdrop_path; }); } catch (e) { out = []; }
+          if (out.length >= PER_TYPE) break;
+        }
+        return out.slice(0, PER_TYPE).map(function (i) { i._type = type; return i; });
+      }
+
+      var ARROW = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      function votes(n) { return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k" : String(n); }
+
+      function slide(i, n, total) {
+        var isTv = i._type === "tv", title = i.title || i.name || "Untitled", date = i.release_date || i.first_air_date || "";
+        var yr = date.slice(0, 4), s = i.vote_average || 0, col = s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171";
+        var map = isTv ? TG : MG, genres = (i.genre_ids || []).map(function (g) { return map[g]; }).filter(Boolean).slice(0, 3).join(" · ");
+        var fresh = date && (Date.now() - Date.parse(date)) < 21 * 864e5;
+        var href = "/title.html?type=" + (isTv ? "tv" : "movie") + "&id=" + Number(i.id);
+        var rating = s && i.vote_count ? '<span class="fx-rate" style="color:' + col + '">&#9733; ' + s.toFixed(1) + ' <small>/10 · ' + votes(i.vote_count) + ' votes</small></span>' : '<span class="fx-rate" style="color:#c4b5fd">No rating yet</span>';
+        var a = document.createElement("a");
+        a.className = "fx-slide"; a.href = href;
+        a.setAttribute("role", "group"); a.setAttribute("aria-roledescription", "slide"); a.setAttribute("aria-label", (n + 1) + " of " + total);
+        a.innerHTML =
+          '<img class="fx-img" alt="" decoding="async" loading="' + (n === 0 ? "eager" : "lazy") + '" src="' + IMGB + 'w1280' + i.backdrop_path + '" srcset="' + IMGB + 'w780' + i.backdrop_path + ' 780w, ' + IMGB + 'w1280' + i.backdrop_path + ' 1280w" sizes="(max-width:1200px) 100vw, 1200px">' +
+          '<div class="fx-info">' +
+            '<div class="fx-badges"><span class="fx-type' + (isTv ? " tv" : "") + '">' + (isTv ? "TV Show" : "Movie") + '</span>' + (fresh ? '<span class="fx-new">New</span>' : "") + '</div>' +
+            '<h2 class="fx-title">' + esc(title) + '</h2>' +
+            '<div class="fx-meta">' + rating + (yr ? '<span>' + esc(yr) + '</span>' : "") + (genres ? '<i class="fx-sep"></i><span>' + esc(genres) + '</span>' : "") + '</div>' +
+            '<p class="fx-ov">' + esc(i.overview || "Popular right now on Every Movie Plug.") + '</p>' +
+            '<span class="fx-cta">View full page ' + ARROW + '</span>' +
+          '</div>';
+        a.setAttribute("aria-label", title + " (" + (isTv ? "TV show" : "movie") + (yr ? ", " + yr : "") + ")" + (s ? ", rated " + s.toFixed(1) + " out of 10" : "") + ". Open full page");
+        var img = a.querySelector(".fx-img"); img.onerror = function () { this.remove(); a.classList.add("noimg"); };
+        return a;
+      }
+
+      function show(n) {
+        cur = (n + slides.length) % slides.length;
+        slides.forEach(function (s, k) { var on = k === cur; s.classList.toggle("on", on); s.tabIndex = on ? 0 : -1; s.setAttribute("aria-hidden", on ? "false" : "true"); });
+        dots.forEach(function (d, k) { d.classList.remove("on"); void d.offsetWidth; if (k === cur) d.classList.add("on"); d.setAttribute("aria-selected", k === cur ? "true" : "false"); });
+      }
+      function schedule() { clearTimeout(timer); if (reduce || root.hidden || root.classList.contains("paused") || slides.length < 2) return; timer = setTimeout(function () { show(cur + 1); schedule(); }, SLIDE_MS); }
+      function go(n) { show(n); schedule(); }
+      function pause() { root.classList.add("paused"); clearTimeout(timer); }
+      function resume() { if (root.hidden) return; root.classList.remove("paused"); show(cur); schedule(); }
+
+      async function init() {
+        var res = await Promise.all([pull("movie"), pull("tv")]);
+        var movies = res[0], tvs = res[1], items = [];
+        for (var k = 0; k < PER_TYPE; k++) { if (movies[k]) items.push(movies[k]); if (tvs[k]) items.push(tvs[k]); }   /* interleave: movie, show, movie, show … */
+        if (!items.length) { root.hidden = true; return; }
+
+        items.forEach(function (it, n) {
+          var a = slide(it, n, items.length); stage.appendChild(a); slides.push(a);
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "fx-dot"; b.setAttribute("role", "tab");
+          b.setAttribute("aria-label", "Show " + (it.title || it.name)); b.innerHTML = "<i></i>";
+          b.addEventListener("click", function () { go(n); });
+          dotsEl.appendChild(b); dots.push(b);
+        });
+        root.style.setProperty("--fx-dur", SLIDE_MS + "ms");
+        root.classList.toggle("static", reduce);
+        sk.remove(); show(0); schedule();
+        if (items.length < 2) root.querySelector(".fx-nav").hidden = true;
+      }
+
+      document.getElementById("fxPrev").addEventListener("click", function () { go(cur - 1); });
+      document.getElementById("fxNext").addEventListener("click", function () { go(cur + 1); });
+      root.addEventListener("mouseenter", pause); root.addEventListener("mouseleave", resume);
+      root.addEventListener("focusin", function (e) { if (e.target.matches(":focus-visible")) pause(); });
+      root.addEventListener("focusout", function () { setTimeout(function () { if (!root.contains(document.activeElement)) resume(); }, 0); });
+      root.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") go(cur - 1); else if (e.key === "ArrowRight") go(cur + 1); });
+      document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); else resume(); });
+      root.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      root.addEventListener("touchend", function (e) { if (touchX === null) return; var dx = e.changedTouches[0].clientX - touchX; touchX = null; if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1)); }, { passive: true });
+
+      /* hide the banner while search results are on screen (the page hides #featured then) */
+      var feat = document.getElementById("featured");
+      if (feat && window.MutationObserver) new MutationObserver(function () { var h = feat.hidden; root.style.display = h ? "none" : ""; if (h) pause(); else resume(); }).observe(feat, { attributes: true, attributeFilter: ["hidden"] });
+
+      init();
+    })();
   </script>
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="m-box" role="dialog" aria-modal="true"><button class="m-x" onclick="closeModal()" aria-label="Close">&times;</button><div id="modalBody"></div></div>
