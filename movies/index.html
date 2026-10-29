@@ -1,1 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies: Trending Films, Genre Guides and Where to Watch | Every Movie Plug</title>
+  <meta name="description" content="Find your next movie: this week&#x27;s trending films, genre and mood guides, ratings explained, and where to stream. Plus news and articles from Every Movie Plug.">
+  <link rel="canonical" href="https://everymovieplug.com/movies/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="theme-color" content="#060609">
 
+  <!-- Open Graph / X (Twitter) card: same description everywhere -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Every Movie Plug">
+  <meta property="og:title" content="Movies: Trending Films, Genre Guides and Where to Watch | Every Movie Plug">
+  <meta property="og:description" content="Find your next movie: this week&#x27;s trending films, genre and mood guides, ratings explained, and where to stream. Plus news and articles from Every Movie Plug.">
+  <meta property="og:url" content="https://everymovieplug.com/movies/">
+  <meta property="og:image" content="https://everymovieplug.com/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@everymovieplug">
+  <meta name="twitter:title" content="Movies: Trending Films, Genre Guides and Where to Watch | Every Movie Plug">
+  <meta name="twitter:description" content="Find your next movie: this week&#x27;s trending films, genre and mood guides, ratings explained, and where to stream. Plus news and articles from Every Movie Plug.">
+  <meta name="twitter:image" content="https://everymovieplug.com/twitter-card.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Display"',
+              '"SF Pro Text"',
+              '"Helvetica Neue"',
+              'Helvetica',
+              'Arial',
+              'sans-serif'
+            ],
+          },
+          colors: {
+            brand: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              900: '#4c1d95',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          },
+          animation: {
+            'float-slow': 'float 8s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-15px) rotate(1deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.7', transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Premium Glassmorphism */
+    .glass-card {
+      background: rgba(18, 18, 28, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    
+    .glass-card-interactive {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .glass-card-interactive:hover {
+      background: rgba(28, 28, 45, 0.75);
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.15);
+    }
+
+    /* Ambient Lighting Background */
+    .bg-cinema-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: #060609;
+    }
+
+    .glow-orb-1 {
+      position: absolute;
+      top: -10%;
+      left: 20%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+
+    .glow-orb-2 {
+      position: absolute;
+      top: 40%;
+      right: -10%;
+      width: 45vw;
+      height: 45vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+      filter: blur(70px);
+    }
+
+    .glow-orb-3 {
+      position: absolute;
+      bottom: -10%;
+      left: 10%;
+      width: 55vw;
+      height: 55vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+      filter: blur(80px);
+    }
+
+    /* Subtle Grain Overlay for Film Aesthetic */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Smooth Selection */
+    ::selection {
+      background: rgba(139, 92, 246, 0.4);
+      color: #ffffff;
+    }
+    .back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--accent, #a5b4fc);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+      .back-pill{display:inline-flex;align-items:center;gap:.4rem;color:#c4b5fd;text-decoration:none;font-size:.8rem;font-weight:600;padding:.45rem .9rem;border-radius:9999px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.1);white-space:nowrap;transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s;}
+    .back-pill:hover,.back-pill:focus-visible{transform:translateX(-3px);background:rgba(168,85,247,.2);color:#c4b5fd}
+    .back-pill:active{transform:scale(.96);transition-duration:.12s}
+
+  </style>
+  <script type="application/ld+json" id="emp-schema-0">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://everymovieplug.com/movies/#page",
+  "url": "https://everymovieplug.com/movies/",
+  "name": "Movies: Trending Films, Genre Guides and Where to Watch | Every Movie Plug",
+  "description": "Find your next movie: this week's trending films, genre and mood guides, ratings explained, and where to stream. Plus news and articles from Every Movie Plug.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@id": "https://everymovieplug.com/#website"
+  }
+}
+  </script>
+  <script type="application/ld+json" id="emp-schema-1">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://everymovieplug.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Movies",
+      "item": "https://everymovieplug.com/movies/"
+    }
+  ]
+}
+  </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
+
+<div class="max-w-6xl mx-auto px-4 pt-6 w-full">
+  <a href="/" class="back-pill">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    Back to Home
+  </a>
+</div>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="bg-cinema-mesh" aria-hidden="true"><div class="glow-orb-1 animate-pulse-glow"></div><div class="glow-orb-2"></div><div class="glow-orb-3 animate-pulse-glow" style="animation-delay: 2s;"></div></div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16">
+
+    <section class="max-w-3xl space-y-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-400">Every Movie Plug</p>
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.08]">Movies</h1>
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed">Whether you want the biggest release of the week or a classic you have never gotten around to, this is the place to start. Below you will find what the world is watching right now, guides to help you choose by genre and mood, a plain-English explanation of the ratings on every film page, and the best of our movie news and articles.</p>
+      <nav class="flex flex-wrap gap-2 pt-2 text-xs font-semibold" aria-label="On this page">
+        <a href="#trending" class="back-pill">Trending now</a>
+        <a href="#choose" class="back-pill">How to choose</a>
+        <a href="#genres" class="back-pill">Genres &amp; moods</a>
+        <a href="#ratings" class="back-pill">Ratings explained</a>
+        <a href="#reading" class="back-pill">Articles &amp; news</a>
+        <a href="#faq" class="back-pill">FAQ</a>
+      </nav>
+    </section>
+
+    <section id="trending" class="space-y-6 scroll-mt-6">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Live from TMDB</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Trending movies this week</p></div>
+        <a href="/trending?type=movie" class="back-pill">See more &amp; filter &rarr;</a>
+      </div>
+      <p class="text-sm text-slate-400 max-w-3xl">These are the most popular movies on TMDB this week. Open any title for its synopsis, cast, trailer, scores and where to watch.</p>
+      <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6" aria-live="polite"></div>
+      <noscript><p class="text-sm text-slate-400">Turn on JavaScript to see this week&rsquo;s trending list, or open the <a class="underline" href="/trending?type=movie">full trending page</a>.</p></noscript>
+    </section>
+
+    <section id="choose" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">A short guide</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">How to choose a movie tonight</p></div>
+      <ol class="space-y-4 max-w-3xl">
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold grid place-items-center text-sm" aria-hidden="true">1</span><div><h3 class="font-bold text-white">Start with the mood, not the title.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Decide what kind of evening you want before you scroll. A tense thriller and a comfort rewatch are different decisions, and choosing the feeling first makes the shortlist much smaller.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold grid place-items-center text-sm" aria-hidden="true">2</span><div><h3 class="font-bold text-white">Be honest about the runtime.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">A two-hour film and a three-hour epic are different commitments. If it is a weeknight, check the length first so you are not deciding at 11 p.m. whether to stop.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold grid place-items-center text-sm" aria-hidden="true">3</span><div><h3 class="font-bold text-white">Read two kinds of scores.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Critics and audiences often disagree. Look at one critic-based score and one audience-based score, then skim a review or two to see why they differ. A divisive film can be exactly what you want.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold grid place-items-center text-sm" aria-hidden="true">4</span><div><h3 class="font-bold text-white">Check where it is streaming before you commit.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Catalogs change by country and by month. Open the title page to see where it is available in your region, and whether it is included with a subscription or has to be rented.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 font-bold grid place-items-center text-sm" aria-hidden="true">5</span><div><h3 class="font-bold text-white">Give it a fair test, then move on.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">If a film has not hooked you after the first twenty minutes, it is fine to switch. Life is short, and the watchlist is long.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="genres" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Browse</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Movies by genre</p></div>
+      <p class="text-slate-400 max-w-3xl text-sm">Pick a genre to see what is popular right now. Each card includes a quick note on what to expect.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/trending?type=movie&amp;genre=Action" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">💥</span><h3 class="text-lg font-bold text-white">Action</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Chases, fights and big set pieces. Pick action when you want momentum over plot, and check the runtime, because blockbusters often run long.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Adventure" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🧭</span><h3 class="text-lg font-bold text-white">Adventure</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Quests and journeys across far-off places. A safe choice for a group with mixed tastes, since adventure films tend to work across a wide age range.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Animation" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎨</span><h3 class="text-lg font-bold text-white">Animation</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Animated features run from family comedies to films aimed squarely at adults. Check the age rating before you assume it is for kids.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Comedy" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">😂</span><h3 class="text-lg font-bold text-white">Comedy</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">The most subjective genre. Work out whether a film leans on slapstick, wit or awkward situations, and watch the trailer before group night.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Crime" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🕵️</span><h3 class="text-lg font-bold text-white">Crime</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Heists, investigations and the underworld. Expect moral gray areas and slow-burn plots that reward your full attention.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Documentary" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎥</span><h3 class="text-lg font-bold text-white">Documentary</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">True stories and real people, from nature films to investigations. A good way to learn something without committing to a whole series.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Drama" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎭</span><h3 class="text-lg font-bold text-white">Drama</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Character-driven stories that stay with you. Many awards-season titles live here, so skim a review if you are unsure of the tone.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Family" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">👨‍👩‍👧</span><h3 class="text-lg font-bold text-white">Family</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Films pitched at every age on the sofa. Scan the age rating and content notes if younger children are watching.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Fantasy" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🐉</span><h3 class="text-lg font-bold text-white">Fantasy</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Magic, myth and invented worlds. Many are part of a larger series, so check whether a film is the first chapter or the third.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Horror" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">👻</span><h3 class="text-lg font-bold text-white">Horror</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Scares, suspense and the supernatural, from slow dread to jump-scare thrills. Know your tolerance before you press play.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Mystery" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🔍</span><h3 class="text-lg font-bold text-white">Mystery</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Puzzles, clues and twists. These are best watched without spoilers, so stay out of the comment sections until the credits roll.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Romance" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">💕</span><h3 class="text-lg font-bold text-white">Romance</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Love stories from sweet to sweeping. A romantic comedy and a period romance feel very different, so check the tone first.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Sci-Fi" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🚀</span><h3 class="text-lg font-bold text-white">Sci-Fi</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Space, technology and the future, from action spectacle to cerebral what-if stories. Our timeline guides below unpack the puzzle-box ones.</p>
+        </a>
+        <a href="/trending?type=movie&amp;genre=Thriller" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">⚡</span><h3 class="text-lg font-bold text-white">Thriller</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Tension that keeps you on the edge. Plot-driven and often twisty, they work best when you can watch in one sitting.</p>
+        </a>
+      </div>
+      <h3 class="text-xl font-bold text-white pt-4">Or pick a mood</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <a href="/trending?type=movie&amp;mood=feelgood" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">😊</span> Feel-good</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Warm, funny and uplifting picks that leave you in a better mood than you started.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=edge" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">😰</span> Edge of your seat</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">High-tension stories that keep you leaning forward until the final scene.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=mind" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">🧠</span> Mind-bending</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Puzzle-box plots, time loops and dream logic for people who like to think.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=date" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">💞</span> Date night</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Romance, chemistry and crowd-pleasers that suit two people on a sofa.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=family" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">🍿</span> Family night</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Something everyone on the sofa can enjoy, from the youngest to the oldest.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=epic" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">⚔️</span> Epic adventure</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Sweeping quests, battles and big worlds that fill the screen.</p>
+        </a>
+        <a href="/trending?type=movie&amp;mood=spooky" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">👻</span> Spooky</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Scares, suspense and the supernatural for when the lights are low.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="ratings" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Know what you are looking at</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Ratings, explained</p></div>
+      <p class="text-slate-300 max-w-3xl leading-relaxed">Every film page on Every Movie Plug can show several scores. They measure different things, so it helps to know what each one means.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">TMDB user score</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">The average of ratings from registered TMDB members, out of 10. It reflects what everyday viewers think, and newer films can swing a lot until enough people have voted.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">IMDb rating</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">A weighted average of votes from IMDb users on a scale of 1 to 10. It is useful for comparing films across decades because so many people have voted on the classics.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">Rotten Tomatoes</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">The Tomatometer is the percentage of critic reviews that are positive, not an average grade. A film at 80% is liked by most critics, but that does not mean they all gave it 8 out of 10. The Audience Score is a separate number.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">Metacritic</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">The Metascore converts critic reviews to a 0 to 100 scale and averages them with extra weight for some outlets. It is a better guide to how strongly critics liked a film than a simple fresh-or-rotten split.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">CinemaScore</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">A grade from A+ to F based on polling of opening-weekend moviegoers. It captures first-night audience reaction, which is why a film can have mixed reviews but a strong grade, or the reverse. We covered one such gap in our report on <a class="text-brand-400 underline hover:text-white" href="/news/other-mommy-box-office-opening.html"><em>Other Mommy</em> and its D+ CinemaScore</a>.</p></div>
+      </div>
+      <h3 class="text-xl font-bold text-white pt-4">Where to watch</h3>
+      <div class="max-w-3xl"><p class="text-slate-300 leading-relaxed">Streaming catalogs differ from country to country and change month to month, so the best place to check is the title itself. Open any film on this site to see where it is available in your region, whether it is included with a subscription or has to be rented or bought, and where to find the trailer, cast and scores. Streaming availability is provided by <a class="text-brand-400 underline hover:text-white" href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a>, and listings come from <a class="text-brand-400 underline hover:text-white" href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. Availability can change without notice, so it is worth a second look right before you press play.</p></div>
+    </section>
+
+    <section id="reading" class="space-y-8 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">From Every Movie Plug</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Keep reading</p></div>
+      <div class="space-y-4"><h3 class="text-xl font-bold text-white">Articles and guides</h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/most-anticipated-movies-of-2027.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Most Anticipated Movies of 2027: Every Major Release to Watch</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">A release-by-release guide to the biggest films due in 2027, with the dates to mark.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/20-movies-that-were-almost-impossible-to-film.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">20 Movies That Were Almost Impossible to Film</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">The stories behind productions that pushed filmmakers to their limits.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/the-billion-dollar-club-the-10-highest-grossing-movies-of-all-time.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">The Billion-Dollar Club: The 10 Highest-Grossing Movies of All Time</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">How the ten highest-grossing films of all time got there.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/movies-where-the-villain-wins.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">10 Iconic Hollywood Movies Where the Villain Wins</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Ten iconic films that end on the villain's terms, and why they still work.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/anatomy-of-a-great-movie-twist.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">The Anatomy of a Great Movie Twist</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">What separates a satisfying twist from a cheap trick.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/inception-dream-logic-explained.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Inception&#x27;s Dream Logic, Explained</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">A clear guide to the dream layers, kicks and totems in Christopher Nolan's film.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/no-stars-no-problem.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">No Stars, No Problem: The Great Films That Succeeded Without a Famous Face</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Great films that succeeded without a famous face on the poster.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/how-imax-engineered-the-ultimate-cinematic-experience.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">How IMAX Engineered the Ultimate Cinematic Experience</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Why seeing a film in IMAX is a different experience, and how it works.</span>
+            </a>
+          </li>
+        </ul>
+        <p class="text-sm"><a class="text-brand-400 underline hover:text-white" href="/articles/">Browse all articles &rarr;</a></p>
+      </div>
+      <div class="space-y-4"><h3 class="text-xl font-bold text-white">Recent news</h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/dune-part-three-early-screenings-very-positive.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 18, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">Dune: Part Three Early Screenings Draw “Very Positive” Reactions as December 18 Release Nears</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">What early audiences are saying about the next Dune.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/the-odyssey-returns-imax-70mm-october-9.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 11, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">The Odyssey Returns to IMAX and 70mm Screens After Passing $1.76 Billion</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Christopher Nolan's film returns to the biggest screens.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/2027-oscar-predictions-the-odyssey-early-frontrunner.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 19, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">2027 Oscar Predictions: The Odyssey Leads the Early Best Picture Race</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">An early look at the Best Picture race.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/street-fighter-box-office-opening-weekend-31-million.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 18, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">Street Fighter Wins the Box Office With a $31 Million Opening</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">How the latest video game adaptation opened.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/10-classic-movies-free-to-watch-public-domain.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 19, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">10 Classic Movies You Can Watch for Free Because They&#x27;re in the Public Domain</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Classics you can legally watch for free.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/2026-video-game-movies-release-dates.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-brand-400 mb-1">News &middot; October 19, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">2026 Video Game Movies: Release Dates for Resident Evil, Street Fighter, Mortal Kombat II and More</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Every video game movie on the calendar, with dates.</span>
+            </a>
+          </li>
+        </ul>
+        <p class="text-sm"><a class="text-brand-400 underline hover:text-white" href="/news/">Read all news &rarr;</a></p>
+      </div>
+    </section>
+
+    <section id="faq" class="space-y-6 scroll-mt-6 max-w-3xl">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-brand-400">Questions</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Frequently asked</p></div>
+      <div class="space-y-3">
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>How are the trending movies chosen?</span><span class="text-brand-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">The weekly list comes from TMDB's trending chart, which is based on activity on TMDB. It is a good snapshot of what people are looking up and rating right now, not a ranking of box office or streaming hours.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>Can I watch movies on Every Movie Plug?</span><span class="text-brand-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">No. We do not host or stream films. Title pages show where a film is legally available, using streaming data from JustWatch, so you can find it on the service you already use.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>Where do the ratings come from?</span><span class="text-brand-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">TMDB provides the user score and listings, and critic and audience scores from sources such as IMDb, Rotten Tomatoes and Metacritic appear on title pages when they are available.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>How often is this page updated?</span><span class="text-brand-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">The trending list refreshes through the week. News is published as stories develop, and we update an existing story when there is a new development instead of repeating it.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>How do I report a mistake or suggest a topic?</span><span class="text-brand-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">Email contact@everymovieplug.com or message us on X at @everymovieplug. We read everything and correct errors we confirm.</p></details>
+      </div>
+      <p class="text-xs text-slate-500">This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming data by <a class="underline" href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a>.</p>
+    </section>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-10 pt-4 text-center">
+    <nav class="flex flex-wrap justify-center items-center gap-3 mb-5" aria-label="Footer">
+      <a href="/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+      <a href="/tv-shows/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">TV Shows</a>
+      <a href="/articles/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Articles</a>
+      <a href="/news/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">News</a>
+      <a href="/about.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">About Us</a>
+      <a href="mailto:contact@everymovieplug.com" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Contact Us</a>
+      <a href="/privacy-policy.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
+      <a href="/terms-of-service.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+    </nav>
+    <p class="text-xs uppercase tracking-[0.06em] font-medium text-slate-500 opacity-80">&copy; Every Movie Plug</p>
+  </footer>
+
+  <script>
+    // Live trending list from TMDB (through the site's own /api/tmdb proxy, so no key is exposed in the browser).
+    (function () {
+      var TYPE = "movie";
+      var grid = document.getElementById("grid");
+      var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+      var slugify = function (t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); };
+      grid.innerHTML = new Array(10).join("<div class='glass-card rounded-2xl aspect-[2/3] animate-pulse'></div>");
+      fetch("/api/tmdb/trending/" + TYPE + "/week")
+        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function (d) {
+          var items = (d.results || []).slice(0, 10);
+          if (!items.length) throw new Error();
+          grid.innerHTML = items.map(function (i) {
+            var t = i.title || i.name, y = (i.release_date || i.first_air_date || "").slice(0, 4), s = i.vote_average;
+            var href = "/" + TYPE + "/" + i.id + "-" + (slugify(t) || "title");
+            return '<a href="' + href + '" class="glass-card glass-card-interactive rounded-2xl overflow-hidden block no-underline">' +
+              '<div class="relative aspect-[2/3] bg-white/5">' + (i.poster_path ? '<img src="https://image.tmdb.org/t/p/w342' + i.poster_path + '" alt="' + esc(t) + ' poster" loading="lazy" class="w-full h-full object-cover">' : '') +
+              (s ? '<span class="absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full bg-black/70 text-amber-400">&#9733; ' + s.toFixed(1) + '</span>' : '') + '</div>' +
+              '<div class="p-3"><p class="text-sm font-bold text-white leading-snug">' + esc(t) + '</p><p class="text-xs text-slate-400 mt-0.5">' + esc(y) + '</p></div></a>';
+          }).join("");
+        })
+        .catch(function () {
+          grid.innerHTML = '<p class="col-span-full text-sm text-slate-400">The live list could not be loaded right now. Try the <a class="underline" href="/trending?type=' + TYPE + '">full trending page</a>.</p>';
+        });
+    })();
+  </script>
+</body>
+</html>
