@@ -346,3 +346,65 @@ nav a:active {
     max-height: 320px; /* Constrains height further on mobile devices */
   }
 }
+
+/* ---------- Byline, "updated" note and author box (added by add-author.js) ---------- */
+.article-updated {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.article-byline {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.article-byline a {
+  color: var(--heading);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.article-byline a:hover { border-bottom-color: var(--link); color: var(--link); }
+
+.author-box {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  max-width: 760px;
+  margin: 40px auto 8px;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.author-avatar {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #f59e0b);
+}
+.author-info { min-width: 0; }
+.author-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.author-name { font-size: 1.15rem; font-weight: 700; color: var(--heading); margin: 2px 0 6px; }
+.author-name a { color: inherit; text-decoration: none; }
+.author-name a:hover { color: var(--link); }
+.author-bio { font-size: 0.95rem; line-height: 1.6; color: var(--text); }
+.author-contact { font-size: 0.88rem; margin-top: 10px; color: var(--muted); }
+.author-contact a { color: var(--link); text-decoration: none; }
+.author-contact a:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .author-box { flex-direction: column; gap: 12px; padding: 18px; }
+}
