@@ -1,1 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV Shows: Trending Series, Genre Guides and Where to Stream | Every Movie Plug</title>
+  <meta name="description" content="Find your next series: this week&#x27;s trending TV shows, genre and mood guides, how seasons and renewals work, and where to stream. Plus news from Every Movie Plug.">
+  <link rel="canonical" href="https://everymovieplug.com/tv-shows/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="theme-color" content="#060609">
 
+  <!-- Open Graph / X (Twitter) card: same description everywhere -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Every Movie Plug">
+  <meta property="og:title" content="TV Shows: Trending Series, Genre Guides and Where to Stream | Every Movie Plug">
+  <meta property="og:description" content="Find your next series: this week&#x27;s trending TV shows, genre and mood guides, how seasons and renewals work, and where to stream. Plus news from Every Movie Plug.">
+  <meta property="og:url" content="https://everymovieplug.com/tv-shows/">
+  <meta property="og:image" content="https://everymovieplug.com/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@everymovieplug">
+  <meta name="twitter:title" content="TV Shows: Trending Series, Genre Guides and Where to Stream | Every Movie Plug">
+  <meta name="twitter:description" content="Find your next series: this week&#x27;s trending TV shows, genre and mood guides, how seasons and renewals work, and where to stream. Plus news from Every Movie Plug.">
+  <meta name="twitter:image" content="https://everymovieplug.com/twitter-card.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Display"',
+              '"SF Pro Text"',
+              '"Helvetica Neue"',
+              'Helvetica',
+              'Arial',
+              'sans-serif'
+            ],
+          },
+          colors: {
+            brand: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              400: '#a78bfa',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              900: '#4c1d95',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          },
+          animation: {
+            'float-slow': 'float 8s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-15px) rotate(1deg)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.7', transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Premium Glassmorphism */
+    .glass-card {
+      background: rgba(18, 18, 28, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    
+    .glass-card-interactive {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .glass-card-interactive:hover {
+      background: rgba(28, 28, 45, 0.75);
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.15);
+    }
+
+    /* Ambient Lighting Background */
+    .bg-cinema-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: #060609;
+    }
+
+    .glow-orb-1 {
+      position: absolute;
+      top: -10%;
+      left: 20%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+
+    .glow-orb-2 {
+      position: absolute;
+      top: 40%;
+      right: -10%;
+      width: 45vw;
+      height: 45vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+      filter: blur(70px);
+    }
+
+    .glow-orb-3 {
+      position: absolute;
+      bottom: -10%;
+      left: 10%;
+      width: 55vw;
+      height: 55vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+      filter: blur(80px);
+    }
+
+    /* Subtle Grain Overlay for Film Aesthetic */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Smooth Selection */
+    ::selection {
+      background: rgba(139, 92, 246, 0.4);
+      color: #ffffff;
+    }
+    .back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--accent, #a5b4fc);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+      .back-pill{display:inline-flex;align-items:center;gap:.4rem;color:#c4b5fd;text-decoration:none;font-size:.8rem;font-weight:600;padding:.45rem .9rem;border-radius:9999px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.1);white-space:nowrap;transition:transform .3s cubic-bezier(.16,1,.3,1),background .3s;}
+    .back-pill:hover,.back-pill:focus-visible{transform:translateX(-3px);background:rgba(168,85,247,.2);color:#c4b5fd}
+    .back-pill:active{transform:scale(.96);transition-duration:.12s}
+
+  </style>
+  <script type="application/ld+json" id="emp-schema-0">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://everymovieplug.com/tv-shows/#page",
+  "url": "https://everymovieplug.com/tv-shows/",
+  "name": "TV Shows: Trending Series, Genre Guides and Where to Stream | Every Movie Plug",
+  "description": "Find your next series: this week's trending TV shows, genre and mood guides, how seasons and renewals work, and where to stream. Plus news from Every Movie Plug.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@id": "https://everymovieplug.com/#website"
+  }
+}
+  </script>
+  <script type="application/ld+json" id="emp-schema-1">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://everymovieplug.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "TV Shows",
+      "item": "https://everymovieplug.com/tv-shows/"
+    }
+  ]
+}
+  </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
+
+<div class="max-w-6xl mx-auto px-4 pt-6 w-full">
+  <a href="/" class="back-pill">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    Back to Home
+  </a>
+</div>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="bg-cinema-mesh" aria-hidden="true"><div class="glow-orb-1 animate-pulse-glow"></div><div class="glow-orb-2"></div><div class="glow-orb-3 animate-pulse-glow" style="animation-delay: 2s;"></div></div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16">
+
+    <section class="max-w-3xl space-y-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-amber-400">Every Movie Plug</p>
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.08]">TV Shows</h1>
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed">Picking a series is a bigger commitment than picking a movie. This page shows what the world is watching right now, helps you decide what is worth starting, explains how seasons, finales and renewals work, and collects the TV news and articles we have published.</p>
+      <nav class="flex flex-wrap gap-2 pt-2 text-xs font-semibold" aria-label="On this page">
+        <a href="#trending" class="back-pill">Trending now</a>
+        <a href="#choose" class="back-pill">How to choose</a>
+        <a href="#genres" class="back-pill">Genres &amp; moods</a>
+        <a href="#ratings" class="back-pill">Ratings explained</a>
+        <a href="#reading" class="back-pill">Articles &amp; news</a>
+        <a href="#faq" class="back-pill">FAQ</a>
+      </nav>
+    </section>
+
+    <section id="trending" class="space-y-6 scroll-mt-6">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Live from TMDB</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Trending tv shows this week</p></div>
+        <a href="/trending?type=tv" class="back-pill">See more &amp; filter &rarr;</a>
+      </div>
+      <p class="text-sm text-slate-400 max-w-3xl">These are the most popular tv shows on TMDB this week. Open any title for its synopsis, cast, trailer, scores and where to watch.</p>
+      <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6" aria-live="polite"></div>
+      <noscript><p class="text-sm text-slate-400">Turn on JavaScript to see this week&rsquo;s trending list, or open the <a class="underline" href="/trending?type=tv">full trending page</a>.</p></noscript>
+    </section>
+
+    <section id="choose" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">A short guide</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">How to choose a series</p></div>
+      <ol class="space-y-4 max-w-3xl">
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold grid place-items-center text-sm" aria-hidden="true">1</span><div><h3 class="font-bold text-white">Do the math on the commitment.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Eight episodes of fifty minutes is roughly seven hours. A long-running series with several seasons can be dozens of hours. Know the size of the commitment before you start.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold grid place-items-center text-sm" aria-hidden="true">2</span><div><h3 class="font-bold text-white">Check whether it is finished.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">A limited series tells one story and ends. An ongoing series may be renewed, cancelled or still airing. If you hate unresolved endings, look up the status first.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold grid place-items-center text-sm" aria-hidden="true">3</span><div><h3 class="font-bold text-white">Decide between a binge and a weekly watch.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Some services release a whole season at once, and others release an episode a week. Weekly shows are great for conversation and spoilers are everywhere, so plan accordingly.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold grid place-items-center text-sm" aria-hidden="true">4</span><div><h3 class="font-bold text-white">Use the three-episode rule.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Pilots are hard to write, and many great series find their footing by episode two or three. Give a show three episodes unless it is plainly not for you.</p></div></li>
+        <li class="glass-card rounded-2xl p-5 flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold grid place-items-center text-sm" aria-hidden="true">5</span><div><h3 class="font-bold text-white">Look at where it streams.</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Catalogs vary by country and change often. Open the title page to see which service has the show in your region and whether it is included in a subscription.</p></div></li>
+      </ol>
+    </section>
+
+    <section id="genres" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Browse</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">TV Shows by genre</p></div>
+      <p class="text-slate-400 max-w-3xl text-sm">Pick a genre to see what is popular right now. Each card includes a quick note on what to expect.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/trending?type=tv&amp;genre=Action" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">💥</span><h3 class="text-lg font-bold text-white">Action</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">High-energy series with fights, chases and missions. Many run in short, fast seasons that are easy to binge.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Adventure" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🧭</span><h3 class="text-lg font-bold text-white">Adventure</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Journeys, quests and exploration. TMDB groups action and adventure TV together, so you will see both here.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Animation" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎨</span><h3 class="text-lg font-bold text-white">Animation</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Animated series for every age, from sitcoms to serialized epics. Check the rating, because plenty are made for adults.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Comedy" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">😂</span><h3 class="text-lg font-bold text-white">Comedy</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Sitcoms, sketch shows and comedy-dramas. Short episodes make comedy the easiest genre to dip into on a weeknight.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Crime" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🕵️</span><h3 class="text-lg font-bold text-white">Crime</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Police procedurals, heists and long-form investigations. Procedurals suit one-off episodes, while serialized crime rewards a binge.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Documentary" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎥</span><h3 class="text-lg font-bold text-white">Documentary</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Docuseries and true stories told across several episodes. A good choice when you want to learn something but not watch a feature.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Drama" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🎭</span><h3 class="text-lg font-bold text-white">Drama</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">The broadest TV genre: family sagas, workplace stories and prestige limited series. Check how many seasons are planned before you start.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Family" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">👨‍👩‍👧</span><h3 class="text-lg font-bold text-white">Family</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Series the whole household can watch together. Look at the age rating and episode length to match the audience.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Fantasy" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🐉</span><h3 class="text-lg font-bold text-white">Fantasy</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Magic, myth and invented worlds, grouped with sci-fi on TMDB for TV. Big fantasy series often take years between seasons.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Mystery" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🔍</span><h3 class="text-lg font-bold text-white">Mystery</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Whodunits and slow-reveal puzzles. Spoilers hurt mystery more than any other genre, so avoid recaps until you finish.</p>
+        </a>
+        <a href="/trending?type=tv&amp;genre=Sci-Fi" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <div class="flex items-center gap-3 mb-2"><span class="text-2xl" aria-hidden="true">🚀</span><h3 class="text-lg font-bold text-white">Sci-Fi</h3></div>
+          <p class="text-sm text-slate-400 leading-relaxed">Space, technology and speculative futures, grouped with fantasy on TMDB for TV. Many are serialized, so start from episode one.</p>
+        </a>
+      </div>
+      <h3 class="text-xl font-bold text-white pt-4">Or pick a mood</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <a href="/trending?type=tv&amp;mood=feelgood" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">😊</span> Feel-good</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Warm, funny and uplifting picks that leave you in a better mood than you started.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=edge" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">😰</span> Edge of your seat</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">High-tension stories that keep you leaning forward until the final scene.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=mind" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">🧠</span> Mind-bending</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Puzzle-box plots, time loops and dream logic for people who like to think.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=date" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">💞</span> Date night</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Romance, chemistry and crowd-pleasers that suit two people on a sofa.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=family" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">🍿</span> Family night</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Something everyone on the sofa can enjoy, from the youngest to the oldest.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=epic" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">⚔️</span> Epic adventure</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Sweeping quests, battles and big worlds that fill the screen.</p>
+        </a>
+        <a href="/trending?type=tv&amp;mood=spooky" class="glass-card glass-card-interactive p-5 rounded-2xl block no-underline">
+          <h3 class="text-base font-bold text-white mb-1"><span aria-hidden="true">👻</span> Spooky</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">Scares, suspense and the supernatural for when the lights are low.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="ratings" class="space-y-6 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Know what you are looking at</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Ratings, explained</p></div>
+      <p class="text-slate-300 max-w-3xl leading-relaxed">Scores for TV work a little differently from movies, because a series changes from season to season.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">TMDB user score</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">The average of ratings from registered TMDB members, out of 10, for the series as a whole. A long show's score blends strong and weak seasons together.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">IMDb rating</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">A weighted average of user votes from 1 to 10. IMDb also rates individual episodes, which helps you spot a dip, or a standout episode, inside a season.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">Rotten Tomatoes</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Critic scores are usually given per season. The Tomatometer is the percentage of positive reviews rather than an average grade, so a high percentage means broad approval, not perfection.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">Metacritic</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Scores a season on a 0 to 100 scale by weighting critic reviews. It is useful for seeing whether critics think a show is improving or fading.</p></div>
+        <div class="glass-card rounded-2xl p-5"><h3 class="font-bold text-white">Viewership numbers</h3><p class="text-sm text-slate-400 leading-relaxed mt-1">Networks and streamers sometimes publish viewership. Treat the figures carefully, because each company counts differently. For example, in our report on <a class="text-amber-400 underline hover:text-white" href="/news/lanterns-season-2-not-greenlit-decision-by-year-end.html"><em>Lanterns</em></a> the finale set a series record, yet a second season was still undecided.</p></div>
+      </div>
+      <h3 class="text-xl font-bold text-white pt-4">Where to watch</h3>
+      <div class="max-w-3xl"><p class="text-slate-300 leading-relaxed">Streaming catalogs differ from country to country and change month to month, so the best place to check is the title itself. Open any series on this site to see where it is available in your region, whether it is included with a subscription or has to be rented or bought, and where to find the trailer, cast and scores. Streaming availability is provided by <a class="text-amber-400 underline hover:text-white" href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a>, and listings come from <a class="text-amber-400 underline hover:text-white" href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. Availability can change without notice, so it is worth a second look right before you press play.</p></div>
+    </section>
+
+    <section id="reading" class="space-y-8 scroll-mt-6">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">From Every Movie Plug</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Keep reading</p></div>
+      <div class="space-y-4"><h3 class="text-xl font-bold text-white">Articles and guides</h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Every Star Wars movie and TV series in story order.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/harry-potter-tv-series-2026.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Harry Potter Is Starting Over, and the Franchise Is Betting Big</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">Why HBO is starting the wizarding world over, and what is at stake.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">How 2026 Became the Breakout Year for Artificial Intelligence in Cinema</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">How AI moved from experiment to everyday tool in film and television.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Behind the Cape: Why DC Struggled to Match Marvel’s Cinematic Empire</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">What went wrong for DC against Marvel, and what the new plan looks like.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/articles/clayface-dc-body-horror.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Article</span>
+              <span class="block text-base font-bold text-white leading-snug">Clayface: How DC Is Using Body Horror to Reshape the Comic Book Movie</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">How DC is using body horror to reshape the comic book movie.</span>
+            </a>
+          </li>
+        </ul>
+        <p class="text-sm"><a class="text-amber-400 underline hover:text-white" href="/articles/">Browse all articles &rarr;</a></p>
+      </div>
+      <div class="space-y-4"><h3 class="text-xl font-bold text-white">Recent news</h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/october-2026-what-to-watch-tv-streaming.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 10, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">What to Watch in October: Streaming and TV Highlights</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">A month of TV and streaming highlights.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/the-last-of-us-season-3-2027-final-season-filming.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 26, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">The Last of Us Season 3 Is Set for 2027 and Is Planned as the Final Season</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">The next season of the HBO drama is planned as its last.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/silo-season-4-july-9-2027-final-season.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 18, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">Silo Season 4 Premieres July 9, 2027 as Apple TV Releases First Look at the Final Season</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">The final season of the Apple TV drama gets a date.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/mayor-of-kingstown-season-5-premiere-date-january-15-2027.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 20, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">Mayor of Kingstown Season 5 Premieres January 15, 2027 as Paramount+ Confirms the Final Season</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">The Paramount+ drama sets its next premiere.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/one-piece-season-3-alabasta-vivi-spotlight-luffy.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 21, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">Netflix’s One Piece Season 3 Shifts the Spotlight From Luffy to Vivi in The Battle of Alabasta</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">How the Netflix series shifts focus in its next season.</span>
+            </a>
+          </li>
+          <li class="glass-card glass-card-interactive rounded-2xl p-5">
+            <a href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html" class="block no-underline">
+              <span class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">News &middot; October 10, 2026</span>
+              <span class="block text-base font-bold text-white leading-snug">TV Casting Roundup: The White Lotus, Darkwing Duck and More</span>
+              <span class="block text-sm text-slate-400 mt-2 leading-relaxed">The latest TV casting announcements in one place.</span>
+            </a>
+          </li>
+        </ul>
+        <p class="text-sm"><a class="text-amber-400 underline hover:text-white" href="/news/">Read all news &rarr;</a></p>
+      </div>
+    </section>
+
+    <section id="faq" class="space-y-6 scroll-mt-6 max-w-3xl">
+      <div><h2 class="text-xs font-bold uppercase tracking-widest text-amber-400">Questions</h2>
+      <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Frequently asked</p></div>
+      <div class="space-y-3">
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>How are the trending TV shows chosen?</span><span class="text-amber-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">The weekly list comes from TMDB's trending chart, which is based on activity on TMDB. It shows what people are looking up and rating right now, not total viewing hours.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>What is the difference between a season finale and a series finale?</span><span class="text-amber-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">A season finale ends a season and may leave the story open for more. A series finale ends the whole show. A show can have a season finale and still be waiting on a renewal decision.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>Can I watch shows on Every Movie Plug?</span><span class="text-amber-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">No. We do not host or stream anything. Title pages show where a series is legally available using streaming data from JustWatch.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>Why do some TV genres look different from movie genres?</span><span class="text-amber-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">TMDB groups some TV categories together, such as action with adventure and sci-fi with fantasy, and has no separate horror, romance or thriller category for TV. The mood filters are a handy way around that.</p></details>
+        <details class="glass-card rounded-2xl p-5 group"><summary class="cursor-pointer font-semibold text-white list-none flex justify-between gap-4"><span>How do I report a mistake or suggest a topic?</span><span class="text-amber-400" aria-hidden="true">+</span></summary><p class="text-sm text-slate-400 leading-relaxed mt-3">Email contact@everymovieplug.com or message us on X at @everymovieplug. We read everything and correct errors we confirm.</p></details>
+      </div>
+      <p class="text-xs text-slate-500">This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming data by <a class="underline" href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a>.</p>
+    </section>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-10 pt-4 text-center">
+    <nav class="flex flex-wrap justify-center items-center gap-3 mb-5" aria-label="Footer">
+      <a href="/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+      <a href="/movies/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Movies</a>
+      <a href="/articles/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Articles</a>
+      <a href="/news/" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">News</a>
+      <a href="/about.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">About Us</a>
+      <a href="mailto:contact@everymovieplug.com" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Contact Us</a>
+      <a href="/privacy-policy.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Privacy Policy</a>
+      <a href="/terms-of-service.html" class="inline-flex items-center px-4 py-[7px] rounded-full bg-white/[0.04] border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors">Terms of Service</a>
+    </nav>
+    <p class="text-xs uppercase tracking-[0.06em] font-medium text-slate-500 opacity-80">&copy; Every Movie Plug</p>
+  </footer>
+
+  <script>
+    // Live trending list from TMDB (through the site's own /api/tmdb proxy, so no key is exposed in the browser).
+    (function () {
+      var TYPE = "tv";
+      var grid = document.getElementById("grid");
+      var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+      var slugify = function (t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); };
+      grid.innerHTML = new Array(10).join("<div class='glass-card rounded-2xl aspect-[2/3] animate-pulse'></div>");
+      fetch("/api/tmdb/trending/" + TYPE + "/week")
+        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function (d) {
+          var items = (d.results || []).slice(0, 10);
+          if (!items.length) throw new Error();
+          grid.innerHTML = items.map(function (i) {
+            var t = i.title || i.name, y = (i.release_date || i.first_air_date || "").slice(0, 4), s = i.vote_average;
+            var href = "/" + TYPE + "/" + i.id + "-" + (slugify(t) || "title");
+            return '<a href="' + href + '" class="glass-card glass-card-interactive rounded-2xl overflow-hidden block no-underline">' +
+              '<div class="relative aspect-[2/3] bg-white/5">' + (i.poster_path ? '<img src="https://image.tmdb.org/t/p/w342' + i.poster_path + '" alt="' + esc(t) + ' poster" loading="lazy" class="w-full h-full object-cover">' : '') +
+              (s ? '<span class="absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full bg-black/70 text-amber-400">&#9733; ' + s.toFixed(1) + '</span>' : '') + '</div>' +
+              '<div class="p-3"><p class="text-sm font-bold text-white leading-snug">' + esc(t) + '</p><p class="text-xs text-slate-400 mt-0.5">' + esc(y) + '</p></div></a>';
+          }).join("");
+        })
+        .catch(function () {
+          grid.innerHTML = '<p class="col-span-full text-sm text-slate-400">The live list could not be loaded right now. Try the <a class="underline" href="/trending?type=' + TYPE + '">full trending page</a>.</p>';
+        });
+    })();
+  </script>
+</body>
+</html>
