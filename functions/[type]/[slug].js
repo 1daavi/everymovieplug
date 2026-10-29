@@ -2,6 +2,11 @@
 // It takes the static template /title.html (which draws the page in the browser) and fills in that title's
 // TMDB poster, title and synopsis in the social-preview tags, so shared links look right everywhere.
 // Setup: Pages project > Settings > Variables and Secrets > add TMDB_API_KEY.
+//
+// These pages are NOINDEX on purpose. They are built from TMDB data (synopsis, cast, scores), which is not
+// original content, so they should not be indexed or carry ads. The sharing tags (Open Graph / X card) below
+// still work, because social crawlers read them regardless of noindex. The original, indexable pages on the
+// site are /news/, /articles/, /movies/, /tv-shows/ and the author and about pages.
 
 const USE_BACKDROP = false; // true = wide backdrop image instead of the poster (crops less on X)
 
@@ -28,7 +33,8 @@ export async function onRequest({ params, env, request, next }) {
   const path = (USE_BACKDROP && d.backdrop_path) || d.poster_path || d.backdrop_path;
   const img = path ? `https://image.tmdb.org/t/p/w780${path}` : `${origin}/og-image.jpg`;
   const self = origin + new URL(request.url).pathname;
-  const meta = `<link rel="canonical" href="${esc(self)}">
+  const meta = `<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="${esc(self)}">
 <meta property="og:type" content="${type === "tv" ? "video.tv_show" : "video.movie"}"><meta property="og:site_name" content="Every Movie Plug"><meta property="og:url" content="${esc(self)}">
 <meta property="og:title" content="${esc(name)} | Every Movie Plug"><meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${esc(img)}"><meta property="og:image:alt" content="${esc(title)} poster">
@@ -52,5 +58,5 @@ export async function onRequest({ params, env, request, next }) {
     .replace("<!--EMP_META-->", () => meta)
     .replace("<!--EMP_SSR-->", () => ssr);
 
-  return new Response(page, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=600" } });
+  return new Response(page, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=600", "x-robots-tag": "noindex, follow" } });
 }
