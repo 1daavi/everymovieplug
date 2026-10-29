@@ -11,6 +11,7 @@
        steps:
          - uses: actions/checkout@v4
          - run: node update-articles.js
+         - run: node add-author.js articles
          - run: node add-schema.js
          - run: node add-adsense.js articles
          - run: |
