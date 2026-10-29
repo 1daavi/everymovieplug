@@ -8,6 +8,12 @@ const SITE = "https://everymovieplug.com";
 const ROOT = process.cwd();
 const SKIP_DIRS = new Set(["node_modules", ".git", ".github", "_site", "assets", "includes", "partials", "templates"]);
 const SKIP_FILES = new Set(["404.html"]);
+// Pages that are noindex must not be in the sitemap (title.html is the template behind every /movie/ and /tv/ page).
+const SKIP_PATHS = new Set(["title.html", "time/count/down.html"]);
+const isNoindex = (file) => {
+  try { return /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(fs.readFileSync(file, "utf8").slice(0, 6000)); }
+  catch (_) { return false; }
+};
 
 function walk(dir, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -39,6 +45,7 @@ function toUrl(file) {
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const urls = walk(ROOT)
+  .filter((f) => !SKIP_PATHS.has(path.relative(ROOT, f).split(path.sep).join("/")) && !isNoindex(f))
   .map((f) => ({ loc: toUrl(f), lastmod: lastMod(f) }))
   .sort((a, b) => a.loc.localeCompare(b.loc));
 

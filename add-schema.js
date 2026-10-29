@@ -9,7 +9,8 @@
  *   index.html            Organization + WebSite
  *
  * Everything is read from the page itself (title, description, date, image, canonical, category),
- * so nothing needs to be typed in. Author and publisher are "Every Movie Plug".
+ * so nothing needs to be typed in. The author is Maccarthy Albin (a schema.org Person, see AUTHOR below);
+ * the publisher is "Every Movie Plug". If a story shows an "Updated <date>" line, that date becomes dateModified.
  * Dates are written in ISO 8601 (2026-10-14), which is what Google expects.
  *
  * Usage (from the site root):   node add-schema.js
@@ -38,6 +39,13 @@ const isoDate = s => {
   const m = /^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/.exec(s || "");
   const mo = m && MONTHS.indexOf(m[1].toLowerCase());
   return m && mo >= 0 ? `${m[3]}-${String(mo + 1).padStart(2, "0")}-${String(+m[2]).padStart(2, "0")}` : "";
+};
+const AUTHOR = {
+  "@type": "Person", "@id": `${SITE}/author/maccarthy-albin.html#person`,
+  name: "Maccarthy Albin", url: `${SITE}/author/maccarthy-albin.html`, email: "maccarthy@everymovieplug.com",
+  description: "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
+  sameAs: ["https://x.com/everymovieplug"],
+  worksFor: { "@type": "Organization", name: NAME, url: `${SITE}/` },
 };
 const publisher = () => ({ "@type": "Organization", name: NAME, url: `${SITE}/`,
   logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 } });
@@ -78,17 +86,18 @@ function postGraph(file, section, kind) {
   const abs = u => { try { return u ? new URL(u, `${SITE}/${section}/x.html`).href : ""; } catch { return ""; } };
   const image = meta(html, "property", "og:image") || meta(html, "name", "twitter:image") || abs(firstImg) || `${SITE}/og-image.jpg`;
   const date = isoDate(text((html.match(/class="article-date"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]));
+  const updated = isoDate(text((html.match(/class="article-updated"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]).replace(/^Updated\s+/i, ""));
   const cat = meta(html, "name", "category");
   const crumbName = section === "news" ? "News" : "Articles";
   const art = {
     "@type": kind, "@id": `${url}#article`,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     headline: headline.slice(0, 110), description: desc, url,
-    author: { "@type": "Organization", name: NAME, url: `${SITE}/` },
+    author: AUTHOR,
     publisher: publisher(), isPartOf: { "@id": `${SITE}/#website` }, inLanguage: "en",
   };
   if (image) art.image = [image];
-  if (date) { art.datePublished = date; art.dateModified = date; }
+  if (date) { art.datePublished = date; art.dateModified = updated || date; }
   if (cat && kind === "NewsArticle") art.articleSection = cat;
   for (const k of Object.keys(art)) if (art[k] === "" ) delete art[k];
   // videos made with the site player (<div class="emp-player">): one VideoObject each, so Google can list them as video results
@@ -123,7 +132,7 @@ function listGraph(file, section) {
 
 const homeGraph = () => [
   { "@type": "Organization", "@id": `${SITE}/#organization`, name: NAME, url: `${SITE}/`,
-    logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 } },
+    logo: { "@type": "ImageObject", url: LOGO, width: 512, height: 512 }, sameAs: ["https://x.com/everymovieplug"] },
   { "@type": "WebSite", "@id": `${SITE}/#website`, name: NAME, url: `${SITE}/`,
     publisher: { "@id": `${SITE}/#organization` }, inLanguage: "en" },
 ];

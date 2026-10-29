@@ -1,5 +1,19 @@
+# Pages that must not appear in Google. (These headers cover static files; the /movie/ and /tv/ pages are
+# built by functions/[type]/[slug].js, which sends the same header itself.)
 /title.html
   X-Robots-Tag: noindex
 
 /title
   X-Robots-Tag: noindex
+
+/time/count/down.html
+  X-Robots-Tag: noindex, nofollow
+
+/time/count/down
+  X-Robots-Tag: noindex, nofollow
+
+/movie/*
+  X-Robots-Tag: noindex, follow
+
+/tv/*
+  X-Robots-Tag: noindex, follow

@@ -1,0 +1,5 @@
+# Local secrets: never commit these
+.dev.vars
+.env
+.env.*
+node_modules/

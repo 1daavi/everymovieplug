@@ -2,3 +2,17 @@
 /article/*      /articles/:splat   301
 /articles.html  /articles/         301
 /news.html      /news/             301
+
+# Duplicate news stories merged into one updated page (301 = permanent, passes link value to the new URL)
+/news/mummy-4-brendan-fraser-rachel-weisz-set-photos.html  /news/the-mummy-4-set-photos-brendan-fraser-rachel-weisz.html  301
+/news/mummy-4-brendan-fraser-rachel-weisz-set-photos  /news/the-mummy-4-set-photos-brendan-fraser-rachel-weisz.html  301
+/news/digger-second-weekend-box-office.html  /news/digger-245-million-loss-second-weekend.html  301
+/news/digger-second-weekend-box-office  /news/digger-245-million-loss-second-weekend.html  301
+/news/street-fighter-reviews-rotten-tomatoes.html  /news/street-fighter-reviews-mixed-critics-split.html  301
+/news/street-fighter-reviews-rotten-tomatoes  /news/street-fighter-reviews-mixed-critics-split.html  301
+/news/batman-part-ii-production-paused.html  /news/robert-pattinson-batman-part-ii-production-pause.html  301
+/news/batman-part-ii-production-paused  /news/robert-pattinson-batman-part-ii-production-pause.html  301
+/news/lanterns-finale-record-season-2-status.html  /news/lanterns-season-2-not-greenlit-decision-by-year-end.html  301
+/news/lanterns-finale-record-season-2-status  /news/lanterns-season-2-not-greenlit-decision-by-year-end.html  301
+/news/hbo-harry-potter-season-1-over-200-million-investment.html  /news/harry-potter-hbo-series-budget-plum-jam-filings.html  301
+/news/hbo-harry-potter-season-1-over-200-million-investment  /news/harry-potter-hbo-series-budget-plum-jam-filings.html  301

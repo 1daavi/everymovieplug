@@ -6,7 +6,7 @@
 
   <!-- Core Page Metadata -->
   <title>Every Movie Plug</title>
-  <meta name="description" content="Discover trending movies and TV shows, browse by genre or country, and follow Every Movie Plug for film news and updates.">
+  <meta name="description" content="Discover trending movies and TV shows, read film news and in-depth articles, and follow @everymovieplug on X.">
   <link rel="canonical" href="https://everymovieplug.com/">
 
   <!-- SVG & Standard Favicons -->
@@ -53,7 +53,7 @@
   <meta property="og:url" content="https://everymovieplug.com/">
   <meta property="og:site_name" content="Every Movie Plug">
   <meta property="og:title" content="Every Movie Plug">
-  <meta property="og:description" content="Discover trending movies and TV shows, read film news and articles, and play games at Every Movie Plug.">
+  <meta property="og:description" content="Discover trending movies and TV shows, read film news and in-depth articles, and follow @everymovieplug on X.">
   <meta property="og:image" content="https://everymovieplug.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="628">
@@ -65,7 +65,7 @@
   <meta name="twitter:url" content="https://everymovieplug.com/">
   <meta name="twitter:creator" content="@everymovieplug">
   <meta name="twitter:title" content="Every Movie Plug - Curating cinema history, scene breakdowns, and film analysis.">
-  <meta name="twitter:description" content="Trending movies and TV shows, film news, articles and games. Follow @everymovieplug on X."> 
+  <meta name="twitter:description" content="Discover trending movies and TV shows, read film news and in-depth articles, and follow @everymovieplug on X."> 
   <meta name="twitter:image" content="https://everymovieplug.com/twitter-card.jpg">
   <meta name="twitter:image:alt" content="Every Movie Plug Preview Banner">
   
@@ -340,6 +340,8 @@
       .fx-nav { right:0; left:0; bottom:16px; justify-content:center; }
     }
   </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
+     crossorigin="anonymous"></script>
     <script type="application/ld+json" id="emp-schema-0">
 {
   "@context": "https://schema.org",
@@ -352,7 +354,10 @@
     "url": "https://everymovieplug.com/web-app-manifest-512x512.png",
     "width": 512,
     "height": 512
-  }
+  },
+  "sameAs": [
+    "https://x.com/everymovieplug"
+  ]
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -368,8 +373,6 @@
   "inLanguage": "en"
 }
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
-     crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="mesh-bg" aria-hidden="true"></div>
@@ -382,11 +385,10 @@
         <a class="chip" href="/articles/">📝 Articles</a>
         <a class="chip" href="/news/">📰 News</a>
         <span class="sep" aria-hidden="true"></span>
-        <button class="chip" data-type="movie" aria-pressed="false">🎞️ Movies</button>
-        <button class="chip" data-type="tv" aria-pressed="false">📺 TV Shows</button>
+        <a class="chip" href="/movies/">🎞️ Movies</a>
+        <a class="chip" href="/tv-shows/">📺 TV Shows</a>
         <button class="chip" id="genreBtn" aria-haspopup="true" aria-expanded="false">Genre ▾</button>
         <button class="chip" id="countryBtn" aria-haspopup="true" aria-expanded="false">Country ▾</button>
-        <a class="chip" href="https://playground.google/g/fyVDKb" target="_blank" rel="noopener noreferrer">🎮 Games</a>
       </nav>
       <div class="top-actions">
         <a class="chip" href="https://x.com/intent/follow?screen_name=everymovieplug" target="_blank" rel="noopener noreferrer">𝕏 Follow</a>
@@ -410,7 +412,7 @@
 
     <section class="hero" aria-label="Search Every Movie Plug">
       <h1>Find your next <span class="highlight">watch</span></h1>
-      <p>Trending movies and TV shows, film news, in-depth articles and games, all in one place.</p>
+      <p>Trending movies and TV shows, film news and in-depth articles, all in one place.</p>
       <form class="searchbar" id="searchForm" role="search" autocomplete="off">
         <input id="searchInput" type="search" name="q" placeholder="Search articles, news, movies &amp; TV shows…" aria-label="Search articles, news, movies and TV shows" enterkeyhint="search">
         <button class="chip primary" type="submit" aria-label="Search articles, news, movies and TV shows">&#128269; Search</button>
@@ -471,10 +473,10 @@
     <section class="about" aria-label="About Every Movie Plug">
       <div class="sec-head"><div><h2>What you’ll find on Every Movie Plug</h2><small>Built for people who love film and television</small></div></div>
       <div class="feats">
-        <a class="feat glass" href="https://everymovieplug.com/trending"><span class="feat-ic" aria-hidden="true">&#127910;</span><h3>Trending movies &amp; TV</h3><p>See what the world is watching this week, filter by genre or country, and check where each title is streaming.</p></a>
+        <a class="feat glass" href="/movies/"><span class="feat-ic" aria-hidden="true">&#127910;</span><h3>Movies</h3><p>Trending films, genre and mood guides, ratings explained and where each title is streaming.</p></a>
+        <a class="feat glass" href="/tv-shows/"><span class="feat-ic" aria-hidden="true">&#128250;</span><h3>TV shows</h3><p>What to binge, what to follow weekly, and how seasons, renewals and finales work.</p></a>
         <a class="feat glass" href="/news/"><span class="feat-ic" aria-hidden="true">&#128240;</span><h3>Film news</h3><p>Headlines and updates from the world of cinema and television, published by our editors.</p></a>
         <a class="feat glass" href="/articles/"><span class="feat-ic" aria-hidden="true">&#128221;</span><h3>Articles &amp; analysis</h3><p>Cinema history, scene breakdowns and film analysis for viewers who want more than a trailer.</p></a>
-        <a class="feat glass" href="https://playground.google/g/fyVDKb" target="_blank" rel="noopener noreferrer"><span class="feat-ic" aria-hidden="true">&#127918;</span><h3>Games</h3><p>Take a break and play a game on Google Playground, right from your browser.</p></a>
       </div>
       <p class="about-text">Every Movie Plug is an independent film and TV discovery site. Movie and TV data comes from TMDB, and streaming availability is provided by JustWatch. Follow <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer" class="footer-link" style="text-transform:none;letter-spacing:0">@everymovieplug</a> on X for daily recommendations.</p>
     </section>
