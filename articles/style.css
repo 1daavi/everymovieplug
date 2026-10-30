@@ -390,6 +390,7 @@ nav a:active {
   color: #fff;
   background: linear-gradient(135deg, #7c3aed, #f59e0b);
 }
+   img.author-avatar { display: block; object-fit: cover; }
 .author-info { min-width: 0; }
 .author-label {
   font-size: 0.72rem;
