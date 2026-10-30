@@ -482,7 +482,7 @@ function build(sec) {
       .replace(/\{\{TITLE\}\}/g, () => esc(title)).replace(/\{\{DESC\}\}/g, () => esc(desc)).replace(/\{\{CANON\}\}/g, () => url)
       .replace("{{PREVNEXT}}", () => prevNext).replace("{{SCHEMA}}", () => schemaBlock(graph))
       .replace("{{SITENAV}}", () => siteNavHTML(sec.active)).replace("{{HERO}}", () => page === 1 ? heroHTML : "")
-      .replace("{{H1}}", () => esc(page === 1 ? sec.h1 : `${sec.h1} &ndash; Page ${page}`).replace(/&amp;ndash;/, "&ndash;"))
+      .replace("{{H1}}", () => esc(sec.h1))
       .replace("{{SUBTITLE}}", () => sec.subtitle)
       .replace("{{LIST}}", () => tiles)
       .replace("{{PAGER}}", () => pagerHTML(sec, page, pages, from, to, count))
