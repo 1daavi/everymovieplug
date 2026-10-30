@@ -19,7 +19,7 @@ const path = require("path");
 const { footerHTML, siteNavHTML } = require("./lib/site-nav");
 
 const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, "").split("=")));
-const PER_PAGE = 15;
+const PER_PAGE = 16;
 const SITE = "https://everymovieplug.com";
 const ASSETS = "articleassets";
 const SELF = /^https?:\/\/(www\.)?everymovieplug\.com\//i;
