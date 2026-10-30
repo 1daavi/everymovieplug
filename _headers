@@ -17,3 +17,9 @@
 
 /tv/*
   X-Robots-Tag: noindex, follow
+
+# The listing data files are for the site search only
+/news/search-index.json
+  X-Robots-Tag: noindex
+/articles/search-index.json
+  X-Robots-Tag: noindex

@@ -16,3 +16,9 @@
 /news/lanterns-finale-record-season-2-status  /news/lanterns-season-2-not-greenlit-decision-by-year-end.html  301
 /news/hbo-harry-potter-season-1-over-200-million-investment.html  /news/harry-potter-hbo-series-budget-plum-jam-filings.html  301
 /news/hbo-harry-potter-season-1-over-200-million-investment  /news/harry-potter-hbo-series-budget-plum-jam-filings.html  301
+
+# Page 1 of each listing lives at the folder root
+/news/page/1/      /news/      301
+/news/page/1       /news/      301
+/articles/page/1/  /articles/  301
+/articles/page/1   /articles/  301
