@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="#000000">
-    <title>Latest Articles - Every Movie Plug</title>
+    <title>Latest Articles | Every Movie Plug</title>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@everymovieplug">
-    <meta name="twitter:title" content="Latest Articles - Every Movie Plug">
+    <meta name="twitter:title" content="Latest Articles | Every Movie Plug">
     <meta name="twitter:description" content="Insights, movie breakdowns and features from Every Movie Plug.">
     <meta name="twitter:image" content="https://everymovieplug.com/twitter-card.jpg">
     <meta name="description" content="Insights, movie breakdowns and features from Every Movie Plug.">
     <link rel="canonical" href="https://everymovieplug.com/articles/">
+    <link rel="next" href="https://everymovieplug.com/articles/page/2/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Every Movie Plug">
-    <meta property="og:title" content="Latest Articles - Every Movie Plug">
+    <meta property="og:title" content="Latest Articles | Every Movie Plug">
     <meta property="og:description" content="Insights, movie breakdowns and features from Every Movie Plug.">
     <meta property="og:url" content="https://everymovieplug.com/articles/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -170,6 +171,42 @@
             .hero-arrow { display: none; }
         }
         .hero-cta b { font-weight: inherit; }
+    
+        /* ===== Site navigation, pagination and page text (added by build-listings.js) ===== */
+        .sitenav { display: flex; flex-wrap: wrap; gap: 8px; max-width: none; margin: 0 0 28px; }
+        .sitenav a { display: inline-flex; align-items: center; color: #c4b5fd; text-decoration: none; font-size: .8rem; font-weight: 600; padding: .45rem .9rem; border-radius: 9999px; border: 1px solid rgba(168,85,247,.35); background: rgba(168,85,247,.1); white-space: nowrap; transition: transform .3s cubic-bezier(.16,1,.3,1), background .3s; }
+        .sitenav a:hover, .sitenav a:focus-visible { background: rgba(168,85,247,.22); color: #fff; }
+        .sitenav a:active { transform: scale(.96); }
+        .sitenav a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .page-lead { color: var(--muted); font-size: .95rem; margin: -14px 0 22px; max-width: 760px; }
+
+        #results { display: none; }
+        body.searching #results { display: grid; }
+        body.searching [data-paged], body.searching .seo-text, body.searching #tiles, body.searching .page-lead { display: none; }
+
+        .pager { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: none; margin: 44px 0 10px; }
+        .pg-list { display: flex; align-items: center; gap: 6px; list-style: none; margin: 0; padding: 0; }
+        .pg-list .gap { color: var(--muted); padding: 0 4px; }
+        .pg { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 42px; height: 42px; padding: 0 14px; border-radius: 9999px; border: 1px solid var(--edge); background: var(--card); color: var(--heading); font-size: .9rem; font-weight: 600; text-decoration: none; transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+        .pg svg { width: 16px; height: 16px; flex: none; }
+        a.pg:hover, a.pg:focus-visible { background: rgba(168,85,247,.2); border-color: var(--accent-soft); box-shadow: 0 0 22px rgba(168,85,247,.25); transform: translateY(-2px); outline: none; }
+        a.pg:active { transform: scale(.95); }
+        .pg.cur { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 20px rgba(168,85,247,.4); }
+        .pg.off { opacity: .35; cursor: not-allowed; }
+        .pg-count { display: none; color: var(--muted); font-size: .9rem; font-weight: 600; }
+        .pg-status { text-align: center; color: var(--muted); font-size: .82rem; margin-bottom: 8px; }
+        @media (max-width: 640px) { .pg-list { display: none; } .pg-count { display: inline; } .pager { gap: 14px; } }
+
+        .seo-text { max-width: 820px; margin: 56px auto 0; padding: 32px 0 0; border-top: 1px solid var(--edge); color: var(--text); line-height: 1.75; }
+        .seo-text h2 { font-size: 1.5rem; line-height: 1.3; color: var(--heading); margin-bottom: 14px; }
+        .seo-text h3 { font-size: 1.12rem; color: var(--heading); margin: 28px 0 8px; }
+        .seo-text h4 { font-size: 1rem; color: var(--heading); margin: 18px 0 4px; }
+        .seo-text p, .seo-text li { font-size: .97rem; color: var(--text); }
+        .seo-text p { margin-bottom: 12px; }
+        .seo-text ul { margin: 6px 0 14px 1.25rem; }
+        .seo-text li { margin-bottom: 8px; }
+        .seo-text a { color: #c4b5fd; text-decoration: underline; text-underline-offset: 3px; }
+        .seo-text a:hover { color: #fff; }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
@@ -262,31 +299,6 @@
         "@type": "ListItem",
         "position": 15,
         "url": "https://everymovieplug.com/articles/who-is-clayface.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 16,
-        "url": "https://everymovieplug.com/articles/sebastian-stan-teases-high-stakes-in-avengers-doomsday.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 17,
-        "url": "https://everymovieplug.com/articles/movies-where-the-villain-wins.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 18,
-        "url": "https://everymovieplug.com/articles/clayface-dc-body-horror.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 19,
-        "url": "https://everymovieplug.com/articles/spider-man-brand-new-day-ai-controversy.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 20,
-        "url": "https://everymovieplug.com/articles/harry-potter-film-series-legacy.html"
       }
     ]
   }
@@ -314,7 +326,15 @@
     </script>
 </head>
 <body>
-    <a class="top-link" href="/index.html">&larr; Back to Home</a>
+    <nav class="sitenav" aria-label="Site">
+        <a href="/">&larr; Home</a>
+        <a href="/trending">Trending</a>
+        <a href="/movies/">Movies</a>
+        <a href="/tv-shows/">TV Shows</a>
+        <a href="/news/">News</a>
+        <a href="/articles/" aria-current="page">Articles</a>
+        <a href="/about.html">About</a>
+    </nav>
 
     <section class="hero" id="hero" aria-roledescription="carousel" aria-label="Featured articles" hidden>
         <span class="hero-label"><i></i> Featured Articles</span>
@@ -326,11 +346,10 @@
         </div>
     </section>
 
-
     <header class="news-head">
         <div>
-            <h1>Latest Articles</h1>
-            <p>Insights, movie breakdowns, and news.</p>
+            <h1>Movie and TV Articles</h1>
+            <p>Insights, movie breakdowns and features.</p>
         </div>
         <div class="search" id="search" role="search">
             <svg class="lens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -338,18 +357,11 @@
             <button class="clear" id="clear" type="button" aria-label="Clear search">&times;</button>
         </div>
     </header>
+    <p class="page-lead">Newest articles first. Search the box above to look through every article on the site, or use the page numbers below to move back through older coverage.</p>
     <p class="result-count" id="count" aria-live="polite"></p>
 
     <main>
         <div class="tiles" id="tiles">
-            
-            
-            
-
-
-
-            
-            <!-- Five Directors, Five Visions: The Signature Styles of Hollywood's Defining Filmmakers -->
             <a class="tile" href="/articles/five-directors-five-visions-the-signature-styles-of-hollywood-s-defining-filmmakers.html" style="--i:0">
                 <div class="tile-thumb">
                     <img src="/articleassets/Legendary-Directors.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -362,8 +374,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order -->
             <a class="tile" href="/articles/star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html" style="--i:1">
                 <div class="tile-thumb">
                     <img src="https://image.tmdb.org/t/p/original/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -372,12 +382,10 @@
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-26">October 26, 2026</time>
                     <h2 class="tile-title">Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order</h2>
-                    <p class="tile-excerpt">A comprehensive chronological guide explaining every *Star Wars* movie and TV series from the High Republic era through the sequel trilogy.</p>
+                    <p class="tile-excerpt">A comprehensive chronological guide explaining every Star Wars movie and TV series from the High Republic era through the sequel trilogy.</p>
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- Most Anticipated Movies of 2027: Every Major Release to Watch -->
             <a class="tile" href="/articles/most-anticipated-movies-of-2027.html" style="--i:2">
                 <div class="tile-thumb">
                     <img src="/articleassets/most-anticipated-movies-of-2027.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -390,8 +398,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- 20 Movies That Were Almost Impossible to Film -->
             <a class="tile" href="/articles/20-movies-that-were-almost-impossible-to-film.html" style="--i:3">
                 <div class="tile-thumb">
                     <img src="/articleassets/20movies.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -404,8 +410,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- AI Cannot Act -->
             <a class="tile" href="/articles/ai-cannot-act.html" style="--i:4">
                 <div class="tile-thumb">
                     <img src="https://everymovieplug.com/articleassets/ai-cannot-act.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -418,8 +422,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- How 2026 Became the Breakout Year for Artificial Intelligence in Cinema -->
             <a class="tile" href="/articles/how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html" style="--i:5">
                 <div class="tile-thumb">
                     <img src="https://image.tmdb.org/t/p/original/24AmQwURM0UCTsRlBcvZLkbi5mi.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -432,8 +434,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- The Billion-Dollar Club: The 10 Highest-Grossing Movies of All Time -->
             <a class="tile" href="/articles/the-billion-dollar-club-the-10-highest-grossing-movies-of-all-time.html" style="--i:6">
                 <div class="tile-thumb">
                     <img src="/articleassets/EVERYMOVIEPLUG Top10 Highest Grossing.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -446,8 +446,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- Love Across the Event Horizon: A Complete Breakdown of the Interstellar Timeline and Dimensions -->
             <a class="tile" href="/articles/love-across-the-event-horizon-a-complete-breakdown-of-the-interstellar-timeline-and-dimensions.html" style="--i:7">
                 <div class="tile-thumb">
                     <img src="/articleassets/interstellar-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -460,8 +458,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- A Complete Breakdown of the Tenet Timeline -->
             <a class="tile" href="/articles/a-complete-breakdown-of-the-tenet-timeline.html" style="--i:8">
                 <div class="tile-thumb">
                     <img src="/articleassets/tenet-breakdown-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -474,8 +470,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- Engineering the Unsinkable: The Architectural and Mechanical Triumph Behind the Titanic Set -->
             <a class="tile" href="/articles/engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set.html" style="--i:9">
                 <div class="tile-thumb">
                     <img src="https://image.tmdb.org/t/p/original/5bTWA20cL9LCIGNpde4Epc2Ijzn.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -488,8 +482,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- Behind the Cape: Why DC Struggled to Match Marvel’s Cinematic Empire -->
             <a class="tile" href="/articles/behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html" style="--i:10">
                 <div class="tile-thumb">
                     <img src="/articleassets/marveldc-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -502,8 +494,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-<!-- How IMAX Engineered the Ultimate Cinematic Experience -->
             <a class="tile" href="/articles/how-imax-engineered-the-ultimate-cinematic-experience.html" style="--i:11">
                 <div class="tile-thumb">
                     <img src="/articleassets/imax1.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -516,8 +506,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-            <!-- How GoldenEye Saved James Bond -->
             <a class="tile" href="/articles/how-goldeneye-saved-james-bond.html" style="--i:12">
                 <div class="tile-thumb">
                     <img src="/articleassets/goldeneye007.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -530,8 +518,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-            <!-- Round Three: Capcom’s Street Fighter Returns to Big Screens, October 16. -->
             <a class="tile" href="/articles/round-three-capcom-s-street-fighter-returns-to-big-screens-october-16.html" style="--i:13">
                 <div class="tile-thumb">
                     <img src="/articleassets/streetfightermovie-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -544,8 +530,6 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-            <!-- Who is Clayface? -->
             <a class="tile" href="/articles/who-is-clayface.html" style="--i:14">
                 <div class="tile-thumb">
                     <img src="/articleassets/clayfaceanimation.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
@@ -558,280 +542,61 @@
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </div>
             </a>
-
-            <!-- "It’s Going to Be Heartbreaking": Sebastian Stan Teases High Stakes in Avengers: Doomsday -->
-            <a class="tile" href="/articles/sebastian-stan-teases-high-stakes-in-avengers-doomsday.html" style="--i:15">
-                <div class="tile-thumb">
-                    <img src="/articleassets/sebastian-stan-civil-war.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-08">October 8, 2026</time>
-                    <h2 class="tile-title">&quot;It’s Going to Be Heartbreaking&quot;: Sebastian Stan Teases High Stakes in Avengers: Doomsday</h2>
-                    <p class="tile-excerpt">Sebastian Stan warns fans of emotional devastation.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- 10 Iconic Hollywood Movies Where the Villain Wins -->
-            <a class="tile" href="/articles/movies-where-the-villain-wins.html" style="--i:16">
-                <div class="tile-thumb">
-                    <img src="/articleassets/movies-where-the-villain-wins-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-08">October 8, 2026</time>
-                    <h2 class="tile-title">10 Iconic Hollywood Movies Where the Villain Wins</h2>
-                    <p class="tile-excerpt">From Se7en to Gone Girl, ten classic Hollywood films where evil walks away victorious. Spoilers ahead.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Clayface: How DC Is Using Body Horror to Reshape the Comic Book Movie -->
-            <a class="tile" href="/articles/clayface-dc-body-horror.html" style="--i:17">
-                <div class="tile-thumb">
-                    <img src="/articleassets/clayface-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-08">October 8, 2026</time>
-                    <h2 class="tile-title">Clayface: How DC Is Using Body Horror to Reshape the Comic Book Movie</h2>
-                    <p class="tile-excerpt">DC Studios' R-rated Clayface hits theaters October 23, 2026. Here is why DC is going for body horror, how the film connects to the comics, and when it opens.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Spider-Man: Brand New Day and the AI Art Book Controversy, Explained -->
-            <a class="tile" href="/articles/spider-man-brand-new-day-ai-controversy.html" style="--i:18">
-                <div class="tile-thumb">
-                    <img src="/articleassets/spider-man-brand-new-day-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-08">October 8, 2026</time>
-                    <h2 class="tile-title">Spider-Man: Brand New Day and the AI Art Book Controversy, Explained</h2>
-                    <p class="tile-excerpt">Fans flagged one concept image in the Spider-Man: Brand New Day art book as possible AI. Here is what is known, what is disputed, and what Marvel has said.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- The Harry Potter Films Changed Hollywood, and We Still Haven't Left Hogwarts -->
-            <a class="tile" href="/articles/harry-potter-film-series-legacy.html" style="--i:19">
-                <div class="tile-thumb">
-                    <img src="/articleassets/harry-potter-films-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-07">October 7, 2026</time>
-                    <h2 class="tile-title">The Harry Potter Films Changed Hollywood, and We Still Haven't Left Hogwarts</h2>
-                    <p class="tile-excerpt">How the eight Harry Potter films starring Daniel Radcliffe became a box-office giant, changed how franchises are built, and still resonate with audiences today.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Harry Potter Is Starting Over, and the Franchise Is Betting Big -->
-            <a class="tile" href="/articles/harry-potter-tv-series-2026.html" style="--i:20">
-                <div class="tile-thumb">
-                    <img src="/articleassets/harry-potter-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-07">October 7, 2026</time>
-                    <h2 class="tile-title">Harry Potter Is Starting Over, and the Franchise Is Betting Big</h2>
-                    <p class="tile-excerpt">How the Harry Potter franchise grew, stumbled, and is now rebooting as an HBO series.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Why Tom Cruise’s Bold Swing in ‘Digger’ Is the Feat Modern Cinema Needed. -->
-            <a class="tile" href="/articles/Tom-Cruise-Digger.html" style="--i:21">
-                <div class="tile-thumb">
-                    <img src="/articleassets/tom-cruise-digger-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-07">October 7, 2026</time>
-                    <h2 class="tile-title">Why Tom Cruise’s Bold Swing in ‘Digger’ Is the Feat Modern Cinema Needed.</h2>
-                    <p class="tile-excerpt">Beyond the Numbers</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Emily Blunt, Benicio del Toro, and Josh Brolin are reuniting for 'Sicario 3'. -->
-            <a class="tile" href="/articles/sicario-3.html" style="--i:22">
-                <div class="tile-thumb">
-                    <img src="/articleassets/sicario-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-06">October 6, 2026</time>
-                    <h2 class="tile-title">Emily Blunt, Benicio del Toro, and Josh Brolin are reuniting for 'Sicario 3'.</h2>
-                    <p class="tile-excerpt"></p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Avengers: Endgame Retakes the Box-Office Crown From Avatar -->
-            <a class="tile" href="/articles/avengers-endgame-retakes-box-office-crown.html" style="--i:23">
-                <div class="tile-thumb">
-                    <img src="/articleassets/avengers-endgame-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-05">October 5, 2026</time>
-                    <h2 class="tile-title">Avengers: Endgame Retakes the Box-Office Crown From Avatar</h2>
-                    <p class="tile-excerpt">A new extended re-release has put Marvel's finale back on top of the all-time chart, by a razor-thin margin</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Back to the Asphalt: Everything We Know About Fast Forever and the Future of the Franchise -->
-            <a class="tile" href="/articles/fast-forever.html" style="--i:24">
-                <div class="tile-thumb">
-                    <img src="/articleassets/fast-forever-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-05">October 5, 2026</time>
-                    <h2 class="tile-title">Back to the Asphalt: Everything We Know About Fast Forever and the Future of the Franchise</h2>
-                    <p class="tile-excerpt">The final mainline Fast & Furious film is heading back to street racing, Los Angeles, and car culture.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Where Did Movies Like Undercover Brother Go? -->
-            <a class="tile" href="/articles/undercover-brother.html" style="--i:25">
-                <div class="tile-thumb">
-                    <img src="/articleassets/undercover-brother-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-05">October 5, 2026</time>
-                    <h2 class="tile-title">Where Did Movies Like Undercover Brother Go?</h2>
-                    <p class="tile-excerpt">The mid-budget comedy is an endangered species</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- How Mel Gibson made a Maya-language chase film on a studio budget -->
-            <a class="tile" href="/articles/apocalypto-2006.html" style="--i:26">
-                <div class="tile-thumb">
-                    <img src="/articleassets/apocalypto2006.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-04">October 4, 2026</time>
-                    <h2 class="tile-title">How Mel Gibson made a Maya-language chase film on a studio budget</h2>
-                    <p class="tile-excerpt">Apocalypto: From The Passion to the Jungle</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- No Stars, No Problem: The Great Films That Succeeded Without a Famous Face | Every Movie Plug -->
-            <a class="tile" href="/articles/no-stars-no-problem.html" style="--i:27">
-                <div class="tile-thumb">
-                    <img src="/articleassets/no-stars-no-problem-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-04">October 4, 2026</time>
-                    <h2 class="tile-title">No Stars, No Problem: The Great Films That Succeeded Without a Famous Face | Every Movie Plug</h2>
-                    <p class="tile-excerpt">From Apocalypto to Parasite, a look at the great films that succeeded with no major stars.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- The Anatomy of a Great Movie Twist -->
-            <a class="tile" href="/articles/anatomy-of-a-great-movie-twist.html" style="--i:28">
-                <div class="tile-thumb">
-                    <img src="/articleassets/movietwist.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-03">October 3, 2026</time>
-                    <h2 class="tile-title">The Anatomy of a Great Movie Twist</h2>
-                    <p class="tile-excerpt">What separates a satisfying twist from a cheap trick, from Se7en to Oldboy.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Inception's Dream Logic, Explained -->
-            <a class="tile" href="/articles/inception-dream-logic-explained.html" style="--i:29">
-                <div class="tile-thumb">
-                    <img src="/articleassets/inception.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-03">October 3, 2026</time>
-                    <h2 class="tile-title">Inception's Dream Logic, Explained</h2>
-                    <p class="tile-excerpt">A clear guide to the layers, kicks, and totems, and what the ending is really for.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- How Denis Villeneuve Builds Tension With Scale and Sound -->
-            <a class="tile" href="/articles/denis-villeneuve-tension-sound-design.html" style="--i:30">
-                <div class="tile-thumb">
-                    <img src="/articleassets/dennis.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-03">October 3, 2026</time>
-                    <h2 class="tile-title">How Denis Villeneuve Builds Tension With Scale and Sound</h2>
-                    <p class="tile-excerpt">Scale, silence, and sound: the tools behind the tension in Sicario, Arrival, and Dune.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- Coherence and the Rise of the Single-Location Thriller -->
-            <a class="tile" href="/articles/coherence-single-location-thrillers.html" style="--i:31">
-                <div class="tile-thumb">
-                    <img src="/articleassets/coherence.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-03">October 3, 2026</time>
-                    <h2 class="tile-title">Coherence and the Rise of the Single-Location Thriller</h2>
-                    <p class="tile-excerpt">How one house and one night turn a low-budget indie into a mind-bending thriller.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- The Renaissance of the Web-Slinger -->
-            <a class="tile" href="/articles/spider-man-brand-new-day.html" style="--i:32">
-                <div class="tile-thumb">
-                    <img src="https://image.tmdb.org/t/p/original/2Tw4Me7P8wYNb1E0zsmm0DsHOhZ.jpg?w=300&amp;auto=format&amp;fit=crop&amp;q=80" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-09-20">September 20, 2026</time>
-                    <h2 class="tile-title">The Renaissance of the Web-Slinger</h2>
-                    <p class="tile-excerpt">How 'Spider-Man: Brand New Day' Rewrote Box Office History</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
-
-            <!-- The Love Story of Tom Holland and Zendaya. -->
-            <a class="tile" href="/articles/zendaya-tom-holland-story.html" style="--i:33">
-                <div class="tile-thumb">
-                    <img src="/articleassets/zen%20tom.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Article</span>
-                </div>
-                <div class="tile-body">
-                    <time class="tile-date" datetime="2026-09-17">September 17, 2026</time>
-                    <h2 class="tile-title">The Love Story of Tom Holland and Zendaya.</h2>
-                    <p class="tile-excerpt">From child prodigies to Hollywood royalty.</p>
-                    <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-            </a>
         </div>
+        <div class="tiles" id="results" aria-live="polite"></div>
         <div class="empty" id="empty"><strong>No articles found</strong>Try a different movie title or keyword.</div>
+        <nav class="pager" id="pager" data-paged aria-label="Articles pages">
+            <span class="pg pg-step off" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Previous</span></span>
+            <span class="pg-count">Page 1 of 3</span>
+            <ol class="pg-list"><li><span class="pg cur" aria-current="page" aria-label="Page 1, current page">1</span></li><li><a class="pg" href="/articles/page/2/" aria-label="Page 2">2</a></li><li><a class="pg" href="/articles/page/3/" aria-label="Page 3">3</a></li></ol>
+            <a class="pg pg-step" href="/articles/page/2/" rel="next"><span>Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </nav>
+        <p class="pg-status" data-paged>Page 1 of 3 &middot; articles 1&ndash;15 of 34</p>
+        <section class="seo-text" aria-labelledby="about-heading">
+            <h2 id="about-heading">About Every Movie Plug Articles</h2>
+            <p>Articles are the longer work on Every Movie Plug: the pieces that do not fit in a headline. We write timelines that put a complicated film or franchise in order, explainers that unpack an ending or a twist, breakdowns of how directors and crews achieved a particular effect, and analysis of what box office numbers and industry decisions mean. This archive currently holds 34 articles across 3 pages, with the newest first.</p>
+
+            <h3>What you will find here</h3>
+            <ul>
+                <li><strong>Timelines and explainers.</strong> Chronologies for sprawling franchises and plain-English explanations of films with tangled plots.</li>
+                <li><strong>Craft and production.</strong> Sound design, set building, camerawork and the practical problems behind famous scenes.</li>
+                <li><strong>Industry and box office analysis.</strong> Why a studio strategy worked or failed, and how the biggest films compare.</li>
+                <li><strong>Film history and legacy.</strong> How landmark films and series changed what came after them.</li>
+                <li><strong>Previews and lists.</strong> The releases worth watching next and rankings built around a clear question.</li>
+            </ul>
+
+            <h3>How we write articles</h3>
+            <p>Each article carries a named author and a publication date. We explain our reasoning and show the facts it rests on, and we keep opinion clearly separate from reporting: breaking news belongs in <a href="/news/">News</a>, while articles give you analysis and context. When facts change, we update the article instead of leaving it out of date. Mistakes can be reported to <a href="mailto:contact@everymovieplug.com">contact@everymovieplug.com</a>. Read more on our <a href="/about.html">About page</a>.</p>
+
+            <h3>How to use this page</h3>
+            <p>Articles are shown 15 to a page, newest first. Use the numbered links beneath the articles to browse older pieces, or use the search box to search every article at once. The digest below the list tells you roughly how long each article on the page takes to read.</p>
+
+            <h3>Frequently asked questions</h3>
+            <h4>How often do you publish new articles?</h4>
+            <p>New articles are added to page 1 as they are published. Older ones move back one place at a time and stay in the archive.</p>
+            <h4>Are the articles spoiler-free?</h4>
+            <p>Not always. Breakdowns and endings explained discuss plot details, so check the headline and opening paragraph before you read a film you have not yet seen.</p>
+            <h4>Can I suggest a topic?</h4>
+            <p>Yes. Email <a href="mailto:contact@everymovieplug.com">contact@everymovieplug.com</a> with the film, series or question you would like us to cover.</p>
+        </section>
+        <section class="seo-text" aria-labelledby="digest-heading">
+            <h2 id="digest-heading">What is on page 1</h2>
+            <p>This page collects 15 articles published between October 9, 2026 and October 29, 2026, about 110 minutes of reading in all.</p>
+            <ul>
+                <li><strong>Longer reads (6 minutes or more)</strong> &mdash; <a href="/articles/five-directors-five-visions-the-signature-styles-of-hollywood-s-defining-filmmakers.html">Five Directors, Five Visions: The Signature Styles of Hollywood's Defining Filmmakers</a> (20 min); <a href="/articles/star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html">Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order</a> (16 min); <a href="/articles/most-anticipated-movies-of-2027.html">Most Anticipated Movies of 2027: Every Major Release to Watch</a> (10 min); <a href="/articles/20-movies-that-were-almost-impossible-to-film.html">20 Movies That Were Almost Impossible to Film</a> (9 min); <a href="/articles/ai-cannot-act.html">AI Cannot Act</a> (13 min); <a href="/articles/love-across-the-event-horizon-a-complete-breakdown-of-the-interstellar-timeline-and-dimensions.html">Love Across the Event Horizon: A Complete Breakdown of the Interstellar Timeline and Dimensions</a> (7 min); <a href="/articles/a-complete-breakdown-of-the-tenet-timeline.html">A Complete Breakdown of the Tenet Timeline</a> (6 min); <a href="/articles/how-imax-engineered-the-ultimate-cinematic-experience.html">How IMAX Engineered the Ultimate Cinematic Experience</a> (6 min)</li>
+                <li><strong>Quick reads (under 6 minutes)</strong> &mdash; <a href="/articles/how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html">How 2026 Became the Breakout Year for Artificial Intelligence in Cinema</a> (3 min); <a href="/articles/the-billion-dollar-club-the-10-highest-grossing-movies-of-all-time.html">The Billion-Dollar Club: The 10 Highest-Grossing Movies of All Time</a> (4 min); <a href="/articles/engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set.html">Engineering the Unsinkable: The Architectural and Mechanical Triumph Behind the Titanic Set</a> (5 min); <a href="/articles/behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html">Behind the Cape: Why DC Struggled to Match Marvel’s Cinematic Empire</a> (3 min); <a href="/articles/how-goldeneye-saved-james-bond.html">How GoldenEye Saved James Bond</a> (4 min); <a href="/articles/round-three-capcom-s-street-fighter-returns-to-big-screens-october-16.html">Round Three: Capcom’s Street Fighter Returns to Big Screens, October 16.</a> (2 min); <a href="/articles/who-is-clayface.html">Who is Clayface?</a> (2 min)</li>
+            </ul>
+            <p>This is page 1 of 3 (articles 1&ndash;15 of 34). Keep reading: <a href="/articles/page/2/">older articles on page 2</a>. All articles follow the standards described on our <a href="/about.html">About page</a>.</p>
+        </section>
     </main>
 
     <footer class="site-footer">
         <div class="footer-links">
-            <a href="/index.html">Home</a>
+            <a href="/">Home</a>
+            <a href="/movies/">Movies</a>
+            <a href="/tv-shows/">TV Shows</a>
             <a href="/news/">News</a>
+            <a href="/articles/">Articles</a>
             <a href="/about.html">About Us</a>
             <a href="mailto:contact@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
@@ -842,56 +607,76 @@
 
     <script>
     (function () {
-        var tiles = [].slice.call(document.querySelectorAll(".tile"));
+        var DIR = "articles", ONE = "article", MANY = "articles", MORE = "Read article", LIMIT = 60;
         var q = document.getElementById("q"), box = document.getElementById("search"), clearBtn = document.getElementById("clear");
-        var count = document.getElementById("count"), empty = document.getElementById("empty");
-        var index = tiles.map(function (t) { return t.textContent.toLowerCase().replace(/\s+/g, " "); });
-        var timer;
+        var count = document.getElementById("count"), empty = document.getElementById("empty"), results = document.getElementById("results");
+        var data = null, loading = null, timer, seq = 0;
+        var ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-        function filter() {
-            var terms = q.value.toLowerCase().split(/\s+/).filter(Boolean), shown = 0;
-            box.classList.toggle("has-text", q.value.length > 0);
-            tiles.forEach(function (t, i) {
-                var ok = terms.every(function (w) { return index[i].indexOf(w) > -1; });
-                var wasHidden = t.hidden;
-                t.hidden = !ok;
-                if (ok) {
-                    if (wasHidden) { t.style.setProperty("--j", shown); t.classList.remove("pop"); void t.offsetWidth; t.classList.add("pop"); }
-                    shown++;
-                }
-            });
-            empty.classList.toggle("show", shown === 0);
-            count.textContent = terms.length ? shown + (shown === 1 ? " article" : " articles") + " found" : "";
+        function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+        function fmt(iso) { var d = new Date(iso + "T00:00:00Z"); return isNaN(d) ? "" : d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }); }
+        function tileHTML(it, i) {
+            return '<a class="tile" href="/' + DIR + '/' + encodeURI(it.f) + '" style="--i:' + Math.min(i, 14) + '">' +
+                '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + '<span class="tile-tag">' + esc(it.tag) + '</span></div>' +
+                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '">' + esc(fmt(it.date)) + '</time>' +
+                '<h2 class="tile-title">' + esc(String(it.title).replace(/\*+/g, "")) + '</h2><p class="tile-excerpt">' + esc(String(it.excerpt).replace(/\*+/g, "")) + '</p>' +
+                '<span class="tile-more">' + MORE + ' ' + ARROW + '</span></div></a>';
         }
-        q.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(filter, 80); });
+        /* every story on the site, or - if the file cannot be fetched - at least the tiles on this page */
+        function load() {
+            if (data) return Promise.resolve(data);
+            if (!loading) loading = fetch("/" + DIR + "/search-index.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(function (j) { data = j.items || []; return data; })
+                .catch(function () {
+                    data = [].slice.call(document.querySelectorAll("#tiles .tile")).map(function (t) {
+                        var im = t.querySelector(".tile-thumb img"), g = function (s) { var e = t.querySelector(s); return e ? e.textContent.trim() : ""; };
+                        return { f: decodeURIComponent(t.getAttribute("href").split("/").pop()), title: g(".tile-title"), excerpt: g(".tile-excerpt"), tag: g(".tile-tag"), date: (t.querySelector("time") || {}).dateTime || "", img: im ? im.getAttribute("src") : "" };
+                    });
+                    return data;
+                });
+            return loading;
+        }
+        function filter() {
+            var raw = q.value, terms = raw.toLowerCase().split(/\s+/).filter(Boolean), my = ++seq;
+            box.classList.toggle("has-text", raw.length > 0);
+            if (!terms.length) {
+                document.body.classList.remove("searching"); results.innerHTML = ""; empty.classList.remove("show"); count.textContent = ""; return;
+            }
+            load().then(function (items) {
+                if (my !== seq) return;
+                var hits = items.filter(function (it) { var s = (it.title + " " + it.excerpt + " " + it.tag).toLowerCase(); return terms.every(function (w) { return s.indexOf(w) > -1; }); });
+                document.body.classList.add("searching");
+                results.innerHTML = hits.slice(0, LIMIT).map(tileHTML).join("");
+                empty.classList.toggle("show", hits.length === 0);
+                count.textContent = hits.length + " " + (hits.length === 1 ? ONE : MANY) + " found" + (hits.length > LIMIT ? " (showing the newest " + LIMIT + " - add a word to narrow it down)" : "");
+            });
+        }
+        q.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(filter, 100); });
+        q.addEventListener("focus", function () { load(); }, { once: true });
         clearBtn.addEventListener("click", function () { q.value = ""; filter(); q.focus(); });
         q.addEventListener("keydown", function (e) { if (e.key === "Escape") { q.value = ""; filter(); } });
-        var preset = new URLSearchParams(location.search).get("q"); if (preset) { q.value = preset; filter(); }
         document.addEventListener("keydown", function (e) {
             if (e.key === "/" && document.activeElement !== q && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); }
         });
 
-        /* click: ripple from the tap point, then fade into the story */
-        tiles.forEach(function (t) {
-            t.addEventListener("click", function (e) {
-                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                e.preventDefault();
-                var r = t.getBoundingClientRect(), d = document.createElement("span");
-                d.className = "ripple";
-                d.style.left = (e.clientX ? e.clientX - r.left : r.width / 2) + "px";
-                d.style.top = (e.clientY ? e.clientY - r.top : r.height / 2) + "px";
-                t.appendChild(d);
-                t.classList.add("go");
-                document.body.classList.add("leaving");
-                var href = t.href;
-                setTimeout(function () { location.href = href; }, 280);
-            });
+        /* click: ripple from the tap point, then fade into the page (works for page tiles and search results) */
+        document.addEventListener("click", function (e) {
+            var t = e.target.closest && e.target.closest("a.tile");
+            if (!t || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            e.preventDefault();
+            var r = t.getBoundingClientRect(), d = document.createElement("span");
+            d.className = "ripple";
+            d.style.left = (e.clientX ? e.clientX - r.left : r.width / 2) + "px";
+            d.style.top = (e.clientY ? e.clientY - r.top : r.height / 2) + "px";
+            t.appendChild(d); t.classList.add("go"); document.body.classList.add("leaving");
+            var href = t.href;
+            setTimeout(function () { location.href = href; }, 280);
         });
         /* coming back with the browser Back button: undo the exit animation */
         window.addEventListener("pageshow", function (e) {
             if (e.persisted) {
                 document.body.classList.remove("leaving");
-                tiles.forEach(function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
+                [].forEach.call(document.querySelectorAll(".tile"), function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
             }
         });
     })();

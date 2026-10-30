@@ -1,0 +1,312 @@
+{
+ "generated": "build-listings.js - do not edit by hand",
+ "perPage": 15,
+ "items": [
+  {
+   "f": "five-directors-five-visions-the-signature-styles-of-hollywood-s-defining-filmmakers.html",
+   "title": "Five Directors, Five Visions: The Signature Styles of Hollywood's Defining Filmmakers",
+   "excerpt": "The signature styles of five defining modern filmmakers.",
+   "date": "2026-10-29",
+   "tag": "Article",
+   "img": "/articleassets/Legendary-Directors.jpg",
+   "words": 4364
+  },
+  {
+   "f": "star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html",
+   "title": "Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order",
+   "excerpt": "A comprehensive chronological guide explaining every *Star Wars* movie and TV series from the High Republic era through the sequel trilogy.",
+   "date": "2026-10-26",
+   "tag": "Article",
+   "img": "https://image.tmdb.org/t/p/original/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg",
+   "words": 3559
+  },
+  {
+   "f": "most-anticipated-movies-of-2027.html",
+   "title": "Most Anticipated Movies of 2027: Every Major Release to Watch",
+   "excerpt": "From Avengers: Secret Wars and The Hunt for Gollum to Narnia, Zelda and Spider-Verse, here is every major movie coming in 2027 and the dates to mark.",
+   "date": "2026-10-24",
+   "tag": "Article",
+   "img": "/articleassets/most-anticipated-movies-of-2027.jpg",
+   "words": 2136
+  },
+  {
+   "f": "20-movies-that-were-almost-impossible-to-film.html",
+   "title": "20 Movies That Were Almost Impossible to Film",
+   "excerpt": "From a twelve-year shoot to a steamship hauled over a mountain, these 20 films pushed filmmaking past what everyone said could be done.",
+   "date": "2026-10-22",
+   "tag": "Article",
+   "img": "/articleassets/20movies.jpg",
+   "words": 1940
+  },
+  {
+   "f": "ai-cannot-act.html",
+   "title": "AI Cannot Act",
+   "excerpt": "A photorealistic “AI actress” had Hollywood’s agents curious and its actors furious. The debate is usually framed as a question of technology. It is really a question of what acting is.",
+   "date": "2026-10-20",
+   "tag": "Article",
+   "img": "https://everymovieplug.com/articleassets/ai-cannot-act.jpg",
+   "words": 2912
+  },
+  {
+   "f": "how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html",
+   "title": "How 2026 Became the Breakout Year for Artificial Intelligence in Cinema",
+   "excerpt": "This article explores how 2026 became a breakthrough year for artificial intelligence in cinema, transforming everything from real-time set design and voice synthesis to micro-budget independent…",
+   "date": "2026-10-18",
+   "tag": "Article",
+   "img": "https://image.tmdb.org/t/p/original/24AmQwURM0UCTsRlBcvZLkbi5mi.jpg",
+   "words": 704
+  },
+  {
+   "f": "the-billion-dollar-club-the-10-highest-grossing-movies-of-all-time.html",
+   "title": "The Billion-Dollar Club: The 10 Highest-Grossing Movies of All Time",
+   "excerpt": "A breakdown of the record-breaking blockbusters that dominated the global box office and made cinematic history.",
+   "date": "2026-10-17",
+   "tag": "Article",
+   "img": "/articleassets/EVERYMOVIEPLUG Top10 Highest Grossing.jpg",
+   "words": 962
+  },
+  {
+   "f": "love-across-the-event-horizon-a-complete-breakdown-of-the-interstellar-timeline-and-dimensions.html",
+   "title": "Love Across the Event Horizon: A Complete Breakdown of the Interstellar Timeline and Dimensions",
+   "excerpt": "A complete breakdown of Christopher Nolan’s Interstellar, exploring the science of gravitational time dilation, the mechanics of the fifth-dimensional Tesseract, and how love transcends space-time.",
+   "date": "2026-10-15",
+   "tag": "Article",
+   "img": "/articleassets/interstellar-full.jpg",
+   "words": 1487
+  },
+  {
+   "f": "a-complete-breakdown-of-the-tenet-timeline.html",
+   "title": "A Complete Breakdown of the Tenet Timeline",
+   "excerpt": "Unscrambling the mechanics, turnstiles, and loops of cinema’s most complex puzzle.",
+   "date": "2026-10-15",
+   "tag": "Article",
+   "img": "/articleassets/tenet-breakdown-full.jpg",
+   "words": 1311
+  },
+  {
+   "f": "engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set.html",
+   "title": "Engineering the Unsinkable: The Architectural and Mechanical Triumph Behind the Titanic Set",
+   "excerpt": "How James Cameron and his production team built a massive, 90% scale replica of the Titanic.",
+   "date": "2026-10-12",
+   "tag": "Article",
+   "img": "https://image.tmdb.org/t/p/original/5bTWA20cL9LCIGNpde4Epc2Ijzn.jpg",
+   "words": 995
+  },
+  {
+   "f": "behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html",
+   "title": "Behind the Cape: Why DC Struggled to Match Marvel’s Cinematic Empire",
+   "excerpt": "Rushed timelines, corporate intervention, and a grim tone caused DC to stumble where Marvel's patience and unified strategy succeeded.",
+   "date": "2026-10-11",
+   "tag": "Article",
+   "img": "/articleassets/marveldc-full.jpg",
+   "words": 696
+  },
+  {
+   "f": "how-imax-engineered-the-ultimate-cinematic-experience.html",
+   "title": "How IMAX Engineered the Ultimate Cinematic Experience",
+   "excerpt": "How 70mm film, custom geometry, and precision sound transformed moviegoing into an immersive phenomenon.",
+   "date": "2026-10-11",
+   "tag": "Article",
+   "img": "/articleassets/imax1.jpg",
+   "words": 1358
+  },
+  {
+   "f": "how-goldeneye-saved-james-bond.html",
+   "title": "How GoldenEye Saved James Bond",
+   "excerpt": "How Pierce Brosnan’s 1995 debut modernized 007, shattered box office records, and proved James Bond wasn't a relic of the past.",
+   "date": "2026-10-10",
+   "tag": "Article",
+   "img": "/articleassets/goldeneye007.jpg",
+   "words": 895
+  },
+  {
+   "f": "round-three-capcom-s-street-fighter-returns-to-big-screens-october-16.html",
+   "title": "Round Three: Capcom’s Street Fighter Returns to Big Screens, October 16.",
+   "excerpt": "Paramount and Legendary team up for a 1993-set martial arts spectacle boasting an all-star cast and arcade nostalgia.",
+   "date": "2026-10-09",
+   "tag": "Article",
+   "img": "/articleassets/streetfightermovie-full.jpg",
+   "words": 391
+  },
+  {
+   "f": "who-is-clayface.html",
+   "title": "Who is Clayface?",
+   "excerpt": "From washed-up actor to monstrous shape-shifter, trace the tragic history and evolving identity of Gotham’s most malleable villain.",
+   "date": "2026-10-09",
+   "tag": "Article",
+   "img": "/articleassets/clayfaceanimation.jpg",
+   "words": 500
+  },
+  {
+   "f": "sebastian-stan-teases-high-stakes-in-avengers-doomsday.html",
+   "title": "\"It’s Going to Be Heartbreaking\": Sebastian Stan Teases High Stakes in Avengers: Doomsday",
+   "excerpt": "Sebastian Stan warns fans of emotional devastation.",
+   "date": "2026-10-08",
+   "tag": "Article",
+   "img": "/articleassets/sebastian-stan-civil-war.jpg",
+   "words": 686
+  },
+  {
+   "f": "movies-where-the-villain-wins.html",
+   "title": "10 Iconic Hollywood Movies Where the Villain Wins",
+   "excerpt": "From Se7en to Gone Girl, ten classic Hollywood films where evil walks away victorious. Spoilers ahead.",
+   "date": "2026-10-08",
+   "tag": "Article",
+   "img": "/articleassets/movies-where-the-villain-wins-full.jpg",
+   "words": 1052
+  },
+  {
+   "f": "clayface-dc-body-horror.html",
+   "title": "Clayface: How DC Is Using Body Horror to Reshape the Comic Book Movie",
+   "excerpt": "DC Studios' R-rated Clayface hits theaters October 23, 2026. Here is why DC is going for body horror, how the film connects to the comics, and when it opens.",
+   "date": "2026-10-08",
+   "tag": "Article",
+   "img": "/articleassets/clayface-full.jpg",
+   "words": 633
+  },
+  {
+   "f": "spider-man-brand-new-day-ai-controversy.html",
+   "title": "Spider-Man: Brand New Day and the AI Art Book Controversy, Explained",
+   "excerpt": "Fans flagged one concept image in the Spider-Man: Brand New Day art book as possible AI. Here is what is known, what is disputed, and what Marvel has said.",
+   "date": "2026-10-08",
+   "tag": "Article",
+   "img": "/articleassets/spider-man-brand-new-day-full.jpg",
+   "words": 608
+  },
+  {
+   "f": "harry-potter-film-series-legacy.html",
+   "title": "The Harry Potter Films Changed Hollywood, and We Still Haven't Left Hogwarts",
+   "excerpt": "How the eight Harry Potter films starring Daniel Radcliffe became a box-office giant, changed how franchises are built, and still resonate with audiences today.",
+   "date": "2026-10-07",
+   "tag": "Article",
+   "img": "/articleassets/harry-potter-films-full.jpg",
+   "words": 648
+  },
+  {
+   "f": "harry-potter-tv-series-2026.html",
+   "title": "Harry Potter Is Starting Over, and the Franchise Is Betting Big",
+   "excerpt": "How the Harry Potter franchise grew, stumbled, and is now rebooting as an HBO series.",
+   "date": "2026-10-07",
+   "tag": "Article",
+   "img": "/articleassets/harry-potter-full.jpg",
+   "words": 586
+  },
+  {
+   "f": "Tom-Cruise-Digger.html",
+   "title": "Why Tom Cruise’s Bold Swing in ‘Digger’ Is the Feat Modern Cinema Needed.",
+   "excerpt": "Beyond the Numbers",
+   "date": "2026-10-07",
+   "tag": "Article",
+   "img": "/articleassets/tom-cruise-digger-full.jpg",
+   "words": 525
+  },
+  {
+   "f": "sicario-3.html",
+   "title": "Emily Blunt, Benicio del Toro, and Josh Brolin are reuniting for 'Sicario 3'.",
+   "excerpt": "",
+   "date": "2026-10-06",
+   "tag": "Article",
+   "img": "/articleassets/sicario-full.jpg",
+   "words": 912
+  },
+  {
+   "f": "avengers-endgame-retakes-box-office-crown.html",
+   "title": "Avengers: Endgame Retakes the Box-Office Crown From Avatar",
+   "excerpt": "A new extended re-release has put Marvel's finale back on top of the all-time chart, by a razor-thin margin",
+   "date": "2026-10-05",
+   "tag": "Article",
+   "img": "/articleassets/avengers-endgame-full.jpg",
+   "words": 379
+  },
+  {
+   "f": "undercover-brother.html",
+   "title": "Where Did Movies Like Undercover Brother Go?",
+   "excerpt": "The mid-budget comedy is an endangered species",
+   "date": "2026-10-05",
+   "tag": "Article",
+   "img": "/articleassets/undercover-brother-full.jpg",
+   "words": 847
+  },
+  {
+   "f": "fast-forever.html",
+   "title": "Back to the Asphalt: Everything We Know About Fast Forever and the Future of the Franchise",
+   "excerpt": "The final mainline Fast & Furious film is heading back to street racing, Los Angeles, and car culture.",
+   "date": "2026-10-04",
+   "tag": "Article",
+   "img": "/articleassets/fast-forever-full.jpg",
+   "words": 642
+  },
+  {
+   "f": "apocalypto-2006.html",
+   "title": "How Mel Gibson made a Maya-language chase film on a studio budget",
+   "excerpt": "Apocalypto: From The Passion to the Jungle",
+   "date": "2026-10-04",
+   "tag": "Article",
+   "img": "/articleassets/apocalypto2006.jpg",
+   "words": 862
+  },
+  {
+   "f": "no-stars-no-problem.html",
+   "title": "No Stars, No Problem: The Great Films That Succeeded Without a Famous Face | Every Movie Plug",
+   "excerpt": "From Apocalypto to Parasite, a look at the great films that succeeded with no major stars.",
+   "date": "2026-10-04",
+   "tag": "Article",
+   "img": "/articleassets/no-stars-no-problem-full.jpg",
+   "words": 1106
+  },
+  {
+   "f": "anatomy-of-a-great-movie-twist.html",
+   "title": "The Anatomy of a Great Movie Twist",
+   "excerpt": "What separates a satisfying twist from a cheap trick, from Se7en to Oldboy.",
+   "date": "2026-10-03",
+   "tag": "Article",
+   "img": "/articleassets/movietwist.jpg",
+   "words": 396
+  },
+  {
+   "f": "inception-dream-logic-explained.html",
+   "title": "Inception's Dream Logic, Explained",
+   "excerpt": "A clear guide to the layers, kicks, and totems, and what the ending is really for.",
+   "date": "2026-10-03",
+   "tag": "Article",
+   "img": "/articleassets/inception.jpg",
+   "words": 436
+  },
+  {
+   "f": "denis-villeneuve-tension-sound-design.html",
+   "title": "How Denis Villeneuve Builds Tension With Scale and Sound",
+   "excerpt": "Scale, silence, and sound: the tools behind the tension in Sicario, Arrival, and Dune.",
+   "date": "2026-10-03",
+   "tag": "Article",
+   "img": "/articleassets/dennis.jpg",
+   "words": 424
+  },
+  {
+   "f": "coherence-single-location-thrillers.html",
+   "title": "Coherence and the Rise of the Single-Location Thriller",
+   "excerpt": "How one house and one night turn a low-budget indie into a mind-bending thriller.",
+   "date": "2026-10-03",
+   "tag": "Article",
+   "img": "/articleassets/coherence.jpg",
+   "words": 472
+  },
+  {
+   "f": "spider-man-brand-new-day.html",
+   "title": "The Renaissance of the Web-Slinger",
+   "excerpt": "How 'Spider-Man: Brand New Day' Rewrote Box Office History",
+   "date": "2026-09-20",
+   "tag": "Article",
+   "img": "https://image.tmdb.org/t/p/original/2Tw4Me7P8wYNb1E0zsmm0DsHOhZ.jpg?w=300&auto=format&fit=crop&q=80",
+   "words": 823
+  },
+  {
+   "f": "zendaya-tom-holland-story.html",
+   "title": "The Love Story of Tom Holland and Zendaya.",
+   "excerpt": "From child prodigies to Hollywood royalty.",
+   "date": "2026-09-20",
+   "tag": "Article",
+   "img": "/articleassets/zen%20tom.jpg",
+   "words": 1249
+  }
+ ]
+}
