@@ -19,13 +19,13 @@ const AUTHOR = {
   name: "Maccarthy Albin",
   email: "maccarthy@everymovieplug.com",
   page: "/author/maccarthy-albin.html",
+  image: "/author/Maccarthy-Albin.jpg",
   bio: "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
 };
-const initials = AUTHOR.name.split(/\s+/).map(w => w[0]).join("").toUpperCase();
 
 const byline = `<p class="article-byline">By <a href="${AUTHOR.page}" rel="author">${AUTHOR.name}</a></p>`;
 const box = `    <aside class="author-box" aria-label="About the author">
-        <div class="author-avatar" aria-hidden="true">${initials}</div>
+        <img class="author-avatar" src="${AUTHOR.image}" alt="${AUTHOR.name}" width="56" height="56" loading="lazy">
         <div class="author-info">
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="${AUTHOR.page}" rel="author">${AUTHOR.name}</a></p>
