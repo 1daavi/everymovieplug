@@ -339,6 +339,44 @@
       .fx-meta .fx-sep { display:none; }
       .fx-nav { right:0; left:0; bottom:16px; justify-content:center; }
     }
+
+    /* ===== Trending genre bubbles ===== */
+    @property --p { syntax:"<number>"; inherits:false; initial-value:0; }
+    .gx-stage { position:relative; height:clamp(440px,48vw,560px); border-radius:28px; overflow:hidden; touch-action:pan-y; background:radial-gradient(circle at 50% 40%,rgba(99,102,241,.12),transparent 70%),var(--glass-card-bg); }
+    .gx-load { position:absolute; inset:0; display:grid; place-items:center; color:var(--text-secondary); font-size:.85rem; }
+    .gx-crumbs { display:flex; flex-wrap:wrap; align-items:center; gap:.45rem; min-height:2.3rem; margin-bottom:.7rem; font-size:.78rem; color:var(--text-secondary); }
+    .gx-crumbs > * { animation:rise .5s var(--ease-out) backwards; }
+    .gx-tip { display:inline-flex; align-items:center; gap:.5rem; } .gx-tip i { width:7px; height:7px; border-radius:50%; background:var(--purple-accent); animation:pulse 2s infinite; flex:none; }
+    .bub { position:absolute; left:0; top:0; width:0; height:0; transition:opacity .7s var(--ease-out); }
+    .b-body { -webkit-appearance:none; appearance:none; position:absolute; left:0; top:0; width:200px; height:200px; margin:-100px 0 0 -100px; padding:0; border-radius:50%; cursor:pointer; border:3px solid hsla(var(--h),90%,82%,.35);
+      background:radial-gradient(circle at 32% 26%,hsla(var(--h),95%,82%,.55),hsla(var(--h),85%,60%,.28) 38%,hsla(var(--h),80%,40%,.2) 70%,hsla(var(--h),80%,25%,.45));
+      box-shadow:inset 0 -14px 34px hsla(var(--h),90%,70%,.25),0 0 46px hsla(var(--h),90%,60%,.28); transition:box-shadow .6s var(--ease-out),border-color .6s,filter .6s; }
+    .b-body::after { content:""; position:absolute; left:17%; top:9%; width:48%; height:27%; border-radius:50%; background:linear-gradient(180deg,rgba(255,255,255,.55),transparent); opacity:.5; transform:rotate(-24deg); pointer-events:none; }
+    .b-body:focus-visible { outline:4px solid #c4b5fd; outline-offset:5px; }
+    .bub.sel .b-body { border-color:hsla(var(--h),95%,85%,.7); box-shadow:inset 0 -18px 44px hsla(var(--h),90%,70%,.35),0 0 90px hsla(var(--h),95%,62%,.5); }
+    .bub.dim .b-body { filter:saturate(.4); }
+    .bub.picked .b-body { border-color:#fff; animation:gx-glow 1.8s ease-in-out infinite alternate; }
+    @keyframes gx-glow { from { box-shadow:inset 0 -14px 34px hsla(var(--h),90%,70%,.4),0 0 0 4px hsla(var(--h),90%,75%,.2),0 0 40px hsla(var(--h),95%,65%,.45); } to { box-shadow:inset 0 -14px 34px hsla(var(--h),90%,70%,.4),0 0 0 9px hsla(var(--h),90%,75%,.1),0 0 90px hsla(var(--h),95%,65%,.8); } }
+    .b-lab { position:absolute; left:0; top:0; transform:translate(-50%,-50%); text-align:center; pointer-events:none; color:#fff; line-height:1.15; white-space:nowrap; text-shadow:0 1px 12px rgba(0,0,0,.55); opacity:0; }
+    .b-lab i { display:block; font-style:normal; font-size:1.7em; margin-bottom:.1em; } .b-lab b { font-weight:700; letter-spacing:-.01em; } .b-lab small { display:block; font-size:.7em; opacity:.8; margin-top:.15em; }
+    .gx-res { display:grid; grid-template-rows:0fr; opacity:0; margin-top:0; transition:grid-template-rows .85s var(--ease-out),opacity .6s ease,margin-top .85s var(--ease-out); }
+    .gx-res.open { grid-template-rows:1fr; opacity:1; margin-top:1.5rem; }
+    .gx-res-in { overflow:hidden; min-height:0; }
+    .gx-h { font-size:1.15rem; font-weight:700; letter-spacing:-.02em; } .gx-h em { font-style:normal; color:var(--text-secondary); margin:0 .15rem; }
+    .gx-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:1rem; padding:8px 2px 6px; }
+    .gx-card { display:flex; flex-direction:column; border-radius:20px; overflow:hidden; text-decoration:none; color:inherit; position:relative; animation:gx-in .75s var(--ease-out) backwards; animation-delay:calc(var(--i)*55ms); transition:transform .4s var(--ease-out),border-color .3s,box-shadow .4s; }
+    .gx-card.out { animation:gx-out .22s ease forwards; animation-delay:0s; }
+    @keyframes gx-in { from { opacity:0; transform:translateY(28px) scale(.93); filter:blur(6px); } }
+    @keyframes gx-out { to { opacity:0; transform:scale(.95); } }
+    .gx-rate { position:absolute; left:.55rem; top:.55rem; z-index:2; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-size:.72rem; font-weight:800; background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.18) 0); animation:gx-ring 1.2s var(--ease-out) backwards; animation-delay:calc(var(--i)*55ms + .3s); }
+    .gx-rate::before { content:""; position:absolute; inset:3px; border-radius:50%; background:rgba(8,8,14,.9); } .gx-rate b { position:relative; }
+    @keyframes gx-ring { from { --p:0; transform:scale(.4); opacity:0; } }
+    .gx-type { position:absolute; right:.55rem; top:.55rem; z-index:2; padding:.2rem .55rem; border-radius:9999px; font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; background:rgba(0,0,0,.65); border:1px solid rgba(255,255,255,.18); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+    .gx-pills { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.45rem; }
+    .gx-pill { padding:.18rem .55rem; border-radius:9999px; font-size:.66rem; font-weight:600; color:#c4b5fd; background:rgba(168,85,247,.14); border:1px solid rgba(168,85,247,.28); transition:transform .4s var(--ease-out); }
+    .gx-card:active { transform:scale(.96); transition-duration:.12s; }
+    @media (hover:hover) { .gx-card:hover { transform:translateY(-5px); border-color:rgba(168,85,247,.5); box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(139,92,246,.2); } .gx-card:hover img { transform:scale(1.06); } .gx-card:hover .gx-pill { transform:translateY(-2px) scale(1.07); } }
+    @media (max-width:640px) { .gx-grid { grid-template-columns:repeat(2,1fr); gap:.75rem; } }
   </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
@@ -468,6 +506,13 @@
         <a class="chip" href="https://everymovieplug.com/trending?mood=epic">⚔️ Epic adventure</a>
         <a class="chip" href="https://everymovieplug.com/trending?mood=spooky">👻 Spooky</a>
       </div>
+    </section>
+
+    <section class="gx" id="gx" aria-label="Trending genres">
+      <div class="sec-head"><div><h2>What’s trending by genre</h2><small id="gxSub">Live from TMDB · bubble size shows how hot each genre is this week</small></div></div>
+      <div class="gx-crumbs" id="gxCrumbs" aria-live="polite"></div>
+      <div class="gx-stage glass" id="gxStage" role="group" aria-label="Trending genre bubbles"><div class="gx-load">Loading trending genres…</div></div>
+      <div class="gx-res" id="gxRes"><div class="gx-res-in"><div class="sec-head" id="gxHead"></div><div class="gx-grid" id="gxGrid"></div></div></div>
     </section>
 
     <section class="about" aria-label="About Every Movie Plug">
@@ -931,7 +976,7 @@ function setHash(type, id, title, fromHash) {
     }
     let tt; function showToast(m) { const el = $("toast"); el.textContent = m; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2200); }
     document.addEventListener("pointerdown", e => {
-      const h = e.target.closest(".chip, .mcard, .post-card, .more, .stat"); if (!h) return;
+      const h = e.target.closest(".chip, .mcard, .gx-card, .post-card, .more, .stat"); if (!h) return;
       if (navigator.vibrate) navigator.vibrate(8);
       h.classList.add("ripple-host");
       let l = h.querySelector(":scope > .ripple-layer");
@@ -1044,6 +1089,182 @@ function setHash(type, id, title, fromHash) {
       if (feat && window.MutationObserver) new MutationObserver(function () { var h = feat.hidden; root.style.display = h ? "none" : ""; if (h) pause(); else resume(); }).observe(feat, { attributes: true, attributeFilter: ["hidden"] });
 
       init();
+    })();
+  </script>
+  <script>
+    /* ===== Trending genre bubbles: genre -> connected sub-genres -> recommended titles ===== */
+    (function () {
+      var st = $("gxStage"); if (!st) return;
+      var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // name, emoji, hue, TMDB movie genre ids, TMDB TV genre ids
+      var G = [["Action","💥",262,[28],[10759]],["Adventure","🧭",200,[12],[10759]],["Animation","🎨",320,[16],[16]],["Comedy","😂",45,[35],[35]],["Crime","🕵️",350,[80],[80]],["Documentary","🎥",170,[99],[99]],["Drama","🎭",285,[18],[18]],["Family","👨‍👩‍👧",150,[10751],[10751]],["Fantasy","🐉",300,[14],[10765]],["History","📜",30,[36],[]],["Horror","👻",0,[27],[]],["Music","🎵",330,[10402],[]],["Mystery","🔍",225,[9648],[9648]],["Romance","💕",340,[10749],[]],["Sci-Fi","🚀",215,[878],[10765]],["Thriller","⚡",250,[53],[]],["War","⚔️",15,[10752],[10768]],["Western","🤠",38,[37],[37]]];
+      var MM = {}, TM = {}, n = G.length, WT = Array(n).fill(0), N = Array(n).fill(0);
+      var C = G.map(function () { return Array(n).fill(0); }), P = G.map(function () { return Array(n).fill(0); });
+      G.forEach(function (g, i) { g[3].forEach(function (d) { (MM[d] = MM[d] || []).push(i); }); g[4].forEach(function (d) { (TM[d] = TM[d] || []).push(i); }); });
+      var B = [], S = { m: null, s: null }, w = 0, h = 0, vis = false, raf = 0, last = 0, started = false, fb = false;
+
+      async function load() {
+        try {
+          var rs = await Promise.all(["movie", "tv"].flatMap(function (t) { return [1, 2, 3].map(function (p) {
+            return tmdb("/trending/" + t + "/week", { page: p, language: "en-US" }).then(function (r) { return (r.results || []).map(function (x, k) { return { t: t, k: k + (p - 1) * 20, g: x.genre_ids || [] }; }); }).catch(function () { return []; }); }); }));
+          var all = rs.flat(); if (all.length < 20) throw 0;
+          all.forEach(function (x) {
+            var ids = [...new Set(x.g.flatMap(function (d) { return (x.t === "tv" ? TM : MM)[d] || []; }))], wt = .6 + .4 * (1 - x.k / 60);
+            ids.forEach(function (a) { WT[a] += wt; N[a]++; ids.forEach(function (b) { if (a !== b) { C[a][b] += wt; P[a][b]++; } }); });
+          });
+        } catch (e) {   // live data unavailable: sample numbers so the chart still works
+          fb = true;
+          G.forEach(function (g, a) { WT[a] = 3 + (a * 7) % 11; N[a] = Math.round(WT[a] * 2); });
+          G.forEach(function (g, a) { G.forEach(function (q, b) { if (a !== b) { var k = (g[0].length + q[0].length + g[2] + q[2]) % 5; C[a][b] = k > 1 ? Math.sqrt(WT[a] * WT[b]) * k / 10 : 0; P[a][b] = Math.round(C[a][b] * 2); } }); });
+          $("gxSub").textContent = "Showing sample data · live TMDB data is unavailable right now";
+        }
+      }
+
+      function build() {
+        st.innerHTML = ""; w = st.clientWidth; h = st.clientHeight;
+        var max = innerWidth < 640 ? 12 : 18;
+        B = G.map(function (g, i) { return i; }).filter(function (i) { return WT[i] > 0; }).sort(function (a, b) { return WT[b] - WT[a]; }).slice(0, max).map(function (i) {
+          var g = G[i], el = document.createElement("div"); el.className = "bub"; el.style.setProperty("--h", g[2]);
+          el.innerHTML = '<button type="button" class="b-body"></button><div class="b-lab"><i>' + g[1] + '</i><b>' + g[0] + '</b><small></small></div>';
+          st.appendChild(el);
+          var b = { i: i, el: el, body: el.firstChild, lab: el.lastChild, x: w / 2 + (Math.random() - .5) * w * .3, y: h / 2 + (Math.random() - .5) * h * .3, vx: 0, vy: 0, r: 0, vr: 0, tr: 0, t0: Infinity, p: Math.random() * 6.28, f: .7 + Math.random() * .6, hov: 0, fs: 0, k: -1, m: 0 };
+          b.body.onpointerenter = function () { b.hov = 1; }; b.body.onpointerleave = function () { b.hov = 0; }; b.body.onclick = function () { click(b); };
+          return b;
+        });
+        plan(); labels(); crumbs();
+      }
+
+      /* Work out each bubble's target size (and where it should orbit / rest) for the current selection */
+      function plan() {
+        w = st.clientWidth; h = st.clientHeight; var m = Math.min(w, h), a = S.m;
+        if (a == null) {
+          var mx = Math.max.apply(null, B.map(function (b) { return WT[b.i]; })), raw = B.map(function (b) { return .45 + .55 * Math.sqrt(WT[b.i] / mx); });
+          var ar = raw.reduce(function (s, v) { return s + v * v; }, 0) * Math.PI, sc = Math.min(Math.sqrt(.36 * w * h / ar), m * .2);
+          B.forEach(function (b, k) { b.m = 0; b.tr = raw[k] * sc; b.op = 1; });
+          return;
+        }
+        var rs = Math.min(h * .2, w * .19), cs = B.filter(function (b) { return b.i !== a && C[a][b.i] > 0; }).sort(function (x, y) { return C[a][y.i] - C[a][x.i]; });
+        var mx2 = cs.length ? C[a][cs[0].i] : 1, n1 = Math.min(6, cs.length), n2 = cs.length - n1;
+        B.forEach(function (b, k) {
+          if (b.i === a) { b.m = 1; b.tr = rs; b.op = 1; }
+          else if (C[a][b.i] > 0) { b.m = 2; b.tr = rs * (.3 + .34 * Math.sqrt(C[a][b.i] / mx2)); b.op = 1; }
+          else { b.m = 3; b.tr = rs * .14; b.op = .22; var an = k * 2.4; b.hx = w / 2 + Math.cos(an) * (w / 2 - 14 - b.tr); b.hy = h / 2 + Math.sin(an) * (h / 2 - 14 - b.tr); }
+        });
+        var r1 = Math.max.apply(null, cs.slice(0, n1).map(function (b) { return b.tr; }).concat(0));
+        cs.forEach(function (b, k) { var o = k >= n1, c = o ? n2 : n1, j = o ? k - n1 : k; b.o = o; b.a0 = 6.283 * j / c + (o ? 3.14 / c : 0) - 1.57; b.d = o ? rs + 2 * r1 + b.tr + 34 : rs + b.tr + 14; });
+      }
+      function labels() {
+        B.forEach(function (b) {
+          var t = b.m === 3 ? "" : b.m === 2 ? P[S.m][b.i] + " shared" : N[b.i] + " trending";
+          b.lab.lastChild.textContent = t; b.body.title = G[b.i][0]; b.body.setAttribute("aria-label", G[b.i][0] + (t ? ", " + t : ""));
+          b.el.classList.toggle("sel", b.m === 1); b.el.classList.toggle("dim", b.m === 3); b.el.classList.toggle("picked", b.i === S.s); b.el.style.opacity = b.op;
+        });
+      }
+      function crumbs() {
+        var a = S.m, s = S.s, g = function (i) { return G[i][1] + " " + G[i][0]; };
+        $("gxCrumbs").innerHTML = a == null ? '<span class="gx-tip"><i></i>Tap a genre bubble to reveal the sub-genres connected to it</span>'
+          : '<button class="chip" data-k="0">✕ All genres</button><span>›</span><button class="chip' + (s == null ? " on" : "") + '" data-k="1">' + g(a) + '</button>' +
+            (s != null ? '<span>›</span><button class="chip on" data-k="2">' + g(s) + '</button>' : '<span class="gx-tip">Bubble size = how often it appears with ' + G[a][0] + '. Tap one for picks.</span>');
+      }
+      $("gxCrumbs").onclick = function (e) {
+        var k = e.target.closest("[data-k]"); k = k && k.dataset.k; if (k == null || k === "2") return;
+        if (k === "0") S = { m: null, s: null }; else S.s = null;
+        closeRes(); plan(); labels(); crumbs();
+      };
+      function click(b) {
+        var a = S.m, i = b.i;
+        if (a == null || (i !== a && !(C[a][i] > 0))) { S = { m: i, s: null }; closeRes(); }
+        else if (i === a) { if (S.s != null) { S.s = null; closeRes(); } else S = { m: null, s: null }; }
+        else { S.s = i; openRes(a, i); }
+        plan(); labels(); crumbs();
+      }
+
+      /* ---- Physics: spring-sized, softly colliding, always drifting ---- */
+      function tick(now) {
+        raf = requestAnimationFrame(tick);
+        var dt = Math.min(34, now - last || 16); last = now;
+        var cx = w / 2, cy = h / 2, mo = reduce ? 0 : 1;
+        B.forEach(function (b) {
+          var tr = now < b.t0 ? 0 : b.tr * (b.hov && b.m !== 3 ? 1.07 : 1);
+          b.vr += (4.9e-5 * (tr - b.r) - .0098 * b.vr) * dt; b.r = Math.max(0, b.r + b.vr * dt);
+          var wn = (b.m === 1 ? .35 : 1) * mo * 5e-5, ax = Math.sin(now * 3.1e-4 * b.f + b.p) * wn, ay = Math.cos(now * 2.7e-4 * b.f + b.p * 1.7) * wn, drag = .0015;
+          if (b.m === 0) { ax += (cx - b.x) * 6e-7; ay += (cy - b.y) * 6e-7; }
+          else {
+            drag = .004; var tx = cx, ty = cy;
+            if (b.m === 2) { var th = b.a0 + now * (b.o ? -1.1e-4 : 1.8e-4) * mo, ex = Math.min(b.d * 1.5, w / 2 - b.tr - 8), ey = Math.min(b.d, h / 2 - b.tr - 8); tx = cx + Math.cos(th) * ex; ty = cy + Math.sin(th) * ey; }
+            else if (b.m === 3) { tx = b.hx; ty = b.hy; }
+            var k = b.m === 3 ? 1.5e-6 : 6e-6; ax += (tx - b.x) * k; ay += (ty - b.y) * k;
+          }
+          if (b.hov) drag = .012;
+          var f = Math.exp(-drag * dt); b.vx = (b.vx + ax * dt) * f; b.vy = (b.vy + ay * dt) * f;
+          b.x += b.vx * dt; b.y += b.vy * dt;
+        });
+        for (var i = 0; i < B.length; i++) for (var j = i + 1; j < B.length; j++) {
+          var p = B[i], q = B[j], dx = q.x - p.x, dy = q.y - p.y, d = Math.hypot(dx, dy) || .01, min = p.r + q.r + 4;
+          if (d >= min || min < 9) continue;
+          var nx = dx / d, ny = dy / d, mi = p.r * p.r + 1, mj = q.r * q.r + 1, tot = mi + mj, ov = (min - d) * .5;
+          p.x -= nx * ov * mj / tot; p.y -= ny * ov * mj / tot; q.x += nx * ov * mi / tot; q.y += ny * ov * mi / tot;
+          var vn = (q.vx - p.vx) * nx + (q.vy - p.vy) * ny;
+          if (vn < 0) { var im = -1.5 * vn / (1 / mi + 1 / mj); p.vx -= nx * im / mi; p.vy -= ny * im / mi; q.vx += nx * im / mj; q.vy += ny * im / mj; }
+        }
+        B.forEach(function (b) {
+          var r = b.r + 4;
+          if (b.x < r) { b.x = r; b.vx = Math.abs(b.vx) * .6; } else if (b.x > w - r) { b.x = w - r; b.vx = -Math.abs(b.vx) * .6; }
+          if (b.y < r) { b.y = r; b.vy = Math.abs(b.vy) * .6; } else if (b.y > h - r) { b.y = h - r; b.vy = -Math.abs(b.vy) * .6; }
+          b.el.style.transform = "translate3d(" + b.x.toFixed(2) + "px," + b.y.toFixed(2) + "px,0)"; b.el.style.zIndex = b.hov ? 5 : 1;
+          b.body.style.transform = "scale(" + (b.r / 100).toFixed(4) + ")";
+          var key = Math.round(b.r / 1.5);
+          if (key !== b.k) {
+            b.k = key; var fs = Math.max(10.5, Math.min(17, b.r * .2)), c = b.lab.children;
+            b.lab.style.fontSize = fs + "px"; b.lab.style.opacity = b.r < 30 ? 0 : Math.min(1, (b.r - 30) / 14);
+            c[0].style.display = b.r >= 42 ? "" : "none"; c[2].style.display = b.r >= 58 ? "" : "none";
+          }
+        });
+      }
+      function run() {
+        if (!B.length || !vis || document.hidden || raf) return;
+        if (!started) { started = true; var t = performance.now(); B.forEach(function (b, k) { b.t0 = t + k * 70; }); }
+        last = 0; raf = requestAnimationFrame(tick);
+      }
+      function halt() { cancelAnimationFrame(raf); raf = 0; }
+      new IntersectionObserver(function (e) { vis = e[0].isIntersecting; vis ? run() : halt(); }).observe(st);
+      document.addEventListener("visibilitychange", function () { document.hidden ? halt() : run(); });
+      new ResizeObserver(function () { if (!B.length) return; plan(); B.forEach(function (b) { b.x = Math.min(Math.max(b.x, 10), st.clientWidth - 10); b.y = Math.min(Math.max(b.y, 10), st.clientHeight - 10); }); }).observe(st);
+
+      /* ---- Recommended titles for the picked genre pair ---- */
+      var res = $("gxRes"), grid = $("gxGrid"), head = $("gxHead"), tok = 0, cache = {};
+      var vt = function (v) { return v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k" : String(v); };
+      var SK = Array(6).fill('<div class="gx-card glass"><div class="poster sk"></div><div class="mmeta"><div class="sk-line" style="height:12px;border-radius:6px;margin:.2rem 0 .5rem"></div><div class="sk-line" style="height:10px;width:50%;border-radius:6px"></div></div></div>').join("");
+      function card(x, i) {
+        var t = x.title || x.name || "Untitled", y = (x.release_date || x.first_air_date || "").slice(0, 4), s = x.vote_average || 0, c = s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171", lg = (x.original_language || "").toUpperCase();
+        return '<a class="gx-card glass" style="--i:' + i + '" href="/title.html?type=' + x._t + '&id=' + Number(x.id) + '" aria-label="' + esc(t) + ' (' + (x._t === "tv" ? "TV show" : "movie") + '). Open full page">' +
+          '<div class="poster' + (x.poster_path ? "" : " nop") + '">' + (x.poster_path ? '<img src="https://image.tmdb.org/t/p/w342' + x.poster_path + '" alt="' + esc(t) + ' poster" loading="lazy" onerror="this.parentNode.classList.add(\'nop\');this.remove()">' : "") +
+          '<span class="gx-rate" style="--c:' + c + ';--p:' + Math.round(s * 10) + '"><b>' + (s ? s.toFixed(1) : "–") + '</b></span><span class="gx-type">' + (x._t === "tv" ? "TV" : "Movie") + '</span></div>' +
+          '<div class="mmeta"><b>' + esc(t) + '</b><div class="gx-pills">' + (y ? '<span class="gx-pill">' + y + '</span>' : "") + (x.vote_count ? '<span class="gx-pill">' + vt(x.vote_count) + ' votes</span>' : "") + (lg ? '<span class="gx-pill">' + esc(lg) + '</span>' : "") + '</div></div></a>';
+      }
+      async function titles(a, b) {
+        var f = function (t) {
+          var x = t === "tv" ? 4 : 3, A = G[a][x][0], Bb = G[b][x][0]; if (A == null || Bb == null) return Promise.resolve([]);
+          return tmdb("/discover/" + t, { with_genres: [...new Set([A, Bb])].join(","), sort_by: "popularity.desc", "vote_count.gte": t === "tv" ? 30 : 150, include_adult: false, language: "en-US" })
+            .then(function (r) { return (r.results || []).map(function (i) { i._t = t; return i; }); }).catch(function () { return []; });
+        };
+        var rs = await Promise.all([f("movie"), f("tv")]), out = [];
+        for (var i = 0; out.length < 12 && (i < rs[0].length || i < rs[1].length); i++) { if (rs[0][i]) out.push(rs[0][i]); if (rs[1][i] && out.length < 12) out.push(rs[1][i]); }
+        return out;
+      }
+      function closeRes() { var t = ++tok; res.classList.remove("open"); setTimeout(function () { if (t === tok) { grid.innerHTML = ""; head.innerHTML = ""; } }, 900); }
+      async function openRes(a, b) {
+        var t = ++tok, old = [].slice.call(grid.children), key = a + "-" + b;
+        old.forEach(function (c) { c.classList.add("out"); });
+        head.innerHTML = '<div><h3 class="gx-h">' + G[a][1] + ' ' + G[a][0] + ' <em>+</em> ' + G[b][1] + ' ' + G[b][0] + '</h3><small>Recommended titles, popular right now</small></div><a class="more" href="' + TREND_URL + '?genre=' + encodeURIComponent(G[b][0]) + '">See more →</a>';
+        res.classList.add("open");
+        if (old.length) await new Promise(function (r) { setTimeout(r, 230); }); if (t !== tok) return;
+        var list = cache[key]; if (!list) { grid.innerHTML = SK; list = await titles(a, b); if (list.length) cache[key] = list; } if (t !== tok) return;
+        grid.innerHTML = list.length ? list.map(card).join("") : '<p class="note">No titles to show for ' + G[a][0] + ' + ' + G[b][0] + ' right now. Try another sub-genre.</p>';
+        setTimeout(function () { if (t !== tok) return; var r = res.getBoundingClientRect(); if (r.top > innerHeight * .6) scrollBy({ top: r.top - innerHeight * .5, behavior: "smooth" }); }, 350);
+      }
+
+      load().then(function () { build(); run(); });
     })();
   </script>
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
