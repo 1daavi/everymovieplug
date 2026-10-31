@@ -11,7 +11,7 @@
  * Everything is read from the page itself (title, description, date, image, canonical, category),
  * so nothing needs to be typed in. The author is Maccarthy Albin (a schema.org Person, see AUTHOR below);
  * the publisher is "Every Movie Plug". If a story shows an "Updated <date>" line, that date becomes dateModified.
- * Dates are written in ISO 8601 (2026-10-14), which is what Google expects.
+ * Dates are written in ISO 8601 (2026-10-14, or 2026-10-14T14:35:00Z when the story has a publication time), which is what Google expects.
  *
  * Usage (from the site root):   node add-schema.js
  */
@@ -85,7 +85,11 @@ function postGraph(file, section, kind) {
   const firstImg = (html.match(/<img[^>]*\bsrc=["']([^"']+)["']/i) || [])[1];
   const abs = u => { try { return u ? new URL(u, `${SITE}/${section}/x.html`).href : ""; } catch { return ""; } };
   const image = meta(html, "property", "og:image") || meta(html, "name", "twitter:image") || abs(firstImg) || `${SITE}/og-image.jpg`;
-  const date = isoDate(text((html.match(/class="article-date"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]));
+  // the date line may carry a publication time (data-published, stored in GMT) and a visible time span
+  const dateTag = (html.match(/<p[^>]*class="article-date"[^>]*>/i) || [])[0] || "";
+  const stamped = (dateTag.match(/data-published="([^"]+)"/) || [])[1];
+  const dateText = text(((html.match(/class="article-date"[^>]*>([\s\S]*?)<\/p>/i) || [])[1] || "").replace(/<span class="article-time">[\s\S]*?<\/span>/i, ""));
+  const date = (stamped && !isNaN(new Date(stamped)) ? stamped : "") || isoDate(dateText);
   const updated = isoDate(text((html.match(/class="article-updated"[^>]*>([\s\S]*?)<\/p>/i) || [])[1]).replace(/^Updated\s+/i, ""));
   const cat = meta(html, "name", "category");
   const crumbName = section === "news" ? "News" : "Articles";
