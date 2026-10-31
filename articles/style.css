@@ -246,17 +246,23 @@ nav a:active {
 .article-figure {
   margin: 32px auto;
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centres images that are narrower than the article */
 }
 
 .article-figure img {
-  width: 100%;
-  max-height: 480px; /* Limits height so large vertical images don't cover the screen */
-  object-fit: cover;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 640px; /* very tall images scale down to fit, never cropped */
+  object-fit: contain;
   border-radius: 8px;
   border: 1px solid var(--border);
 }
 
 .article-figure figcaption {
+  align-self: stretch; /* caption keeps the full article width */
   margin-top: 10px;
   font-size: 0.85rem;
   line-height: 1.5;
@@ -344,7 +350,7 @@ nav a:active {
   }
 
   .article-figure img {
-    max-height: 320px; /* Constrains height further on mobile devices */
+    max-height: 480px; /* scales very tall images down on phones, never cropped */
   }
 }
 
