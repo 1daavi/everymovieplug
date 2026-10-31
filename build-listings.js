@@ -312,7 +312,7 @@ ${long.length ? `                <li><strong>Longer reads (6 minutes or more)</s
   if (page > 1) nav.push(`<a href="${pageUrl(sec, page - 1)}">${page === 2 ? "newer " + sec.many + " on page 1" : "newer " + sec.many + " on page " + (page - 1)}</a>`);
   if (page < pages) nav.push(`<a href="${pageUrl(sec, page + 1)}">older ${sec.many} on page ${page + 1}</a>`);
   return `<section class="seo-text" aria-labelledby="digest-heading">
-            <h2 id="digest-heading">What is on page ${page}</h2>
+            <h2 id="digest-heading">What is on page</h2>
             ${body}
             <p>This is page ${page} of ${pages} (${sec.many} ${from}&ndash;${to} of ${count}). ${nav.length ? "Keep reading: " + nav.join(" or ") + "." : ""} All ${sec.many} follow the standards described on our <a href="/about.html">About page</a>${page > 1 ? `, and the <a href="/${sec.dir}/">first page</a> explains how this section works` : ""}.</p>
         </section>`;
