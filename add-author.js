@@ -50,8 +50,13 @@ for (const dir of sections) {
       .replace(/[ \t]*<p class="article-byline">[\s\S]*?<\/p>\s*\n?/g, "")
       .replace(/[ \t]*<aside class="author-box"[\s\S]*?<\/aside>\s*\n?/g, "");
     out = out.replace(/<\/title>/i, m => `${m}\n    <meta name="author" content="${AUTHOR.name}">`);
-    out = out.replace(/(<p class="article-date">[^<]*<\/p>(?:\s*<p class="article-updated">[^<]*<\/p>)?)/,
-      (m) => `${m}\n            ${byline}`);
+// take the date and "updated" note out of their old spot above the title...
+let dateBlock = "", updatedBlock = "";
+out = out.replace(/[ \t]*(<p class="article-date">[\s\S]*?<\/p>)[ \t]*\n?/, (m, d) => { dateBlock = d; return ""; });
+out = out.replace(/[ \t]*(<p class="article-updated">[\s\S]*?<\/p>)[ \t]*\n?/, (m, u) => { updatedBlock = u; return ""; });
+// ...and put byline, then date, under the title (after the subtitle if there is one)
+out = out.replace(/<\/h1>(?:\s*<(p|h2|div)[^>]*class="article-subtitle"[^>]*>[\s\S]*?<\/\1>)?/,
+  (m) => `${m}\n            ${byline}` + (dateBlock ? `\n            ${dateBlock}` : "") + (updatedBlock ? `\n            ${updatedBlock}` : ""));
     out = out.replace(/([ \t]*)<\/main>/i, (m) => `${box}${m}`);
     if (out !== html) { fs.writeFileSync(file, out); changed++; }
   }
