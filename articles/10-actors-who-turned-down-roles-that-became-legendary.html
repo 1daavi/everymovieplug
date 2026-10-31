@@ -109,8 +109,8 @@
   "image": [
     "https://everymovieplug.com/articleassets/actors-who-turned-down-roles.jpg"
   ],
-  "datePublished": "2026-10-31",
-  "dateModified": "2026-10-31"
+  "datePublished": "2026-10-31T19:15:00Z",
+  "dateModified": "2026-10-31T19:15:00Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -149,7 +149,7 @@
         <header class="article-header">
             <h1>10 Actors Who Turned Down Roles That Became Legendary</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">October 31, 2026</p>
+            <p data-published="2026-10-31T19:15:00Z" class="article-date">October 31, 2026<span class="article-time"> &middot; 7:15 PM GMT</span></p>
             <p class="article-subtitle"><i>Hollywood history turns on sliding-door moments. These are the casting rejections that reshaped blockbuster cinema and handed other stars their defining parts.</i></p>
         </header>
 
@@ -234,6 +234,19 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
 </main>
 
     <footer class="site-footer">
