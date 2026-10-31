@@ -212,7 +212,8 @@ nav a:active {
 /* All article images safety rule (prevents unhandled images from overflowing) */
 .article-content img,
 .article-hero img,
-.article-figure img {
+.article-figure img,
+.article-content figure img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -229,7 +230,8 @@ nav a:active {
   border-radius: 8px;
 }
 
-.article-figure img {
+.article-figure img,
+.article-content figure img {
   display: block;
   width: 100%;
   height: auto;
@@ -243,7 +245,8 @@ nav a:active {
 }
 
 /* Base Article Figures */
-.article-figure {
+.article-figure,
+.article-content figure {
   margin: 32px auto;
   max-width: 100%;
   display: flex;
@@ -251,7 +254,8 @@ nav a:active {
   align-items: center; /* centres images that are narrower than the article */
 }
 
-.article-figure img {
+.article-figure img,
+.article-content figure img {
   width: auto;
   max-width: 100%;
   height: auto;
@@ -261,12 +265,26 @@ nav a:active {
   border: 1px solid var(--border);
 }
 
-.article-figure figcaption {
+.article-figure figcaption,
+.article-content figure figcaption {
   align-self: stretch; /* caption keeps the full article width */
   margin-top: 10px;
   font-size: 0.85rem;
   line-height: 1.5;
   color: var(--muted);
+}
+
+/* Credits inside captions, and the empty second caption the editor leaves behind */
+.article-figure figcaption span,
+.article-content figure figcaption span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+.article-figure figcaption + figcaption,
+.article-content figure figcaption + figcaption {
+  display: none;
 }
 
 .image-credit {
@@ -345,11 +363,13 @@ nav a:active {
     font-size: 1rem;
   }
 
-  .article-figure {
+  .article-figure,
+  .article-content figure {
     margin: 24px 0;
   }
 
-  .article-figure img {
+  .article-figure img,
+  .article-content figure img {
     max-height: 480px; /* scales very tall images down on phones, never cropped */
   }
 }
