@@ -16,8 +16,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - run: node build-listings.js --only=news
       - run: node add-author.js news
+      - run: node build-listings.js --only=news
       - run: node fix-nav.js news
       - run: node add-schema.js
       - run: node add-adsense.js news
