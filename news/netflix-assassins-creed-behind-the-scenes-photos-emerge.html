@@ -33,14 +33,41 @@
         .article-sources { font-size: 0.9em; opacity: 0.8; margin-top: 2rem; }
         .article-sources ul { margin-top: 0.4rem; }
         .tribute-embed { margin: 1.5rem auto; max-width: 550px; }
-        .related-section { margin-top: 2.5rem; }
-        .related-section h2 { margin-bottom: 1rem; }
-        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-        .related-card { display: block; padding: 1rem 1.1rem; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; background: rgba(255,255,255,0.04); color: inherit; text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
-        .related-card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-2px); }
-        .related-card .card-tag { display: block; font-size: 0.72em; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; margin-bottom: 0.4rem; }
-        .related-card .card-title { display: block; font-weight: 700; line-height: 1.3; margin-bottom: 0.45rem; }
-        .related-card .card-desc { display: block; font-size: 0.88em; line-height: 1.45; opacity: 0.8; }
+        .emp-related { margin: 3rem 0 0; }
+        .emp-related-head { margin-bottom: 1.1rem; }
+        .emp-kicker { display: block; font-size: 0.72em; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.6; margin-bottom: 0.3rem; }
+        .emp-related-head h2 { margin: 0; }
+        .emp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.1rem; }
+        .emp-card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #0e0e11; border: 1px solid rgba(255,255,255,0.1); color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: transform 0.35s cubic-bezier(.2,.7,.2,1), border-color 0.35s ease, box-shadow 0.35s ease; }
+        .emp-card::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.09) 50%, transparent 65%); transform: translateX(-120%); transition: transform 0.8s ease; }
+        .emp-card:hover, .emp-card:focus-visible { transform: translateY(-6px); border-color: rgba(255,255,255,0.38); box-shadow: 0 18px 40px rgba(0,0,0,0.55); outline: none; }
+        .emp-card:hover::before, .emp-card:focus-visible::before { transform: translateX(120%); }
+        .emp-card:active { transform: translateY(-2px) scale(0.985); }
+        .emp-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #1d1d26, #0a0a0c); }
+        .emp-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(.2,.7,.2,1), filter 0.4s ease; filter: saturate(0.95); }
+        .emp-card:hover .emp-thumb img, .emp-card:focus-visible .emp-thumb img { transform: scale(1.08); filter: saturate(1.1); }
+        .emp-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0) 55%); pointer-events: none; }
+        .emp-tag { position: absolute; left: 0.75rem; bottom: 0.7rem; z-index: 1; padding: 0.22rem 0.6rem; font-size: 0.68em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; background: rgba(0,0,0,0.62); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .emp-body { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; padding: 1rem 1.1rem 1.2rem; }
+        .emp-date { font-size: 0.74em; opacity: 0.55; letter-spacing: 0.03em; }
+        .emp-title { font-weight: 700; font-size: 1.02em; line-height: 1.3; }
+        .emp-desc { font-size: 0.88em; line-height: 1.5; opacity: 0.75; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .emp-cta { margin-top: auto; padding-top: 0.4rem; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85em; font-weight: 600; }
+        .emp-cta span { display: inline-block; transition: transform 0.3s ease; }
+        .emp-card:hover .emp-cta span, .emp-card:focus-visible .emp-cta span { transform: translateX(6px); }
+        .emp-nothumb .emp-thumb { display: flex; align-items: center; justify-content: center; }
+        .emp-reveal { opacity: 0; transform: translateY(18px); }
+        .emp-reveal.emp-in { opacity: 1; transform: none; transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1), border-color 0.35s ease, box-shadow 0.35s ease; }
+        .emp-reveal.emp-in:hover, .emp-reveal.emp-in:focus-visible { transform: translateY(-6px); }
+        @media (max-width: 640px) {
+            .emp-cards { display: flex; overflow-x: auto; gap: 0.9rem; padding: 0.2rem 0.2rem 1rem; margin: 0 -0.2rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+            .emp-card { flex: 0 0 80%; scroll-snap-align: start; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .emp-card, .emp-card::before, .emp-thumb img, .emp-cta span, .emp-reveal.emp-in { transition: none; }
+            .emp-card:hover, .emp-card:focus-visible, .emp-reveal.emp-in:hover { transform: none; }
+            .emp-reveal { opacity: 1; transform: none; }
+        }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
@@ -197,52 +224,124 @@
                 </ul>
             </div>
 
-            <section class="related-section" aria-label="More from Every Movie Plug">
-                <h2>More News From Every Movie Plug</h2>
-                <div class="related-grid">
-                    <a class="related-card" href="/news/netflix-pubg-series-donald-glover-star-write-direct.html">
-                        <span class="card-tag">TV News &middot; October 29, 2026</span>
-                        <span class="card-title">Donald Glover to Star in, Write and Direct Netflix&rsquo;s Live-Action PUBG Series</span>
-                        <span class="card-desc">Netflix and Krafton are developing a live-action PUBG series with Donald Glover attached to star, write, direct and executive produce alongside his brother Stephen.</span>
+            <section class="emp-related" aria-label="More News From Every Movie Plug">
+                <div class="emp-related-head">
+                    <span class="emp-kicker">Latest on Every Movie Plug</span>
+                    <h2>More News From Every Movie Plug</h2>
+                </div>
+                <div class="emp-cards">
+                    <a class="emp-card" href="/news/netflix-pubg-series-donald-glover-star-write-direct.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/netflix-pubg-series-donald-glover-star-write-direct-full.jpg" alt="Donald Glover to Star in, Write and Direct Netflix&rsquo;s Live-Action PUBG Series" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">TV News</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 29, 2026</span>
+                            <span class="emp-title">Donald Glover to Star in, Write and Direct Netflix&rsquo;s Live-Action PUBG Series</span>
+                            <span class="emp-desc">Netflix and Krafton are developing a live-action PUBG series with Donald Glover attached to star, write, direct and executive produce alongside his brother Stephen.</span>
+                            <span class="emp-cta">Read the story <span>&rarr;</span></span>
+                        </div>
                     </a>
-                    <a class="related-card" href="/news/god-of-war-series-dave-bautista-kratos-production-resumes.html">
-                        <span class="card-tag">TV News &middot; October 24, 2026</span>
-                        <span class="card-title">God of War Series Resumes Filming With Dave Bautista as Kratos</span>
-                        <span class="card-desc">Prime Video&rsquo;s God of War series restarts production in Vancouver with Dave Bautista as Kratos after Ryan Hurst&rsquo;s injury. Footage with Hurst will be reshot.</span>
+                    <a class="emp-card" href="/news/god-of-war-series-dave-bautista-kratos-production-resumes.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/god-of-war-series-dave-bautista-kratos-production-resumes-full.jpg" alt="God of War Series Resumes Filming With Dave Bautista as Kratos" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">TV News</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 24, 2026</span>
+                            <span class="emp-title">God of War Series Resumes Filming With Dave Bautista as Kratos</span>
+                            <span class="emp-desc">Prime Video&rsquo;s God of War series restarts production in Vancouver with Dave Bautista as Kratos after Ryan Hurst&rsquo;s injury. Footage with Hurst will be reshot.</span>
+                            <span class="emp-cta">Read the story <span>&rarr;</span></span>
+                        </div>
                     </a>
-                    <a class="related-card" href="/news/elden-ring-movie-a24-budget-nearly-200-million.html">
-                        <span class="card-tag">Film News &middot; October 25, 2026</span>
-                        <span class="card-title">A24&rsquo;s Elden Ring Movie Reportedly Costs Nearly $200 Million</span>
-                        <span class="card-desc">The Wall Street Journal reports Alex Garland&rsquo;s Elden Ring now carries a budget of nearly $200 million, roughly triple A24&rsquo;s previous record.</span>
+                    <a class="emp-card" href="/news/elden-ring-movie-a24-budget-nearly-200-million.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/elden-ring-movie-a24-budget-nearly-200-million-full.jpg" alt="A24&rsquo;s Elden Ring Movie Reportedly Costs Nearly $200 Million" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">Film News</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 25, 2026</span>
+                            <span class="emp-title">A24&rsquo;s Elden Ring Movie Reportedly Costs Nearly $200 Million</span>
+                            <span class="emp-desc">The Wall Street Journal reports Alex Garland&rsquo;s Elden Ring now carries a budget of nearly $200 million, roughly triple A24&rsquo;s previous record.</span>
+                            <span class="emp-cta">Read the story <span>&rarr;</span></span>
+                        </div>
                     </a>
-                    <a class="related-card" href="/news/the-last-of-us-season-3-2027-final-season-filming.html">
-                        <span class="card-tag">TV News &middot; October 26, 2026</span>
-                        <span class="card-title">The Last of Us Season 3 Is Set for 2027 and Is Planned as the Final Season</span>
-                        <span class="card-desc">HBO&rsquo;s Casey Bloys says The Last of Us season 3 arrives in 2027 and that Craig Mazin has planned it as the final season. Filming is scheduled to wrap in November.</span>
+                    <a class="emp-card" href="/news/the-last-of-us-season-3-2027-final-season-filming.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/the-last-of-us-season-3-2027-final-season-filming-full.jpg" alt="The Last of Us Season 3 Is Set for 2027 and Is Planned as the Final Season" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">TV News</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 26, 2026</span>
+                            <span class="emp-title">The Last of Us Season 3 Is Set for 2027 and Is Planned as the Final Season</span>
+                            <span class="emp-desc">HBO&rsquo;s Casey Bloys says The Last of Us season 3 arrives in 2027 and that Craig Mazin has planned it as the final season. Filming is scheduled to wrap in November.</span>
+                            <span class="emp-cta">Read the story <span>&rarr;</span></span>
+                        </div>
                     </a>
                 </div>
             </section>
 
-            <section class="related-section" aria-label="Related articles">
-                <h2>Related Articles</h2>
-                <div class="related-grid">
-                    <a class="related-card" href="/articles/most-anticipated-movies-of-2027.html">
-                        <span class="card-tag">Article &middot; October 24, 2026</span>
-                        <span class="card-title">Most Anticipated Movies of 2027: Every Major Release to Watch</span>
-                        <span class="card-desc">From Avengers: Secret Wars and The Hunt for Gollum to Narnia, Zelda and Spider-Verse, here is every major movie coming in 2027 and the dates to mark.</span>
+            <section class="emp-related" aria-label="Related Articles">
+                <div class="emp-related-head">
+                    <span class="emp-kicker">Latest on Every Movie Plug</span>
+                    <h2>Related Articles</h2>
+                </div>
+                <div class="emp-cards">
+                    <a class="emp-card" href="/articles/most-anticipated-movies-of-2027.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/most-anticipated-movies-of-2027-full.jpg" alt="Most Anticipated Movies of 2027: Every Major Release to Watch" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">Article</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 24, 2026</span>
+                            <span class="emp-title">Most Anticipated Movies of 2027: Every Major Release to Watch</span>
+                            <span class="emp-desc">From Avengers: Secret Wars and The Hunt for Gollum to Narnia, Zelda and Spider-Verse, here is every major movie coming in 2027 and the dates to mark.</span>
+                            <span class="emp-cta">Read the article <span>&rarr;</span></span>
+                        </div>
                     </a>
-                    <a class="related-card" href="/articles/20-movies-that-were-almost-impossible-to-film.html">
-                        <span class="card-tag">Article &middot; October 22, 2026</span>
-                        <span class="card-title">20 Movies That Were Almost Impossible to Film</span>
-                        <span class="card-desc">From a twelve-year shoot to a steamship hauled over a mountain, these 20 films pushed filmmaking past what everyone said could be done.</span>
+                    <a class="emp-card" href="/articles/20-movies-that-were-almost-impossible-to-film.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/20-movies-that-were-almost-impossible-to-film-full.jpg" alt="20 Movies That Were Almost Impossible to Film" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">Article</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 22, 2026</span>
+                            <span class="emp-title">20 Movies That Were Almost Impossible to Film</span>
+                            <span class="emp-desc">From a twelve-year shoot to a steamship hauled over a mountain, these 20 films pushed filmmaking past what everyone said could be done.</span>
+                            <span class="emp-cta">Read the article <span>&rarr;</span></span>
+                        </div>
                     </a>
-                    <a class="related-card" href="/articles/engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set.html">
-                        <span class="card-tag">Article &middot; October 12, 2026</span>
-                        <span class="card-title">Engineering the Unsinkable: The Titanic Set</span>
-                        <span class="card-desc">How James Cameron and his production team built a massive, 90% scale replica of the Titanic.</span>
+                    <a class="emp-card" href="/articles/engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set.html">
+                        <div class="emp-thumb">
+                            <img src="/articleassets/engineering-the-unsinkable-the-architectural-and-mechanical-triumph-behind-the-titanic-set-full.jpg" alt="Engineering the Unsinkable: The Titanic Set" loading="lazy" onerror="this.parentNode.parentNode.classList.add('emp-nothumb');this.remove();">
+                            <span class="emp-tag">Article</span>
+                        </div>
+                        <div class="emp-body">
+                            <span class="emp-date">October 12, 2026</span>
+                            <span class="emp-title">Engineering the Unsinkable: The Titanic Set</span>
+                            <span class="emp-desc">How James Cameron and his production team built a massive, 90% scale replica of the Titanic.</span>
+                            <span class="emp-cta">Read the article <span>&rarr;</span></span>
+                        </div>
                     </a>
                 </div>
             </section>
+            <script>
+                (function () {
+                    var cards = document.querySelectorAll('.emp-card');
+                    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+                    var io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (e) {
+                            if (e.isIntersecting) {
+                                var i = Array.prototype.indexOf.call(cards, e.target) % 4;
+                                e.target.style.transitionDelay = (i * 80) + 'ms';
+                                e.target.classList.add('emp-in');
+                                io.unobserve(e.target);
+                            }
+                        });
+                    }, { threshold: 0.15 });
+                    cards.forEach(function (c) { c.classList.add('emp-reveal'); io.observe(c); });
+                })();
+            </script>
         </div>
     <aside class="author-box" aria-label="About the author">
         <img class="author-avatar" src="/author/Maccarthy-Albin.jpg" alt="Maccarthy Albin" width="56" height="56" loading="lazy">
