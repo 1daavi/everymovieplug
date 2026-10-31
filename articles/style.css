@@ -391,7 +391,15 @@ nav a:active {
   color: #fff;
   background: linear-gradient(135deg, #7c3aed, #f59e0b);
 }
-img.author-avatar { display: block; object-fit: cover; }
+img.author-avatar {
+  display: block;
+  object-fit: cover;
+  object-position: 50% 20%;
+  flex: 0 0 72px;
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--border);
+}
 .author-info { min-width: 0; }
 .author-label {
   font-size: 0.72rem;
