@@ -971,7 +971,7 @@ function setHash(type, id, title, fromHash) {
     
     /* ---- Share, toast, tap ripple + haptics ---- */
     function shareWebsite() {
-      if (navigator.share) navigator.share({ title: "Every Movie Plug", text: "Every Movie Plug is getting a brand new look!", url: location.href }).catch(() => {});
+      if (navigator.share) navigator.share({ title: "Every Movie Plug", text: "Every Movie Plug is an independent website and community for people who love movies and TV. We publish film news and in-depth articles, and we help you find what to watch next with trending titles, genre and mood browsing, and streaming availability.", url: location.href }).catch(() => {});
       else navigator.clipboard.writeText(location.href).then(() => showToast("Link copied ✓")).catch(() => showToast("Couldn't copy the link"));
     }
     let tt; function showToast(m) { const el = $("toast"); el.textContent = m; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2200); }
