@@ -86,7 +86,10 @@
   "@context": "https://schema.org",
   "@type": "NewsArticle",
   "@id": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html#article",
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html" },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html"
+  },
   "headline": "James Gunn on DC Casting: Batman “Isn’t Far Away,” Harley Quinn Is Open and Man of Tomorrow Is Nearly Cast",
   "description": "James Gunn has said the DCU's Batman is not cast yet but casting is close, that he wants the best actor rather than a default movie star, and that Harley Quinn will almost certainly return. Here is a summary of his latest casting comments.",
   "url": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html",
@@ -97,20 +100,35 @@
     "url": "https://everymovieplug.com/author/maccarthy-albin.html",
     "email": "maccarthy@everymovieplug.com",
     "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
-    "sameAs": ["https://x.com/everymovieplug"],
-    "worksFor": { "@type": "Organization", "name": "Every Movie Plug", "url": "https://everymovieplug.com/" }
+    "sameAs": [
+      "https://x.com/everymovieplug"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Every Movie Plug",
+      "url": "https://everymovieplug.com/"
+    }
   },
   "publisher": {
     "@type": "Organization",
     "name": "Every Movie Plug",
     "url": "https://everymovieplug.com/",
-    "logo": { "@type": "ImageObject", "url": "https://everymovieplug.com/web-app-manifest-512x512.png", "width": 512, "height": 512 }
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://everymovieplug.com/web-app-manifest-512x512.png",
+      "width": 512,
+      "height": 512
+    }
   },
-  "isPartOf": { "@id": "https://everymovieplug.com/#website" },
+  "isPartOf": {
+    "@id": "https://everymovieplug.com/#website"
+  },
   "inLanguage": "en",
-  "image": ["https://image.tmdb.org/t/p/w1280/eGX66zonvc4bXg3rM08RUxdYSDx.jpg"],
-  "datePublished": "2026-11-01",
-  "dateModified": "2026-11-01",
+  "image": [
+    "https://image.tmdb.org/t/p/w1280/eGX66zonvc4bXg3rM08RUxdYSDx.jpg"
+  ],
+  "datePublished": "2026-11-01T01:14:50Z",
+  "dateModified": "2026-11-01T01:14:50Z",
   "articleSection": "Film News"
 }
     </script>
@@ -119,9 +137,24 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://everymovieplug.com/" },
-    { "@type": "ListItem", "position": 2, "name": "News", "item": "https://everymovieplug.com/news/" },
-    { "@type": "ListItem", "position": 3, "name": "James Gunn on DC Casting: Batman “Isn’t Far Away,” Harley Quinn Is Open and Man of Tomorrow Is Nearly Cast", "item": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html" }
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://everymovieplug.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "News",
+      "item": "https://everymovieplug.com/news/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "James Gunn on DC Casting: Batman “Isn’t Far Away,” Harley Quinn Is Open and Man of Tomorrow Is Nearly Cast",
+      "item": "https://everymovieplug.com/news/james-gunn-dc-casting-batman-harley-quinn-man-of-tomorrow.html"
+    }
   ]
 }
     </script>
@@ -135,7 +168,7 @@
         <header class="article-header">
 <h1>James Gunn on DC Casting: Batman &ldquo;Isn&rsquo;t Far Away,&rdquo; Harley Quinn Is Open and <em>Man of Tomorrow</em> Is Nearly Cast</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 1, 2026</p>
+            <p data-published="2026-11-01T01:14:50Z" class="article-date">November 1, 2026<span class="article-time"> &middot; 1:14 AM GMT</span></p>
             <p class="article-subtitle"><i>The DC Studios co-head says the next Batman is close to being cast, that he wants an actor over a movie star, and that Harley Quinn will almost certainly return.</i></p>
         </header>
 
@@ -347,6 +380,19 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
 </main>
 
     <footer class="site-footer">
