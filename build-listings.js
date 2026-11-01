@@ -171,8 +171,8 @@ function loadItems(sec) {
     const shown = (html.match(/class="article-date">\s*([^<]+?)\s*</) || [])[1];
     const shownIso = shown && !isNaN(new Date(shown + " UTC")) ? new Date(shown + " UTC").toISOString().slice(0, 10) : "";
     if (shownIso && shownIso !== it.date) { console.log(`[${sec.dir}] Date fixed for ${f}: ${it.date} -> ${shownIso}`); it.date = shownIso; }
-    // publication time (stamped on the story's date line by add-author.js); only the news section shows "x minutes / x hours" on its tiles
-    const stamp = sec.dir === "news" ? ((html.match(/<p[^>]*class="article-date"[^>]*>/i) || [""])[0].match(/data-published="([^"]+)"/) || [])[1] : "";
+    // publication time (stamped on the story's date line by add-author.js); news and articles tiles show "x minutes / x hours" for stories under 24 hours old
+    const stamp = ((html.match(/<p[^>]*class="article-date"[^>]*>/i) || [""])[0].match(/data-published="([^"]+)"/) || [])[1];
     if (stamp && !isNaN(new Date(stamp))) it.ts = new Date(stamp).toISOString().slice(0, 19) + "Z"; else delete it.ts;
     it.words = wordCount(html);
     items.push(it);
@@ -399,7 +399,7 @@ const searchScript = sec => `<script>
     })();
     </script>`;
 
-/* ---------- "5 minutes" / "3 hours" on news tiles for stories under 24 hours old (runs in the visitor's browser) ---------- */
+/* ---------- "5 minutes" / "3 hours" on news and articles tiles for stories under 24 hours old (runs in the visitor's browser) ---------- */
 const liveTime = `<script>
     (function () {
         function label(ms) {
@@ -519,7 +519,7 @@ function build(sec) {
       .replace("{{PAGER}}", () => pagerHTML(sec, page, pages, from, to, count))
       .replace("{{TEXT}}", () => text)
       .replace("{{FOOTER}}", () => footerHTML())
-      .replace("{{SEARCH_SCRIPT}}", () => searchScript(sec) + (sec.dir === "news" ? liveTime : ""))
+      .replace("{{SEARCH_SCRIPT}}", () => searchScript(sec) + liveTime)
       .replace("{{HERO_SCRIPT}}", () => page === 1 ? heroJS : "")
       .replace("</style>", () => EXTRA_CSS + "    </style>");
     // the lead line and the result counter sit right under the page header
