@@ -373,7 +373,7 @@
                     <span class="tile-tag">Film News</span>
                 </div>
                 <div class="tile-body">
-                    <time class="tile-date" datetime="2026-11-01">November 1, 2026</time>
+                    <time class="tile-date" datetime="2026-11-01" data-ts="2026-11-01T01:14:50Z">November 1, 2026</time>
                     <h2 class="tile-title">James Gunn on DC Casting: Batman “Isn’t Far Away,” Harley Quinn Is Open and Man of Tomorrow Is Nearly Cast</h2>
                     <p class="tile-excerpt">James Gunn has said the DCU's Batman is not cast yet but casting is close, that he wants the best actor rather than a default movie star, and that Harley Quinn will almost certainly return. Here…</p>
                     <span class="tile-more">Read story <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -639,7 +639,7 @@
         function tileHTML(it, i) {
             return '<a class="tile" href="/' + DIR + '/' + encodeURI(it.f) + '" style="--i:' + Math.min(i, 14) + '">' +
                 '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + '<span class="tile-tag">' + esc(it.tag) + '</span></div>' +
-                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '">' + esc(fmt(it.date)) + '</time>' +
+                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '"' + (it.ts ? ' data-ts="' + esc(it.ts) + '"' : '') + '>' + esc(fmt(it.date)) + '</time>' +
                 '<h2 class="tile-title">' + esc(String(it.title).replace(/\*+/g, "")) + '</h2><p class="tile-excerpt">' + esc(String(it.excerpt).replace(/\*+/g, "")) + '</p>' +
                 '<span class="tile-more">' + MORE + ' ' + ARROW + '</span></div></a>';
         }
@@ -700,6 +700,31 @@
                 [].forEach.call(document.querySelectorAll(".tile"), function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
             }
         });
+    })();
+    </script><script>
+    (function () {
+        function label(ms) {
+            var m = Math.floor(ms / 60000);
+            if (m < 1) return "Just now";
+            if (m < 60) return m + (m === 1 ? " minute" : " minutes");
+            var h = Math.floor(m / 60);
+            return h + (h === 1 ? " hour" : " hours");
+        }
+        function update() {
+            var els = document.querySelectorAll("time.tile-date[data-ts]");
+            for (var i = 0; i < els.length; i++) {
+                var el = els[i], t = new Date(el.getAttribute("data-ts"));
+                if (isNaN(t)) continue;
+                if (!el.hasAttribute("data-d")) el.setAttribute("data-d", el.textContent);
+                var age = Date.now() - t.getTime();
+                if (age < 0 && age > -600000) age = 0;
+                el.textContent = (age >= 0 && age < 86400000) ? label(age) : el.getAttribute("data-d");
+            }
+        }
+        update();
+        setInterval(update, 30000);
+        var r = document.getElementById("results");
+        if (window.MutationObserver && r) new MutationObserver(update).observe(r, { childList: true });
     })();
     </script>
     <script>
