@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: node add-author.js news
       - run: node build-listings.js --only=news
+      - run: node sync-card-thumbs.js news
       - run: node fix-nav.js news
       - run: node add-schema.js
       - run: node add-adsense.js news
