@@ -630,6 +630,22 @@
     };
     const POSTS = { news: [], articles: [] }, FULL = { news: [], articles: [] };
     let POST_TOK = 0;
+    /* News younger than 24 hours shows "Just now", "5 minutes" or "3 hours" (kept current while the page is open); older stories show the date */
+    function agoLabel(ms) {
+      const m = Math.floor(ms / 60000);
+      if (m < 1) return "Just now";
+      if (m < 60) return m + (m === 1 ? " minute" : " minutes");
+      const h = Math.floor(m / 60);
+      return h + (h === 1 ? " hour" : " hours");
+    }
+    function tickAgo() {
+      document.querySelectorAll(".mmeta span[data-ts], .m-title span[data-ts]").forEach(el => {
+        const t = Number(el.dataset.ts); if (!t) return;
+        let age = Date.now() - t; if (age < 0 && age > -600000) age = 0;
+        el.textContent = age >= 0 && age < 86400000 ? agoLabel(age) : el.dataset.d;
+      });
+    }
+    setInterval(tickAgo, 30000);
     async function loadFeed(kind) {
       const f = FEEDS[kind], box = $(f.box); if (!box) return;
       box.innerHTML = skeleton();
@@ -643,6 +659,7 @@
           const date = t?.textContent.trim() || "";
           return {
             n, date, time: Date.parse(t?.getAttribute("datetime") || "") || Date.parse(date) || 0,
+            ts: Date.parse(t?.getAttribute("data-ts") || "") || 0, // publication time (news tiles only)
             href: new URL(a.getAttribute("href"), base).href,
             img: img ? new URL(img.getAttribute("src"), base).href : "",
             alt: img?.getAttribute("alt") || "",
@@ -650,13 +667,14 @@
             title: a.querySelector(".tile-title")?.textContent.trim() || "Untitled",
             excerpt: a.querySelector(".tile-excerpt")?.textContent.trim() || ""
           };
-        }).sort((a, b) => b.time - a.time || a.n - b.n);
+        }).sort((a, b) => b.time - a.time || b.ts - a.ts || a.n - b.n);
         FULL[kind] = items.slice(); items.length = Math.min(items.length, f.max);
         if (!items.length) throw new Error("Nothing found");
         POSTS[kind] = items;
         box.innerHTML = items.map((a, n) => `<a class="mcard glass" href="${esc(a.href)}" onclick="return openPost(event,'${kind}',${n})" aria-label="Preview ${esc(a.title)}">
           <div class="poster${a.img ? '' : ' nop'}">${a.img ? `<img src="${esc(a.img)}" alt="${esc(a.alt || a.title)}" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}</div>
-          <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`).join("");
+          <div class="mmeta"><b>${esc(a.title)}</b><span${a.ts ? ` data-ts="${a.ts}" data-d="${esc(a.date)}"` : ""}>${esc(a.date)}</span></div></a>`).join("");
+        tickAgo();
       } catch (e) {
         box.innerHTML = `<p class="note">Couldn’t load ${kind} right now. <a href="${f.dir}" style="text-decoration:underline">${f.browse}</a>.</p>`;
       }
@@ -673,7 +691,7 @@
         if (tok !== POST_TOK) return;
         $("modalBody").innerHTML = `${hero}
           <div class="m-body">
-            <div class="m-title"><div><h3>${esc(a.title)}</h3><p>${esc(a.date)} · Every Movie Plug${mins ? " · " + mins + " min read" : ""}</p></div></div>
+            <div class="m-title"><div><h3>${esc(a.title)}</h3><p><span${a.ts ? ` data-ts="${a.ts}" data-d="${esc(a.date)}"` : ""}>${esc(a.date)}</span> · Every Movie Plug${mins ? " · " + mins + " min read" : ""}</p></div></div>
             <div class="m-tags"><span class="tag">${esc(a.tag)}</span></div>
             ${summary ? `<p>${esc(summary)}</p>` : ""}
             <div class="m-links">
@@ -683,6 +701,7 @@
               <a class="chip" href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">Discuss on X</a>
             </div>
           </div>`;
+        tickAgo();
       };
       draw(a.excerpt, 0);
       // Pull a richer summary + reading time from the story itself
