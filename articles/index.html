@@ -369,11 +369,11 @@
         <div class="tiles" id="tiles">
             <a class="tile" href="/articles/today-in-cinema-the-social-network-2010.html" style="--i:0">
                 <div class="tile-thumb">
-                    <img src="https://image.tmdb.org/t/p/original/1PXwh3nJzgRkkYnqfWInJNypeL4.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                    <img src="https://i0.wp.com/thefincheranalyst.com/wp-content/uploads/2018/07/2010-the-social-network-official-trailer-apple.jpg?fit=1200%2C500&amp;ssl=1" alt="" loading="lazy" decoding="async" onerror="this.remove()">
                     <span class="tile-tag">Article</span>
                 </div>
                 <div class="tile-body">
-                    <time class="tile-date" datetime="2026-11-01">November 1, 2026</time>
+                    <time class="tile-date" datetime="2026-11-01" data-ts="2026-11-01T00:09:40Z">November 1, 2026</time>
                     <h2 class="tile-title">Today in Cinema: The Social Network, the 2010 Film That Defined the Facebook Era</h2>
                     <p class="tile-excerpt">A film about the founding of a website, built by a famously controlled director and a famously talkative writer, became one of the defining American movies of its century.</p>
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -385,7 +385,7 @@
                     <span class="tile-tag">Article</span>
                 </div>
                 <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-31">October 31, 2026</time>
+                    <time class="tile-date" datetime="2026-10-31" data-ts="2026-10-31T19:15:00Z">October 31, 2026</time>
                     <h2 class="tile-title">Today in Cinema, October 31: Nightcrawler Opens on Halloween 2014</h2>
                     <p class="tile-excerpt">Twelve years ago today, a first-time director and a dangerously underfed movie star sent audiences into the Los Angeles night.</p>
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -397,7 +397,7 @@
                     <span class="tile-tag">Article</span>
                 </div>
                 <div class="tile-body">
-                    <time class="tile-date" datetime="2026-10-31">October 31, 2026</time>
+                    <time class="tile-date" datetime="2026-10-31" data-ts="2026-10-31T19:15:00Z">October 31, 2026</time>
                     <h2 class="tile-title">10 Actors Who Turned Down Roles That Became Legendary</h2>
                     <p class="tile-excerpt">Hollywood history turns on sliding-door moments. These are the casting rejections that reshaped blockbuster cinema and handed other stars their defining parts.</p>
                     <span class="tile-more">Read article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -635,7 +635,7 @@
         function tileHTML(it, i) {
             return '<a class="tile" href="/' + DIR + '/' + encodeURI(it.f) + '" style="--i:' + Math.min(i, 14) + '">' +
                 '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + '<span class="tile-tag">' + esc(it.tag) + '</span></div>' +
-                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '">' + esc(fmt(it.date)) + '</time>' +
+                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '"' + (it.ts ? ' data-ts="' + esc(it.ts) + '"' : '') + '>' + esc(fmt(it.date)) + '</time>' +
                 '<h2 class="tile-title">' + esc(String(it.title).replace(/\*+/g, "")) + '</h2><p class="tile-excerpt">' + esc(String(it.excerpt).replace(/\*+/g, "")) + '</p>' +
                 '<span class="tile-more">' + MORE + ' ' + ARROW + '</span></div></a>';
         }
@@ -696,6 +696,31 @@
                 [].forEach.call(document.querySelectorAll(".tile"), function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
             }
         });
+    })();
+    </script><script>
+    (function () {
+        function label(ms) {
+            var m = Math.floor(ms / 60000);
+            if (m < 1) return "Just now";
+            if (m < 60) return m + (m === 1 ? " minute" : " minutes");
+            var h = Math.floor(m / 60);
+            return h + (h === 1 ? " hour" : " hours");
+        }
+        function update() {
+            var els = document.querySelectorAll("time.tile-date[data-ts]");
+            for (var i = 0; i < els.length; i++) {
+                var el = els[i], t = new Date(el.getAttribute("data-ts"));
+                if (isNaN(t)) continue;
+                if (!el.hasAttribute("data-d")) el.setAttribute("data-d", el.textContent);
+                var age = Date.now() - t.getTime();
+                if (age < 0 && age > -600000) age = 0;
+                el.textContent = (age >= 0 && age < 86400000) ? label(age) : el.getAttribute("data-d");
+            }
+        }
+        update();
+        setInterval(update, 30000);
+        var r = document.getElementById("results");
+        if (window.MutationObserver && r) new MutationObserver(update).observe(r, { childList: true });
     })();
     </script>
     <script>
