@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>When Movie Villains Were Right: 10 Antagonists Who Had a Point | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Ten movie villains who lost on screen but won part of the argument, from Killmonger and Magneto to Thanos and Roy Batty.">
+<meta name="description" content="Ten movie villains who lost on screen but won part of the argument, from Killmonger and Magneto to Thanos and Roy Batty.">
     <link rel="canonical" href="https://everymovieplug.com/articles/when-movie-villains-were-right.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -83,8 +83,8 @@
   "image": [
     "https://m.media-amazon.com/images/M/MV5BMjE1MDQ4NzIyN15BMl5BanBnXkFtZTcwMTA5OTIyNw@@._V1_SX1200_CR0,0,1200,550_.jpg"
   ],
-  "datePublished": "2026-11-01",
-  "dateModified": "2026-11-01"
+  "datePublished": "2026-11-01T15:06:17Z",
+  "dateModified": "2026-11-01T15:06:17Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -123,7 +123,7 @@
         <header class="article-header">
             <h1>When Movie Villains Were Right: 10 Antagonists Who Had a Point</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 1, 2026</p>
+            <p data-published="2026-11-01T15:06:17Z" class="article-date">November 1, 2026<span class="article-time"> &middot; 3:06 PM GMT</span></p>
             <p class="article-subtitle"><i>Ten antagonists who lost on screen but won part of the argument.</i></p>
         </header>
 
@@ -237,7 +237,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
