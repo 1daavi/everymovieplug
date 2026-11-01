@@ -171,6 +171,9 @@ function loadItems(sec) {
     const shown = (html.match(/class="article-date">\s*([^<]+?)\s*</) || [])[1];
     const shownIso = shown && !isNaN(new Date(shown + " UTC")) ? new Date(shown + " UTC").toISOString().slice(0, 10) : "";
     if (shownIso && shownIso !== it.date) { console.log(`[${sec.dir}] Date fixed for ${f}: ${it.date} -> ${shownIso}`); it.date = shownIso; }
+    // publication time (stamped on the story's date line by add-author.js); only the news section shows "x minutes / x hours" on its tiles
+    const stamp = sec.dir === "news" ? ((html.match(/<p[^>]*class="article-date"[^>]*>/i) || [""])[0].match(/data-published="([^"]+)"/) || [])[1] : "";
+    if (stamp && !isNaN(new Date(stamp))) it.ts = new Date(stamp).toISOString().slice(0, 19) + "Z"; else delete it.ts;
     it.words = wordCount(html);
     items.push(it);
   }
@@ -189,7 +192,7 @@ const tile = (it, sec, i) => `            <a class="tile" href="/${sec.dir}/${en
                     <span class="tile-tag">${esc(it.tag)}</span>
                 </div>
                 <div class="tile-body">
-                    <time class="tile-date" datetime="${it.date}">${fmtDate(it.date)}</time>
+                    <time class="tile-date" datetime="${it.date}"${it.ts ? ` data-ts="${it.ts}"` : ""}>${fmtDate(it.date)}</time>
                     <h2 class="tile-title">${esc(plain(it.title))}</h2>
                     <p class="tile-excerpt">${esc(plain(it.excerpt))}</p>
                     <span class="tile-more">${sec.more} ${ARROW}</span>
@@ -332,7 +335,7 @@ const searchScript = sec => `<script>
         function tileHTML(it, i) {
             return '<a class="tile" href="/' + DIR + '/' + encodeURI(it.f) + '" style="--i:' + Math.min(i, 14) + '">' +
                 '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + '<span class="tile-tag">' + esc(it.tag) + '</span></div>' +
-                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '">' + esc(fmt(it.date)) + '</time>' +
+                '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '"' + (it.ts ? ' data-ts="' + esc(it.ts) + '"' : '') + '>' + esc(fmt(it.date)) + '</time>' +
                 '<h2 class="tile-title">' + esc(String(it.title).replace(/\\*+/g, "")) + '</h2><p class="tile-excerpt">' + esc(String(it.excerpt).replace(/\\*+/g, "")) + '</p>' +
                 '<span class="tile-more">' + MORE + ' ' + ARROW + '</span></div></a>';
         }
@@ -393,6 +396,34 @@ const searchScript = sec => `<script>
                 [].forEach.call(document.querySelectorAll(".tile"), function (t) { t.classList.remove("go"); var rp = t.querySelector(".ripple"); if (rp) rp.remove(); });
             }
         });
+    })();
+    </script>`;
+
+/* ---------- "5 minutes" / "3 hours" on news tiles for stories under 24 hours old (runs in the visitor's browser) ---------- */
+const liveTime = `<script>
+    (function () {
+        function label(ms) {
+            var m = Math.floor(ms / 60000);
+            if (m < 1) return "Just now";
+            if (m < 60) return m + (m === 1 ? " minute" : " minutes");
+            var h = Math.floor(m / 60);
+            return h + (h === 1 ? " hour" : " hours");
+        }
+        function update() {
+            var els = document.querySelectorAll("time.tile-date[data-ts]");
+            for (var i = 0; i < els.length; i++) {
+                var el = els[i], t = new Date(el.getAttribute("data-ts"));
+                if (isNaN(t)) continue;
+                if (!el.hasAttribute("data-d")) el.setAttribute("data-d", el.textContent);
+                var age = Date.now() - t.getTime();
+                if (age < 0 && age > -600000) age = 0;
+                el.textContent = (age >= 0 && age < 86400000) ? label(age) : el.getAttribute("data-d");
+            }
+        }
+        update();
+        setInterval(update, 30000);
+        var r = document.getElementById("results");
+        if (window.MutationObserver && r) new MutationObserver(update).observe(r, { childList: true });
     })();
     </script>`;
 
@@ -488,7 +519,7 @@ function build(sec) {
       .replace("{{PAGER}}", () => pagerHTML(sec, page, pages, from, to, count))
       .replace("{{TEXT}}", () => text)
       .replace("{{FOOTER}}", () => footerHTML())
-      .replace("{{SEARCH_SCRIPT}}", () => searchScript(sec))
+      .replace("{{SEARCH_SCRIPT}}", () => searchScript(sec) + (sec.dir === "news" ? liveTime : ""))
       .replace("{{HERO_SCRIPT}}", () => page === 1 ? heroJS : "")
       .replace("</style>", () => EXTRA_CSS + "    </style>");
     // the lead line and the result counter sit right under the page header
