@@ -370,6 +370,46 @@
                     cards.forEach(function (c) { c.classList.add('emp-reveal'); io.observe(c); });
                 })();
             </script>
+            <script id="emp-og-thumbs">
+                (function () {
+                    var cards = [].slice.call(document.querySelectorAll('.emp-card[href]'));
+                    if (!cards.length || !window.fetch || !window.DOMParser) return;
+                    function cacheGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+                    function cacheSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+                    function setThumb(card, url) {
+                        var thumb = card.querySelector('.emp-thumb');
+                        if (!thumb || !url) return;
+                        var img = thumb.querySelector('img');
+                        if (img && img.getAttribute('src') === url) return;
+                        if (!img) {
+                            var t = card.querySelector('.emp-title');
+                            img = document.createElement('img');
+                            img.alt = t ? t.textContent.trim() : '';
+                            img.loading = 'lazy';
+                            img.onerror = function () { card.classList.add('emp-nothumb'); img.remove(); };
+                            thumb.insertBefore(img, thumb.firstChild);
+                        }
+                        card.classList.remove('emp-nothumb');
+                        img.src = url;
+                    }
+                    cards.forEach(function (card) {
+                        var href = card.href, key = 'emp-og:' + href, hit = cacheGet(key);
+                        if (hit) { setThumb(card, hit); return; }
+                        fetch(href, { credentials: 'same-origin' })
+                            .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+                            .then(function (html) {
+                                var doc = new DOMParser().parseFromString(html, 'text/html');
+                                var m = doc.querySelector('meta[property="og:image"]') || doc.querySelector('meta[name="twitter:image"]');
+                                var u = m && m.getAttribute('content');
+                                if (!u) return;
+                                u = new URL(u, href).href;
+                                cacheSet(key, u);
+                                setThumb(card, u);
+                            })
+                            .catch(function () {});
+                    });
+                })();
+            </script>
         </div>
     <aside class="author-box" aria-label="About the author">
         <img class="author-avatar" src="/author/Maccarthy-Albin.jpg" alt="Maccarthy Albin" width="56" height="56" loading="lazy">
