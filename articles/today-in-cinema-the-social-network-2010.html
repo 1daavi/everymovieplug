@@ -128,8 +128,8 @@
   "image": [
     "https://i0.wp.com/thefincheranalyst.com/wp-content/uploads/2018/07/2010-the-social-network-official-trailer-apple.jpg?fit=1200%2C500&ssl=1"
   ],
-  "datePublished": "2026-11-01",
-  "dateModified": "2026-11-01"
+  "datePublished": "2026-11-01T00:09:40Z",
+  "dateModified": "2026-11-01T00:09:40Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -168,7 +168,7 @@
         <header class="article-header">
 <h1>Today in Cinema: The Social Network, the 2010 Film That Defined the Facebook Era</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 1, 2026</p>
+            <p data-published="2026-11-01T00:09:40Z" class="article-date">November 1, 2026<span class="article-time"> &middot; 12:09 AM GMT</span></p>
             <p class="article-subtitle"><i>A film about the founding of a website, built by a famously controlled director and a famously talkative writer, became one of the defining American movies of its century.</i></p>
         </header>
 
@@ -428,6 +428,19 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
 </main>
 
     <footer class="site-footer">
