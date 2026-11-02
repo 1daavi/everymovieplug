@@ -90,6 +90,11 @@
         .qa h3 { margin: 1.3rem 0 0.35rem; font-size: 1.05em; }
         .qa p { margin: 0; }
         .ig-embed { margin: 1.8rem auto; max-width: 540px; }
+        /* Portrait (9:16) video player: keep it phone-sized instead of filling the article column */
+        .emp-player-figure.emp-portrait { margin: 1.8rem auto; text-align: center; max-width: 100%; }
+        .emp-player-figure.emp-portrait .emp-player { position: relative !important; display: block; width: min(360px, 100%, calc(80vh * 9 / 16)) !important; max-width: 100% !important; height: auto !important; max-height: 80vh !important; aspect-ratio: 9 / 16 !important; margin: 0 auto !important; overflow: hidden; border-radius: 12px; background: #000; }
+        .emp-player-figure.emp-portrait .emp-player video { display: block; width: 100% !important; height: 100% !important; max-height: 80vh; object-fit: contain; background: #000; }
+        .emp-player-figure.emp-portrait figcaption { margin-top: 0.6rem; font-size: 0.82em; opacity: 0.65; text-align: center; }
 
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
@@ -215,7 +220,7 @@
             <p>The story is short and carries little explanation. Bautista films himself in a <em>God of War</em> shirt, and the overlays do the talking. &ldquo;Gained 20 lbs for GOW&rdquo; sits across the frame, and a &ldquo;250&rdquo; sticker lands beside it. Cosmic Book News, which described the clip as set to an instrumental track, said Bautista gave no written caption. Variety&rsquo;s report, republished by Yahoo News UK, likewise noted that the page offered no caption beyond the overlays.</p>
 
 
-            <figure class="emp-player-figure">
+            <figure class="emp-player-figure emp-portrait">
             <div class="emp-player" data-title="Dave Bautista via IG Stories" data-download>
             <video src="/articlevideos/dave-gow.mp4" poster="/articleassets/clip-poster.jpg" controls preload="metadata" playsinline></video>
             </div>
