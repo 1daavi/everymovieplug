@@ -9,7 +9,7 @@
     <meta name="tmdb" content="movie|Dogfight|2027">
     <title>Jason Statham and Guy Ritchie Reunite for Netflix Revenge Thriller Dogfight | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Netflix has announced Dogfight, a London-set revenge action film starring Jason Statham and written and directed by Guy Ritchie, with production due to start in early 2027.">
+<meta name="description" content="Netflix has announced Dogfight, a London-set revenge action film starring Jason Statham and written and directed by Guy Ritchie, with production due to start in early 2027.">
     <link rel="canonical" href="https://everymovieplug.com/news/jason-statham-guy-ritchie-netflix-dogfight.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -128,8 +128,8 @@
   "image": [
     "https://everymovieplug.com/articleassets/dogfight.jpg"
   ],
-  "datePublished": "2026-11-03",
-  "dateModified": "2026-11-03",
+  "datePublished": "2026-11-03T17:27:07Z",
+  "dateModified": "2026-11-03T17:27:07Z",
   "articleSection": "Streaming News"
 }
     </script>
@@ -169,7 +169,7 @@
         <header class="article-header">
             <h1>Jason Statham and Guy Ritchie Reunite for Netflix Revenge Thriller <em>Dogfight</em></h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 3, 2026</p>
+            <p data-published="2026-11-03T17:27:07Z" class="article-date">November 3, 2026<span class="article-time"> &middot; 5:27 PM GMT</span></p>
             <p class="article-subtitle"><i>The seventh film from the actor and director behind <em>Lock, Stock and Two Smoking Barrels</em> and <em>Snatch</em> is a London crime story built around revenge, and it is headed to Netflix.</i></p>
         </header>
 
@@ -341,7 +341,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
