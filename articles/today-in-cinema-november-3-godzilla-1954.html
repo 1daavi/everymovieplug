@@ -6,7 +6,7 @@
     <meta name="category" content="TODAY IN CINEMA">
     <title>Today in Cinema, November 3: Godzilla Rises From Tokyo Bay in 1954 and Changes Monster Movies Forever | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Godzilla reached Japanese theaters on November 3, 1954. How a nuclear nightmare became cinema’s most enduring monster, and why the date still matters.">
+<meta name="description" content="Godzilla reached Japanese theaters on November 3, 1954. How a nuclear nightmare became cinema’s most enduring monster, and why the date still matters.">
     <link rel="canonical" href="https://everymovieplug.com/articles/today-in-cinema-november-3-godzilla-1954.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -130,9 +130,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/lLVt2XX0OiLreWaZ0qwwXVNW4ga.jpg"
   ],
-  "datePublished": "2026-11-03",
-  "dateModified": "2026-11-03",
-  "articleSection": "TODAY IN CINEMA"
+  "datePublished": "2026-11-03T19:42:24Z",
+  "dateModified": "2026-11-03T19:42:24Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -171,7 +170,7 @@
         <header class="article-header">
             <h1>Today in Cinema, November 3: Godzilla Rises From Tokyo Bay in 1954 and Changes Monster Movies Forever</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 3, 2026</p>
+            <p data-published="2026-11-03T19:42:24Z" class="article-date">November 3, 2026<span class="article-time"> &middot; 7:42 PM GMT</span></p>
             <p class="article-subtitle"><i>A cancelled co-production, a fishing boat showered in fallout and a stuntman who could last three minutes in a rubber suit produced the film that launched the longest-running franchise in movie history.</i></p>
         </header>
 
@@ -274,7 +273,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
