@@ -462,12 +462,18 @@ img.author-avatar {
   border-radius: 9999px;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .footer-x-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--pill-bg);
+  border-color: var(--pill-edge);
+  color: var(--pill-fg);
+}
+
+.footer-x-btn:active {
+  background-color: var(--pill-edge);
+  border-color: var(--pill-fg);
 }
 
 .x-icon {
