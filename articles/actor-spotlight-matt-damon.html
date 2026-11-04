@@ -7,7 +7,7 @@
     <meta name="tmdb" content="movie|The Bourne Identity|2002">
     <title>Matt Damon Actor Spotlight: Performance, Pivots, Filmography | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Matt Damon’s career, analyzed: how his restrained performances work, the turning points from Good Will Hunting to Bourne, and which films carry real weight.">
+<meta name="description" content="Matt Damon’s career, analyzed: how his restrained performances work, the turning points from Good Will Hunting to Bourne, and which films carry real weight.">
     <link rel="canonical" href="https://everymovieplug.com/articles/actor-spotlight-matt-damon.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -120,9 +120,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/At3JgvaNeEN4Z4ESKlhhes85Xo3.jpg"
   ],
-  "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
-  "articleSection": "Actor Spotlight"
+  "datePublished": "2026-11-04T03:42:45Z",
+  "dateModified": "2026-11-04T03:42:45Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -161,7 +160,7 @@
         <header class="article-header">
             <h1>Actor Spotlight: Matt Damon</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 4, 2026</p>
+            <p data-published="2026-11-04T03:42:45Z" class="article-date">November 4, 2026<span class="article-time"> &middot; 3:42 AM GMT</span></p>
             <p class="article-subtitle"><i>An analytical deep-dive into the performance mechanics, career pivots and filmography weight of Hollywood&rsquo;s most calculated everyman.</i></p>
         </header>
 
@@ -317,7 +316,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
