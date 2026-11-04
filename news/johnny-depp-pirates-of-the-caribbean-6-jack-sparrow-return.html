@@ -9,7 +9,7 @@
     <meta name="tmdb" content="movie|Pirates of the Caribbean: The Curse of the Black Pearl|2003">
     <title>Johnny Depp Says He Would Return for Pirates of the Caribbean 6 to Give Jack Sparrow a Better Send-Off | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Johnny Depp says he would return as Jack Sparrow in Pirates of the Caribbean 6 to send the franchise off on a better note. Here is where the film stands at Disney.">
+<meta name="description" content="Johnny Depp says he would return as Jack Sparrow in Pirates of the Caribbean 6 to send the franchise off on a better note. Here is where the film stands at Disney.">
     <link rel="canonical" href="https://everymovieplug.com/news/johnny-depp-pirates-of-the-caribbean-6-jack-sparrow-return.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -124,8 +124,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/3rlclw8qHWEX2hYHNi7dAaW1e0.jpg"
   ],
-  "datePublished": "2026-11-04",
-  "dateModified": "2026-11-04",
+  "datePublished": "2026-11-04T06:42:51Z",
+  "dateModified": "2026-11-04T06:42:51Z",
   "articleSection": "Film News"
 }
     </script>
@@ -165,7 +165,7 @@
         <header class="article-header">
             <h1>Johnny Depp Says He Would Return for <em>Pirates of the Caribbean 6</em> to Give Jack Sparrow a Better Send-Off</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 4, 2026</p>
+            <p data-published="2026-11-04T06:42:51Z" class="article-date">November 4, 2026<span class="article-time"> &middot; 6:42 AM GMT</span></p>
             <p class="article-subtitle"><i>Depp stopped short of confirming a return, but told Entertainment Tonight he would work with producer Jerry Bruckheimer on anything as the long-delayed sixth film remains in development at Disney.</i></p>
         </header>
 
@@ -383,7 +383,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
