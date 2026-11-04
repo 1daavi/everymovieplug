@@ -1,0 +1,197 @@
+name: Generate Sitemaps
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "news/**"
+      - "articles/**"
+  schedule:
+    - cron: "17 * * * *"   # hourly, so articles drop out of the 48h news sitemap on time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitemaps
+  cancel-in-progress: true
+
+jobs:
+  sitemaps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, used as a date fallback
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate sitemaps
+        env:
+          SITE_URL: https://everymovieplug.com
+          PUBLICATION_NAME: EveryMoviePlug
+          PUBLICATION_LANG: en
+          OUT_DIR: .
+          NEWS_WINDOW_HOURS: "48"
+          CLEAN_URLS: "true"   # Cloudflare Pages serves /news/foo.html as /news/foo
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const { execSync } = require('child_process');
+
+          const SITE = process.env.SITE_URL.replace(/\/$/, '');
+          const PUB = process.env.PUBLICATION_NAME;
+          const LANG = process.env.PUBLICATION_LANG;
+          const OUT = process.env.OUT_DIR;
+          const WINDOW_MS = Number(process.env.NEWS_WINDOW_HOURS) * 3600 * 1000;
+          const CLEAN = process.env.CLEAN_URLS === 'true';
+          const SECTIONS = ['news', 'articles'];
+
+          const esc = s => String(s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+
+          const decode = s => s
+            .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'")
+            .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n));
+
+          // W3C datetime (ISO 8601, UTC), no milliseconds
+          const w3c = d => d.toISOString().replace(/\.\d{3}Z$/, '+00:00');
+
+          function metaContent(html, key) {
+            const tags = html.match(/<meta\b[^>]*>/gi) || [];
+            for (const tag of tags) {
+              const k = tag.match(/(?:property|name)\s*=\s*["']([^"']+)["']/i);
+              if (k && k[1].toLowerCase() === key.toLowerCase()) {
+                const c = tag.match(/content\s*=\s*["']([^"']*)["']/i);
+                if (c) return c[1];
+              }
+            }
+            return null;
+          }
+
+          function findDates(html) {
+            let published = metaContent(html, 'article:published_time');
+            let modified = metaContent(html, 'article:modified_time');
+            if (!published) {
+              const m = html.match(/"datePublished"\s*:\s*"([^"]+)"/);
+              if (m) published = m[1];
+            }
+            if (!modified) {
+              const m = html.match(/"dateModified"\s*:\s*"([^"]+)"/);
+              if (m) modified = m[1];
+            }
+            if (!published) {
+              const m = html.match(/<time[^>]+datetime\s*=\s*["']([^"']+)["']/i);
+              if (m) published = m[1];
+            }
+            return { published, modified };
+          }
+
+          const valid = d => d instanceof Date && !isNaN(d);
+
+          function git(cmd) {
+            try { return execSync(cmd, { encoding: 'utf8' }).trim(); } catch { return ''; }
+          }
+
+          function getTitle(html) {
+            const t = metaContent(html, 'og:title') ||
+              (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '';
+            return decode(t).replace(/\s*[|\-–—]\s*every\s*movie\s*plug.*$/i, '').trim();
+          }
+
+          function toUrl(section, file) {
+            const name = CLEAN ? file.replace(/\.html$/i, '') : file;
+            return `${SITE}/${section}/${name}`;
+          }
+
+          const items = [];
+          for (const section of SECTIONS) {
+            if (!fs.existsSync(section)) continue;
+            for (const file of fs.readdirSync(section)) {
+              if (!/\.html$/i.test(file) || file.toLowerCase() === 'index.html') continue;
+              const full = path.join(section, file);
+              const html = fs.readFileSync(full, 'utf8');
+              if (/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(html)) continue;
+
+              const found = findDates(html);
+              let published = found.published ? new Date(found.published) : null;
+              if (!valid(published)) {
+                const g = git(`git log --diff-filter=A --format=%aI -- "${full}" | tail -1`);
+                published = g ? new Date(g) : fs.statSync(full).mtime;
+              }
+              let modified = found.modified ? new Date(found.modified) : null;
+              if (!valid(modified)) {
+                const g = git(`git log -1 --format=%aI -- "${full}"`);
+                modified = g ? new Date(g) : published;
+              }
+              if (modified < published) modified = published;
+
+              items.push({
+                section, url: toUrl(section, file),
+                title: getTitle(html) || file.replace(/\.html$/i, '').replace(/-/g, ' '),
+                published, modified,
+              });
+            }
+          }
+
+          items.sort((a, b) => b.published - a.published);
+          const now = Date.now();
+
+          // 1) Dedicated Google News sitemap: only items published within the last 48 hours
+          const recent = items.filter(i => now - i.published.getTime() <= WINDOW_MS && i.published.getTime() <= now + 3600000);
+          const newsXml =
+          `<?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+          ${recent.map(i => `  <url>
+              <loc>${esc(i.url)}</loc>
+              <news:news>
+                <news:publication>
+                  <news:name>${esc(PUB)}</news:name>
+                  <news:language>${esc(LANG)}</news:language>
+                </news:publication>
+                <news:publication_date>${w3c(i.published)}</news:publication_date>
+                <news:title>${esc(i.title)}</news:title>
+              </news:news>
+            </url>`).join('\n')}
+          </urlset>
+          `.replace(/^ {10}/gm, '');
+
+          // 2) Full content sitemap: every news item and article, plus the section index pages
+          const newest = s => {
+            const x = items.filter(i => i.section === s)[0];
+            return x ? x.modified : new Date();
+          };
+          const sectionIndexes = SECTIONS.map(s => ({ url: `${SITE}/${s}/`, lastmod: newest(s) }));
+          const contentXml =
+          `<?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+          ${[...sectionIndexes, ...items.map(i => ({ url: i.url, lastmod: i.modified }))].map(u => `  <url>
+              <loc>${esc(u.url)}</loc>
+              <lastmod>${w3c(u.lastmod)}</lastmod>
+            </url>`).join('\n')}
+          </urlset>
+          `.replace(/^ {10}/gm, '');
+
+          fs.mkdirSync(OUT, { recursive: true });
+          fs.writeFileSync(path.join(OUT, 'sitemap-news.xml'), newsXml);
+          fs.writeFileSync(path.join(OUT, 'sitemap-content.xml'), contentXml);
+          console.log(`Total: ${items.length} pages, ${recent.length} in the last ${process.env.NEWS_WINDOW_HOURS}h`);
+          EOF
+
+      - name: Commit sitemaps
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap-news.xml sitemap-content.xml
+          if git diff --cached --quiet; then
+            echo "No sitemap changes"
+          else
+            git commit -m "chore: update sitemaps [skip ci]"
+            git push
+          fi
