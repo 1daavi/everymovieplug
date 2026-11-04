@@ -8,4 +8,6 @@ Allow: /
 
 # Specify Canonical Sitemap
 Sitemap: https://everymovieplug.com/sitemap.xml
+Sitemap: https://everymovieplug.com/sitemap-news.xml
+Sitemap: https://everymovieplug.com/sitemap-content.xml
 
