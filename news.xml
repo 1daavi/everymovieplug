@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 04 Nov 2026 18:13:03 GMT</lastBuildDate>
+<lastBuildDate>Thu, 05 Nov 2026 14:53:36 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Godzilla Minus Zero Breaks Japan’s Opening-Day Record Ahead of Its North American Debut</title>
+<link>https://everymovieplug.com/news/godzilla-minus-zero-record-opening-japan-north-america-release.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/godzilla-minus-zero-record-opening-japan-north-america-release.html</guid>
+<pubDate>Thu, 05 Nov 2026 14:53:36 GMT</pubDate>
+<category>Box Office News</category>
+<description>Godzilla Minus Zero earned ¥910 million on its first day in Japan, a live-action record, as the R-rated sequel opens in North America on November 6.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Jeremy Allen White: The Next Wolverine?</title>
 <link>https://everymovieplug.com/news/jeremy-allen-white-marvel-meeting-wolverine-x-men-reboot.html</link>
@@ -197,16 +207,6 @@
 <description>Reports name Jack Lowden, Jacob Elordi, Callum Turner and Josh O'Connor among the actors in the running for James Bond, with final screen tests reportedly set for the coming week.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/who-will-be-the-next-james-bond-casting-shortlist-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/who-will-be-the-next-james-bond-casting-shortlist-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Grok Imagine Releases Episode 1 of Its AI-Made Odyssey Series</title>
-<link>https://everymovieplug.com/news/grok-imagine-odyssey-episode-1-wonder-studios-dev-walker.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/grok-imagine-odyssey-episode-1-wonder-studios-dev-walker.html</guid>
-<pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
-<category>Film News</category>
-<description>xAI's Grok Imagine released a roughly seven-minute first episode of an AI-generated Odyssey series with Wonder Studios and director Dev Walker.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/grok-imagine-odyssey-episode-1-wonder-studios-dev-walker-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/grok-imagine-odyssey-episode-1-wonder-studios-dev-walker-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
