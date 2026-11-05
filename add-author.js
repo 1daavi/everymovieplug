@@ -8,6 +8,10 @@
  *   - an author box at the end of the story: short bio + contact email
  * The schema.org author (Person) is written by add-schema.js.
  *
+ * Two or more authors are supported. The author of each page is read from its
+ * <meta name="author" content="..."> tag (name must match a key in AUTHORS below).
+ * Pages with no author tag, or an unknown name, fall back to DEFAULT_AUTHOR.
+ *
  * Usage (from the site root):   node add-author.js
  *   node add-author.js news       only the news folder
  *   node add-author.js articles   only the articles folder
@@ -15,25 +19,54 @@
 const fs = require("fs");
 const path = require("path");
 
-const AUTHOR = {
-  name: "Maccarthy Albin",
-  email: "maccarthy@everymovieplug.com",
-  page: "/author/maccarthy-albin.html",
-  image: "/author/Maccarthy-Albin.jpg",
-  bio: "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
+// ---- authors ----
+// The key must match the name used in <meta name="author" content="..."> exactly.
+const AUTHORS = {
+  "Maccarthy Albin": {
+    name: "Maccarthy Albin",
+    email: "maccarthy@everymovieplug.com",
+    page: "/author/maccarthy-albin.html",
+    image: "/author/Maccarthy-Albin.jpg",
+    bio: "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
+  },
+  "SECOND AUTHOR NAME": {
+    name: "SECOND AUTHOR NAME",
+    email: "second@everymovieplug.com",
+    page: "/author/second-author.html",
+    image: "/author/Second-Author.jpg",
+    bio: "Short bio here.",
+  },
 };
+const DEFAULT_AUTHOR = "Maccarthy Albin";
 
-const byline = `<p class="article-byline">By <a href="${AUTHOR.page}" rel="author">${AUTHOR.name}</a></p>`;
-const box = `    <aside class="author-box" aria-label="About the author">
-        <img class="author-avatar" src="${AUTHOR.image}" alt="${AUTHOR.name}" width="56" height="56" loading="lazy">
+const makeByline = (A) =>
+  `<p class="article-byline">By <a href="${A.page}" rel="author">${A.name}</a></p>`;
+
+const makeBox = (A) => `    <aside class="author-box" aria-label="About the author">
+        <img class="author-avatar" src="${A.image}" alt="${A.name}" width="56" height="56" loading="lazy">
         <div class="author-info">
             <p class="author-label">Written by</p>
-            <p class="author-name"><a href="${AUTHOR.page}" rel="author">${AUTHOR.name}</a></p>
-            <p class="author-bio">${AUTHOR.bio}</p>
-            <p class="author-contact">Contact: <a href="mailto:${AUTHOR.email}">${AUTHOR.email}</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
+            <p class="author-name"><a href="${A.page}" rel="author">${A.name}</a></p>
+            <p class="author-bio">${A.bio}</p>
+            <p class="author-contact">Contact: <a href="mailto:${A.email}">${A.email}</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
 `;
+
+// Work out which author a page already has (must run BEFORE anything is stripped)
+function detectAuthor(html) {
+  const meta = html.match(/<meta name="author" content="([^"]*)"/i);
+  if (meta && AUTHORS[meta[1].trim()]) return AUTHORS[meta[1].trim()];
+  const hrefs = [
+    (html.match(/<p class="article-byline">[\s\S]*?href="([^"]+)"/) || [])[1],
+    (html.match(/<aside class="author-box"[\s\S]*?href="([^"]+)"/) || [])[1],
+  ].filter(Boolean);
+  for (const h of hrefs) {
+    const hit = Object.values(AUTHORS).find((a) => a.page === h);
+    if (hit) return hit;
+  }
+  return AUTHORS[DEFAULT_AUTHOR];
+}
 
 
 // ---- publication time ----
@@ -88,12 +121,15 @@ for (const dir of sections) {
     const html = fs.readFileSync(file, "utf8");
     if (!/class="article-header"/.test(html) || !/<\/main>/i.test(html)) { skipped++; continue; }
     total++;
+    const A = detectAuthor(html);
+    const byline = makeByline(A);
+    const box = makeBox(A);
     let out = html
       .replace(/[ \t]*<meta name="author"[^>]*>\s*\n?/gi, "")
       .replace(/[ \t]*<p class="article-byline">[\s\S]*?<\/p>\s*\n?/g, "")
       .replace(/[ \t]*<aside class="author-box"[\s\S]*?<\/aside>\s*\n?/g, "")
       .replace(/[ \t]*<script id="emp-local-time">[\s\S]*?<\/script>\s*\n?/g, "");
-    out = out.replace(/<\/title>/i, m => `${m}\n    <meta name="author" content="${AUTHOR.name}">`);
+    out = out.replace(/<\/title>/i, m => `${m}\n    <meta name="author" content="${A.name}">`);
 // take the date and "updated" note out of their old spot above the title...
 let dateBlock = "", updatedBlock = "";
 out = out.replace(/[ \t]*(<p [^>]*class="article-date"[^>]*>[\s\S]*?<\/p>)[ \t]*\n?/, (m, d) => { dateBlock = stampTime(d); return ""; });
