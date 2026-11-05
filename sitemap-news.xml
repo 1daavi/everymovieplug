@@ -33,37 +33,4 @@
       <news:title>Matt Damon Actor Spotlight: Performance, Pivots, Filmography</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://everymovieplug.com/news/jason-statham-guy-ritchie-netflix-dogfight</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-03T00:00:00+00:00</news:publication_date>
-      <news:title>Jason Statham and Guy Ritchie Reunite for Netflix Revenge Thriller Dogfight</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/dune-part-three-vs-avengers-doomsday-dunesday-which-to-watch-first</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-03T00:00:00+00:00</news:publication_date>
-      <news:title>Dunesday Survival Guide: How to Watch Dune: Part Three and Avengers: Doomsday, and Which to See First</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/today-in-cinema-november-3-godzilla-1954</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-03T00:00:00+00:00</news:publication_date>
-      <news:title>Today in Cinema, November 3: Godzilla Rises From Tokyo Bay in 1954 and Changes Monster Movies Forever</news:title>
-    </news:news>
-  </url>
 </urlset>
