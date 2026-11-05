@@ -30,11 +30,11 @@ const AUTHORS = {
     bio: "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
   },
   "SECOND AUTHOR NAME": {
-    name: "SECOND AUTHOR NAME",
-    email: "second@everymovieplug.com",
-    page: "/author/second-author.html",
-    image: "/author/Second-Author.jpg",
-    bio: "Short bio here.",
+    name: "Biswajit Das",
+    email: "biswajit@everymovieplug.com",
+    page: "/author/biswajit-das.html",
+    image: "/author/biswajit-das.jpg",
+    bio: "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
   },
 };
 const DEFAULT_AUTHOR = "Maccarthy Albin";
