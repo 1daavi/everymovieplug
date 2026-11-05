@@ -7,7 +7,7 @@
     <meta name="tmdb" content="movie|The Matrix Revolutions|2003">
     <title>Today in Cinema, November 5: The Matrix Revolutions Ends the Trilogy in 108 Territories at Once | Every Movie Plug</title>
     <meta name="author" content="Biswajit Das">
-    <meta name="description" content="The Matrix Revolutions opened worldwide on November 5, 2003. Inside the global launch, the recast roles, the rain-soaked finale and why fans still debate it.">
+<meta name="description" content="The Matrix Revolutions opened worldwide on November 5, 2003. Inside the global launch, the recast roles, the rain-soaked finale and why fans still debate it.">
     <link rel="canonical" href="https://everymovieplug.com/articles/today-in-cinema-november-5-the-matrix-revolutions-2003.html">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
@@ -99,13 +99,13 @@
   "url": "https://everymovieplug.com/articles/today-in-cinema-november-5-the-matrix-revolutions-2003.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/biswajit-das.html#person",
-    "name": "Biswajit Das",
-    "url": "https://everymovieplug.com/author/biswajit-das.html",
-    "email": "biswajit@everymovieplug.com",
-    "description": "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/BiswabiologyX"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -131,9 +131,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/qEWiBXJGXK28jGBAm8oFKKTB0WD.jpg"
   ],
-  "datePublished": "2026-11-05",
-  "dateModified": "2026-11-05",
-  "articleSection": "Today In Cinema"
+  "datePublished": "2026-11-05T02:47:08Z",
+  "dateModified": "2026-11-05T02:47:08Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -172,7 +171,7 @@
         <header class="article-header">
             <h1>Today in Cinema, November 5: The Matrix Revolutions Ends the Trilogy in 108 Territories at Once</h1>
             <p class="article-byline">By <a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
-            <p class="article-date">November 5, 2026</p>
+            <p data-published="2026-11-05T02:47:08Z" class="article-date">November 5, 2026<span class="article-time"> &middot; 2:47 AM GMT</span></p>
             <p class="article-subtitle"><i>Six months after Reloaded, the Wachowskis closed their trilogy with a record-setting global opening, a record-setting drop and an ending that critics and fans have argued about for 23 years.</i></p>
         </header>
 
@@ -265,10 +264,23 @@
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
             <p class="author-bio">Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.</p>
-            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/BiswabiologyX" target="_blank" rel="noopener noreferrer">@BiswabiologyX on X</a></p>
+            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
