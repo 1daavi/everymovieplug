@@ -183,8 +183,8 @@ jobs:
           fs.writeFileSync(path.join(OUT, 'sitemap-content.xml'), contentXml);
           console.log(`Total: ${items.length} pages, ${recent.length} in the last ${process.env.NEWS_WINDOW_HOURS}h`);
           EOF
-
-       - name: Commit sitemaps
+          
+      - name: Commit sitemaps
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
