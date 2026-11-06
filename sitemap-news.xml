@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://everymovieplug.com/articles/today-in-cinema-november-6-spectre-2015</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-06T09:00:00+00:00</news:publication_date>
+      <news:title>Today in Cinema, November 6: Spectre Opens in America in 2015 and Takes Bond From Mexico City to a Sahara Crater</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/john-wick-animated-prequel-greenlit-keanu-reeves-impossible-task</loc>
     <news:news>
       <news:publication>
