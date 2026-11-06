@@ -5,19 +5,9 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 06 Nov 2026 00:44:07 GMT</lastBuildDate>
+<lastBuildDate>Thu, 05 Nov 2026 14:53:36 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
-<item>
-<title>Brad Pitt Actor Spotlight: Performance, Pivots, Filmography</title>
-<link>https://everymovieplug.com/news/actor-spotlight-brad-pitt.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/actor-spotlight-brad-pitt.html</guid>
-<pubDate>Fri, 06 Nov 2026 00:44:07 GMT</pubDate>
-<category>Actor Spotlight</category>
-<description>Brad Pitt’s career, analyzed: how his performances work, the turning points from 12 Monkeys to Plan B to F1, and which films carry real weight.</description>
-<media:thumbnail url="https://image.tmdb.org/t/p/original/cckcYc2v0yh1tc9QjRelptcOBko.jpg"/>
-<media:content url="https://image.tmdb.org/t/p/original/cckcYc2v0yh1tc9QjRelptcOBko.jpg" medium="image" type="image/jpeg"/>
-</item>
 <item>
 <title>Godzilla Minus Zero Breaks Japan’s Opening-Day Record Ahead of Its North American Debut</title>
 <link>https://everymovieplug.com/news/godzilla-minus-zero-record-opening-japan-north-america-release.html</link>
@@ -207,6 +197,16 @@
 <description>Dwayne Johnson is nearly unrecognizable as 70-year-old Chicken Man in set photos from Benny Safdie's Lizard Music, due December 25, 2027.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/dwayne-johnson-70-year-old-chicken-man-lizard-music-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/dwayne-johnson-70-year-old-chicken-man-lizard-music-full.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+<title>Who Will Be the Next James Bond? Casting Reportedly Narrows to a Short List</title>
+<link>https://everymovieplug.com/news/who-will-be-the-next-james-bond-casting-shortlist.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/who-will-be-the-next-james-bond-casting-shortlist.html</guid>
+<pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+<category>Film News</category>
+<description>Reports name Jack Lowden, Jacob Elordi, Callum Turner and Josh O'Connor among the actors in the running for James Bond, with final screen tests reportedly set for the coming week.</description>
+<media:thumbnail url="https://everymovieplug.com/articleassets/who-will-be-the-next-james-bond-casting-shortlist-full.jpg"/>
+<media:content url="https://everymovieplug.com/articleassets/who-will-be-the-next-james-bond-casting-shortlist-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
