@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Thu, 05 Nov 2026 02:47:08 GMT</lastBuildDate>
+<lastBuildDate>Fri, 06 Nov 2026 00:51:52 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Brad Pitt Actor Spotlight: Performance, Pivots, Filmography</title>
+<link>https://everymovieplug.com/articles/actor-spotlight-brad-pitt.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/actor-spotlight-brad-pitt.html</guid>
+<pubDate>Fri, 06 Nov 2026 00:51:52 GMT</pubDate>
+<category>Actor Spotlight</category>
+<description>An analytical deep-dive into the performance mechanics, career turning points and filmography weight of a star who built his second career behind the camera.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/cckcYc2v0yh1tc9QjRelptcOBko.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/cckcYc2v0yh1tc9QjRelptcOBko.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Today in Cinema, November 5: The Matrix Revolutions Ends the Trilogy in 108 Territories at Once</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-5-the-matrix-revolutions-2003.html</link>
@@ -197,16 +207,6 @@
 <description>How James Cameron and his production team built a massive, 90% scale replica of the Titanic.</description>
 <media:thumbnail url="https://image.tmdb.org/t/p/original/5bTWA20cL9LCIGNpde4Epc2Ijzn.jpg"/>
 <media:content url="https://image.tmdb.org/t/p/original/5bTWA20cL9LCIGNpde4Epc2Ijzn.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Behind the Cape: Why DC Struggled to Match Marvel’s Cinematic Empire</title>
-<link>https://everymovieplug.com/articles/behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/behind-the-cape-why-dc-struggled-to-match-marvel-s-cinematic-empire.html</guid>
-<pubDate>Sun, 11 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>Rushed timelines, corporate intervention, and a grim tone caused DC to stumble where Marvel's patience and unified strategy succeeded.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/marveldc-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/marveldc-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

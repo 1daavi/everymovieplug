@@ -3,6 +3,16 @@
  "perPage": 16,
  "items": [
   {
+   "f": "actor-spotlight-brad-pitt.html",
+   "title": "Brad Pitt Actor Spotlight: Performance, Pivots, Filmography",
+   "excerpt": "An analytical deep-dive into the performance mechanics, career turning points and filmography weight of a star who built his second career behind the camera.",
+   "date": "2026-11-06",
+   "tag": "Actor Spotlight",
+   "img": "https://image.tmdb.org/t/p/original/cckcYc2v0yh1tc9QjRelptcOBko.jpg",
+   "ts": "2026-11-06T00:51:52Z",
+   "words": 3159
+  },
+  {
    "f": "today-in-cinema-november-5-the-matrix-revolutions-2003.html",
    "title": "Today in Cinema, November 5: The Matrix Revolutions Ends the Trilogy in 108 Territories at Once",
    "excerpt": "Six months after Reloaded, the Wachowskis closed their trilogy with a record-setting global opening, a record-setting drop and an ending that critics and fans have argued about for 23 years.",
