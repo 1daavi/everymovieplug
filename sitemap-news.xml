@@ -23,6 +23,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://everymovieplug.com/articles/the-ending-of-the-graduate</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-06T00:00:00+00:00</news:publication_date>
+      <news:title>The Ending of The Graduate Explained</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/godzilla-minus-zero-record-opening-japan-north-america-release</loc>
     <news:news>
       <news:publication>
