@@ -36,6 +36,14 @@ const AUTHORS = {
     image: "/author/biswajit-das.jpg",
     bio: "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
   },
+  },
+  "THIRD AUTHOR NAME": {
+    name: "Abigail Gyimah",
+    email: "missgyim@everymovieplug.com",
+    page: "/author/abigail-gyimah.html",
+    image: "/author/abigail-gyimah.jpg",
+    bio: "Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.",
+  },
 };
 const DEFAULT_AUTHOR = "Maccarthy Albin";
 
