@@ -36,7 +36,6 @@ const AUTHORS = {
     image: "/author/biswajit-das.jpg",
     bio: "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
   },
-  },
   "THIRD AUTHOR NAME": {
     name: "Abigail Gyimah",
     email: "missgyim@everymovieplug.com",
