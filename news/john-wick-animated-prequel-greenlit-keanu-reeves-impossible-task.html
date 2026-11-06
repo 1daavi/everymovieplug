@@ -9,8 +9,10 @@
     <meta name="tmdb" content="movie|John Wick|2014">
     <title>Lionsgate Greenlights Animated John Wick Prequel as Keanu Reeves Signs On to Return | Every Movie Plug</title>
     <meta name="author" content="Abigail Gyimah">
-    <meta name="description" content="Lionsgate has greenlit its animated John Wick prequel about the Impossible Task, with Keanu Reeves voicing the assassin and Shannon Tindle directing.">
+<meta name="description" content="Lionsgate has greenlit its animated John Wick prequel about the Impossible Task, with Keanu Reeves voicing the assassin and Shannon Tindle directing.">
     <link rel="canonical" href="https://everymovieplug.com/news/john-wick-animated-prequel-greenlit-keanu-reeves-impossible-task.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -103,13 +105,13 @@
   "url": "https://everymovieplug.com/news/john-wick-animated-prequel-greenlit-keanu-reeves-impossible-task.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/abigail-gyimah.html#person",
-    "name": "Abigail Gyimah",
-    "url": "https://everymovieplug.com/author/abigail-gyimah.html",
-    "email": "missgym@everymovieplug.com",
-    "description": "Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/biggles_5"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -135,8 +137,8 @@
   "image": [
     "https://everymovieplug.com/articleassets/john-wick-animation.jpg"
   ],
-  "datePublished": "2026-11-06",
-  "dateModified": "2026-11-06",
+  "datePublished": "2026-11-06T06:32:53Z",
+  "dateModified": "2026-11-06T06:32:53Z",
   "articleSection": "Film News"
 }
     </script>
@@ -176,7 +178,7 @@
         <header class="article-header">
             <h1>Lionsgate Greenlights Animated John Wick Prequel as Keanu Reeves Signs On to Return</h1>
             <p class="article-byline">By <a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="article-date">November 6, 2026</p>
+            <p data-published="2026-11-06T06:32:53Z" class="article-date">November 6, 2026<span class="article-time"> &middot; 6:32 AM GMT</span></p>
             <p class="article-subtitle"><i>The animated prequel will finally show the Impossible Task that freed Wick from the High Table, with Shannon Tindle directing and Reeves also producing.</i></p>
         </header>
 
@@ -395,11 +397,24 @@
         <div class="author-info">
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="author-bio">Film enthusiast, writer &amp; content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
-            <p class="author-contact">Contact: <a href="mailto:missgym@everymovieplug.com">missgym@everymovieplug.com</a> &middot; <a href="https://x.com/biggles_5" target="_blank" rel="noopener noreferrer">@biggles_5 on X</a></p>
+            <p class="author-bio">Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
+            <p class="author-contact">Contact: <a href="mailto:missgyim@everymovieplug.com">missgyim@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -412,6 +427,8 @@
             <a href="mailto:contact@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
