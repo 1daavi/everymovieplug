@@ -7,8 +7,10 @@
     <meta name="tmdb" content="movie|The Flintstones|1994">
     <title>The Flintstones (1994): How It Was Made, Effects and Box Office | Every Movie Plug</title>
     <meta name="author" content="Abigail Gyimah">
-    <meta name="description" content="How The Flintstones (1994) was made: Henson Creature Shop effects, the foam-built Bedrock set, 35 writers, harsh reviews and a $341.6M box office.">
+<meta name="description" content="How The Flintstones (1994) was made: Henson Creature Shop effects, the foam-built Bedrock set, 35 writers, harsh reviews and a $341.6M box office.">
     <link rel="canonical" href="https://everymovieplug.com/articles/the-flintstones-1994-practical-effects-making-of-box-office.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -109,13 +111,13 @@
   "url": "https://everymovieplug.com/articles/the-flintstones-1994-practical-effects-making-of-box-office.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/abigail-gyimah.html#person",
-    "name": "Abigail Gyimah",
-    "url": "https://everymovieplug.com/author/abigail-gyimah.html",
-    "email": "missgyim@everymovieplug.com",
-    "description": "Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/biggles_5"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -141,9 +143,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/nCRwqcUqjvu3oEeSMHALdl3oEMs.jpg"
   ],
-  "datePublished": "2026-11-07",
-  "dateModified": "2026-11-07",
-  "articleSection": "Behind the Scenes"
+  "datePublished": "2026-11-07T16:56:37Z",
+  "dateModified": "2026-11-07T16:56:37Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -182,7 +183,7 @@
         <header class="article-header">
             <h1>The Flintstones (1994): The Practical Effects, the Making of Bedrock and the Box Office Hit Critics Rejected</h1>
             <p class="article-byline">By <a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="article-date">November 7, 2026</p>
+            <p data-published="2026-11-07T16:56:37Z" class="article-date">November 7, 2026<span class="article-time"> &middot; 4:56 PM GMT</span></p>
             <p class="article-subtitle"><i>How Brian Levant, Jim Henson&rsquo;s Creature Shop and a desert full of foam built a live-action Stone Age, and why a movie critics disliked earned nearly $342 million.</i></p>
         </header>
 
@@ -346,11 +347,24 @@
         <div class="author-info">
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="author-bio">Film enthusiast, writer &amp; content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
-            <p class="author-contact">Contact: <a href="mailto:missgyim@everymovieplug.com">missgyim@everymovieplug.com</a> &middot; <a href="https://x.com/biggles_5" target="_blank" rel="noopener noreferrer">@biggles_5 on X</a></p>
+            <p class="author-bio">Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
+            <p class="author-contact">Contact: <a href="mailto:missgyim@everymovieplug.com">missgyim@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -363,6 +377,8 @@
             <a href="mailto:admin@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
