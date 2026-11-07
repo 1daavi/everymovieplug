@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 06 Nov 2026 19:29:09 GMT</lastBuildDate>
+<lastBuildDate>Sat, 07 Nov 2026 16:45:55 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Today in Cinema, November 7: Starship Troopers Invades Theaters in 1997 and Gets Mistaken for What It Mocks</title>
+<link>https://everymovieplug.com/articles/today-in-cinema-november-7-starship-troopers-1997.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-7-starship-troopers-1997.html</guid>
+<pubDate>Sat, 07 Nov 2026 16:45:55 GMT</pubDate>
+<category>Today In Cinema</category>
+<description>A $100 million blockbuster that critics read as propaganda, a director who refused to finish the novel and a test reel that fooled studio executives: the story of the 1997 film that took two…</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/cxCmv23O7p3hyHwqoktHYkZcGsY.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/cxCmv23O7p3hyHwqoktHYkZcGsY.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Today in Cinema, November 6: Spectre Opens in America in 2015 and Takes Bond From Mexico City to a Sahara Crater</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-6-spectre-2015.html</link>
@@ -197,16 +207,6 @@
 <description>A breakdown of the record-breaking blockbusters that dominated the global box office and made cinematic history.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/EVERYMOVIEPLUG Top10 Highest Grossing.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/EVERYMOVIEPLUG Top10 Highest Grossing.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Love Across the Event Horizon: A Complete Breakdown of the Interstellar Timeline and Dimensions</title>
-<link>https://everymovieplug.com/articles/love-across-the-event-horizon-a-complete-breakdown-of-the-interstellar-timeline-and-dimensions.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/love-across-the-event-horizon-a-complete-breakdown-of-the-interstellar-timeline-and-dimensions.html</guid>
-<pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>A complete breakdown of Christopher Nolan’s Interstellar, exploring the science of gravitational time dilation, the mechanics of the fifth-dimensional Tesseract, and how love transcends space-time.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/interstellar-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/interstellar-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
