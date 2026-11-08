@@ -204,6 +204,7 @@
   </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/hub-banner.css">
 </head>
 <body class="bg-[#060609] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between relative selection:bg-brand-500/30 selection:text-white">
 
@@ -217,6 +218,30 @@
   <div class="bg-cinema-mesh" aria-hidden="true"><div class="glow-orb-1 animate-pulse-glow"></div><div class="glow-orb-2"></div><div class="glow-orb-3 animate-pulse-glow" style="animation-delay: 2s;"></div></div>
 
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-16">
+
+    <!-- Banner (new & popular TV shows only) + search bar. Powered by /hub-banner.js -->
+    <section id="hubTop" class="space-y-5" data-type="tv" aria-label="New and popular TV shows and search">
+      <div class="hub-fx" id="hubFx" role="region" aria-roledescription="carousel" aria-label="New and popular TV shows">
+        <span class="hub-fx-label"><i></i> New &amp; Popular TV Shows</span>
+        <div class="hub-fx-sk" id="hubSk"></div>
+        <div id="hubStage"></div>
+        <div class="hub-fx-nav">
+          <button class="hub-fx-arr" id="hubPrev" type="button" aria-label="Previous title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <div class="hub-fx-dots" id="hubDots" role="tablist" aria-label="Choose title"></div>
+          <button class="hub-fx-arr" id="hubNext" type="button" aria-label="Next title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <form class="hub-search" id="hubSearch" role="search" autocomplete="off">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="hubQ" type="search" name="q" placeholder="Search TV shows…" aria-label="Search TV shows" enterkeyhint="search">
+        <button type="button" class="hub-clear" id="hubClear" hidden>Clear</button>
+        <button type="submit" id="hubGo">Search</button>
+      </form>
+      <div id="hubResults" hidden aria-live="polite">
+        <div class="hub-res-head" id="hubResHead"></div>
+        <div class="hub-grid" id="hubResGrid"></div>
+      </div>
+    </section>
 
     <section class="max-w-3xl space-y-5">
       <p class="text-xs font-bold uppercase tracking-widest text-amber-400">Every Movie Plug</p>
@@ -500,5 +525,6 @@
         });
     })();
   </script>
+  <script src="/hub-banner.js" defer></script>
 </body>
 </html>
