@@ -147,7 +147,7 @@
         o.description = o.description || hit.excerpt;
         o.image = o.image || hit.img;
         o.date = o.date || hit.date;
-        o.label = o.label || hit.tag;
+       if (o.label === undefined) o.label = hit.tag;
       }
       return o;
     });
@@ -158,7 +158,7 @@
     for (k in it) o[k] = it[k];
     o.type = TYPE_LABEL[o.type] ? o.type : "indie";
     o.cta = o.cta || TYPE_CTA[o.type];
-    o.badge = o.label || TYPE_LABEL[o.type];
+  o.badge = (o.label !== undefined && o.label !== null) ? String(o.label) : TYPE_LABEL[o.type];
     o.external = /^https?:\/\//i.test(o.url || "") && o.url.indexOf(location.origin) !== 0;
     return o;
   }
