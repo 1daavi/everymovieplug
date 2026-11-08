@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 06 Nov 2026 06:32:53 GMT</lastBuildDate>
+<lastBuildDate>Sun, 08 Nov 2026 00:05:52 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens</title>
+<link>https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html</guid>
+<pubDate>Sun, 08 Nov 2026 00:05:52 GMT</pubDate>
+<category>Casting News</category>
+<description>Robert Pattinson reportedly screen-tested for James Bond in London, joining Callum Turner, Jack Lowden and Josh O’Connor in Amazon MGM’s 007 search.</description>
+<media:thumbnail url="https://everymovieplug.com/articleassets/robert-pattinson-OO7.jpg"/>
+<media:content url="https://everymovieplug.com/articleassets/robert-pattinson-OO7.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Lionsgate Greenlights Animated John Wick Prequel as Keanu Reeves Signs On to Return</title>
 <link>https://everymovieplug.com/news/john-wick-animated-prequel-greenlit-keanu-reeves-impossible-task.html</link>
@@ -197,16 +207,6 @@
 <description>HBO's Casey Bloys says The Last of Us season 3 arrives in 2027 and that Craig Mazin has planned it as the final season. Filming is scheduled to wrap in November.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/the-last-of-us-season-3-2027-final-season-filming-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/the-last-of-us-season-3-2027-final-season-filming-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Dwayne Johnson Transforms Into a 70-Year-Old Man for Lizard Music</title>
-<link>https://everymovieplug.com/news/dwayne-johnson-70-year-old-chicken-man-lizard-music.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/dwayne-johnson-70-year-old-chicken-man-lizard-music.html</guid>
-<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-<category>Film News</category>
-<description>Dwayne Johnson is nearly unrecognizable as 70-year-old Chicken Man in set photos from Benny Safdie's Lizard Music, due December 25, 2027.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/dwayne-johnson-70-year-old-chicken-man-lizard-music-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/dwayne-johnson-70-year-old-chicken-man-lizard-music-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
