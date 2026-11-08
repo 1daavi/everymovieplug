@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://everymovieplug.com/articles/robert-pattinson-james-bond-screen-test-007-casting</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-08T00:00:00+00:00</news:publication_date>
+      <news:title>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/articles/the-flintstones-1994-practical-effects-making-of-box-office</loc>
     <news:news>
       <news:publication>
@@ -20,50 +31,6 @@
       </news:publication>
       <news:publication_date>2026-11-07T00:00:00+00:00</news:publication_date>
       <news:title>Today in Cinema, November 7: Starship Troopers Invades Theaters in 1997 and Gets Mistaken for What It Mocks</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/news/john-wick-animated-prequel-greenlit-keanu-reeves-impossible-task</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-06T00:00:00+00:00</news:publication_date>
-      <news:title>Lionsgate Greenlights Animated John Wick Prequel as Keanu Reeves Signs On to Return</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/actor-spotlight-brad-pitt</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-06T00:00:00+00:00</news:publication_date>
-      <news:title>Brad Pitt Actor Spotlight: Performance, Pivots, Filmography</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/the-ending-of-the-graduate</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-06T00:00:00+00:00</news:publication_date>
-      <news:title>The Ending of The Graduate Explained</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/today-in-cinema-november-6-spectre-2015</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-06T00:00:00+00:00</news:publication_date>
-      <news:title>Today in Cinema, November 6: Spectre Opens in America in 2015 and Takes Bond From Mexico City to a Sahara Crater</news:title>
     </news:news>
   </url>
 </urlset>
