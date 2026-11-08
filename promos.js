@@ -55,7 +55,7 @@
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
       // { type: "indie",   label: "Indie Film", title: "Title Here", description: "Short pitch.", image: "/promos/title.jpg", url: "https://example.com", cta: "Watch trailer", sponsored: true, end: "2026-12-31" },
-      { type: "news",    story: "https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record" },
+      { type: "news",    story: "/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html" },
       // { type: "article", story: "/articles/your-article-file.html" },
     ],
 
