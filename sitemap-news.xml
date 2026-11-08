@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-08T00:00:00+00:00</news:publication_date>
+      <news:title>Godzilla Minus Zero Breaks a 24-Year-Old Box Office Record Held by Harry Potter in Japan</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting</loc>
     <news:news>
       <news:publication>
@@ -20,6 +31,17 @@
       </news:publication>
       <news:publication_date>2026-11-08T00:00:00+00:00</news:publication_date>
       <news:title>How to Film, Direct and Produce Your Own Movie: A Complete Guide for First-Time Filmmakers</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://everymovieplug.com/articles/today-in-cinema-november-8-8-mile-2002</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-08T00:00:00+00:00</news:publication_date>
+      <news:title>Today in Cinema, November 8: 8 Mile Opens in 2002 and Turns a Detroit Rap Battle Into an Oscar-Winning Anthem</news:title>
     </news:news>
   </url>
   <url>
