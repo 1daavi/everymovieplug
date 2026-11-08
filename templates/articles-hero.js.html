@@ -39,7 +39,7 @@
             t.href = p.url;
             t.innerHTML = '<div class="tile-thumb">' + (p.image ? '<img alt="">' : "") + '</div><span class="tile-tag"></span><time class="tile-date"></time><span class="tile-title"></span><p class="tile-excerpt"></p>';
             if (p.image) t.querySelector("img").setAttribute("src", p.image);
-            t.querySelector(".tile-tag").textContent = p.sponsored ? "Sponsored \u00b7 " + p.badge : p.badge;
+            t.querySelector(".tile-tag").textContent = p.sponsored ? (p.badge ? "Sponsored \u00b7 " + p.badge : "Sponsored") : p.badge;
             t.querySelector(".tile-title").textContent = p.title;
             t.querySelector(".tile-excerpt").textContent = p.description || "";
             t._promo = p;
@@ -77,6 +77,7 @@
                 if (t._promo) {   /* promo: its own link (new tab / rel="sponsored" when needed) and button text */
                     EMP_PROMOS.linkAttrs(a, t._promo);
                     a.querySelector(".hero-cta").innerHTML = escHtml(t._promo.cta) + " " + ARROW;
+                    if (!t._promo.badge && !t._promo.sponsored) a.querySelector(".hero-tag").style.display = "none";   /* label: "" = no badge */
                     if (t._promo.sponsored) a.setAttribute("aria-label", (i + 1) + " of " + chosen.length + " (sponsored)");
                 }
                 a.querySelector(".hero-bg").style.backgroundImage = src ? "url('" + src.replace(/'/g, "%27") + "')" : "";
