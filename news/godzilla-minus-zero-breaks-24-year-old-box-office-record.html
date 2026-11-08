@@ -9,8 +9,10 @@
     <meta name="tmdb" content="movie|Godzilla Minus Zero|2026">
     <title>Godzilla Minus Zero Breaks a 24-Year-Old Box Office Record Held by Harry Potter in Japan | Every Movie Plug</title>
     <meta name="author" content="Biswajit Das">
-    <meta name="description" content="Godzilla Minus Zero broke Harry Potter and the Chamber of Secrets’ 24-year-old opening-day record in Japan and opened to an estimated $32M in North America.">
+<meta name="description" content="Godzilla Minus Zero broke Harry Potter and the Chamber of Secrets’ 24-year-old opening-day record in Japan and opened to an estimated $32M in North America.">
     <link rel="canonical" href="https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -105,13 +107,13 @@
   "url": "https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/biswajit-das.html#person",
-    "name": "Biswajit Das",
-    "url": "https://everymovieplug.com/author/biswajit-das.html",
-    "email": "biswajit@everymovieplug.com",
-    "description": "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/BiswabiologyX"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -137,8 +139,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/hsRrkFhA2tyH0MgrULUPyEFrxml.jpg"
   ],
-  "datePublished": "2026-11-08",
-  "dateModified": "2026-11-08",
+  "datePublished": "2026-11-08T08:28:28Z",
+  "dateModified": "2026-11-08T08:28:28Z",
   "articleSection": "Box Office News"
 }
     </script>
@@ -178,7 +180,7 @@
         <header class="article-header">
             <h1>Godzilla Minus Zero Breaks a 24-Year-Old Box Office Record Held by Harry Potter in Japan</h1>
             <p class="article-byline">By <a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
-            <p class="article-date">November 8, 2026</p>
+            <p data-published="2026-11-08T08:28:28Z" class="article-date">November 8, 2026<span class="article-time"> &middot; 8:28 AM GMT</span></p>
             <p class="article-subtitle"><i>Takashi Yamazaki&rsquo;s R-rated sequel topped <em>Harry Potter and the Chamber of Secrets</em> with a ¥910 million opening day in Japan, then opened to an estimated $32 million in North America.</i></p>
         </header>
 
@@ -272,10 +274,23 @@
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
             <p class="author-bio">Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.</p>
-            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/BiswabiologyX" target="_blank" rel="noopener noreferrer">@BiswabiologyX on X</a></p>
+            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -288,6 +303,8 @@
             <a href="mailto:contact@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>

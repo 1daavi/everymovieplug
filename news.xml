@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Sun, 08 Nov 2026 00:05:52 GMT</lastBuildDate>
+<lastBuildDate>Sun, 08 Nov 2026 08:28:28 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Godzilla Minus Zero Breaks a 24-Year-Old Box Office Record Held by Harry Potter in Japan</title>
+<link>https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html</guid>
+<pubDate>Sun, 08 Nov 2026 08:28:28 GMT</pubDate>
+<category>Box Office News</category>
+<description>Godzilla Minus Zero broke Harry Potter and the Chamber of Secrets’ 24-year-old opening-day record in Japan and opened to an estimated $32M in North America.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/hsRrkFhA2tyH0MgrULUPyEFrxml.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/hsRrkFhA2tyH0MgrULUPyEFrxml.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens</title>
 <link>https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html</link>
@@ -197,16 +207,6 @@
 <description>Marvel and Star Wars will cross over for the first time in Hope Assembles, a Kevin Smith and David Marquez comic series launching in January 2027.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/marvel-star-wars-crossover-hope-assembles-2027-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/marvel-star-wars-crossover-hope-assembles-2027-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>The Last of Us Season 3 Is Set for 2027 and Is Planned as the Final Season</title>
-<link>https://everymovieplug.com/news/the-last-of-us-season-3-2027-final-season-filming.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/the-last-of-us-season-3-2027-final-season-filming.html</guid>
-<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-<category>TV News</category>
-<description>HBO's Casey Bloys says The Last of Us season 3 arrives in 2027 and that Craig Mazin has planned it as the final season. Filming is scheduled to wrap in November.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/the-last-of-us-season-3-2027-final-season-filming-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/the-last-of-us-season-3-2027-final-season-filming-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
