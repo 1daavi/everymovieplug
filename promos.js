@@ -56,7 +56,7 @@
     homeBanner: [
       // { type: "indie",   label: "Indie Film", title: "Title Here", description: "Short pitch.", image: "/promos/title.jpg", url: "https://example.com", cta: "Watch trailer", sponsored: true, end: "2026-12-31" },
       // { type: "news",    label: "", sponsored: true, story: "/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html" },
-      { type: "article", label: "", story: "/articles/how-to-film-direct-and-produce-your-own-movie", end: "2026-12-12" },
+      { type: "article", label: "", story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-12-12" },
     ],
 
     /* ---------- Homepage: "Trending Movies" row (indie movies) ---------- */
