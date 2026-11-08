@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Sun, 08 Nov 2026 07:46:58 GMT</lastBuildDate>
+<lastBuildDate>Sun, 08 Nov 2026 12:14:31 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Today in Cinema, November 8: 8 Mile Opens in 2002 and Turns a Detroit Rap Battle Into an Oscar-Winning Anthem</title>
+<link>https://everymovieplug.com/articles/today-in-cinema-november-8-8-mile-2002.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-8-8-mile-2002.html</guid>
+<pubDate>Sun, 08 Nov 2026 12:14:31 GMT</pubDate>
+<category>Today In Cinema</category>
+<description>A music video on MTV, a director chosen over Tarantino and Danny Boyle, and a song written during rehearsals produced the film that made Eminem the first solo rapper to win an Academy Award.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/7BmQj8qE1FLuLTf7Xjf9sdIHzoa.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/7BmQj8qE1FLuLTf7Xjf9sdIHzoa.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>How to Film, Direct and Produce Your Own Movie: A Complete Guide for First-Time Filmmakers</title>
 <link>https://everymovieplug.com/articles/how-to-film-direct-and-produce-your-own-movie.html</link>
@@ -197,16 +207,6 @@
 <description>From a twelve-year shoot to a steamship hauled over a mountain, these 20 films pushed filmmaking past what everyone said could be done.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/20movies.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/20movies.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>AI Cannot Act</title>
-<link>https://everymovieplug.com/articles/ai-cannot-act.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/ai-cannot-act.html</guid>
-<pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>A photorealistic “AI actress” had Hollywood’s agents curious and its actors furious. The debate is usually framed as a question of technology. It is really a question of what acting is.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/ai-cannot-act.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/ai-cannot-act.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
