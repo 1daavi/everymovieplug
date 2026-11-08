@@ -732,6 +732,7 @@
         if (window.MutationObserver && r) new MutationObserver(update).observe(r, { childList: true });
     })();
     </script>
+    <script src="/promos.js"></script>
     <script>
     /* Featured banner: 5 stories from the newest articles, reshuffled every 12 hours.
        The shuffle is seeded by the current 12-hour window, so every visitor sees the same
@@ -759,8 +760,24 @@
 
         var ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+        /* ---- promo slides (promos.js, slot "newsBanner"): pinned in front of the regular stories ---- */
+        var promoItems = [];
+        function escHtml(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+        /* a stand-in for a story tile, so promo slides are drawn by exactly the same code as normal slides */
+        function promoTile(p) {
+            var t = document.createElement("a");
+            t.href = p.url;
+            t.innerHTML = '<div class="tile-thumb">' + (p.image ? '<img alt="">' : "") + '</div><span class="tile-tag"></span><time class="tile-date"></time><span class="tile-title"></span><p class="tile-excerpt"></p>';
+            if (p.image) t.querySelector("img").setAttribute("src", p.image);
+            t.querySelector(".tile-tag").textContent = p.sponsored ? "Sponsored \u00b7 " + p.badge : p.badge;
+            t.querySelector(".tile-title").textContent = p.title;
+            t.querySelector(".tile-excerpt").textContent = p.description || "";
+            t._promo = p;
+            return t;
+        }
+
         function build() {
-            var windowId = Math.floor(Date.now() / WINDOW_MS), chosen = pick(windowId);
+            var windowId = Math.floor(Date.now() / WINDOW_MS), chosen = promoItems.map(promoTile).concat(pick(windowId));
             stage.innerHTML = ""; dotsEl.innerHTML = ""; slides = []; dots = []; current = 0;
             if (!chosen.length) { hero.hidden = true; return; }
 
@@ -786,6 +803,12 @@
                 a.querySelector(".hero-excerpt").textContent = ex ? ex.textContent : "";
                 a.querySelector(".hero-thumb img").onerror = function () { this.remove(); };
                 a.querySelector(".hero-bg").style.backgroundImage = "url('" + src + "')";
+                if (t._promo) {   /* promo: its own link (new tab / rel="sponsored" when needed) and button text */
+                    EMP_PROMOS.linkAttrs(a, t._promo);
+                    a.querySelector(".hero-cta").innerHTML = escHtml(t._promo.cta) + " " + ARROW;
+                    if (t._promo.sponsored) a.setAttribute("aria-label", (i + 1) + " of " + chosen.length + " (sponsored)");
+                }
+                a.querySelector(".hero-bg").style.backgroundImage = src ? "url('" + src.replace(/'/g, "%27") + "')" : "";
                 stage.appendChild(a); slides.push(a);
 
                 var b = document.createElement("button");
@@ -845,7 +868,7 @@
         /* same fade-out the tiles use when opening a story */
         stage.addEventListener("click", function (e) {
             var a = e.target.closest(".hero-slide");
-            if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank") return;
             e.preventDefault(); document.body.classList.add("leaving");
             setTimeout(function () { location.href = a.href; }, 280);
         });
@@ -858,7 +881,8 @@
                 .observe(box, { attributes: true, attributeFilter: ["class"] });
         }
 
-        build();
+        /* get the promos first (instant when the slot is empty), then draw the banner */
+        (window.EMP_PROMOS ? EMP_PROMOS.resolve("newsBanner") : Promise.resolve([])).then(function (list) { promoItems = list; build(); }, function () { build(); });
     })();
     </script>
 </body>
