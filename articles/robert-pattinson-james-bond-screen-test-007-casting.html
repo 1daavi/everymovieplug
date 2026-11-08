@@ -9,8 +9,10 @@
     <meta name="tmdb" content="movie|No Time to Die|2021">
     <title>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens | Every Movie Plug</title>
     <meta name="author" content="Biswajit Das">
-    <meta name="description" content="Robert Pattinson reportedly screen-tested for James Bond in London, joining Callum Turner, Jack Lowden and Josh O’Connor in Amazon MGM’s 007 search.">
+<meta name="description" content="Robert Pattinson reportedly screen-tested for James Bond in London, joining Callum Turner, Jack Lowden and Josh O’Connor in Amazon MGM’s 007 search.">
     <link rel="canonical" href="https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -94,7 +96,7 @@
     <script type="application/ld+json" id="emp-schema-0">
 {
   "@context": "https://schema.org",
-  "@type": "NewsArticle",
+  "@type": "Article",
   "@id": "https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html#article",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -105,13 +107,13 @@
   "url": "https://everymovieplug.com/news/robert-pattinson-james-bond-screen-test-007-casting.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/biswajit-das.html#person",
-    "name": "Biswajit Das",
-    "url": "https://everymovieplug.com/author/biswajit-das.html",
-    "email": "biswajit@everymovieplug.com",
-    "description": "Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/BiswabiologyX"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -137,9 +139,8 @@
   "image": [
     "https://everymovieplug.com/articleassets/robert-pattinson-OO7.jpg"
   ],
-  "datePublished": "2026-11-08",
-  "dateModified": "2026-11-08",
-  "articleSection": "Casting News"
+  "datePublished": "2026-11-08T00:01:45Z",
+  "dateModified": "2026-11-08T00:01:45Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -156,8 +157,8 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "News",
-      "item": "https://everymovieplug.com/news/"
+      "name": "Articles",
+      "item": "https://everymovieplug.com/articles/"
     },
     {
       "@type": "ListItem",
@@ -178,7 +179,7 @@
         <header class="article-header">
             <h1>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens</h1>
             <p class="article-byline">By <a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
-            <p class="article-date">November 8, 2026</p>
+            <p data-published="2026-11-08T00:01:45Z" class="article-date">November 8, 2026<span class="article-time"> &middot; 12:01 AM GMT</span></p>
             <p class="article-subtitle"><i>The Hollywood Reporter says the Batman star tested in London alongside Callum Turner, Jack Lowden and Josh O&rsquo;Connor, with Denis Villeneuve directing Amazon MGM&rsquo;s first Bond film.</i></p>
         </header>
 
@@ -274,10 +275,23 @@
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/biswajit-das.html" rel="author">Biswajit Das</a></p>
             <p class="author-bio">Film enthusiast and writer at Every Movie Plug. Biswajit Das writes articles, share insights, and break down films, filmmaking techniques, cinematic details, and the creative minds behind the screen.</p>
-            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/BiswabiologyX" target="_blank" rel="noopener noreferrer">@BiswabiologyX on X</a></p>
+            <p class="author-contact">Contact: <a href="mailto:biswajit@everymovieplug.com">biswajit@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -290,6 +304,8 @@
             <a href="mailto:contact@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>

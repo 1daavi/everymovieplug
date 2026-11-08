@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Sat, 07 Nov 2026 16:56:37 GMT</lastBuildDate>
+<lastBuildDate>Sun, 08 Nov 2026 00:01:45 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Robert Pattinson Reportedly Screen-Tested for James Bond as the 007 Casting Race Tightens</title>
+<link>https://everymovieplug.com/articles/robert-pattinson-james-bond-screen-test-007-casting.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/robert-pattinson-james-bond-screen-test-007-casting.html</guid>
+<pubDate>Sun, 08 Nov 2026 00:01:45 GMT</pubDate>
+<category>Casting News</category>
+<description>The Hollywood Reporter says the Batman star tested in London alongside Callum Turner, Jack Lowden and Josh O&amp;rsquo;Connor, with Denis Villeneuve directing Amazon MGM&amp;rsquo;s first Bond film.</description>
+<media:thumbnail url="https://everymovieplug.com/articleassets/robert-pattinson-OO7.jpg"/>
+<media:content url="https://everymovieplug.com/articleassets/robert-pattinson-OO7.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>The Flintstones (1994): How It Was Made, Effects and Box Office</title>
 <link>https://everymovieplug.com/articles/the-flintstones-1994-practical-effects-making-of-box-office.html</link>
@@ -197,16 +207,6 @@
 <description>A photorealistic “AI actress” had Hollywood’s agents curious and its actors furious. The debate is usually framed as a question of technology. It is really a question of what acting is.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/ai-cannot-act.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/ai-cannot-act.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>How 2026 Became the Breakout Year for Artificial Intelligence in Cinema</title>
-<link>https://everymovieplug.com/articles/how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/how-2026-became-the-breakout-year-for-artificial-intelligence-in-cinema.html</guid>
-<pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>This article explores how 2026 became a breakthrough year for artificial intelligence in cinema, transforming everything from real-time set design and voice synthesis to micro-budget independent…</description>
-<media:thumbnail url="https://image.tmdb.org/t/p/original/24AmQwURM0UCTsRlBcvZLkbi5mi.jpg"/>
-<media:content url="https://image.tmdb.org/t/p/original/24AmQwURM0UCTsRlBcvZLkbi5mi.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
