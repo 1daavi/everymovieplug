@@ -379,6 +379,12 @@
     .gx-card:active { transform:scale(.96); transition-duration:.12s; }
     @media (hover:hover) { .gx-card:hover { transform:translateY(-5px); border-color:rgba(168,85,247,.5); box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(139,92,246,.2); } .gx-card:hover img { transform:scale(1.06); } .gx-card:hover .gx-pill { transform:translateY(-2px) scale(1.07); } }
     @media (max-width:640px) { .gx-grid { grid-template-columns:repeat(2,1fr); gap:.75rem; } }
+    /* ---- promo slots (promos.js) ---- */
+    .fx-type.news { background:rgba(251,146,60,.2); border-color:rgba(251,146,60,.55); color:#fed7aa; }
+    .fx-type.article { background:rgba(45,212,191,.18); border-color:rgba(45,212,191,.5); color:#99f6e4; }
+    .fx-type.indie { background:rgba(251,191,36,.18); border-color:rgba(251,191,36,.5); color:#fde68a; }
+    .fx-spons { padding:4px 11px; border-radius:9999px; font-size:.68rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); color:#e5e7eb; }
+    .promo-tag { position:absolute; z-index:2; left:.55rem; top:.55rem; max-width:calc(100% - 1.1rem); padding:.2rem .55rem; border-radius:9999px; font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#fde68a; background:rgba(0,0,0,.72); border:1px solid rgba(251,191,36,.5); }
   </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
@@ -538,6 +544,7 @@
     </footer>
   </main>
 
+  <script src="/promos.js"></script>
   <script>
     /* ===== CONFIG ===== */
     // API keys live on the server (see functions/api/[[path]].js). Nothing secret belongs in this file.
@@ -580,6 +587,14 @@
         ${s ? `<span class="score" style="color:${col}">★ ${s.toFixed(1)}</span>` : ""}</div>
         <div class="mmeta"><b>${esc(t)}</b><span>${esc(y)}</span></div></button>`;
     }
+    /* ---- Promo posters for the Trending rows (slots homeMovies / homeTv in promos.js) ---- */
+    const PROMO_ROWS = Promise.all([EMP_PROMOS.resolve("homeMovies"), EMP_PROMOS.resolve("homeTv")]).then(([movie, tv]) => ({ movie, tv })).catch(() => ({ movie: [], tv: [] }));
+    function promoCard(p) {
+      return `<a class="mcard glass" ${EMP_PROMOS.attrString(p)} aria-label="${esc(p.title)} (${p.sponsored ? "sponsored" : "featured"})">
+        <div class="poster${p.image ? '' : ' nop'}">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)} poster" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}
+        <span class="promo-tag">${esc(p.sponsored ? "Sponsored" : p.badge)}</span></div>
+        <div class="mmeta"><b>${esc(p.title)}</b><span>${esc(p.year || "")}</span></div></a>`;
+    }
     async function loadRows() {
       const types = [["movie", "movies", "rowMovie", "hMovie", "Movies"], ["tv", "tv", "rowTv", "hTv", "TV Shows"]];
       const filtered = F.genre || F.country;
@@ -594,8 +609,10 @@
         $(el).innerHTML = skeleton();
         try {
           const r = await fetchRow(t);
-          $(el).innerHTML = r === null ? `<p class="note">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre.</p>`
-            : r.length ? r.slice(0, 15).map(i => card(i, t)).join("") : '<p class="note">Nothing found for this combination yet. Try another genre or country.</p>';
+          /* promo posters (promos.js: homeMovies / homeTv) go first, only on the unfiltered "Trending" view */
+          const pc = filtered ? "" : (await PROMO_ROWS)[t].map(promoCard).join("");
+          $(el).innerHTML = pc + (r === null ? `<p class="note">TMDB has no separate “${esc(F.genre)}” category for TV shows. Try Movies, or pick another genre.</p>`
+            : r.length ? r.slice(0, 15).map(i => card(i, t)).join("") : (pc ? "" : '<p class="note">Nothing found for this combination yet. Try another genre or country.</p>'));
         } catch (e) { $(el).innerHTML = `<p class="note">${esc(e.message)}</p>`; }
       }));
     }
@@ -1041,7 +1058,28 @@ function setHash(type, id, title, fromHash) {
       var ARROW = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       function votes(n) { return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k" : String(n); }
 
+      /* A promo slide (promos.js slot "homeBanner"): a news story, article, indie title or any other pinned promo */
+      function promoSlide(p, n, total) {
+        var a = document.createElement("a");
+        a.className = "fx-slide"; EMP_PROMOS.linkAttrs(a, p);
+        a.setAttribute("role", "group"); a.setAttribute("aria-roledescription", "slide");
+        a.setAttribute("aria-label", p.title + (p.sponsored ? " (sponsored)" : "") + ". " + p.cta);
+        a.innerHTML =
+          (p.image ? '<img class="fx-img" alt="" decoding="async" loading="' + (n === 0 ? "eager" : "lazy") + '" src="' + esc(p.image) + '">' : "") +
+          '<div class="fx-info">' +
+            '<div class="fx-badges"><span class="fx-type ' + esc(p.type) + '">' + esc(p.badge) + '</span>' + (p.sponsored ? '<span class="fx-spons">Sponsored</span>' : "") + '</div>' +
+            '<h2 class="fx-title">' + esc(p.title) + '</h2>' +
+            (p.year ? '<div class="fx-meta"><span>' + esc(p.year) + '</span></div>' : "") +
+            (p.description ? '<p class="fx-ov">' + esc(p.description) + '</p>' : "") +
+            '<span class="fx-cta">' + esc(p.cta) + ' ' + ARROW + '</span>' +
+          '</div>';
+        var img = a.querySelector(".fx-img");
+        if (img) img.onerror = function () { this.remove(); a.classList.add("noimg"); }; else a.classList.add("noimg");
+        return a;
+      }
+
       function slide(i, n, total) {
+        if (i._promo) return promoSlide(i, n, total);
         var isTv = i._type === "tv", title = i.title || i.name || "Untitled", date = i.release_date || i.first_air_date || "";
         var yr = date.slice(0, 4), s = i.vote_average || 0, col = s >= 7 ? "#34d399" : s >= 5 ? "#fbbf24" : "#f87171";
         var map = isTv ? TG : MG, genres = (i.genre_ids || []).map(function (g) { return map[g]; }).filter(Boolean).slice(0, 3).join(" · ");
@@ -1076,9 +1114,11 @@ function setHash(type, id, title, fromHash) {
       function resume() { if (root.hidden) return; root.classList.remove("paused"); show(cur); schedule(); }
 
       async function init() {
-        var res = await Promise.all([pull("movie"), pull("tv")]);
+        var res = await Promise.all([pull("movie"), pull("tv"), EMP_PROMOS.resolve("homeBanner")]);
         var movies = res[0], tvs = res[1], items = [];
         for (var k = 0; k < PER_TYPE; k++) { if (movies[k]) items.push(movies[k]); if (tvs[k]) items.push(tvs[k]); }   /* interleave: movie, show, movie, show … */
+        /* promos from promos.js (slot "homeBanner") are pinned in front of the TMDB slides */
+        items = res[2].map(function (p) { p._promo = true; return p; }).concat(items);
         if (!items.length) { root.hidden = true; return; }
 
         items.forEach(function (it, n) {
