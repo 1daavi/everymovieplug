@@ -63,7 +63,7 @@
 
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
-      { type: "Annoucement", cornerLabel: "Public Announcement", label: "Advertisement", title: "Advertise With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
+      { type: "Indie", cornerLabel: "Public Announcement", label: "Advertisement", title: "Advertise With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
       { type: "articles",    story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-12-13" },
       // { type: "news", story: "/news/your-article-file.html" },
     ],
