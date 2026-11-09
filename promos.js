@@ -15,14 +15,20 @@
 
    (The banners on /movies/ and /tv-shows/ are automatic: new, popular TMDB titles only.)
 
+   THE SMALL LABEL ON TOP OF EACH BANNER ("New & Popular", "Featured Stories", ...)
+     Change it in the LABELS list just below the slots. Type your own words, or "" to remove it completely.
+
    WHAT AN ITEM LOOKS LIKE
      {
        type:        "news" | "article" | "indie" | "movie" | "tv"   (sets the badge colour and the button wording)
-       label:       "Indie Film"        optional: replaces the badge text (e.g. "Indie Film", "World Premiere")
+       label:       "Indie Film"        optional: replaces the badge text (e.g. "Indie Film", "World Premiere").
+                                        Use  label: ""  to show no badge at all.
        title:       "My Indie Movie"
        description: "One or two sentences."            (banners only)
        image:       "/promos/my-movie.jpg"            Banners: wide image (16:9, ~1280px). Poster rows: tall poster (2:3).
        url:         "https://example.com/trailer"     Where a click goes. Site pages can be "/news/xyz.html".
+                    "mailto:contact@everymovieplug.com"     an email link works too (add ?subject=Hello after the address
+                                                            for a ready-made subject). "tel:+233..." works for phone numbers.
        cta:         "Watch the trailer"               optional button text
        year:        "2026"                            optional, shown under poster cards / in banners
        sponsored:   true                              use this for PAID promos: adds a "Sponsored" tag and
@@ -54,9 +60,9 @@
 
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
-      { type: "Public Announcement",   label: "Advertise", title: "Advertise With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "everymovieplug.com/about", cta: "Book Now!", end: "2027-12-31" },
-      // { type: "news",    label: "", sponsored: true, story: "/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html" },
-      { type: "article", label: "", story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-12-12" },
+      // { type: "indie",   label: "Indie Film", title: "Title Here", description: "Short pitch.", image: "/promos/title.jpg", url: "https://example.com", cta: "Watch trailer", sponsored: true, end: "2026-12-31" },
+      // { type: "news",    story: "/news/your-story-file.html" },
+      // { type: "article", story: "/articles/your-article-file.html" },
     ],
 
     /* ---------- Homepage: "Trending Movies" row (indie movies) ---------- */
@@ -80,6 +86,14 @@
       // { type: "news", story: "/news/your-story-file.html" },
       // { type: "news", title: "Partner news", description: "Short pitch.", image: "/promos/partner.jpg", url: "https://example.com/press", sponsored: true },
     ]
+  };
+
+  /* ---------- Small label in the top-left corner of each banner ----------
+     Edit the words, or use "" to hide the label completely. */
+  var LABELS = {
+    homeBanner:     "New & Popular",       // homepage banner
+    articlesBanner: "Featured Articles",   // top of /articles/
+    newsBanner:     "Featured Stories"     // top of /news/
   };
 
   /* =================================================================================================
@@ -147,18 +161,27 @@
         o.description = o.description || hit.excerpt;
         o.image = o.image || hit.img;
         o.date = o.date || hit.date;
-       if (o.label === undefined) o.label = hit.tag;
+        if (o.label === undefined) o.label = hit.tag;   /* label: "" means "no badge" */
       }
       return o;
     });
   }
 
+  /* only normal links are allowed: web addresses, site paths, mailto: and tel: (anything else, like javascript:, is dropped) */
+  function safeUrl(u) {
+    u = String(u == null ? "" : u).trim();
+    var m = /^([a-z][a-z0-9+.-]*):/i.exec(u);
+    return (m && !/^(https?|mailto|tel)$/i.test(m[1])) ? "" : u;
+  }
+
   function clean(it) {
     var o = {}, k;
     for (k in it) o[k] = it[k];
+    o.url = safeUrl(o.url);
     o.type = TYPE_LABEL[o.type] ? o.type : "indie";
-    o.cta = o.cta || TYPE_CTA[o.type];
-  o.badge = (o.label !== undefined && o.label !== null) ? String(o.label) : TYPE_LABEL[o.type];
+    o.mail = /^(mailto|tel):/i.test(o.url);
+    o.cta = o.cta || (o.mail ? "Contact us" : TYPE_CTA[o.type]);
+    o.badge = (o.label !== undefined && o.label !== null) ? String(o.label) : TYPE_LABEL[o.type];   /* label: "" = no badge */
     o.external = /^https?:\/\//i.test(o.url || "") && o.url.indexOf(location.origin) !== 0;
     return o;
   }
@@ -169,7 +192,7 @@
     list = list.filter(function (it) { return it && live(it); }).slice(0, MAX[slot] || 5);
     if (!list.length) return Promise.resolve([]);
     return Promise.all(list.map(fillStory)).then(function (all) {
-      return all.filter(function (it) { return it.title && it.url; }).map(clean);
+      return all.map(clean).filter(function (it) { return it.title && it.url; });   /* clean() first: it empties unsafe links, which then drop out */
     }).catch(function () { return []; });
   }
 
@@ -177,8 +200,8 @@
   function linkAttrs(a, it) {
     a.href = it.url;
     var rel = [];
-    if (it.sponsored) rel.push("sponsored");
-    if (it.external || it.newTab) { a.target = "_blank"; rel.push("noopener", "noreferrer"); }
+    if (it.sponsored && !it.mail) rel.push("sponsored");
+    if ((it.external || it.newTab) && !it.mail) { a.target = "_blank"; rel.push("noopener", "noreferrer"); }
     if (rel.length) a.rel = rel.join(" ");
   }
 
@@ -186,10 +209,21 @@
   function attrString(it) {
     var q = function (v) { return String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;"); };
     var out = 'href="' + q(it.url) + '"', rel = [];
-    if (it.sponsored) rel.push("sponsored");
-    if (it.external || it.newTab) { out += ' target="_blank"'; rel.push("noopener", "noreferrer"); }
+    if (it.sponsored && !it.mail) rel.push("sponsored");
+    if ((it.external || it.newTab) && !it.mail) { out += ' target="_blank"'; rel.push("noopener", "noreferrer"); }
     return rel.length ? out + ' rel="' + rel.join(" ") + '"' : out;
   }
 
-  window.EMP_PROMOS = { resolve: resolve, linkAttrs: linkAttrs, attrString: attrString, preview: PREVIEW };
+  /* put the LABELS text for a banner into its label element (keeps the little glowing dot); "" hides the label */
+  function applyLabel(slot, el) {
+    if (!el || typeof LABELS[slot] !== "string") return;
+    var t = LABELS[slot].trim();
+    if (!t) { el.hidden = true; el.style.display = "none"; return; }
+    var dot = el.querySelector("i");
+    el.textContent = "";
+    if (dot) el.appendChild(dot);
+    el.appendChild(document.createTextNode(" " + t));
+  }
+
+  window.EMP_PROMOS = { resolve: resolve, linkAttrs: linkAttrs, attrString: attrString, applyLabel: applyLabel, preview: PREVIEW };
 })();
