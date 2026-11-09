@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Sun, 08 Nov 2026 08:28:28 GMT</lastBuildDate>
+<lastBuildDate>Mon, 09 Nov 2026 19:33:00 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>James Gunn Steps Down From DC Studios: Why He and Peter Safran Are Leaving and What Happens Next</title>
+<link>https://everymovieplug.com/news/james-gunn-steps-down-dc-studios-why-peter-safran-latcham.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/james-gunn-steps-down-dc-studios-why-peter-safran-latcham.html</guid>
+<pubDate>Mon, 09 Nov 2026 19:33:00 GMT</pubDate>
+<category>Film News</category>
+<description>James Gunn and Peter Safran are stepping down as DC Studios co-CEOs on December 1. Here is why they are leaving, who replaces them and what it means for the DCU.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/pnKqZub3IlKYbyH9RRTMDOoqEn0.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/pnKqZub3IlKYbyH9RRTMDOoqEn0.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Godzilla Minus Zero Breaks a 24-Year-Old Box Office Record Held by Harry Potter in Japan</title>
 <link>https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record.html</link>
@@ -197,16 +207,6 @@
 <description>Director Peter Berg says the Call of Duty movie is about the cost of war and having to be a warrior, and that the characters are not comic books or cartoons.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/call-of-duty-movie-peter-berg-cost-of-war-warrior-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/call-of-duty-movie-peter-berg-cost-of-war-warrior-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Marvel and Star Wars Cross Over in 2027 With Hope Assembles</title>
-<link>https://everymovieplug.com/news/marvel-star-wars-crossover-hope-assembles-2027.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/marvel-star-wars-crossover-hope-assembles-2027.html</guid>
-<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-<category>Comics News</category>
-<description>Marvel and Star Wars will cross over for the first time in Hope Assembles, a Kevin Smith and David Marquez comic series launching in January 2027.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/marvel-star-wars-crossover-hope-assembles-2027-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/marvel-star-wars-crossover-hope-assembles-2027-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
