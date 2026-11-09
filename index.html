@@ -1077,6 +1077,7 @@ function setHash(type, id, title, fromHash) {
       function promoSlide(p, n, total) {
         var a = document.createElement("a");
         a.className = "fx-slide"; EMP_PROMOS.linkAttrs(a, p);
+        if (p.cornerLabel !== undefined && p.cornerLabel !== null) a.setAttribute("data-corner", String(p.cornerLabel));   /* this slide's own corner label */
         a.setAttribute("role", "group"); a.setAttribute("aria-roledescription", "slide");
         a.setAttribute("aria-label", p.title + (p.sponsored ? " (sponsored)" : "") + ". " + p.cta);
         a.innerHTML =
@@ -1122,6 +1123,8 @@ function setHash(type, id, title, fromHash) {
         cur = (n + slides.length) % slides.length;
         slides.forEach(function (s, k) { var on = k === cur; s.classList.toggle("on", on); s.tabIndex = on ? 0 : -1; s.setAttribute("aria-hidden", on ? "false" : "true"); });
         dots.forEach(function (d, k) { d.classList.remove("on"); void d.offsetWidth; if (k === cur) d.classList.add("on"); d.setAttribute("aria-selected", k === cur ? "true" : "false"); });
+        /* corner label: TMDB slides always show the normal one; a promo slide may carry its own (data-corner) */
+        if (window.EMP_PROMOS) EMP_PROMOS.applyLabel("homeBanner", document.querySelector(".fx-label"), slides[cur].hasAttribute("data-corner") ? slides[cur].getAttribute("data-corner") : undefined);
       }
       function schedule() { clearTimeout(timer); if (reduce || root.hidden || root.classList.contains("paused") || slides.length < 2) return; timer = setTimeout(function () { show(cur + 1); schedule(); }, SLIDE_MS); }
       function go(n) { show(n); schedule(); }
