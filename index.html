@@ -1128,6 +1128,7 @@ function setHash(type, id, title, fromHash) {
       function pause() { root.classList.add("paused"); clearTimeout(timer); }
       function resume() { if (root.hidden) return; root.classList.remove("paused"); show(cur); schedule(); }
 
+      if (window.EMP_PROMOS) EMP_PROMOS.applyLabel("homeBanner", document.querySelector(".fx-label"));   /* label text comes from promos.js (LABELS) */
       async function init() {
         var res = await Promise.all([pull("movie"), pull("tv"), EMP_PROMOS.resolve("homeBanner")]);
         var movies = res[0], tvs = res[1], items = [];
