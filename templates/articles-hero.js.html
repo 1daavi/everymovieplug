@@ -140,7 +140,7 @@
         /* same fade-out the tiles use when opening a story */
         stage.addEventListener("click", function (e) {
             var a = e.target.closest(".hero-slide");
-            if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank") return;
+            if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank" || !/^https?:$/.test(a.protocol)) return;   /* new-tab, mailto: and tel: links keep their normal behaviour */
             e.preventDefault(); document.body.classList.add("leaving");
             setTimeout(function () { location.href = a.href; }, 280);
         });
@@ -153,6 +153,7 @@
                 .observe(box, { attributes: true, attributeFilter: ["class"] });
         }
 
+        if (window.EMP_PROMOS) EMP_PROMOS.applyLabel("articlesBanner", document.querySelector("#hero .hero-label"));   /* label text comes from promos.js (LABELS) */
         /* get the promos first (instant when the slot is empty), then draw the banner */
         (window.EMP_PROMOS ? EMP_PROMOS.resolve("articlesBanner") : Promise.resolve([])).then(function (list) { promoItems = list; build(); }, function () { build(); });
     })();
