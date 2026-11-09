@@ -734,6 +734,26 @@
     </script>
     <script src="/promos.js"></script>
     <script>
+  /* safety net: if promos.js is missing, has a typo, or is an older version, the page still works (the promos just don't show) */
+  (function () {
+    var E = window.EMP_PROMOS = window.EMP_PROMOS || {};
+    E.resolve = E.resolve || function () { return Promise.resolve([]); };
+    E.linkAttrs = E.linkAttrs || function (a, it) { a.href = it.url; };
+    E.attrString = E.attrString || function (it) { return 'href="' + String(it.url).replace(/"/g, "&quot;") + '"'; };
+    E.applyLabel = E.applyLabel || function () {};
+  })();
+  </script>
+    <script>
+    /* Safety net: if promos.js is missing, has a typo, or is an older version, the page still loads normally; promos just don't show. */
+    (function () {
+      var E = window.EMP_PROMOS = window.EMP_PROMOS || {};
+      E.resolve = E.resolve || function () { return Promise.resolve([]); };
+      E.linkAttrs = E.linkAttrs || function (a, it) { a.href = it.url; };
+      E.attrString = E.attrString || function (it) { return 'href="' + String(it.url).replace(/"/g, "&quot;") + '"'; };
+      E.applyLabel = E.applyLabel || function () {};
+    })();
+    </script>
+    <script>
     /* Featured banner: 5 stories from the newest articles, reshuffled every 12 hours.
        The shuffle is seeded by the current 12-hour window, so every visitor sees the same
        five stories until the window rolls over (the banner also rebuilds itself at that moment). */
