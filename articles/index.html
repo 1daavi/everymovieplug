@@ -804,6 +804,7 @@
                 a.querySelector(".hero-bg").style.backgroundImage = "url('" + src + "')";
                 if (t._promo) {   /* promo: its own link (new tab / rel="sponsored" when needed) and button text */
                     EMP_PROMOS.linkAttrs(a, t._promo);
+                    if (t._promo.cornerLabel !== undefined && t._promo.cornerLabel !== null) a.setAttribute("data-corner", String(t._promo.cornerLabel));
                     a.querySelector(".hero-cta").innerHTML = escHtml(t._promo.cta) + " " + ARROW;
                     if (!t._promo.badge && !t._promo.sponsored) a.querySelector(".hero-tag").style.display = "none";   /* label: "" = no badge */
                     if (t._promo.sponsored) a.setAttribute("aria-label", (i + 1) + " of " + chosen.length + " (sponsored)");
@@ -838,6 +839,8 @@
                 if (on) d.classList.add("active");
                 d.setAttribute("aria-selected", on ? "true" : "false");
             });
+            /* corner label: normal stories show the normal one; a promo slide may carry its own (data-corner) */
+            if (window.EMP_PROMOS && slides[current]) EMP_PROMOS.applyLabel("articlesBanner", document.querySelector("#hero .hero-label"), slides[current].hasAttribute("data-corner") ? slides[current].getAttribute("data-corner") : undefined);
         }
         function go(n, user) { show(n); if (user) play(); else schedule(); }
         function schedule() { clearTimeout(timer); if (reduce || hero.classList.contains("paused")) return; timer = setTimeout(function () { go(current + 1); }, SLIDE_MS); }
