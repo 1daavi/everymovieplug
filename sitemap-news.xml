@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://everymovieplug.com/news/james-gunn-steps-down-dc-studios-why-peter-safran-latcham</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-09T00:00:00+00:00</news:publication_date>
+      <news:title>James Gunn Steps Down From DC Studios: Why He and Peter Safran Are Leaving and What Happens Next</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/articles/today-in-cinema-november-9-no-country-for-old-men-2007</loc>
     <news:news>
       <news:publication>
