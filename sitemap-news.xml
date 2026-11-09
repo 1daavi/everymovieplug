@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://everymovieplug.com/articles/today-in-cinema-november-9-no-country-for-old-men-2007</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-09T00:00:00+00:00</news:publication_date>
+      <news:title>Today in Cinema, November 9: No Country for Old Men Opens in 28 Theaters in 2007 and Walks Away With Best Picture</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/godzilla-minus-zero-breaks-24-year-old-box-office-record</loc>
     <news:news>
       <news:publication>
