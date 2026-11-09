@@ -775,15 +775,15 @@
       <div class="mmeta"><b>${esc(a.title)}</b><span>${esc(a.date)}</span></div></a>`;
     const resRow = (title, html) => `<div class="row"><div class="sec-head"><div><h2>${title}</h2></div></div><div class="rail">${html}</div></div>`;
     function clearSearch() {
-      SEARCH_TOK++; $("searchResults").hidden = true; $("searchResults").innerHTML = "";
+      SEARCH_TOK++; clearTimeout(SEARCH_T); $("searchResults").hidden = true; $("searchResults").innerHTML = "";
       $("featured").hidden = false; $("searchInput").value = "";
     }
-    $("searchForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const q = $("searchInput").value.trim(); if (!q) return clearSearch();
+    /* live = true while the visitor is still typing: no jump-scroll, and the previous results stay on screen until the new ones are ready (no flicker) */
+    async function runSearch(q, live) {
       const tok = ++SEARCH_TOK, box = $("searchResults");
-      $("featured").hidden = true; closePanel(); box.hidden = false;
-      box.innerHTML = `<div class="activebar">Searching for <b>${esc(q)}</b>…</div>`;
+      $("featured").hidden = true; closePanel();
+      if (!live || box.hidden || !box.innerHTML) box.innerHTML = `<div class="activebar">Searching for <b>${esc(q)}</b>…</div>`;
+      box.hidden = false;
       let err = "";
       const [r] = await Promise.all([
         tmdb("/search/multi", { query: q, include_adult: false, language: "en-US" }).catch(x => { err = x.message; return { results: [] }; }),
@@ -801,7 +801,22 @@
       if (!arts.length && !news.length && !titles.length)
         out += `<p class="note">${err ? esc(err) : "No articles, news, movies or TV shows matched your search. Try a different title or keyword."}</p>`;
       box.innerHTML = out;
-      box.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (!live) box.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    $("searchForm").addEventListener("submit", e => {
+      e.preventDefault(); clearTimeout(SEARCH_T);
+      const q = $("searchInput").value.trim(); if (!q) return clearSearch();
+      runSearch(q, false);
+    });
+    /* results update as the visitor types (short pause after the last key; 2+ characters) */
+    let SEARCH_T = 0;
+    $("searchInput").addEventListener("input", e => {
+      if (e.isComposing) return;
+      clearTimeout(SEARCH_T);
+      const q = e.target.value.trim();
+      if (!q) return clearSearch();
+      if (q.length < 2) return;
+      SEARCH_T = setTimeout(() => runSearch(q, true), 300);
     });
 
     /* ---------- Shareable URLs: opening a title sets #title-slug ---------- */
