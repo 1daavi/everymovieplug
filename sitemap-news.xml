@@ -44,26 +44,4 @@
       <news:title>Today in Cinema, November 8: 8 Mile Opens in 2002 and Turns a Detroit Rap Battle Into an Oscar-Winning Anthem</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/the-flintstones-1994-practical-effects-making-of-box-office</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-07T00:00:00+00:00</news:publication_date>
-      <news:title>The Flintstones (1994): How It Was Made, Effects and Box Office</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/today-in-cinema-november-7-starship-troopers-1997</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-07T00:00:00+00:00</news:publication_date>
-      <news:title>Today in Cinema, November 7: Starship Troopers Invades Theaters in 1997 and Gets Mistaken for What It Mocks</news:title>
-    </news:news>
-  </url>
 </urlset>
