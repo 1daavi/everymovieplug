@@ -15,12 +15,15 @@
 
    (The banners on /movies/ and /tv-shows/ are automatic: new, popular TMDB titles only.)
 
-   THE SMALL LABEL ON TOP OF EACH BANNER ("New & Popular", "Featured Stories", ...)
-     Change it in the LABELS list just below the slots. Type your own words, or "" to remove it completely.
+   THE SMALL LABEL IN THE TOP-LEFT CORNER OF EACH BANNER ("New & Popular", "Featured Stories", ...)
+     The LABELS list just below the slots sets the normal label. The rotating TMDB movies/shows always use it.
+     To give ONE of your own slides a different corner label, add  cornerLabel: "Partner Spotlight"  to that item
+     (use  cornerLabel: ""  to show no corner label on that slide). Slides without cornerLabel use the normal label.
 
    WHAT AN ITEM LOOKS LIKE
      {
        type:        "news" | "article" | "indie" | "movie" | "tv"   (sets the badge colour and the button wording)
+       cornerLabel: "Partner Spotlight" optional (banners only): the corner label while THIS slide is showing
        label:       "Indie Film"        optional: replaces the badge text (e.g. "Indie Film", "World Premiere").
                                         Use  label: ""  to show no badge at all.
        title:       "My Indie Movie"
@@ -89,7 +92,8 @@
   };
 
   /* ---------- Small label in the top-left corner of each banner ----------
-     Edit the words, or use "" to hide the label completely. */
+     The normal label (always used for the TMDB slides). Edit the words, or use "" to hide it.
+     A single promo can show different words by adding cornerLabel: "..." to that item. */
   var LABELS = {
     homeBanner:     "New & Popular",       // homepage banner
     articlesBanner: "Featured Articles",   // top of /articles/
@@ -115,7 +119,7 @@
   /* sample items shown by ?promo-preview=1 */
   var DEMO = {
     homeBanner: [
-      { type: "indie", label: "Indie Film", title: "Sample: Your Indie Movie Here", description: "This is a preview of the homepage banner slot. Add a real promo in promos.js and it replaces this.", image: wide("#4c1d95", "#0f172a", "BANNER SLOT"), url: "#", cta: "Watch the trailer", sponsored: true },
+      { type: "indie", label: "Indie Film", cornerLabel: "Partner Spotlight", title: "Sample: Your Indie Movie Here", description: "This is a preview of the homepage banner slot. Add a real promo in promos.js and it replaces this.", image: wide("#4c1d95", "#0f172a", "BANNER SLOT"), url: "#", cta: "Watch the trailer", sponsored: true },
       { type: "news", title: "Sample: A News Story Promo", description: "News stories can be pinned into the homepage banner too.", image: wide("#7c2d12", "#0f172a", "NEWS PROMO"), url: "#" },
       { type: "article", title: "Sample: An Article Promo", description: "Articles can be pinned into the homepage banner as well.", image: wide("#134e4a", "#0f172a", "ARTICLE PROMO"), url: "#" }
     ],
@@ -215,10 +219,13 @@
   }
 
   /* put the LABELS text for a banner into its label element (keeps the little glowing dot); "" hides the label */
-  function applyLabel(slot, el) {
-    if (!el || typeof LABELS[slot] !== "string") return;
-    var t = LABELS[slot].trim();
+  function applyLabel(slot, el, override) {
+    if (!el) return;
+    var t = (override !== undefined && override !== null) ? String(override) : LABELS[slot];   /* a slide's own cornerLabel wins over LABELS */
+    if (typeof t !== "string") return;
+    t = t.trim();
     if (!t) { el.hidden = true; el.style.display = "none"; return; }
+    el.hidden = false; el.style.display = "";
     var dot = el.querySelector("i");
     el.textContent = "";
     if (dot) el.appendChild(dot);
