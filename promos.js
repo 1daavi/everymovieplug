@@ -20,6 +20,10 @@
      To give ONE of your own slides a different corner label, add  cornerLabel: "Partner Spotlight"  to that item
      (use  cornerLabel: ""  to show no corner label on that slide). Slides without cornerLabel use the normal label.
 
+   COLOUR A WORD IN A TITLE
+     Put curly braces around the word(s) you want in purple:   title: "{Advertise} With Us!"
+     shows "Advertise" in the site's purple and "With Us!" in white. The purple is HIGHLIGHT_COLOR below.
+
    WHAT AN ITEM LOOKS LIKE
      {
        type:        "news" | "article" | "indie" | "movie" | "tv"   (sets the badge colour and the button wording)
@@ -63,7 +67,7 @@
 
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
-      { type: "indie", cornerLabel: "Public Announcement", label: "Advertisement", title: "Advertise With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
+      { type: "indie", cornerLabel: "Public Announcement", label: "Advertisement", title: "{Advertise} With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
       { type: "article",    story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-12-13" },
       // { type: "news", story: "/news/your-article-file.html" },
     ],
@@ -99,6 +103,9 @@
     articlesBanner: "Featured Articles",   // top of /articles/
     newsBanner:     "Featured Stories"     // top of /news/
   };
+
+  /* Colour used for words wrapped in { } inside a title (the site's purple). Change the hex code to recolour. */
+  var HIGHLIGHT_COLOR = "#a855f7";
 
   /* =================================================================================================
      Nothing below this line needs editing.
@@ -178,9 +185,17 @@
     return (m && !/^(https?|mailto|tel)$/i.test(m[1])) ? "" : u;
   }
 
+  /* "{Advertise} With Us!"  ->  safe HTML with the braced words coloured */
+  function titleHtml(t) {
+    var e = String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; });
+    return e.replace(/\{([^{}]+)\}/g, '<span style="color:' + HIGHLIGHT_COLOR + '">$1</span>');
+  }
+
   function clean(it) {
     var o = {}, k;
     for (k in it) o[k] = it[k];
+    o.titleHtml = titleHtml(o.title);                        /* what the banner shows (with the coloured words) */
+    o.title = String(o.title == null ? "" : o.title).replace(/[{}]/g, "");   /* plain text for labels / alt text */
     o.url = safeUrl(o.url);
     o.type = TYPE_LABEL[o.type] ? o.type : "indie";
     o.mail = /^(mailto|tel):/i.test(o.url);

@@ -613,7 +613,7 @@
       return `<a class="mcard glass" ${EMP_PROMOS.attrString(p)} aria-label="${esc(p.title)} (${p.sponsored ? "sponsored" : "featured"})">
         <div class="poster${p.image ? '' : ' nop'}">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)} poster" loading="lazy" onerror="this.parentNode.classList.add('nop');this.remove()">` : ""}
         ${(p.sponsored || p.badge) ? `<span class="promo-tag">${esc(p.sponsored ? "Sponsored" : p.badge)}</span>` : ""}</div>
-        <div class="mmeta"><b>${esc(p.title)}</b><span>${esc(p.year || "")}</span></div></a>`;
+        <div class="mmeta"><b>${p.titleHtml || esc(p.title)}</b><span>${esc(p.year || "")}</span></div></a>`;
     }
     async function loadRows() {
       const types = [["movie", "movies", "rowMovie", "hMovie", "Movies"], ["tv", "tv", "rowTv", "hTv", "TV Shows"]];
@@ -1104,7 +1104,7 @@ function setHash(type, id, title, fromHash) {
           (p.image ? '<img class="fx-img" alt="" decoding="async" loading="' + (n === 0 ? "eager" : "lazy") + '" src="' + esc(p.image) + '">' : "") +
           '<div class="fx-info">' +
             ((p.badge || p.sponsored) ? '<div class="fx-badges">' + (p.badge ? '<span class="fx-type ' + esc(p.type) + '">' + esc(p.badge) + '</span>' : "") + (p.sponsored ? '<span class="fx-spons">Sponsored</span>' : "") + '</div>' : "") +
-            '<h2 class="fx-title">' + esc(p.title) + '</h2>' +
+            '<h2 class="fx-title">' + (p.titleHtml || esc(p.title)) + '</h2>' +
             (p.year ? '<div class="fx-meta"><span>' + esc(p.year) + '</span></div>' : "") +
             (p.description ? '<p class="fx-ov">' + esc(p.description) + '</p>' : "") +
             '<span class="fx-cta">' + esc(p.cta) + ' ' + ARROW + '</span>' +
