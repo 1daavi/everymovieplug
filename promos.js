@@ -63,9 +63,9 @@
 
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
-      // { type: "indie",   label: "Indie Film", title: "Title Here", description: "Short pitch.", image: "/promos/title.jpg", url: "https://example.com", cta: "Watch trailer", sponsored: true, end: "2026-12-31" },
-      // { type: "news",    story: "/news/your-story-file.html" },
-      // { type: "article", story: "/articles/your-article-file.html" },
+      { type: "Annoucement", cornerLabel: "Public Announcement"   label: "Advertisement", title: "Advertise With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
+      { type: "article",    story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-12-13" },
+      // { type: "news", story: "/news/your-article-file.html" },
     ],
 
     /* ---------- Homepage: "Trending Movies" row (indie movies) ---------- */
