@@ -1106,7 +1106,7 @@ function setHash(type, id, title, fromHash) {
             ((p.badge || p.sponsored) ? '<div class="fx-badges">' + (p.badge ? '<span class="fx-type ' + esc(p.type) + '">' + esc(p.badge) + '</span>' : "") + (p.sponsored ? '<span class="fx-spons">Sponsored</span>' : "") + '</div>' : "") +
             '<h2 class="fx-title">' + (p.titleHtml || esc(p.title)) + '</h2>' +
             (p.year ? '<div class="fx-meta"><span>' + esc(p.year) + '</span></div>' : "") +
-            (p.description ? '<p class="fx-ov">' + esc(p.description) + '</p>' : "") +
+            (p.description ? '<p class="fx-ov">' + (p.descriptionHtml || esc(p.description)) + '</p>' : "") +
             '<span class="fx-cta">' + esc(p.cta) + ' ' + ARROW + '</span>' +
           '</div>';
         var img = a.querySelector(".fx-img");

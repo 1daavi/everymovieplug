@@ -20,9 +20,13 @@
      To give ONE of your own slides a different corner label, add  cornerLabel: "Partner Spotlight"  to that item
      (use  cornerLabel: ""  to show no corner label on that slide). Slides without cornerLabel use the normal label.
 
-   COLOUR A WORD IN A TITLE
-     Put curly braces around the word(s) you want in purple:   title: "{Advertise} With Us!"
-     shows "Advertise" in the site's purple and "With Us!" in white. The purple is HIGHLIGHT_COLOR below.
+   COLOUR WORDS IN A TITLE OR DESCRIPTION
+     Put curly braces around the word(s) you want coloured:
+       title: "{Advertise} With Us!"                       "Advertise" in the site's purple (HIGHLIGHT_COLOR below)
+       title: "{gold|Advertise} {#22c55e|With} Us!"        pick the colour first, then a | bar, then the words
+       description: "Reach {purple|movie fans} every {gold|day}."     works in descriptions too
+     A colour is a name from the COLORS list below (purple, gold, yellow, orange, red, pink, green, teal, blue, white)
+     or any hex code like #22c55e. Words without braces keep the normal white / grey.
 
    WHAT AN ITEM LOOKS LIKE
      {
@@ -104,8 +108,14 @@
     newsBanner:     "Featured Stories"     // top of /news/
   };
 
-  /* Colour used for words wrapped in { } inside a title (the site's purple). Change the hex code to recolour. */
+  /* Colour used for words wrapped in { } with no colour given, e.g. {Advertise} (the site's purple). */
   var HIGHLIGHT_COLOR = "#a855f7";
+
+  /* Colour names you can use inside the braces, e.g. {gold|Advertise}. Add your own names if you like. */
+  var COLORS = {
+    purple: "#a855f7", gold: "#fbbf24", yellow: "#facc15", orange: "#fb923c", red: "#f87171",
+    pink: "#f472b6", green: "#34d399", teal: "#2dd4bf", blue: "#60a5fa", white: "#ffffff"
+  };
 
   /* =================================================================================================
      Nothing below this line needs editing.
@@ -185,17 +195,36 @@
     return (m && !/^(https?|mailto|tel)$/i.test(m[1])) ? "" : u;
   }
 
-  /* "{Advertise} With Us!"  ->  safe HTML with the braced words coloured */
-  function titleHtml(t) {
-    var e = String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; });
-    return e.replace(/\{([^{}]+)\}/g, '<span style="color:' + HIGHLIGHT_COLOR + '">$1</span>');
+  /* a colour name from COLORS, or a #hex code; anything else is not a colour */
+  function colorOf(c) {
+    c = String(c || "").trim();
+    if (COLORS.hasOwnProperty(c.toLowerCase())) return COLORS[c.toLowerCase()];
+    return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(c) ? c : "";
+  }
+
+  var escHtml = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+
+  /* "Reach {gold|movie fans} {Today}"  ->  { html: safe HTML with the coloured words, text: the same words with no markup } */
+  function rich(raw) {
+    raw = String(raw == null ? "" : raw);
+    var html = "", text = "", last = 0, m, re = /\{([^{}]+)\}/g;
+    while ((m = re.exec(raw))) {
+      var pre = raw.slice(last, m.index), inner = m[1], color = HIGHLIGHT_COLOR, i = inner.indexOf("|");
+      if (i > 0) { var c = colorOf(inner.slice(0, i)); if (c) { color = c; inner = inner.slice(i + 1); } }
+      html += escHtml(pre) + '<span style="color:' + color + '">' + escHtml(inner) + '</span>';
+      text += pre + inner;
+      last = re.lastIndex;
+    }
+    var rest = raw.slice(last);
+    return { html: html + escHtml(rest), text: (text + rest).replace(/[{}]/g, "") };
   }
 
   function clean(it) {
     var o = {}, k;
     for (k in it) o[k] = it[k];
-    o.titleHtml = titleHtml(o.title);                        /* what the banner shows (with the coloured words) */
-    o.title = String(o.title == null ? "" : o.title).replace(/[{}]/g, "");   /* plain text for labels / alt text */
+    var rt = rich(o.title), rd = rich(o.description);
+    o.titleHtml = rt.html;  o.title = rt.text;                               /* html = what the banner shows (coloured words); text = plain, for labels / alt text */
+    o.descriptionHtml = rd.html;  o.description = rd.text;
     o.url = safeUrl(o.url);
     o.type = TYPE_LABEL[o.type] ? o.type : "indie";
     o.mail = /^(mailto|tel):/i.test(o.url);
