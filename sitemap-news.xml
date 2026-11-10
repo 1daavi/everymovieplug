@@ -34,6 +34,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://everymovieplug.com/articles/today-in-cinema-november-10-stranger-than-fiction-2006</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-10T00:00:00+00:00</news:publication_date>
+      <news:title>Today in Cinema, November 10: Stranger Than Fiction Opens in 2006 and Lets Will Ferrell Meet His Author</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/james-gunn-steps-down-dc-studios-why-peter-safran-latcham</loc>
     <news:news>
       <news:publication>
