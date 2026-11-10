@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Tue, 10 Nov 2026 09:43:48 GMT</lastBuildDate>
+<lastBuildDate>Tue, 10 Nov 2026 22:25:27 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Today in Cinema, November 10: Stranger Than Fiction Opens in 2006 and Lets Will Ferrell Meet His Author</title>
+<link>https://everymovieplug.com/articles/today-in-cinema-november-10-stranger-than-fiction-2006.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-10-stranger-than-fiction-2006.html</guid>
+<pubDate>Tue, 10 Nov 2026 22:25:27 GMT</pubDate>
+<category>Today In Cinema</category>
+<description>An IRS auditor who hears his life narrated, a novelist who cannot kill him and a wristwatch that is three minutes fast: the story behind the 2006 film that proved Will Ferrell could carry a drama.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/kDgMNxUWK8QcuSS2HH8VIhPrU55.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/kDgMNxUWK8QcuSS2HH8VIhPrU55.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>GTA VI Launches November 19: The Questions Everyone Is Asking, the Ones They Aren’t, and How to Prepare</title>
 <link>https://everymovieplug.com/articles/gta-vi-november-19-questions-everyone-is-asking-and-how-to-prepare.html</link>
@@ -197,16 +207,6 @@
 <description>The signature styles of five defining modern filmmakers.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/Legendary-Directors.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/Legendary-Directors.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Star Wars Timeline Explained: Every Movie and TV Series in Chronological Order</title>
-<link>https://everymovieplug.com/articles/star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/star-wars-timeline-explained-every-movie-and-tv-series-in-chronological-order.html</guid>
-<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>A comprehensive chronological guide explaining every Star Wars movie and TV series from the High Republic era through the sequel trilogy.</description>
-<media:thumbnail url="https://image.tmdb.org/t/p/original/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg"/>
-<media:content url="https://image.tmdb.org/t/p/original/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
