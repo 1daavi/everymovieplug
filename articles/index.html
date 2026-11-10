@@ -788,7 +788,7 @@
             t.innerHTML = '<div class="tile-thumb">' + (p.image ? '<img alt="">' : "") + '</div><span class="tile-tag"></span><time class="tile-date"></time><span class="tile-title"></span><p class="tile-excerpt"></p>';
             if (p.image) t.querySelector("img").setAttribute("src", p.image);
             t.querySelector(".tile-tag").textContent = p.sponsored ? (p.badge ? "Sponsored \u00b7 " + p.badge : "Sponsored") : p.badge;
-            t.querySelector(".tile-title").textContent = p.title;
+            t.querySelector(".tile-title").innerHTML = p.titleHtml || escHtml(p.title);
             t.querySelector(".tile-excerpt").textContent = p.description || "";
             t._promo = p;
             return t;
@@ -824,6 +824,7 @@
                 a.querySelector(".hero-bg").style.backgroundImage = "url('" + src + "')";
                 if (t._promo) {   /* promo: its own link (new tab / rel="sponsored" when needed) and button text */
                     EMP_PROMOS.linkAttrs(a, t._promo);
+                    if (t._promo.descriptionHtml) a.querySelector(".hero-excerpt").innerHTML = t._promo.descriptionHtml;   /* coloured words in the description */
                     if (t._promo.cornerLabel !== undefined && t._promo.cornerLabel !== null) a.setAttribute("data-corner", String(t._promo.cornerLabel));
                     a.querySelector(".hero-cta").innerHTML = escHtml(t._promo.cta) + " " + ARROW;
                     if (!t._promo.badge && !t._promo.sponsored) a.querySelector(".hero-tag").style.display = "none";   /* label: "" = no badge */
