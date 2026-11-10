@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Mon, 09 Nov 2026 19:33:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 10 Nov 2026 08:46:35 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Nicolas Cage Says He Was Relieved When Prime Video Canceled Spider-Noir: “Whew, Thank You!”</title>
+<link>https://everymovieplug.com/news/nicolas-cage-spider-noir-cancellation-reaction.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/nicolas-cage-spider-noir-cancellation-reaction.html</guid>
+<pubDate>Tue, 10 Nov 2026 08:46:35 GMT</pubDate>
+<category>TV News</category>
+<description>Nicolas Cage says he was relieved when Prime Video canceled Spider-Noir after one season, calling it a perfect season. Here is what he said and why it ended.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/yAp7MKnHKHs8IoZapi08iw2CMjI.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/yAp7MKnHKHs8IoZapi08iw2CMjI.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>James Gunn Steps Down From DC Studios: Why He and Peter Safran Are Leaving and What Happens Next</title>
 <link>https://everymovieplug.com/news/james-gunn-steps-down-dc-studios-why-peter-safran-latcham.html</link>
@@ -197,16 +207,6 @@
 <description>HBO has cast Jasper Talbot and Hannah Chinn as James and Lily Potter and Harry Gilby as Charlie Weasley in Harry Potter season 1, which premieres December 25, 2026.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/hbo-harry-potter-casts-james-lily-potter-charlie-weasley-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/hbo-harry-potter-casts-james-lily-potter-charlie-weasley-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Call of Duty Movie Is About the Cost of War and Being a Warrior, Director Says</title>
-<link>https://everymovieplug.com/news/call-of-duty-movie-peter-berg-cost-of-war-warrior.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/call-of-duty-movie-peter-berg-cost-of-war-warrior.html</guid>
-<pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-<category>Film News</category>
-<description>Director Peter Berg says the Call of Duty movie is about the cost of war and having to be a warrior, and that the characters are not comic books or cartoons.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/call-of-duty-movie-peter-berg-cost-of-war-warrior-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/call-of-duty-movie-peter-berg-cost-of-war-warrior-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
