@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Tue, 10 Nov 2026 22:07:36 GMT</lastBuildDate>
+<lastBuildDate>Wed, 11 Nov 2026 01:14:07 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Anthony Mackie Appears to Confirm Vision’s Return in Avengers: Doomsday</title>
+<link>https://everymovieplug.com/news/anthony-mackie-vision-return-avengers-doomsday.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/anthony-mackie-vision-return-avengers-doomsday.html</guid>
+<pubDate>Wed, 11 Nov 2026 01:14:07 GMT</pubDate>
+<category>Film News</category>
+<description>Anthony Mackie name-dropped Paul Bettany while describing the Avengers: Doomsday shoot. Marvel has not confirmed Vision. Here is what we know.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/9jlZ59UALLLOE279HMT19rP9XQs.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/9jlZ59UALLLOE279HMT19rP9XQs.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Marvel Studios Posts a Cryptic Binary Message on X Before the VisionQuest Finale: What It Says and What It Means</title>
 <link>https://everymovieplug.com/news/marvel-studios-cryptic-binary-post-x-visionquest-finale-wandavision.html</link>
@@ -197,16 +207,6 @@
 <description>Netflix and Krafton are developing a live-action PUBG series with Donald Glover attached to star, write, direct and executive produce alongside his brother Stephen.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/netflix-pubg-series-donald-glover-star-write-direct-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/netflix-pubg-series-donald-glover-star-write-direct-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>James Gunn Says Harley Quinn Will Almost Certainly Appear in the DCU, With or Without Margot Robbie</title>
-<link>https://everymovieplug.com/news/james-gunn-harley-quinn-dcu-role-margot-robbie.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/james-gunn-harley-quinn-dcu-role-margot-robbie.html</guid>
-<pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-<category>Film News</category>
-<description>James Gunn says Harley Quinn will almost certainly appear in the DCU, but whether Margot Robbie returns is still undecided. Here is what he said and what comes next.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/james-gunn-harley-quinn-dcu-role-margot-robbie-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/james-gunn-harley-quinn-dcu-role-margot-robbie-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
