@@ -230,6 +230,7 @@
     .m-title p { font-size:.75rem; color:var(--text-secondary); margin-top:.25rem; }
     .m-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
     .tag { padding:.25rem .75rem; border-radius:9999px; font-size:.7rem; font-weight:600; color:#c4b5fd; background:rgba(168,85,247,.15); }
+    a.tag-link { text-decoration:none; border:1px solid rgba(168,85,247,.3); }
     .m-body > p { font-size:.88rem; line-height:1.65; color:#d4d4d8; }
     .m-tagline { font-style:italic; color:var(--text-secondary) !important; }
     .m-scores { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
@@ -731,7 +732,7 @@
         $("modalBody").innerHTML = `${hero}
           <div class="m-body">
             <div class="m-title"><div><h3>${esc(a.title)}</h3><p><span${a.ts ? ` data-ts="${a.ts}" data-d="${esc(a.date)}"` : ""}>${esc(a.date)}</span> · Every Movie Plug${mins ? " · " + mins + " min read" : ""}</p></div></div>
-            <div class="m-tags"><span class="tag">${esc(a.tag)}</span></div>
+            <div class="m-tags">${a.tag ? `<a class="tag tag-link" href="/${f.dir.replace(/^\/|\/$/g, "")}/?tag=${encodeURIComponent(a.tag).replace(/%20/g, "+")}" aria-label="See all ${esc(a.tag)} stories">${esc(a.tag)}</a>` : ""}</div>
             ${summary ? `<p>${esc(summary)}</p>` : ""}
             <div class="m-links">
               <a class="chip primary" href="${esc(a.href)}">Continue reading &rarr;</a>
@@ -1371,5 +1372,6 @@ function setHash(type, id, title, fromHash) {
     <div class="m-box" role="dialog" aria-modal="true"><button class="m-x" onclick="closeModal()" aria-label="Close">&times;</button><div id="modalBody"></div></div>
   </div>
   <div id="toast" role="status" aria-live="polite"></div>
+<script src="/tag-links.js" defer></script>
 </body>
 </html>

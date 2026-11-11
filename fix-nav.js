@@ -6,6 +6,7 @@
  * (Home, Movies, TV Shows, News, Articles, About Us, Contact, Privacy Policy, Terms of Service), and turns
  * old relative links such as ../index.html into root-absolute ones. Also makes sure every story's <head> has the
  * RSS feed <link rel="alternate"> tags, so new stories get the footer RSS links and feed tags automatically.
+ * Also adds <script src="/tag-links.js"> to stories that have "Related" cards, so their category labels are clickable tags.
  * Safe to run any time.
  *
  * Usage (from the site root):   node fix-nav.js            news + articles
@@ -38,6 +39,10 @@ for (const d of dirs) {
       } else if (/<\/head>/i.test(out)) {
         out = out.replace(/<\/head>/i, m => FEED_LINK_TAGS.map(t => "    " + t + "\n").join("") + m);
       }
+    }
+    // clickable tags: stories with "Related" cards need the shared tag script (the card labels link to /news/?tag=... or /articles/?tag=...)
+    if (/emp-card-tag/.test(out) && !/src="\/tag-links\.js"/.test(out) && /<\/body>/i.test(out)) {
+      out = out.replace(/<\/body>/i, m => '    <script src="/tag-links.js" defer></script>\n' + m);
     }
     if (out !== html) { fs.writeFileSync(file, out); changed++; }
   }
