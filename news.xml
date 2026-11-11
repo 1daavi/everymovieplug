@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 11 Nov 2026 01:14:07 GMT</lastBuildDate>
+<lastBuildDate>Wed, 11 Nov 2026 07:31:02 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Netflix Unveils The Take First Look With Denzel Washington and Robert Pattinson, Sets January 15 Release</title>
+<link>https://everymovieplug.com/news/netflix-the-take-denzel-washington-robert-pattinson-first-look.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/netflix-the-take-denzel-washington-robert-pattinson-first-look.html</guid>
+<pubDate>Wed, 11 Nov 2026 07:31:02 GMT</pubDate>
+<category>Film News</category>
+<description>Netflix revealed the first poster and photos for The Take, the Fernando Meirelles heist thriller with Denzel Washington and Robert Pattinson, out January 15.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/8OT7Jr0FkO8jRAYwibmWvBrPWSB.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/8OT7Jr0FkO8jRAYwibmWvBrPWSB.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Anthony Mackie Appears to Confirm Vision’s Return in Avengers: Doomsday</title>
 <link>https://everymovieplug.com/news/anthony-mackie-vision-return-avengers-doomsday.html</link>
@@ -197,16 +207,6 @@
 <description>Peter Berg's World War II drama The Mosquito Bowl opens in theaters October 30 and streams on Netflix November 25. The cast, the true story behind the game and the first critic reactions.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/the-mosquito-bowl-release-date-cast-first-reviews-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/the-mosquito-bowl-release-date-cast-first-reviews-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Donald Glover to Star in, Write and Direct Netflix’s Live-Action PUBG Series</title>
-<link>https://everymovieplug.com/news/netflix-pubg-series-donald-glover-star-write-direct.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/netflix-pubg-series-donald-glover-star-write-direct.html</guid>
-<pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-<category>TV News</category>
-<description>Netflix and Krafton are developing a live-action PUBG series with Donald Glover attached to star, write, direct and executive produce alongside his brother Stephen.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/netflix-pubg-series-donald-glover-star-write-direct-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/netflix-pubg-series-donald-glover-star-write-direct-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

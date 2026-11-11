@@ -9,8 +9,10 @@
     <meta name="tmdb" content="movie|The Take|2027">
     <title>Netflix Unveils The Take First Look With Denzel Washington and Robert Pattinson, Sets January 15 Release | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Netflix revealed the first poster and photos for The Take, the Fernando Meirelles heist thriller with Denzel Washington and Robert Pattinson, out January 15.">
+<meta name="description" content="Netflix revealed the first poster and photos for The Take, the Fernando Meirelles heist thriller with Denzel Washington and Robert Pattinson, out January 15.">
     <link rel="canonical" href="https://everymovieplug.com/news/netflix-the-take-denzel-washington-robert-pattinson-first-look.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -141,8 +143,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/8OT7Jr0FkO8jRAYwibmWvBrPWSB.jpg"
   ],
-  "datePublished": "2026-11-11",
-  "dateModified": "2026-11-11",
+  "datePublished": "2026-11-11T07:31:02Z",
+  "dateModified": "2026-11-11T07:31:02Z",
   "articleSection": "Film News"
 }
     </script>
@@ -182,7 +184,7 @@
         <header class="article-header">
             <h1>Netflix Unveils The Take First Look With Denzel Washington and Robert Pattinson, Sets January 15 Release</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 11, 2026</p>
+            <p data-published="2026-11-11T07:31:02Z" class="article-date">November 11, 2026<span class="article-time"> &middot; 7:31 AM GMT</span></p>
             <p class="article-subtitle"><i>The first poster and photos for Fernando Meirelles&rsquo; heist thriller show Washington as a master thief and Pattinson as the former Army captain he recruits for a Manhattan bank job.</i></p>
         </header>
 
@@ -281,7 +283,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -294,11 +309,14 @@
             <a href="mailto:contact@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="/news/read-aloud.js" defer></script>
     <script src="/share.js" defer></script>
+    <script src="/tag-links.js" defer></script>
 </body>
 </html>
