@@ -306,9 +306,9 @@
     .mood-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); margin-right:.25rem; }
 
     /* ===== Featured banner: popular new movies + TV (TMDB backdrops) ===== */
-    .fx { position:relative; border-radius:24px; overflow:hidden; isolation:isolate; background:#0b0b12; border:1px solid var(--border-color); box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 60px rgba(99,102,241,.12); height:clamp(400px,42vw,520px); }
+    .fx { --fx-pad:2rem; position:relative; border-radius:24px; overflow:hidden; isolation:isolate; background:#0b0b12; border:1px solid var(--border-color); box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 60px rgba(99,102,241,.12); height:clamp(400px,42vw,520px); }
     .fx[hidden] { display:none; }
-    .fx-label { position:absolute; z-index:6; top:16px; left:18px; display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:9999px; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#e9d5ff; font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; pointer-events:none; }
+    .fx-label { position:absolute; z-index:6; top:16px; left:var(--fx-pad); display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:9999px; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#e9d5ff; font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; pointer-events:none; }
     .fx-label i { width:7px; height:7px; border-radius:50%; background:var(--purple-accent); box-shadow:0 0 10px var(--purple-accent); animation:fx-pulse 2s ease-in-out infinite; }
     @keyframes fx-pulse { 50% { opacity:.35; transform:scale(.75); } }
 
@@ -322,7 +322,7 @@
     .fx-slide::before { content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(90deg,rgba(5,4,12,.92) 0%,rgba(5,4,12,.6) 38%,rgba(5,4,12,.05) 72%), linear-gradient(0deg,rgba(5,4,12,.9) 0%,rgba(5,4,12,0) 48%); }
     .fx-slide.noimg { background:linear-gradient(135deg,#1b1033,#0b0b12 60%,#2a1250); }
 
-    .fx-info { position:absolute; z-index:3; left:0; bottom:0; max-width:620px; padding:0 3.25rem 4.2rem; display:flex; flex-direction:column; gap:.7rem; transform:translateY(14px); opacity:0; transition:transform .8s var(--ease-out) .15s, opacity .8s ease .15s; }
+    .fx-info { position:absolute; z-index:3; left:0; bottom:0; max-width:620px; padding:0 var(--fx-pad) 4.2rem; display:flex; flex-direction:column; gap:.7rem; transform:translateY(14px); opacity:0; transition:transform .8s var(--ease-out) .15s, opacity .8s ease .15s; }
     .fx-slide.on .fx-info { transform:none; opacity:1; }
     .fx-badges { display:flex; flex-wrap:wrap; gap:.5rem; }
     .fx-type, .fx-new { padding:4px 11px; border-radius:9999px; font-size:.68rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
@@ -359,10 +359,10 @@
     @media (hover:none) { .fx-arr { display:none; } }
 
     @media (max-width:640px) {
-      .fx { height:460px; border-radius:20px; }
-      .fx-label { top:12px; left:12px; }
+      .fx { --fx-pad:1.15rem; height:460px; border-radius:20px; }
+      .fx-label { top:14px; }
       .fx-slide::before { background:linear-gradient(0deg,rgba(5,4,12,.96) 0%,rgba(5,4,12,.7) 45%,rgba(5,4,12,.1) 80%); }
-      .fx-info { padding:0 1.15rem 4.1rem; gap:.55rem; }
+      .fx-info { padding:0 var(--fx-pad) 4.1rem; gap:.55rem; }
       .fx-ov { -webkit-line-clamp:2; font-size:.88rem; }
       .fx-meta .fx-sep { display:none; }
       .fx-nav { right:0; left:0; bottom:16px; justify-content:center; }
