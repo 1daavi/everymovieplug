@@ -12,6 +12,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://everymovieplug.com/news/netflix-the-take-denzel-washington-robert-pattinson-first-look</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-11T00:00:00+00:00</news:publication_date>
+      <news:title>Netflix Unveils The Take First Look With Denzel Washington and Robert Pattinson, Sets January 15 Release</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/articles/actor-spotlight-jim-carrey</loc>
     <news:news>
       <news:publication>
