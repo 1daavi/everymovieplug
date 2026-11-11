@@ -106,6 +106,16 @@
   });
   addEventListener("pageshow", function (e) { if (e.persisted) root.classList.remove("emx-leaving"); });
 
+  /* ------------------------------------------------------ logo: plug-in pop on click (and a smooth scroll to top when already on the homepage) */
+  doc.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest(".brand"); if (!b) return;
+    b.classList.remove("plugged"); void b.offsetWidth; b.classList.add("plugged");
+    setTimeout(function () { b.classList.remove("plugged"); }, 650);
+    vibrate(8);
+    var home = location.pathname.replace(/index\.html$/, "") === "/" && !location.search && !location.hash;
+    if (home && !reduce && !e.defaultPrevented && e.button === 0 && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); }
+  });
+
   /* ------------------------------------------------------ progress + back to top */
   var bar = el("div"); bar.id = "emx-progress"; bar.setAttribute("aria-hidden", "true");
   var topBtn = el("button", "emx-top", '<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="ring-bg" cx="24" cy="24" r="21"/><circle class="ring" cx="24" cy="24" r="21" stroke-dasharray="131.95" stroke-dashoffset="131.95"/></svg>' +
