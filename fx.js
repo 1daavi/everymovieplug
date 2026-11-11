@@ -6,9 +6,10 @@
  *
  *  Motion        page fade in/out, scroll progress bar, scroll reveals, image fade-ins, back-to-top ring,
  *                soft cursor glow, gliding highlight on the top menu
- *  Mouse         3D tilt + light glare on cards, magnetic buttons, click-and-drag scrolling with momentum on rails
- *  Touch         cards press in and lean toward your finger, swipe left/right to change page on News / Articles,
- *                swipe a popup down to close it, light vibration on taps (where the phone allows it)
+ *  Cards         no JS motion at all: cards keep the simple CSS hover lift/press that each page defines, nothing wobbles or tilts,
+ *                and rows only scroll when you scroll them (wheel, trackpad, swipe or the arrow buttons - never by grabbing a card)
+ *  Touch         swipe left/right to change page on News / Articles, swipe a popup down to close it,
+ *                light vibration on taps (where the phone allows it)
  *  Images        tap an article picture to zoom it open (flies out of the page), swipe it away or press Esc
  *
  * People who ask their device for reduced motion get the calm version: no movement, only instant state changes.
@@ -22,8 +23,6 @@
   var SPRING = "cubic-bezier(.34,1.56,.64,1)", EASE = "cubic-bezier(.16,1,.3,1)";
 
   /* what gets which effect */
-  var TILT_SEL = ".glass-card-interactive,.mcard,.gcard,.post-card,.feat,.tile,.emp-card";
-  var MAGNET_SEL = ".chip.primary,.primary,.btn,.m-open,.hero-arrow,.emx-top,.tagbar-clear";
   var REVEAL_SEL = ".glass-card,.glass,.mcard,.gcard,.post-card,.feat,.article-figure,.quick-facts,.key-points,.qa,.author-box,.site-footer,.seo-text";
   var NO_FX = "[data-fx=off],.modal,.emx-lightbox";
 
@@ -51,15 +50,11 @@
     ".emx-top:active{scale:.9}",
     ".emx-top:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}",
     /* reveals (individual transform properties, so hover transforms keep working) */
-    ".emx-rv{opacity:0;translate:0 26px;scale:.97}",
-    ".emx-rv.emx-in{opacity:1;translate:0 0;scale:1;transition:opacity .75s " + EASE + ",translate .85s " + EASE + ",scale .85s " + EASE + ";transition-delay:var(--emx-d,0ms)}",
+    ".emx-rv{opacity:0;translate:0 14px}",
+    ".emx-rv.emx-in{opacity:1;translate:0 0;transition:opacity .5s " + EASE + ",translate .55s " + EASE + ";transition-delay:var(--emx-d,0ms)}",
     /* images fade in once loaded */
     "img.emx-img{opacity:0;scale:1.04;filter:blur(6px)}",
     "img.emx-img.emx-done{opacity:1;scale:1;filter:none;transition:opacity .6s ease,scale .8s " + EASE + ",filter .6s ease}",
-    /* tilt glare */
-    ".emx-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:6;opacity:0;transition:opacity .35s ease;mix-blend-mode:soft-light;",
-    "background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.55),rgba(255,255,255,0) 55%)}",
-    ".emx-glare.on{opacity:.9}",
     /* cursor glow */
     ".emx-aura{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;z-index:1;pointer-events:none;opacity:0;transition:opacity .5s ease;",
     "background:radial-gradient(circle,rgba(139,92,246,.11),rgba(99,102,241,.05) 40%,rgba(0,0,0,0) 70%);will-change:transform}",
@@ -69,9 +64,8 @@
     ".emx-glide{position:absolute;left:0;top:0;z-index:3;border-radius:9999px;pointer-events:none;opacity:0;border:1px solid rgba(216,180,254,.9);",
     "background:rgba(168,85,247,.16);box-shadow:0 0 22px rgba(168,85,247,.55),inset 0 0 12px rgba(168,85,247,.25);transition:transform .45s " + SPRING + ",width .45s " + SPRING + ",height .45s " + SPRING + ",opacity .25s ease}",
     ".emx-glide.on{opacity:1}",
-    /* dragging scrollers */
-    ".rail,.posts,.tagbar-rail,[data-emx-drag]{cursor:grab}",
-    "html.emx-grabbing,html.emx-grabbing *{cursor:grabbing!important;user-select:none!important;-webkit-user-select:none!important}",
+    /* rows: a mouse wheel over a card must always scroll the PAGE, never get caught by the row */
+    ".rail{overflow-y:hidden;overscroll-behavior-y:auto}",
     /* swipe-to-change-page hint */
     ".emx-edge{position:fixed;top:50%;z-index:2147481500;display:grid;place-items:center;width:54px;height:54px;border-radius:50%;color:#fff;pointer-events:none;opacity:0;",
     "background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 10px 30px rgba(124,58,237,.6)}",
@@ -173,61 +167,8 @@
     setTimeout(done, 6000);
   }
 
-  /* ---------------------------------------------------- tilt, glare, magnet (a small spring engine) */
-  var live = new Map(), looping = false;
-  function state(n) {
-    var s = live.get(n);
-    if (!s) {
-      s = { n: n, x: 0, y: 0, a: 0, sc: 1, tx: 0, ty: 0, ta: 0, tsc: 1, mx: 0, my: 0, tmx: 0, tmy: 0, k: 0.2, glare: null, perspOn: null, tp: "" };
-      var cs = getComputedStyle(n);
-      if (/(^|,\s*)all(\s*,|$)/.test(cs.transitionProperty)) { s.tp = n.style.transitionProperty; n.style.transitionProperty = "transform,background-color,border-color,box-shadow,color,opacity,filter"; }
-      live.set(n, s);
-    }
-    return s;
-  }
-  function loop() {
-    looping = true; var again = false;
-    live.forEach(function (s, n) {
-      s.x += (s.tx - s.x) * s.k; s.y += (s.ty - s.y) * s.k; s.a += (s.ta - s.a) * s.k; s.sc += (s.tsc - s.sc) * s.k;
-      s.mx += (s.tmx - s.mx) * 0.22; s.my += (s.tmy - s.my) * 0.22;
-      var rest = Math.abs(s.x - s.tx) + Math.abs(s.y - s.ty) + Math.abs(s.a - s.ta) < 0.02 && Math.abs(s.sc - s.tsc) < 0.0008 && Math.abs(s.mx - s.tmx) + Math.abs(s.my - s.tmy) < 0.05;
-      if (rest && s.ta === 0 && s.tsc === 1 && s.tmx === 0 && s.tmy === 0) {
-        n.style.removeProperty("rotate"); n.style.removeProperty("scale"); n.style.removeProperty("translate");
-        n.style.transitionProperty = s.tp; if (!n.getAttribute("style")) n.removeAttribute("style");
-        if (s.perspOn) { s.perspOn.style.perspective = ""; if (!s.perspOn.getAttribute("style")) s.perspOn.removeAttribute("style"); }
-        if (s.glare) s.glare.classList.remove("on");
-        live.delete(n); return;
-      }
-      again = true;
-      n.style.rotate = s.a > 0.01 ? s.x.toFixed(3) + " " + s.y.toFixed(3) + " 0 " + s.a.toFixed(2) + "deg" : "";
-      n.style.scale = s.sc.toFixed(4);
-      n.style.translate = (s.mx || s.my) ? s.mx.toFixed(2) + "px " + s.my.toFixed(2) + "px" : "";
-    });
-    if (again) raf(loop); else looping = false;
-  }
-  function kick() { if (!looping) raf(loop); }
-  function ensureGlare(n, s) {
-    if (s.glare || getComputedStyle(n).position === "static") return;
-    s.glare = n.querySelector(":scope > .emx-glare") || n.appendChild(el("span", "emx-glare"));
-  }
-  function aim(n, e, press) {
-    var r = n.getBoundingClientRect(); if (!r.width) return;
-    var px = clamp((e.clientX - r.left) / r.width, 0, 1) - 0.5, py = clamp((e.clientY - r.top) / r.height, 0, 1) - 0.5;
-    var max = r.width > 420 ? 2.4 : 5, s = state(n);
-    var rx = -py * max * 2, ry = px * max * 2;                       /* rotateX / rotateY, as one axis-angle rotation */
-    s.tx = rx; s.ty = ry; s.ta = Math.sqrt(rx * rx + ry * ry) || 0.0001;
-    s.tsc = press ? 0.965 : 1.025; s.k = press ? 0.3 : 0.18;
-    if (!s.perspOn && n.parentElement) { var p = n.parentElement; if (getComputedStyle(p).perspective === "none") { p.style.perspective = "900px"; s.perspOn = p; } }
-    ensureGlare(n, s);
-    if (s.glare) { s.glare.style.setProperty("--gx", (px + 0.5) * 100 + "%"); s.glare.style.setProperty("--gy", (py + 0.5) * 100 + "%"); s.glare.classList.add("on"); }
-    kick();
-  }
-  function release(n) {
-    var s = live.get(n); if (!s) return;
-    s.tx = 0; s.ty = 0; s.ta = 0; s.tsc = 1; s.k = 0.12; if (s.glare) s.glare.classList.remove("on"); kick();
-  }
-
-  var hoverN = null, magN = null, mx = 0, my = 0, moveQ = false, auraEl = null, ax = 0, ay = 0, aTx = 0, aTy = 0, auraLoop = false;
+  /* ---------------------------------------------------- soft cursor glow (the only pointer effect left) */
+  var mx = 0, my = 0, moveQ = false, auraEl = null, ax = 0, ay = 0, aTx = 0, aTy = 0, auraLoop = false;
   function auraTick() {
     ax += (aTx - ax) * 0.12; ay += (aTy - ay) * 0.12;
     auraEl.style.transform = "translate3d(" + ax.toFixed(1) + "px," + ay.toFixed(1) + "px,0)";
@@ -239,81 +180,21 @@
     raf(function () {
       moveQ = false;
       if (auraEl) { aTx = mx; aTy = my; auraEl.classList.add("on"); if (!auraLoop) { auraLoop = true; raf(auraTick); } }
-      var t = document.elementFromPoint(mx, my), card = t && t.closest ? t.closest(TILT_SEL) : null;
-      if (card && off(card)) card = null;
-      if (hoverN && hoverN !== card) release(hoverN);
-      hoverN = card;
-      if (card) aim(card, { clientX: mx, clientY: my }, false);
-      /* magnetic buttons: pulled a few pixels toward the pointer once it is close */
-      var best = null, list = doc.querySelectorAll(MAGNET_SEL);
-      for (var i = 0; i < list.length; i++) {
-        var b = list[i]; if (off(b) || (b.classList.contains("emx-top") && !b.classList.contains("on"))) continue;
-        var r = b.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > innerHeight) continue;
-        var cx = r.left + r.width / 2, cy = r.top + r.height / 2, dx = mx - cx, dy = my - cy, d = Math.sqrt(dx * dx + dy * dy), reach = Math.max(r.width, r.height) / 2 + 34;
-        if (d < reach) { best = b; var pull = (1 - d / reach); var s = state(b); s.tmx = dx * 0.28 * pull + (dx * 0.1); s.tmy = dy * 0.28 * pull + (dy * 0.1); s.tmx = clamp(s.tmx, -9, 9); s.tmy = clamp(s.tmy, -9, 9); s.k = 0.2; if (b === hoverN) {} else { s.tsc = 1.04; } kick(); }
-        else if (live.has(b) && (live.get(b).tmx || live.get(b).tmy)) { var q = live.get(b); q.tmx = 0; q.tmy = 0; if (!q.ta) q.tsc = 1; kick(); }
-      }
-      magN = best;
     });
   }
   if (!reduce && finePointer) {
     auraEl = el("div", "emx-aura"); auraEl.setAttribute("aria-hidden", "true");
     doc.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") onMove(e); }, { passive: true });
-    doc.addEventListener("mouseleave", function () { if (auraEl) auraEl.classList.remove("on"); if (hoverN) { release(hoverN); hoverN = null; } });
-  }
-  /* touch / pen: the card presses in and leans toward the finger, then springs back */
-  var pressN = null;
-  if (!reduce) {
-    doc.addEventListener("pointerdown", function (e) {
-      if (e.pointerType === "mouse") return;
-      var n = e.target.closest && e.target.closest(TILT_SEL + "," + MAGNET_SEL);
-      if (!n || off(n)) return;
-      var t = e.target.closest("a,button,.tile-tag,.chip,.tag-chip,.emx-top"); if (t) vibrate(6);
-      pressN = n;
-      if (n.matches(TILT_SEL)) aim(n, e, true); else { var s = state(n); s.tsc = 0.92; s.k = 0.3; kick(); }
-    }, { passive: true });
-    var up = function () { if (pressN) { var n = pressN; pressN = null; var s = live.get(n); if (s) { s.tsc = 1; } release(n); } };
-    doc.addEventListener("pointerup", up, { passive: true }); doc.addEventListener("pointercancel", up, { passive: true });
+    doc.addEventListener("mouseleave", function () { if (auraEl) auraEl.classList.remove("on"); });
   }
 
-  /* ----------------------------------------------- click-and-drag scrolling with momentum (mouse) */
-  var drag = null, justDragged = false;
+  /* finds a sideways-scrolling row under a finger (used so a page swipe never fights a row swipe) */
   function hScroller(n) {
     for (; n && n !== doc.body && n !== root; n = n.parentElement) {
       var cs = getComputedStyle(n);
       if ((cs.overflowX === "auto" || cs.overflowX === "scroll") && n.scrollWidth > n.clientWidth + 4) return n;
     }
     return null;
-  }
-  if (!reduce) {
-    doc.addEventListener("pointerdown", function (e) {
-      if (e.pointerType !== "mouse" || e.button !== 0 || e.target.closest("input,textarea,select,video,iframe,[contenteditable],[data-fx=off]")) return;
-      var s = hScroller(e.target); if (!s) return;
-      drag = { s: s, x: e.clientX, left: s.scrollLeft, moved: false, v: 0, lx: e.clientX, lt: performance.now(), snap: s.style.scrollSnapType };
-    });
-    addEventListener("pointermove", function (e) {
-      if (!drag) return;
-      var dx = e.clientX - drag.x;
-      if (!drag.moved) { if (Math.abs(dx) < 6) return; drag.moved = true; justDragged = true; drag.s.style.scrollSnapType = "none"; root.classList.add("emx-grabbing"); }
-      var now = performance.now(), dt = Math.max(1, now - drag.lt);
-      drag.v = 0.8 * drag.v + 0.2 * ((drag.lx - e.clientX) / dt * 16); drag.lx = e.clientX; drag.lt = now;
-      drag.s.scrollLeft = drag.left - dx;
-    });
-    var endDrag = function () {
-      if (!drag) return; var d = drag; drag = null;
-      if (!d.moved) return;
-      setTimeout(function () { justDragged = false; }, 80);
-      root.classList.remove("emx-grabbing");
-      var v = d.v;
-      (function glide() {
-        if (Math.abs(v) < 0.4) { d.s.style.scrollSnapType = d.snap; return; }
-        d.s.scrollLeft += v; v *= 0.94; raf(glide);
-      })();
-    };
-    addEventListener("pointerup", endDrag); addEventListener("pointercancel", endDrag);
-    /* window + capture: runs before any other click handler on the page, so a drag never also "clicks" a card or tag */
-    addEventListener("click", function (e) { if (justDragged) { e.preventDefault(); e.stopPropagation(); } }, true);
-    doc.addEventListener("dragstart", function (e) { if (drag && drag.moved) e.preventDefault(); });
   }
 
   /* ----------------------------------------------- gliding highlight on the top menu */
@@ -451,7 +332,7 @@
     if (window.MutationObserver) {
       var pend = [], t = 0;
       new MutationObserver(function (ms) {
-        ms.forEach(function (m) { for (var i = 0; i < m.addedNodes.length; i++) { var n = m.addedNodes[i]; if (n.nodeType === 1 && !(n.classList && (n.classList.contains("emx-glare") || n.classList.contains("emx-edge") || n.classList.contains("emx-glide")))) pend.push(n); } });
+        ms.forEach(function (m) { for (var i = 0; i < m.addedNodes.length; i++) { var n = m.addedNodes[i]; if (n.nodeType === 1 && !(n.classList && (n.classList.contains("emx-edge") || n.classList.contains("emx-glide")))) pend.push(n); } });
         if (pend.length && !t) t = setTimeout(function () { t = 0; var p = pend.splice(0, pend.length); p.forEach(function (n) { if (n.isConnected) scan(n, false); }); }, 40);
       }).observe(doc.body, { childList: true, subtree: true });
     }
