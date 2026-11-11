@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Tue, 10 Nov 2026 22:25:27 GMT</lastBuildDate>
+<lastBuildDate>Wed, 11 Nov 2026 00:43:18 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Jim Carrey Actor Spotlight: Performance, Pivots, Filmography</title>
+<link>https://everymovieplug.com/articles/actor-spotlight-jim-carrey.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/actor-spotlight-jim-carrey.html</guid>
+<pubDate>Wed, 11 Nov 2026 00:43:18 GMT</pubDate>
+<category>Actor Spotlight</category>
+<description>A profile that follows the threads running through Jim Carrey&amp;rsquo;s career: the body, the borrowed voices, the money, the heartbreak and the comebacks.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/voVRksr8micr3cuvB660KQNhT8.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/voVRksr8micr3cuvB660KQNhT8.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Today in Cinema, November 10: Stranger Than Fiction Opens in 2006 and Lets Will Ferrell Meet His Author</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-10-stranger-than-fiction-2006.html</link>
@@ -197,16 +207,6 @@
 <description>Hollywood history turns on sliding-door moments. These are the casting rejections that reshaped blockbuster cinema and handed other stars their defining parts.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/actors-who-turned-down-roles.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/actors-who-turned-down-roles.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Five Directors, Five Visions: The Signature Styles of Hollywood's Defining Filmmakers</title>
-<link>https://everymovieplug.com/articles/five-directors-five-visions-the-signature-styles-of-hollywood-s-defining-filmmakers.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/five-directors-five-visions-the-signature-styles-of-hollywood-s-defining-filmmakers.html</guid>
-<pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-<category>Article</category>
-<description>The signature styles of five defining modern filmmakers.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/Legendary-Directors.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/Legendary-Directors.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

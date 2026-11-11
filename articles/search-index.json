@@ -3,6 +3,16 @@
  "perPage": 16,
  "items": [
   {
+   "f": "actor-spotlight-jim-carrey.html",
+   "title": "Jim Carrey Actor Spotlight: Performance, Pivots, Filmography",
+   "excerpt": "A profile that follows the threads running through Jim Carrey&rsquo;s career: the body, the borrowed voices, the money, the heartbreak and the comebacks.",
+   "date": "2026-11-11",
+   "tag": "Actor Spotlight",
+   "img": "https://image.tmdb.org/t/p/original/voVRksr8micr3cuvB660KQNhT8.jpg",
+   "ts": "2026-11-11T00:43:18Z",
+   "words": 3217
+  },
+  {
    "f": "today-in-cinema-november-10-stranger-than-fiction-2006.html",
    "title": "Today in Cinema, November 10: Stranger Than Fiction Opens in 2006 and Lets Will Ferrell Meet His Author",
    "excerpt": "An IRS auditor who hears his life narrated, a novelist who cannot kill him and a wristwatch that is three minutes fast: the story behind the 2006 film that proved Will Ferrell could carry a drama.",
