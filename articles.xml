@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 11 Nov 2026 00:43:18 GMT</lastBuildDate>
+<lastBuildDate>Wed, 11 Nov 2026 19:18:13 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>10 Actors Who Gave Unforgettable Performances in Modern AAA Games</title>
+<link>https://everymovieplug.com/articles/10-actors-who-starred-in-popular-modern-aaa-games.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/10-actors-who-starred-in-popular-modern-aaa-games.html</guid>
+<pubDate>Wed, 11 Nov 2026 19:18:13 GMT</pubDate>
+<category>Gaming</category>
+<description>From Keanu Reeves in Night City to Norman Reedus on the beach, ten screen actors who brought their faces, voices and motion capture to the biggest games since 2013.</description>
+<media:thumbnail url="https://everymovieplug.com/articleassets/cyberpunk-keanu-idris.jpg"/>
+<media:content url="https://everymovieplug.com/articleassets/cyberpunk-keanu-idris.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Jim Carrey Actor Spotlight: Performance, Pivots, Filmography</title>
 <link>https://everymovieplug.com/articles/actor-spotlight-jim-carrey.html</link>
@@ -197,16 +207,6 @@
 <description>Twelve years ago today, a first-time director and a dangerously underfed movie star sent audiences into the Los Angeles night.</description>
 <media:thumbnail url="https://static0.moviewebimages.com/wordpress/wp-content/uploads/2026/08/jake-gyllenhaal-points-a-camera-in-nightcrawler.jpg?q=49&amp;fit=crop&amp;w=1200&amp;h=630"/>
 <media:content url="https://static0.moviewebimages.com/wordpress/wp-content/uploads/2026/08/jake-gyllenhaal-points-a-camera-in-nightcrawler.jpg?q=49&amp;fit=crop&amp;w=1200&amp;h=630" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>10 Actors Who Turned Down Roles That Became Legendary</title>
-<link>https://everymovieplug.com/articles/10-actors-who-turned-down-roles-that-became-legendary.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/10-actors-who-turned-down-roles-that-became-legendary.html</guid>
-<pubDate>Sat, 31 Oct 2026 19:15:00 GMT</pubDate>
-<category>Article</category>
-<description>Hollywood history turns on sliding-door moments. These are the casting rejections that reshaped blockbuster cinema and handed other stars their defining parts.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/actors-who-turned-down-roles.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/actors-who-turned-down-roles.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

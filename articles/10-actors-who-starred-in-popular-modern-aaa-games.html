@@ -6,8 +6,10 @@
     <meta name="category" content="Gaming">
     <title>10 Actors Who Gave Unforgettable Performances in Modern AAA Games | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="Ten actors who starred in modern AAA games, from Keanu Reeves in Cyberpunk 2077 to Neil Newbon in Baldur’s Gate 3, and what made each performance matter.">
+<meta name="description" content="Ten actors who starred in modern AAA games, from Keanu Reeves in Cyberpunk 2077 to Neil Newbon in Baldur’s Gate 3, and what made each performance matter.">
     <link rel="canonical" href="https://everymovieplug.com/articles/10-actors-who-starred-in-popular-modern-aaa-games.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -116,7 +118,7 @@
     "email": "maccarthy@everymovieplug.com",
     "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/everymovieplug.com"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -142,9 +144,8 @@
   "image": [
     "https://everymovieplug.com/articleassets/cyberpunk-keanu-idris.jpg"
   ],
-  "datePublished": "2026-11-11",
-  "dateModified": "2026-11-11",
-  "articleSection": "Gaming"
+  "datePublished": "2026-11-11T19:18:13Z",
+  "dateModified": "2026-11-11T19:18:13Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -183,7 +184,7 @@
         <header class="article-header">
             <h1>10 Actors Who Gave Unforgettable Performances in Modern AAA Games</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 11, 2026</p>
+            <p data-published="2026-11-11T19:18:13Z" class="article-date">November 11, 2026<span class="article-time"> &middot; 7:18 PM GMT</span></p>
             <p class="article-subtitle"><i>From Keanu Reeves in Night City to Norman Reedus on the beach, ten screen actors who brought their faces, voices and motion capture to the biggest games since 2013.</i></p>
         </header>
 
@@ -362,10 +363,23 @@
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
             <p class="author-bio">Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.</p>
-            <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug.com" target="_blank" rel="noopener noreferrer">@everymovieplug.com on X</a></p>
+            <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -378,10 +392,13 @@
             <a href="mailto:admin@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
     <script src="read-aloud.js" defer></script>
     <script src="/share.js" defer></script>
+    <script src="/tag-links.js" defer></script>
 </body>
 </html>
