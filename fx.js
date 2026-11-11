@@ -4,7 +4,7 @@
  * It only ADDS to the pages: it never rewrites their markup, and each feature fails quietly if a page does not have
  * the element it looks for. Put data-fx="off" on any element to keep it out of the effects.
  *
- *  Motion        page fade in/out, scroll progress bar, scroll reveals, image fade-ins, back-to-top ring,
+ *  Motion        page fade in/out, scroll progress bar, back-to-top ring,
  *                soft cursor glow, gliding highlight on the top menu
  *  Cards         no JS motion at all: cards keep the simple CSS hover lift/press that each page defines, nothing wobbles or tilts,
  *                and rows only scroll when you scroll them (wheel, trackpad, swipe or the arrow buttons - never by grabbing a card)
@@ -329,12 +329,7 @@
   function scan(node, initial) {
     if (!node.querySelectorAll) return;
     var i, l;
-    if (!reduce) {
-      l = node.matches && node.matches(REVEAL_SEL) ? [node] : []; l = l.concat([].slice.call(node.querySelectorAll(REVEAL_SEL)));
-      for (i = 0; i < l.length; i++) prepReveal(l[i], initial);
-      l = node.tagName === "IMG" ? [node] : [].slice.call(node.querySelectorAll("img"));
-      for (i = 0; i < l.length; i++) prepImg(l[i]);
-    }
+    /* scroll reveals and image fade-ins are switched off on purpose: everything is visible as soon as the page loads */
     l = node.querySelectorAll(".article-figure img"); for (i = 0; i < l.length; i++) prepZoom(l[i]);
     l = node.querySelectorAll(".sitenav"); for (i = 0; i < l.length; i++) bindNav(l[i]);
     l = node.querySelectorAll(".topbar-in"); for (i = 0; i < l.length; i++) if (l[i].querySelector(".navrow")) bindNav(l[i], ".navrow .chip,.top-actions .chip");
