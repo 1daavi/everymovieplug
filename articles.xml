@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 11 Nov 2026 19:18:13 GMT</lastBuildDate>
+<lastBuildDate>Wed, 11 Nov 2026 20:04:21 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman</title>
+<link>https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022.html</guid>
+<pubDate>Wed, 11 Nov 2026 20:04:21 GMT</pubDate>
+<category>Today In Cinema</category>
+<description>No recast, no digital double and no pretending: how a Marvel sequel was rewritten around an absence, and why its quietest choices still land four years later.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/zr2W1E1UiVG4GkdbtS3qwZKiwOI.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/zr2W1E1UiVG4GkdbtS3qwZKiwOI.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>10 Actors Who Gave Unforgettable Performances in Modern AAA Games</title>
 <link>https://everymovieplug.com/articles/10-actors-who-starred-in-popular-modern-aaa-games.html</link>
@@ -197,16 +207,6 @@
 <description>A film about the founding of a website, built by a famously controlled director and a famously talkative writer, became one of the defining American movies of its century.</description>
 <media:thumbnail url="https://image.tmdb.org/t/p/original/1PXwh3nJzgRkkYnqfWInJNypeL4.jpg"/>
 <media:content url="https://image.tmdb.org/t/p/original/1PXwh3nJzgRkkYnqfWInJNypeL4.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Today in Cinema, October 31: Nightcrawler Opens on Halloween 2014</title>
-<link>https://everymovieplug.com/articles/today-in-cinema-october-31-nightcrawler.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-october-31-nightcrawler.html</guid>
-<pubDate>Sat, 31 Oct 2026 19:15:00 GMT</pubDate>
-<category>Today in Cinema</category>
-<description>Twelve years ago today, a first-time director and a dangerously underfed movie star sent audiences into the Los Angeles night.</description>
-<media:thumbnail url="https://static0.moviewebimages.com/wordpress/wp-content/uploads/2026/08/jake-gyllenhaal-points-a-camera-in-nightcrawler.jpg?q=49&amp;fit=crop&amp;w=1200&amp;h=630"/>
-<media:content url="https://static0.moviewebimages.com/wordpress/wp-content/uploads/2026/08/jake-gyllenhaal-points-a-camera-in-nightcrawler.jpg?q=49&amp;fit=crop&amp;w=1200&amp;h=630" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

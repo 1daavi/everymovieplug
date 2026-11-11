@@ -7,8 +7,10 @@
     <meta name="tmdb" content="movie|Black Panther: Wakanda Forever|2022">
     <title>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman | Every Movie Plug</title>
     <meta name="author" content="Abigail Gyimah">
-    <meta name="description" content="Black Panther: Wakanda Forever opened November 11, 2022. Seven ways Ryan Coogler’s film honors Chadwick Boseman, from a silent Marvel logo to Shuri’s final choice.">
+<meta name="description" content="Black Panther: Wakanda Forever opened November 11, 2022. Seven ways Ryan Coogler’s film honors Chadwick Boseman, from a silent Marvel logo to Shuri’s final choice.">
     <link rel="canonical" href="https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -104,13 +106,13 @@
   "url": "https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022.html",
   "author": {
     "@type": "Person",
-    "@id": "https://everymovieplug.com/author/abigail-gyimah.html#person",
-    "name": "Abigail Gyimah",
-    "url": "https://everymovieplug.com/author/abigail-gyimah.html",
-    "email": "missgyim@everymovieplug.com",
-    "description": "Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.",
+    "@id": "https://everymovieplug.com/author/maccarthy-albin.html#person",
+    "name": "Maccarthy Albin",
+    "url": "https://everymovieplug.com/author/maccarthy-albin.html",
+    "email": "maccarthy@everymovieplug.com",
+    "description": "Film enthusiast, writer, and creator behind Every Movie Plug. Maccarthy Albin covers the latest cinema news, in-depth articles, iconic scene breakdowns, and movie history for film lovers around the globe.",
     "sameAs": [
-      "https://x.com/biggles_5"
+      "https://x.com/everymovieplug"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -136,9 +138,8 @@
   "image": [
     "https://image.tmdb.org/t/p/original/zr2W1E1UiVG4GkdbtS3qwZKiwOI.jpg"
   ],
-  "datePublished": "2026-11-11",
-  "dateModified": "2026-11-11",
-  "articleSection": "Today In Cinema"
+  "datePublished": "2026-11-11T20:04:21Z",
+  "dateModified": "2026-11-11T20:04:21Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -177,7 +178,7 @@
         <header class="article-header">
             <h1>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman</h1>
             <p class="article-byline">By <a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="article-date">November 11, 2026</p>
+            <p data-published="2026-11-11T20:04:21Z" class="article-date">November 11, 2026<span class="article-time"> &middot; 8:04 PM GMT</span></p>
             <p class="article-subtitle"><i>No recast, no digital double and no pretending: how a Marvel sequel was rewritten around an absence, and why its quietest choices still land four years later.</i></p>
         </header>
 
@@ -309,11 +310,24 @@
         <div class="author-info">
             <p class="author-label">Written by</p>
             <p class="author-name"><a href="/author/abigail-gyimah.html" rel="author">Abigail Gyimah</a></p>
-            <p class="author-bio">Film enthusiast, writer &amp; content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
-            <p class="author-contact">Contact: <a href="mailto:missgyim@everymovieplug.com">missgyim@everymovieplug.com</a> &middot; <a href="https://x.com/biggles_5" target="_blank" rel="noopener noreferrer">@biggles_5 on X</a></p>
+            <p class="author-bio">Film enthusiast, writer & content creator at Every Movie Plug. Abigail Gyimah uncovers fascinating backstories, hidden details, set secrets, and lesser-known trivia from beloved films and TV shows.</p>
+            <p class="author-contact">Contact: <a href="mailto:missgyim@everymovieplug.com">missgyim@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -326,10 +340,13 @@
             <a href="mailto:admin@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
     <script src="read-aloud.js" defer></script>
     <script src="/share.js" defer></script>
+    <script src="/tag-links.js" defer></script>
 </body>
 </html>
