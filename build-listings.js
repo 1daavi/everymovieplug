@@ -706,13 +706,13 @@ function build(sec) {
       .replace("{{PAGER}}", () => pagerHTML(sec, page, pages, from, to, count))
       .replace("{{TEXT}}", () => text)
       .replace("{{FOOTER}}", () => footerHTML())
-      .replace("{{SEARCH_SCRIPT}}", () => `<script src="/tag-links.js" defer></script>\n    ` + searchScript(sec) + liveTime)
+      .replace("{{SEARCH_SCRIPT}}", () => `<script src="/tag-links.js" defer></script>\n    <script src="/fx.js" defer></script>\n    ` + searchScript(sec) + liveTime)
       .replace("{{HERO_SCRIPT}}", () => page === 1 ? heroJS : "")
       .replace("</style>", () => EXTRA_CSS + "    </style>");
     // the lead line and the result counter sit right under the page header
     html = html.replace('<p class="result-count" id="count" aria-live="polite"></p>', () => `<section class="tagbar" id="tagbar" aria-live="polite" hidden></section>\n    <p class="page-lead">${lead}</p>\n    <p class="result-count" id="count" aria-live="polite"></p>`);
     // visiting /news/?tag=... : hide the normal page from the first paint so it never flashes before the tag view
-    html = html.replace("</head>", () => `    <script>if (/[?&]tag=/.test(location.search)) document.documentElement.classList.add("tag-boot");</script>\n</head>`);
+    html = html.replace("</head>", () => `    <script>if (/[?&]tag=/.test(location.search)) document.documentElement.classList.add("tag-boot");</script>\n    <style id="emx-enter">@media (prefers-reduced-motion:no-preference){@keyframes emx-in{from{opacity:0}}body{animation:emx-in .45s ease backwards}}</style>\n</head>`);
     html = html.replace('<strong>No stories found</strong>Try a different title, show or keyword.', () => `<strong>No ${sec.many} found</strong>Try a different title, show or keyword.`);
 
     const out = page === 1 ? path.join(sec.dir, "index.html") : path.join(sec.dir, "page", String(page), "index.html");

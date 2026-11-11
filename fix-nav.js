@@ -7,6 +7,7 @@
  * old relative links such as ../index.html into root-absolute ones. Also makes sure every story's <head> has the
  * RSS feed <link rel="alternate"> tags, so new stories get the footer RSS links and feed tags automatically.
  * Also adds <script src="/tag-links.js"> to stories that have "Related" cards, so their category labels are clickable tags.
+ * Also adds the site-wide motion/gesture script (<script src="/fx.js">) and its page-enter style to every story.
  * Safe to run any time.
  *
  * Usage (from the site root):   node fix-nav.js            news + articles
@@ -43,6 +44,13 @@ for (const d of dirs) {
     // clickable tags: stories with "Related" cards need the shared tag script (the card labels link to /news/?tag=... or /articles/?tag=...)
     if (/emp-card-tag/.test(out) && !/src="\/tag-links\.js"/.test(out) && /<\/body>/i.test(out)) {
       out = out.replace(/<\/body>/i, m => '    <script src="/tag-links.js" defer></script>\n' + m);
+    }
+    // site-wide motion and gestures (fx.js): a tiny enter-fade style in <head> (runs before first paint) + the shared script
+    if (!/id="emx-enter"/.test(out) && /<\/head>/i.test(out)) {
+      out = out.replace(/<\/head>/i, m => '    <style id="emx-enter">@media (prefers-reduced-motion:no-preference){@keyframes emx-in{from{opacity:0}}body{animation:emx-in .45s ease backwards}}</style>\n' + m);
+    }
+    if (!/src="\/fx\.js"/.test(out) && /<\/body>/i.test(out)) {
+      out = out.replace(/<\/body>/i, m => '    <script src="/fx.js" defer></script>\n' + m);
     }
     if (out !== html) { fs.writeFileSync(file, out); changed++; }
   }

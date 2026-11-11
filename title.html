@@ -88,6 +88,7 @@
     }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
+  <style id="emx-enter">@media (prefers-reduced-motion:no-preference){@keyframes emx-in{from{opacity:0}}body{animation:emx-in .45s ease backwards}}</style>
 </head>
 <body>
   <div class="mesh-bg" aria-hidden="true"></div>
@@ -321,5 +322,6 @@ function deepLink(p, group) {
     }
     load();
   </script>
+  <script src="/fx.js" defer></script>
 </body>
 </html>
