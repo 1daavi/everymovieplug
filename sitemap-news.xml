@@ -45,6 +45,17 @@
     </news:news>
   </url>
   <url>
+    <loc>https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022</loc>
+    <news:news>
+      <news:publication>
+        <news:name>EveryMoviePlug</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-11-11T00:00:00+00:00</news:publication_date>
+      <news:title>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://everymovieplug.com/news/marvel-studios-cryptic-binary-post-x-visionquest-finale-wandavision</loc>
     <news:news>
       <news:publication>
