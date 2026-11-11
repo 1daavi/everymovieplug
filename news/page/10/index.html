@@ -209,6 +209,73 @@
         .seo-text li { margin-bottom: 8px; }
         .seo-text a { color: #c4b5fd; text-decoration: underline; text-underline-offset: 3px; }
         .seo-text a:hover { color: #fff; }
+
+        /* ===== Clickable tags (added by build-listings.js) ===== */
+        .tile-tag[data-tag] { z-index: 4; display: inline-flex; align-items: center; overflow: hidden; cursor: pointer; text-decoration: none; -webkit-tap-highlight-color: transparent;
+                transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), background .3s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease; }
+        .tile-tag[data-tag]::before { content: "#"; display: inline-block; max-width: 0; margin-right: 0; opacity: 0; overflow: hidden; transform: translateX(-4px); transition: max-width .3s ease, margin .3s ease, opacity .3s ease, transform .3s ease; }
+        .tile-tag[data-tag]::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, .55) 50%, transparent 75%); transform: translateX(-130%) skewX(-20deg); pointer-events: none; }
+        @media (hover: hover) {
+            .tile-tag[data-tag]:hover { transform: translateY(-2px) scale(1.09); background: linear-gradient(135deg, #a855f7, #7c3aed); border-color: #e9d5ff; color: #fff; box-shadow: 0 8px 20px rgba(168, 85, 247, .55), 0 0 0 4px rgba(168, 85, 247, .18); }
+            .tile-tag[data-tag]:hover::before { max-width: 1em; margin-right: 3px; opacity: 1; transform: none; }
+            .tile-tag[data-tag]:hover::after { transform: translateX(130%) skewX(-20deg); transition: transform .7s ease; }
+        }
+        .tile-tag[data-tag]:active { transform: scale(.9); transition-duration: .1s; }
+        .tile-tag[data-tag]:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 2px; }
+        .tile-tag.is-active { background: linear-gradient(135deg, #a855f7, #7c3aed); border-color: #e9d5ff; color: #fff; }
+        .tile-tag.tag-pop, .tag-chip.tag-pop { animation: emp-pop .5s cubic-bezier(.34, 1.56, .64, 1); }
+
+        /* the page tiles lift away, then the tagged stories cascade in */
+        .tiles-out .tile { animation: tile-out .28s cubic-bezier(.5, 0, .9, .4) forwards; animation-delay: calc(var(--i, 0) * 10ms); }
+        @keyframes tile-out { to { opacity: 0; transform: translateY(-18px) scale(.93); filter: blur(5px); } }
+        .hero.tiles-out { opacity: 0; transform: scale(.97); transition: opacity .3s ease, transform .3s ease; }
+        html.tag-boot #tiles, html.tag-boot [data-paged], html.tag-boot .seo-text, html.tag-boot .page-lead, html.tag-boot .hero { display: none; }
+        body.tagmode .hero { display: none; }
+        body.tagmode .result-count { margin: 4px 0 18px; }
+
+        /* tag header: big animated tag name, live count, and a rail of every other tag */
+        .tagbar { position: relative; margin: 0 0 26px; padding: 24px 26px 20px; border-radius: 22px; border: 1px solid rgba(168, 85, 247, .38); overflow: hidden; isolation: isolate;
+                background: radial-gradient(120% 150% at 0% 0%, rgba(168, 85, 247, .28), transparent 55%), linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+                box-shadow: 0 20px 50px rgba(0, 0, 0, .45), 0 0 50px rgba(168, 85, 247, .14); animation: tagbar-in .6s cubic-bezier(.2, .9, .25, 1.15) backwards; }
+        .tagbar[hidden] { display: none; }
+        .tagbar::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .14) 50%, transparent 70%); transform: translateX(-120%); animation: tagbar-sheen 1.3s .25s ease forwards; pointer-events: none; }
+        @keyframes tagbar-in { from { opacity: 0; transform: translateY(-18px) scale(.97); } }
+        @keyframes tagbar-sheen { to { transform: translateX(120%); } }
+        .tagbar-top { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .tagbar-eyebrow { display: block; margin-bottom: 8px; color: #c4b5fd; font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+        .tagbar-title { display: flex; align-items: baseline; gap: 6px; margin: 0; font-size: clamp(1.8rem, 4.2vw, 2.7rem); font-weight: 800; line-height: 1.1; }
+        .tagbar-hash { display: inline-block; color: var(--accent); animation: hash-in .7s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+        .tagbar-name { background: linear-gradient(180deg, #fff, #d8b4fe); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: name-in .7s .1s cubic-bezier(.2, .8, .2, 1) backwards; }
+        @keyframes hash-in { from { opacity: 0; transform: rotate(-90deg) scale(.3); } }
+        @keyframes name-in { from { opacity: 0; filter: blur(10px); transform: translateX(-14px); } }
+        .tagbar-meta { margin: 8px 0 0; color: var(--muted); font-size: .92rem; }
+        .tagbar-num { color: #fff; font-variant-numeric: tabular-nums; }
+        .tagbar-clear { display: inline-flex; align-items: center; gap: 8px; padding: .55rem 1.05rem; border-radius: 9999px; border: 1px solid rgba(168, 85, 247, .45); background: rgba(168, 85, 247, .14); color: #e9d5ff; font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), background .25s ease, color .25s ease, box-shadow .25s ease; }
+        .tagbar-clear span { display: inline-block; font-size: 1.1rem; line-height: 1; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1); }
+        .tagbar-clear:hover, .tagbar-clear:focus-visible { transform: translateY(-2px); background: var(--accent); color: #fff; box-shadow: 0 8px 22px rgba(168, 85, 247, .45); outline: none; }
+        .tagbar-clear:hover span { transform: rotate(90deg); }
+        .tagbar-clear:active { transform: scale(.94); }
+
+        .tagbar-rail { display: flex; gap: 8px; margin-top: 20px; padding: 4px 2px 6px; overflow-x: auto; scrollbar-width: none; }
+        .tagbar-rail::-webkit-scrollbar { display: none; }
+        .tag-chip { position: relative; flex: none; display: inline-flex; align-items: center; gap: 7px; padding: .42rem .8rem; border-radius: 9999px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .05); color: #d4d4d8; font: inherit; font-size: .75rem; font-weight: 600; letter-spacing: .02em; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+                animation: chip-in .5s cubic-bezier(.2, .9, .3, 1.2) backwards; animation-delay: calc(var(--k, 0) * 40ms + .25s);
+                transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), background .3s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease; }
+        .tag-chip i { font-style: normal; padding: 1px 7px; border-radius: 9999px; background: rgba(255, 255, 255, .1); font-size: .68rem; transition: background .3s ease; }
+        .tc-hash { display: inline-block; max-width: 0; margin-right: -7px; opacity: 0; overflow: hidden; transition: max-width .3s ease, margin .3s ease, opacity .3s ease; }
+        .tag-chip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, .4) 50%, transparent 75%); transform: translateX(-130%) skewX(-20deg); pointer-events: none; }
+        @keyframes chip-in { from { opacity: 0; transform: translateY(12px) scale(.85); } }
+        @media (hover: hover) {
+            .tag-chip:hover { transform: translateY(-3px) scale(1.06); background: rgba(168, 85, 247, .28); border-color: var(--accent-soft); color: #fff; box-shadow: 0 8px 20px rgba(168, 85, 247, .35); }
+            .tag-chip:hover .tc-hash { max-width: 1em; margin-right: 0; opacity: 1; }
+            .tag-chip:hover i { background: rgba(255, 255, 255, .22); }
+            .tag-chip:hover::after { transform: translateX(130%) skewX(-20deg); transition: transform .7s ease; }
+        }
+        .tag-chip:active { transform: scale(.93); transition-duration: .1s; }
+        .tag-chip:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 2px; }
+        .tag-chip.on { background: linear-gradient(135deg, #a855f7, #7c3aed); border-color: #e9d5ff; color: #fff; box-shadow: 0 6px 20px rgba(168, 85, 247, .45); }
+        .tag-chip.on .tc-hash { max-width: 1em; margin-right: 0; opacity: 1; }
+        @media (max-width: 520px) { .tagbar { padding: 18px 16px 14px; border-radius: 18px; } }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
@@ -282,6 +349,7 @@
   ]
 }
     </script>
+    <script>if (/[?&]tag=/.test(location.search)) document.documentElement.classList.add("tag-boot");</script>
 </head>
 <body>
     <nav class="sitenav" aria-label="Site">
@@ -307,6 +375,7 @@
             <button class="clear" id="clear" type="button" aria-label="Clear search">&times;</button>
         </div>
     </header>
+    <section class="tagbar" id="tagbar" aria-live="polite" hidden></section>
     <p class="page-lead">Page 10 of 10 &middot; stories published on October 10, 2026.</p>
     <p class="result-count" id="count" aria-live="polite"></p>
 
@@ -315,7 +384,7 @@
             <a class="tile" href="/news/holdovers-resident-evil-heart-of-the-beast.html" style="--i:0">
                 <div class="tile-thumb">
                     <img src="/articleassets/holdovers-resident-evil-heart-of-the-beast-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Box Office</span>
+                    <span class="tile-tag" data-tag="Box Office" role="link" tabindex="0" aria-label="See all Box Office stories">Box Office</span>
                 </div>
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
@@ -327,7 +396,7 @@
             <a class="tile" href="/news/disclosure-day-streaming-peacock.html" style="--i:1">
                 <div class="tile-thumb">
                     <img src="/articleassets/disclosure-day-streaming-peacock-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Streaming</span>
+                    <span class="tile-tag" data-tag="Streaming" role="link" tabindex="0" aria-label="See all Streaming stories">Streaming</span>
                 </div>
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
@@ -339,7 +408,7 @@
             <a class="tile" href="/news/netflix-renews-a-different-world-crew-girl.html" style="--i:2">
                 <div class="tile-thumb">
                     <img src="/articleassets/netflix-renews-a-different-world-crew-girl-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">TV</span>
+                    <span class="tile-tag" data-tag="TV" role="link" tabindex="0" aria-label="See all TV stories">TV</span>
                 </div>
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
@@ -351,7 +420,7 @@
             <a class="tile" href="/news/tv-casting-roundup-white-lotus-darkwing-duck.html" style="--i:3">
                 <div class="tile-thumb">
                     <img src="/articleassets/tv-casting-roundup-white-lotus-darkwing-duck-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">TV</span>
+                    <span class="tile-tag" data-tag="TV" role="link" tabindex="0" aria-label="See all TV stories">TV</span>
                 </div>
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
@@ -363,7 +432,7 @@
             <a class="tile" href="/news/october-2026-what-to-watch-tv-streaming.html" style="--i:4">
                 <div class="tile-thumb">
                     <img src="/articleassets/october-2026-what-to-watch-tv-streaming-full.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
-                    <span class="tile-tag">Streaming</span>
+                    <span class="tile-tag" data-tag="Streaming" role="link" tabindex="0" aria-label="See all Streaming stories">Streaming</span>
                 </div>
                 <div class="tile-body">
                     <time class="tile-date" datetime="2026-10-10">October 10, 2026</time>
@@ -411,19 +480,28 @@
         <p>&copy; Every Movie Plug</p>
     </footer>
 
+    <script src="/tag-links.js" defer></script>
     <script>
     (function () {
-        var DIR = "news", ONE = "story", MANY = "stories", MORE = "Read story", LIMIT = 60;
+        var DIR = "news", ONE = "story", MANY = "stories", MORE = "Read story", LABEL = "News", LIMIT = 60;
         var q = document.getElementById("q"), box = document.getElementById("search"), clearBtn = document.getElementById("clear");
         var count = document.getElementById("count"), empty = document.getElementById("empty"), results = document.getElementById("results");
-        var data = null, loading = null, timer, seq = 0;
+        var bar = document.getElementById("tagbar"), root = document.documentElement, body = document.body;
+        var data = null, loading = null, timer, seq = 0, activeTag = "", swapping = false;
+        var basePlaceholder = q.getAttribute("placeholder"), baseTitle = document.title;
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+        function norm(s) { return String(s || "").trim().toLowerCase(); }
         function fmt(iso) { var d = new Date(iso + "T00:00:00Z"); return isNaN(d) ? "" : d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }); }
+        function tagHTML(t) {
+            if (!t) return "";
+            return '<span class="tile-tag' + (norm(t) === norm(activeTag) ? " is-active" : "") + '" data-tag="' + esc(t) + '" role="link" tabindex="0" aria-label="See all ' + esc(t) + " " + MANY + '">' + esc(t) + "</span>";
+        }
         function tileHTML(it, i) {
             return '<a class="tile" href="/' + DIR + '/' + encodeURI(it.f) + '" style="--i:' + Math.min(i, 14) + '">' +
-                '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + '<span class="tile-tag">' + esc(it.tag) + '</span></div>' +
+                '<div class="tile-thumb">' + (it.img ? '<img src="' + esc(it.img) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + tagHTML(it.tag) + '</div>' +
                 '<div class="tile-body"><time class="tile-date" datetime="' + esc(it.date) + '"' + (it.ts ? ' data-ts="' + esc(it.ts) + '"' : '') + '>' + esc(fmt(it.date)) + '</time>' +
                 '<h2 class="tile-title">' + esc(String(it.title).replace(/\*+/g, "")) + '</h2><p class="tile-excerpt">' + esc(String(it.excerpt).replace(/\*+/g, "")) + '</p>' +
                 '<span class="tile-more">' + MORE + ' ' + ARROW + '</span></div></a>';
@@ -442,28 +520,137 @@
                 });
             return loading;
         }
-        function filter() {
-            var raw = q.value, terms = raw.toLowerCase().split(/\s+/).filter(Boolean), my = ++seq;
-            box.classList.toggle("has-text", raw.length > 0);
-            if (!terms.length) {
-                document.body.classList.remove("searching"); results.innerHTML = ""; empty.classList.remove("show"); count.textContent = ""; return;
+
+        /* ---------- tags ---------- */
+        function tagList(items) {
+            var m = {}, out = [];
+            items.forEach(function (it) {
+                var k = norm(it.tag); if (!k) return;
+                if (!m[k]) { m[k] = { k: k, name: it.tag, n: 0 }; out.push(m[k]); }
+                m[k].n++;
+            });
+            out.sort(function (a, b) { return b.n - a.n || (a.name < b.name ? -1 : 1); });
+            return out;
+        }
+        function countUp(el, to) {
+            if (reduce || to < 2) { el.textContent = to; return; }
+            var t0 = null, dur = 700;
+            function step(t) {
+                if (t0 === null) t0 = t;
+                var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.round(to * e);
+                if (p < 1) requestAnimationFrame(step);
             }
-            load().then(function (items) {
+            requestAnimationFrame(step);
+        }
+        function drawBar(items) {
+            var k = norm(activeTag), list = tagList(items), cur = null;
+            list.forEach(function (t) { if (t.k === k) cur = t; });
+            if (!bar.hidden && bar.getAttribute("data-k") === k) return;
+            var name = cur ? cur.name : activeTag, total = cur ? cur.n : 0;
+            bar.setAttribute("data-k", k);
+            bar.innerHTML =
+                '<div class="tagbar-top"><div>' +
+                '<span class="tagbar-eyebrow">Browsing tag</span>' +
+                '<h2 class="tagbar-title"><span class="tagbar-hash" aria-hidden="true">#</span><span class="tagbar-name">' + esc(name) + '</span></h2>' +
+                '<p class="tagbar-meta"><b class="tagbar-num">0</b> ' + (total === 1 ? ONE : MANY) + ' &middot; newest first</p>' +
+                '</div><button class="tagbar-clear" type="button" id="tagclear">All ' + MANY + ' <span aria-hidden="true">&times;</span></button></div>' +
+                '<div class="tagbar-rail" aria-label="Browse other tags">' + list.map(function (t, i) {
+                    return '<button type="button" class="tag-chip' + (t.k === k ? " on" : "") + '" data-tag="' + esc(t.name) + '" style="--k:' + Math.min(i, 20) + '"><span class="tc-hash" aria-hidden="true">#</span>' + esc(t.name) + '<i>' + t.n + '</i></button>';
+                }).join("") + '</div>';
+            bar.hidden = false;
+            countUp(bar.querySelector(".tagbar-num"), total);
+            var on = bar.querySelector(".tag-chip.on");                     /* keep the active chip in view on small screens */
+            if (on && on.scrollIntoView) { var rail = bar.querySelector(".tagbar-rail"); rail.scrollLeft = Math.max(0, on.offsetLeft - 24); }
+        }
+        function hideBar() { bar.hidden = true; bar.innerHTML = ""; bar.removeAttribute("data-k"); }
+
+        /* ---------- searching ---------- */
+        function leaveSearch() {
+            body.classList.remove("searching", "tagmode"); root.classList.remove("tag-boot");
+            results.innerHTML = ""; empty.classList.remove("show"); count.textContent = ""; hideBar();
+            q.setAttribute("placeholder", basePlaceholder); document.title = baseTitle;
+        }
+        function filter() {
+            var raw = q.value, terms = raw.toLowerCase().split(/\s+/).filter(Boolean), my = ++seq, tk = norm(activeTag);
+            box.classList.toggle("has-text", raw.length > 0);
+            if (!terms.length && !tk) { leaveSearch(); return Promise.resolve(); }
+            return load().then(function (items) {
                 if (my !== seq) return;
-                var hits = items.filter(function (it) { var s = (it.title + " " + it.excerpt + " " + it.tag).toLowerCase(); return terms.every(function (w) { return s.indexOf(w) > -1; }); });
-                document.body.classList.add("searching");
+                var hits = items.filter(function (it) {
+                    if (tk && norm(it.tag) !== tk) return false;
+                    var s = (it.title + " " + it.excerpt + " " + it.tag).toLowerCase();
+                    return terms.every(function (w) { return s.indexOf(w) > -1; });
+                });
+                body.classList.add("searching"); body.classList.toggle("tagmode", !!tk); root.classList.remove("tag-boot");
+                if (tk) drawBar(items); else hideBar();
                 results.innerHTML = hits.slice(0, LIMIT).map(tileHTML).join("");
                 empty.classList.toggle("show", hits.length === 0);
-                count.textContent = hits.length + " " + (hits.length === 1 ? ONE : MANY) + " found" + (hits.length > LIMIT ? " (showing the newest " + LIMIT + " - add a word to narrow it down)" : "");
+                count.textContent = hits.length + " " + (hits.length === 1 ? ONE : MANY) + (tk ? " in " + activeTag : "") + " found" + (hits.length > LIMIT ? " (showing the newest " + LIMIT + " - add a word to narrow it down)" : "");
             });
         }
+
+        /* ---------- choosing a tag (animated, and kept in the address bar so it can be shared / used with Back) ---------- */
+        function urlFor(tag) { return location.pathname + (tag ? "?tag=" + encodeURIComponent(tag).replace(/%20/g, "+") : ""); }
+        function readTag() { try { return new URLSearchParams(location.search).get("tag") || ""; } catch (e) { return ""; } }
+        function focusBar() {
+            var y = bar.hidden ? 0 : bar.getBoundingClientRect().top + window.pageYOffset - 18;
+            if (window.pageYOffset > y + 4) window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" });
+        }
+        function setTag(tag, o) {
+            o = o || {}; tag = tag || "";
+            if (swapping) return;
+            if (norm(tag) === norm(activeTag) && !o.force) { focusBar(); return; }
+            var out = [].slice.call(document.querySelectorAll(body.classList.contains("searching") ? "#results" : "#tiles, .hero"));
+            var apply = function () {
+                out.forEach(function (n) { n.classList.remove("tiles-out"); });
+                activeTag = tag;
+                if (o.push !== false) history.pushState({ tag: tag }, "", urlFor(tag));
+                q.setAttribute("placeholder", tag ? "Search within " + tag + "\u2026" : basePlaceholder);
+                document.title = tag ? tag + " | " + LABEL + " | Every Movie Plug" : baseTitle;
+                filter().then(function () { swapping = false; if (!o.quiet) focusBar(); });
+            };
+            if (reduce || o.instant || !out.length || !out[0].children.length && out[0].id === "results") { apply(); return; }
+            swapping = true;
+            out.forEach(function (n) { n.classList.add("tiles-out"); });
+            setTimeout(apply, 380);
+        }
+        function pick(el) {
+            var tag = el.getAttribute("data-tag");
+            if (window.EMPTag) window.EMPTag.burst(el);
+            el.classList.remove("tag-pop"); void el.offsetWidth; el.classList.add("tag-pop");
+            setTag(tag);
+        }
+        /* captured first, so the tile's own click (ripple + open story) never also fires */
+        document.addEventListener("click", function (e) {
+            var t = e.target.closest && e.target.closest("[data-tag]");
+            if (t && e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) { e.preventDefault(); pick(t); return; }
+            if (e.target.closest && e.target.closest("#tagclear")) { if (window.EMPTag) window.EMPTag.burst(e.target.closest("#tagclear")); q.value = ""; setTag(""); }
+        }, true);
+        document.addEventListener("keydown", function (e) {
+            var t = e.target;
+            if ((e.key === "Enter" || e.key === " ") && t && t.getAttribute && t.getAttribute("role") === "link" && t.hasAttribute("data-tag")) { e.preventDefault(); pick(t); }
+        });
+        window.addEventListener("popstate", function () { setTag(readTag(), { push: false, quiet: true, force: true }); });
+
         q.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(filter, 100); });
         q.addEventListener("focus", function () { load(); }, { once: true });
         clearBtn.addEventListener("click", function () { q.value = ""; filter(); q.focus(); });
-        q.addEventListener("keydown", function (e) { if (e.key === "Escape") { q.value = ""; filter(); } });
+        q.addEventListener("keydown", function (e) {
+            if (e.key !== "Escape") return;
+            if (q.value) { q.value = ""; filter(); } else if (activeTag) setTag("");
+        });
         document.addEventListener("keydown", function (e) {
             if (e.key === "/" && document.activeElement !== q && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); }
         });
+
+        /* arriving from a tag link (e.g. /news/?tag=Film+News) */
+        var first = readTag();
+        if (first) {
+            activeTag = first; q.setAttribute("placeholder", "Search within " + first + "\u2026"); document.title = first + " | " + LABEL + " | Every Movie Plug";
+            filter().then(function () { root.classList.remove("tag-boot"); });
+            setTimeout(function () { root.classList.remove("tag-boot"); }, 4000);
+        }
 
         /* click: ripple from the tap point, then fade into the page (works for page tiles and search results) */
         document.addEventListener("click", function (e) {
