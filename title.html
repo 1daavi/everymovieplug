@@ -38,7 +38,7 @@
     .brand-ic .sp { opacity:0; }
     .brand:focus-visible { outline:2px solid var(--purple-accent); outline-offset:4px; border-radius:12px; }
     .brand:focus-visible .brand-ic { transform:translateY(-1px); box-shadow:0 8px 24px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.4); }
-    @media (hover:hover) {
+    @media (hover:hover), (any-hover:hover) {
       .brand:hover .brand-ic { transform:translateY(-1px); box-shadow:0 8px 24px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.4); }
       .brand:hover .brand-ic::after { animation:brand-shine .7s ease forwards; }
       .brand:hover .pg { transform:translateY(-1.5px); }
