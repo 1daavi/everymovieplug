@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 11 Nov 2026 20:04:21 GMT</lastBuildDate>
+<lastBuildDate>Thu, 12 Nov 2026 20:21:05 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>Today in Cinema, November 12: Sixteen Years Down the Line, Unstoppable Still Refuses to Brake</title>
+<link>https://everymovieplug.com/articles/today-in-cinema-november-12-unstoppable-2010.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-12-unstoppable-2010.html</guid>
+<pubDate>Thu, 12 Nov 2026 20:21:05 GMT</pubDate>
+<category>Today In Cinema</category>
+<description>Notes from the cab of Tony Scott&amp;rsquo;s last and leanest film.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/lmU2axGui7JtCXauUamo8ERsCY8.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/lmU2axGui7JtCXauUamo8ERsCY8.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-11-black-panther-wakanda-forever-2022.html</link>
@@ -197,16 +207,6 @@
 <description>Ten antagonists who lost on screen but won part of the argument.</description>
 <media:thumbnail url="https://image.tmdb.org/t/p/original/mg7IBBwIDXthX9li1brYjIwbhsQ.jpg"/>
 <media:content url="https://image.tmdb.org/t/p/original/mg7IBBwIDXthX9li1brYjIwbhsQ.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Today in Cinema: The Social Network, the 2010 Film That Defined the Facebook Era</title>
-<link>https://everymovieplug.com/articles/today-in-cinema-the-social-network-2010.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-the-social-network-2010.html</guid>
-<pubDate>Sun, 01 Nov 2026 00:09:40 GMT</pubDate>
-<category>Today in Cinema</category>
-<description>A film about the founding of a website, built by a famously controlled director and a famously talkative writer, became one of the defining American movies of its century.</description>
-<media:thumbnail url="https://image.tmdb.org/t/p/original/1PXwh3nJzgRkkYnqfWInJNypeL4.jpg"/>
-<media:content url="https://image.tmdb.org/t/p/original/1PXwh3nJzgRkkYnqfWInJNypeL4.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
