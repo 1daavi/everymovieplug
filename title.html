@@ -29,7 +29,7 @@
     .topbar-in { max-width:1100px; margin:0 auto; padding:.7rem 1.25rem; display:flex; align-items:center; gap:.6rem; }
     /* logo: plug icon + wordmark (EVERY MOVIE white, PLUG in the theme colour); the whole thing is the home link */
     .brand { display:inline-flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.11em; text-decoration:none; white-space:nowrap; font-size:1rem; color:var(--text-primary,#f5f5f7); }
-    .brand-tx { display:inline-block; line-height:1; }
+    .brand-tx { display:flex; flex-direction:column; justify-content:space-between; height:calc(38px + .4em - 1px); margin:-.2em 0; transform:translateY(.75px); font-size:.7rem; line-height:1; letter-spacing:.16em; }
     .brand-tx b { font-weight:800; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); -webkit-background-clip:text; background-clip:text; color:transparent; }
     .brand-ic { position:relative; flex:none; width:38px; height:38px; border-radius:11px; display:grid; place-items:center; overflow:hidden; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); box-shadow:0 4px 16px rgba(139,92,246,.4),inset 0 1px 0 rgba(255,255,255,.35); transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease; }
     .brand-ic::after { content:""; position:absolute; inset:0; background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%); transform:translateX(-120%); pointer-events:none; }
@@ -52,8 +52,8 @@
     .brand.plugged .bolt { opacity:1; transform:none; }
     @keyframes brand-shine { to { transform:translateX(120%); } }
     @keyframes brand-pop { 0% { transform:scale(1); } 30% { transform:scale(.9); } 70% { transform:scale(1.06); } 100% { transform:scale(1); } }
-    @media (max-width:640px) { .brand { gap:.55rem; font-size:.86rem; letter-spacing:.1em; } .brand-ic { width:34px; height:34px; border-radius:10px; } .brand-ic svg { width:20px; height:20px; } }
-    @media (max-width:430px) { .brand { gap:.45rem; font-size:.72rem; letter-spacing:.05em; } .brand-ic { width:30px; height:30px; border-radius:9px; } .brand-ic svg { width:18px; height:18px; } }
+    @media (max-width:640px) { .brand { gap:.55rem; } .brand-tx { height:calc(34px + .4em - 1.5px); transform:translateY(1px); font-size:.64rem; } .brand-ic { width:34px; height:34px; border-radius:10px; } .brand-ic svg { width:20px; height:20px; } }
+    @media (max-width:430px) { .brand { gap:.45rem; } .brand-tx { height:calc(30px + .4em - .75px); transform:translateY(1.1px); font-size:.58rem; letter-spacing:.14em; } .brand-ic { width:30px; height:30px; border-radius:9px; } .brand-ic svg { width:18px; height:18px; } }
     .brand { margin-right:auto; }
     .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.5rem .95rem; border-radius:9999px; background:var(--glass-card-bg); border:1px solid var(--border-color); color:#d4d4d8; font-size:.8rem; font-weight:500; text-decoration:none; cursor:pointer; white-space:nowrap; transition:transform .3s var(--ease-out),background .3s; }
     .chip:hover { background:rgba(168,85,247,.18); } .chip:active { transform:scale(.96); }
@@ -119,7 +119,7 @@
 <body>
   <div class="mesh-bg" aria-hidden="true"></div>
   <header class="topbar"><div class="topbar-in">
-    <a class="brand" href="/" aria-label="Every Movie Plug"><span class="brand-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><g class="pg"><path d="M9 3v4M15 3v4"/><path d="M6.5 7h11v4.5a5.5 5.5 0 0 1-11 0z"/><path d="M12 17.5V21"/></g><path class="bolt" d="M13.2 8.4 9.8 12.6h2.3l-.9 3.3 3.5-4.5h-2.4z"/></svg></span><span class="brand-tx">EVERY MOVIE <b>PLUG</b></span></a>
+    <a class="brand" href="/" aria-label="Every Movie Plug"><span class="brand-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><g class="pg"><path d="M9 3v4M15 3v4"/><path d="M6.5 7h11v4.5a5.5 5.5 0 0 1-11 0z"/><path d="M12 17.5V21"/></g><path class="bolt" d="M13.2 8.4 9.8 12.6h2.3l-.9 3.3 3.5-4.5h-2.4z"/></svg></span><span class="brand-tx"><span>EVERY</span> <span>MOVIE</span> <b>PLUG</b></span></a>
     <a class="chip" id="back" href="/trending">&larr; <span>Back</span></a>
     <button class="chip primary" type="button" id="shareTop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M7.5 7.5 12 3l4.5 4.5M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></svg>Share</button>
   </div></header>
