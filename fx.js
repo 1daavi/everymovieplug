@@ -210,19 +210,28 @@
   /* ----------------------------------------------- gliding highlight on the top menu */
   function bindNav(nav, sel) {
     if (nav.__fxn || reduce) return; nav.__fxn = 1; sel = sel || "a";
-    var g = el("span", "emx-glide"); g.setAttribute("aria-hidden", "true"); nav.appendChild(g);
+    var g = el("span", "emx-glide"), tm = 0; g.setAttribute("aria-hidden", "true"); nav.appendChild(g);
     function pick(t) { var a = t.closest && t.closest(sel); return a && nav.contains(a) ? a : null; }
+    function hide() { clearTimeout(tm); g.classList.remove("on"); }
     function to(a) {
+      if (g.parentNode !== nav) nav.appendChild(g);   /* menus that redraw their contents (Genre / Country) lose the highlight, so put it back */
       var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
       g.style.width = r.width + "px"; g.style.height = r.height + "px";
-      g.style.transform = "translate(" + (r.left - n.left) + "px," + (r.top - n.top) + "px)"; g.classList.add("on");
+      g.style.transform = "translate(" + (r.left - n.left - nav.clientLeft + nav.scrollLeft) + "px," + (r.top - n.top - nav.clientTop + nav.scrollTop) + "px)"; g.classList.add("on");
     }
     nav.addEventListener("pointerover", function (e) { if (e.pointerType === "touch") return; var a = pick(e.target); if (a) to(a); });
+    /* a finger cannot hover, so a touch shows the same highlight for a moment when you press a button */
+    nav.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "touch") return; var a = pick(e.target); if (!a) return;
+      to(a); clearTimeout(tm); tm = setTimeout(hide, 650);
+    });
+    nav.addEventListener("pointercancel", hide);
     nav.addEventListener("focusin", function (e) { var a = pick(e.target); if (a) to(a); });
-    nav.addEventListener("pointerleave", function () { g.classList.remove("on"); });
-    nav.addEventListener("focusout", function () { g.classList.remove("on"); });
-    addEventListener("scroll", function () { g.classList.remove("on"); }, { passive: true });
-    var row = nav.querySelector(".navrow"); if (row) row.addEventListener("scroll", function () { g.classList.remove("on"); }, { passive: true });
+    nav.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") hide(); });
+    nav.addEventListener("focusout", hide);
+    nav.addEventListener("scroll", hide, { passive: true });
+    addEventListener("scroll", hide, { passive: true });
+    var row = nav.querySelector(".navrow"); if (row) row.addEventListener("scroll", hide, { passive: true });
   }
 
   /* ----------------------------------- swipe left / right to change page (News + Articles lists) */
@@ -332,6 +341,7 @@
     /* scroll reveals and image fade-ins are switched off on purpose: everything is visible as soon as the page loads */
     l = node.querySelectorAll(".article-figure img"); for (i = 0; i < l.length; i++) prepZoom(l[i]);
     l = node.querySelectorAll(".sitenav"); for (i = 0; i < l.length; i++) bindNav(l[i]);
+    l = node.querySelectorAll(".panel"); for (i = 0; i < l.length; i++) bindNav(l[i], ".chip");
     l = node.querySelectorAll(".topbar-in"); for (i = 0; i < l.length; i++) if (l[i].querySelector(".navrow")) bindNav(l[i], ".navrow .chip,.top-actions .chip");
     bindSheet();
   }
