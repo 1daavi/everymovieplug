@@ -192,9 +192,9 @@
       if (auraEl) { aTx = mx; aTy = my; auraEl.classList.add("on"); if (!auraLoop) { auraLoop = true; raf(auraTick); } }
     });
   }
-  if (!reduce && finePointer) {
+  if (!reduce) {
     auraEl = el("div", "emx-aura"); auraEl.setAttribute("aria-hidden", "true");
-    doc.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") onMove(e); }, { passive: true });
+    doc.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse" || e.pointerType === "pen") onMove(e); }, { passive: true });
     doc.addEventListener("mouseleave", function () { if (auraEl) auraEl.classList.remove("on"); });
   }
 
@@ -209,7 +209,7 @@
 
   /* ----------------------------------------------- gliding highlight on the top menu */
   function bindNav(nav, sel) {
-    if (nav.__fxn || reduce || !finePointer) return; nav.__fxn = 1; sel = sel || "a";
+    if (nav.__fxn || reduce) return; nav.__fxn = 1; sel = sel || "a";
     var g = el("span", "emx-glide"); g.setAttribute("aria-hidden", "true"); nav.appendChild(g);
     function pick(t) { var a = t.closest && t.closest(sel); return a && nav.contains(a) ? a : null; }
     function to(a) {
@@ -217,7 +217,7 @@
       g.style.width = r.width + "px"; g.style.height = r.height + "px";
       g.style.transform = "translate(" + (r.left - n.left) + "px," + (r.top - n.top) + "px)"; g.classList.add("on");
     }
-    nav.addEventListener("pointerover", function (e) { var a = pick(e.target); if (a) to(a); });
+    nav.addEventListener("pointerover", function (e) { if (e.pointerType === "touch") return; var a = pick(e.target); if (a) to(a); });
     nav.addEventListener("focusin", function (e) { var a = pick(e.target); if (a) to(a); });
     nav.addEventListener("pointerleave", function () { g.classList.remove("on"); });
     nav.addEventListener("focusout", function () { g.classList.remove("on"); });
