@@ -126,6 +126,8 @@
     .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.5rem .95rem; border-radius:9999px; background:var(--glass-card-bg); border:1px solid var(--border-color); color:var(--text-secondary); font-size:.8rem; font-weight:500; text-decoration:none; cursor:pointer; white-space:nowrap; flex:none; position:relative; transition:color .3s,background .3s,border-color .3s,transform .3s var(--ease-out),box-shadow .3s; }
     .chip.on,.chip[aria-pressed="true"],.chip[aria-expanded="true"] { color:#fff; background:rgba(168,85,247,.18); border-color:rgba(168,85,247,.55); }
     .chip.primary { color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--indigo-accent),var(--purple-accent)); box-shadow:0 4px 20px rgba(99,102,241,.3); }
+    .chip .ic { width:1.05em; height:1.05em; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .chip .ic.solid { fill:currentColor; stroke:none; }
     .panel { position:fixed; z-index:40; width:min(92vw,360px); max-height:60vh; overflow:auto; padding:.9rem; border-radius:20px; background:rgba(14,14,22,.94); border:1px solid var(--border-color); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); box-shadow:0 20px 50px rgba(0,0,0,.7); opacity:0; visibility:hidden; transform:translateY(-6px) scale(.98); transition:opacity .25s,transform .35s var(--ease-out),visibility .25s; }
     .panel.open { opacity:1; visibility:visible; transform:none; }
     .panel h3 { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-secondary); margin-bottom:.6rem; }
@@ -454,18 +456,18 @@
     <div class="topbar-in">
       <a class="brand" href="/" aria-label="Every Movie Plug"><span class="brand-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><g class="pg"><path d="M9 3v4M15 3v4"/><path d="M6.5 7h11v4.5a5.5 5.5 0 0 1-11 0z"/><path d="M12 17.5V21"/></g><path class="sp" d="M4.6 3.6l1.5 1.5M19.4 3.6l-1.5 1.5M12 .6v1.6"/></svg></span><span class="brand-tx">EVERY MOVIE <b>PLUG</b></span></a>
       <nav class="navrow" aria-label="Browse">
-        <a class="chip primary" href="https://everymovieplug.com/trending">🔥 Trending Now</a>
-        <a class="chip" href="/articles/">📝 Articles</a>
-        <a class="chip" href="/news/">📰 News</a>
+        <a class="chip primary" href="https://everymovieplug.com/trending"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Trending Now</a>
+        <a class="chip" href="/articles/"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> Articles</a>
+        <a class="chip" href="/news/"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> News</a>
         <span class="sep" aria-hidden="true"></span>
-        <a class="chip" href="/movies/">🎞️ Movies</a>
-        <a class="chip" href="/tv-shows/">📺 TV Shows</a>
+        <a class="chip" href="/movies/"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></svg> Movies</a>
+        <a class="chip" href="/tv-shows/"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="15" x="2" y="7" rx="2"/><path d="m17 2-5 5-5-5"/></svg> TV Shows</a>
         <button class="chip" id="genreBtn" aria-haspopup="true" aria-expanded="false">Genre ▾</button>
         <button class="chip" id="countryBtn" aria-haspopup="true" aria-expanded="false">Country ▾</button>
       </nav>
       <div class="top-actions">
-        <a class="chip" href="https://x.com/intent/follow?screen_name=everymovieplug" target="_blank" rel="noopener noreferrer">𝕏 Follow</a>
-        <button class="chip" onclick="shareWebsite()">↗ Share</button>
+        <a class="chip" href="https://x.com/intent/follow?screen_name=everymovieplug" target="_blank" rel="noopener noreferrer"><svg class="ic solid" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Follow</a>
+        <button class="chip" onclick="shareWebsite()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v13"/><path d="m16 6-4-4-4 4"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/></svg> Share</button>
       </div>
     </div>
   </header>
