@@ -55,48 +55,4 @@
       <news:title>Today in Cinema, November 11: Seven Ways Black Panther: Wakanda Forever Honors Chadwick Boseman</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://everymovieplug.com/news/marvel-studios-cryptic-binary-post-x-visionquest-finale-wandavision</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-10T00:00:00+00:00</news:publication_date>
-      <news:title>Marvel Studios Posts a Cryptic Binary Message on X Before the VisionQuest Finale: What It Says and What It Means</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/news/nicolas-cage-spider-noir-cancellation-reaction</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-10T00:00:00+00:00</news:publication_date>
-      <news:title>Nicolas Cage Says He Was Relieved When Prime Video Canceled Spider-Noir: “Whew, Thank You!”</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/gta-vi-november-19-questions-everyone-is-asking-and-how-to-prepare</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-10T00:00:00+00:00</news:publication_date>
-      <news:title>GTA VI Launches November 19: The Questions Everyone Is Asking, the Ones They Aren’t, and How to Prepare</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/today-in-cinema-november-10-stranger-than-fiction-2006</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-10T00:00:00+00:00</news:publication_date>
-      <news:title>Today in Cinema, November 10: Stranger Than Fiction Opens in 2006 and Lets Will Ferrell Meet His Author</news:title>
-    </news:news>
-  </url>
 </urlset>
