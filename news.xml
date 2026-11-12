@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Wed, 11 Nov 2026 07:31:02 GMT</lastBuildDate>
+<lastBuildDate>Thu, 12 Nov 2026 11:21:33 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>Netflix’s Russell Brand: Open Secret Arrives Days After His 10½-Year Prison Sentence</title>
+<link>https://everymovieplug.com/news/russell-brand-open-secret-netflix-documentary.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/russell-brand-open-secret-netflix-documentary.html</guid>
+<pubDate>Thu, 12 Nov 2026 11:21:33 GMT</pubDate>
+<category>Film News</category>
+<description>Netflix releases Russell Brand: Open Secret on November 13, days after his 10½-year sentence. What the film covers, the verdict and the Diddy link.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/7POhMFAcAriFEtOU3lhOUtDAWFC.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/7POhMFAcAriFEtOU3lhOUtDAWFC.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Netflix Unveils The Take First Look With Denzel Washington and Robert Pattinson, Sets January 15 Release</title>
 <link>https://everymovieplug.com/news/netflix-the-take-denzel-washington-robert-pattinson-first-look.html</link>
@@ -197,16 +207,6 @@
 <description>Sir Patrick Stewart, who played Jean-Luc Picard and Professor Charles Xavier, died at his home in Los Angeles on October 28 at age 86, his family announced.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/patrick-stewart-dies-at-86.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/patrick-stewart-dies-at-86.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>The Mosquito Bowl Opens October 30: Cast, Release Date and What Critics Are Saying</title>
-<link>https://everymovieplug.com/news/the-mosquito-bowl-release-date-cast-first-reviews.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/the-mosquito-bowl-release-date-cast-first-reviews.html</guid>
-<pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-<category>Film News</category>
-<description>Peter Berg's World War II drama The Mosquito Bowl opens in theaters October 30 and streams on Netflix November 25. The cast, the true story behind the game and the first critic reactions.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/the-mosquito-bowl-release-date-cast-first-reviews-full.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/the-mosquito-bowl-release-date-cast-first-reviews-full.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
