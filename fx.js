@@ -110,7 +110,7 @@
   doc.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest(".brand"); if (!b) return;
     b.classList.remove("plugged"); void b.offsetWidth; b.classList.add("plugged");
-    setTimeout(function () { b.classList.remove("plugged"); }, 650);
+    setTimeout(function () { b.classList.remove("plugged"); }, 1150);
     vibrate(8);
     var home = location.pathname.replace(/index\.html$/, "") === "/" && !location.search && !location.hash;
     if (home && !reduce && !e.defaultPrevented && e.button === 0 && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); }
