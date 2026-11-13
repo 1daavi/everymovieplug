@@ -117,6 +117,8 @@
     ".emw-save:active{transform:scale(.9)}",
     "@media (hover:hover),(any-hover:hover){.emw-save:hover{background:rgba(168,85,247,.6);border-color:rgba(216,180,254,.5)}.emw-save[aria-pressed=true]:hover{background:linear-gradient(135deg,#7476f3,#b26cf8)}}",
     ".emw-chip svg,.emw-nav svg{width:15px;height:15px}",
+    ".fx-slide>.emw-save{top:16px;right:22px;bottom:auto;width:38px;height:38px;z-index:5}",
+    ".fx-slide>.emw-save svg{width:18px;height:18px}",
     ".emw-chip[aria-pressed=true]{color:#fff;border-color:transparent;background:linear-gradient(135deg,#6366f1,#a855f7)}",
     ".emw-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#8b5cf6;color:#fff;font-size:.68rem;font-weight:700;line-height:1}",
     ".emw-count[hidden]{display:none}",
@@ -186,7 +188,7 @@
     if (!title) title = (n.getAttribute("aria-label") || "").replace(/\s*\((TV show|movie)\).*$/i, "").replace(/^View details for\s*/i, "").trim();
     var year = "", yn = n.querySelector(".mmeta span, .gx-pill"); if (yn && /^\d{4}$/.test(yn.textContent.trim())) year = yn.textContent.trim();
     var rn = n.querySelector(".score, .gx-rate b"), rating = rn ? parseFloat(rn.textContent.replace(/[^\d.]/g, "")) : 0;
-    return { type: who.type, id: who.id, title: title, poster: img ? posterPath(img.currentSrc || img.src) : "", year: year, rating: rating || 0 };
+    return { type: who.type, id: who.id, title: title, poster: img && !n.classList.contains("fx-slide") ? posterPath(img.currentSrc || img.src) : "", year: year, rating: rating || 0 };
   }
 
   /* ------------------------------------------------------------ the save button on cards */
