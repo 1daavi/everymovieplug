@@ -5,19 +5,9 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 13 Nov 2026 04:51:23 GMT</lastBuildDate>
+<lastBuildDate>Thu, 12 Nov 2026 20:54:26 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
-<item>
-<title>Why Did James Gunn Fail at DC Studios?</title>
-<link>https://everymovieplug.com/articles/why-did-james-gunn-fail.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/why-did-james-gunn-fail.html</guid>
-<pubDate>Fri, 13 Nov 2026 04:51:23 GMT</pubDate>
-<category>Film News</category>
-<description>Superman made money, Clayface turned a profit and Lanterns set viewing records. So why is the filmmaker who promised a decade-long DC Universe leaving after four years?</description>
-<media:thumbnail url="https://images.thedirect.com/media/article_full/jamesgunnsuicidesquad.jpg?imgeng=/cmpr_60/w_1280"/>
-<media:content url="https://images.thedirect.com/media/article_full/jamesgunnsuicidesquad.jpg?imgeng=/cmpr_60/w_1280" medium="image" type="image/jpeg"/>
-</item>
 <item>
 <title>Today in Cinema, November 12: Sixteen Years Down the Line, Unstoppable Still Refuses to Brake</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-12-unstoppable-2010.html</link>
@@ -207,6 +197,16 @@
 <description>A film that was cancelled, recast and rebuilt before it ever reached theaters became Ridley Scott&amp;rsquo;s biggest hit and one of the most argued-over true-crime movies of its decade.</description>
 <media:thumbnail url="https://image.tmdb.org/t/p/original/v6BtajRyT4nXf3zh2OFL7tsPJy3.jpg"/>
 <media:content url="https://image.tmdb.org/t/p/original/v6BtajRyT4nXf3zh2OFL7tsPJy3.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+<title>When Movie Villains Were Right: 10 Antagonists Who Had a Point</title>
+<link>https://everymovieplug.com/articles/when-movie-villains-were-right.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/when-movie-villains-were-right.html</guid>
+<pubDate>Sun, 01 Nov 2026 15:06:17 GMT</pubDate>
+<category>Article</category>
+<description>Ten antagonists who lost on screen but won part of the argument.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/mg7IBBwIDXthX9li1brYjIwbhsQ.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/mg7IBBwIDXthX9li1brYjIwbhsQ.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
