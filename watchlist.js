@@ -137,6 +137,11 @@
     ".emw-tab:active,.emw-btn:active{transform:scale(.96)}",
     ".emw-tab[aria-pressed=true]{color:#fff;border-color:transparent;background:linear-gradient(135deg,#6366f1,#a855f7)}",
     ".emw-btn.danger[data-sure]{background:rgba(239,68,68,.22);border-color:rgba(248,113,113,.6);color:#fecaca}",
+    ".emw-menu{position:relative}",
+    ".emw-menu summary{list-style:none}.emw-menu summary::-webkit-details-marker{display:none}",
+    ".emw-pop{position:absolute;right:0;top:calc(100% + 6px);z-index:5;min-width:200px;padding:.4rem;border-radius:16px;background:#14141c;border:1px solid rgba(255,255,255,.14);box-shadow:0 18px 40px rgba(0,0,0,.6)}",
+    ".emw-pop button{display:block;width:100%;text-align:left;appearance:none;background:none;border:0;cursor:pointer;padding:.6rem .8rem;border-radius:10px;color:#e4e4e7;font:500 .82rem/1.2 inherit}",
+    ".emw-pop button:hover{background:rgba(168,85,247,.2)}",
     ".emw-sort{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:.45rem .8rem;font-size:.78rem;color:#d4d4d8;outline:none}",
     ".emw-sort option{background:#0e0e16}",
     ".emw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:1rem}",
@@ -301,7 +306,7 @@
     var all = read(), movies = all.filter(function (i) { return i.type === "movie"; }).length, tv = all.length - movies;
     var list = sortList(all.filter(function (i) { return view.filter === "all" || i.type === view.filter; }));
     var focus = doc.activeElement && doc.activeElement.getAttribute && doc.activeElement.getAttribute("data-f");
-    var html = '<h1>Your Watchlist</h1><p class="emw-sub">Movies and shows you saved to watch later. They are kept in this browser on this device only, so clearing your browser data or switching device will not carry them over (use Export to move them).</p>';
+    var html = '<h1>Your Watchlist</h1><p class="emw-sub">Movies and shows you saved to watch later. They are kept in this browser on this device only, so clearing your browser data or switching device will not carry them over (use Download list to keep a copy).</p>';
     if (!all.length) {
       html += '<div class="emw-empty" style="margin-top:1.6rem">' + ICON + '<p>Nothing saved yet. Tap the bookmark on any movie or show poster, or press &ldquo;Save to Watchlist&rdquo; on a title page, and it will show up here.</p>' +
         '<div class="row"><a class="emw-btn" href="/trending">Browse trending</a><a class="emw-btn" href="/movies/">Movies</a><a class="emw-btn" href="/tv-shows/">TV shows</a><button type="button" class="emw-btn" data-a="import">Import a list</button></div></div>';
@@ -309,7 +314,7 @@
       html += '<div class="emw-bar"><div class="emw-tabs" role="group" aria-label="Filter">' +
         [["all", "All", all.length], ["movie", "Movies", movies], ["tv", "TV shows", tv]].map(function (t) { return '<button type="button" class="emw-tab" data-f="' + t[0] + '" aria-pressed="' + (view.filter === t[0]) + '">' + t[1] + " (" + t[2] + ")</button>"; }).join("") + "</div>" +
         '<label class="emw-sr" style="position:absolute;left:-9999px" for="emw-sort">Sort by</label><select class="emw-sort" id="emw-sort"><option value="added">Recently added</option><option value="title">Title A to Z</option><option value="year">Newest release</option><option value="rating">Highest rated</option></select>' +
-        '<button type="button" class="emw-btn" data-a="export">Export</button><button type="button" class="emw-btn" data-a="import">Import</button>' +
+        '<details class="emw-menu"><summary class="emw-btn">Download list</summary><div class="emw-pop"><button type="button" data-a="export-csv">Spreadsheet (.csv)</button><button type="button" data-a="export-txt">Text list (.txt)</button><button type="button" data-a="export-json">Backup file (.json)</button></div></details><button type="button" class="emw-btn" data-a="import">Import</button>' +
         '<button type="button" class="emw-btn danger"' + (sure ? " data-sure" : "") + ' data-a="clear">' + (sure ? "Tap again to clear all" : "Clear all") + "</button></div>";
       if (!list.length) html += '<div class="emw-empty"><p>No ' + (view.filter === "tv" ? "TV shows" : "movies") + " in your Watchlist yet.</p></div>";
       else html += '<div class="emw-grid">' + list.map(function (i) {
@@ -326,19 +331,65 @@
     if (focus) { var f = root.querySelector('[data-f="' + focus + '"]'); if (f) f.focus(); }
     all.forEach(function (i) { if (!i.poster) enrich(i.type, i.id); });
   }
-  function exportList() {
-    var blob = new Blob([JSON.stringify({ app: "everymovieplug", version: 1, exported: new Date().toISOString(), items: read() }, null, 2)], { type: "application/json" });
-    var a = el("a", { href: URL.createObjectURL(blob), download: "everymovieplug-watchlist.json" }); doc.body.appendChild(a); a.click();
+  function download(name, text, mime) {
+    var blob = new Blob([text], { type: mime });
+    var a = el("a", { href: URL.createObjectURL(blob), download: name }); doc.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
+  function fullLink(i) { return location.origin + "/title.html?type=" + i.type + "&id=" + i.id; }
+  function csvCell(v) {
+    v = String(v == null ? "" : v);
+    if (/^[=+\-@]/.test(v)) v = "'" + v;                                          // stop spreadsheets treating a title as a formula
+    return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+  function exportList(kind) {
+    var list = read(), day = new Date().toISOString().slice(0, 10);
+    if (kind === "csv") {
+      var rows = [["Title", "Type", "Year", "Rating", "Date added", "Link"]].concat(list.map(function (i) {
+        return [i.title, i.type === "tv" ? "TV show" : "Movie", i.year, i.rating || "", new Date(i.added).toISOString().slice(0, 10), fullLink(i)];
+      }));
+      download("my-watchlist-" + day + ".csv", "\ufeff" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n"), "text/csv;charset=utf-8");
+    } else if (kind === "txt") {
+      download("my-watchlist-" + day + ".txt", "My Watchlist - Every Movie Plug\r\n\r\n" + list.map(function (i, n) {
+        return (n + 1) + ". " + i.title + (i.year ? " (" + i.year + ")" : "") + " - " + (i.type === "tv" ? "TV show" : "Movie") + "\r\n   " + fullLink(i);
+      }).join("\r\n"), "text/plain;charset=utf-8");
+    } else {
+      download("my-watchlist-" + day + ".json", JSON.stringify({ app: "everymovieplug", version: 1, exported: new Date().toISOString(), items: list }, null, 2), "application/json");
+    }
+  }
+  function parseCSV(text) {
+    var rows = [], row = [], cell = "", q = false, i = 0;
+    text = text.replace(/^\ufeff/, "");
+    for (; i < text.length; i++) {
+      var c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === ",") { row.push(cell); cell = ""; }
+      else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+      else cell += c;
+    }
+    if (cell || row.length) { row.push(cell); rows.push(row); }
+    return rows;
+  }
+  function itemsFromCSV(text) {
+    var rows = parseCSV(text), head = (rows.shift() || []).map(function (h) { return h.trim().toLowerCase(); });
+    var ti = head.indexOf("title"), yi = head.indexOf("year"), ri = head.indexOf("rating"), li = head.indexOf("link"), di = head.indexOf("date added");
+    if (ti < 0 || li < 0) throw 0;
+    return rows.map(function (r) {
+      var m = /[?&]type=(movie|tv)&id=(\d+)/.exec(r[li] || ""); if (!m) return null;
+      return { type: m[1], id: +m[2], title: String(r[ti] || "").replace(/^'(?=[=+\-@])/, ""), year: r[yi] || "", rating: parseFloat(r[ri]) || 0, added: Date.parse(r[di] || "") || Date.now() };
+    }).filter(Boolean);
+  }
   function importList() {
-    var inp = el("input", { type: "file", accept: "application/json,.json", style: "display:none" });
+    var inp = el("input", { type: "file", accept: ".csv,.json,text/csv,application/json", style: "display:none" });
     inp.addEventListener("change", function () {
       var f = inp.files && inp.files[0]; if (!f) return;
       var r = new FileReader();
       r.onload = function () {
         try {
-          var d = JSON.parse(String(r.result)), items = Array.isArray(d) ? d : d.items, add = 0;
+          var txt = String(r.result), items, add = 0;
+          if (/\.csv$/i.test(f.name)) items = itemsFromCSV(txt);
+          else { var d = JSON.parse(txt); items = Array.isArray(d) ? d : d.items; }
           if (!Array.isArray(items)) throw 0;
           items.slice(0, MAX).forEach(function (i) { if (valid(i) && !api.has(i.type, i.id) && api.add(i)) add++; });
           toast(add ? "Imported " + add + " title" + (add > 1 ? "s" : "") : "Nothing new to import");
@@ -356,7 +407,7 @@
       else if (t.hasAttribute("data-rm")) {
         var p = t.getAttribute("data-rm").split("-"), old = read().filter(function (i) { return i.type === p[0] && i.id === +p[1]; })[0];
         api.remove(p[0], +p[1]); if (old) toast("Removed from your Watchlist", "Undo", function () { api.add(old); });
-      } else if (t.getAttribute("data-a") === "export") exportList();
+      } else if (/^export-/.test(t.getAttribute("data-a") || "")) { exportList(t.getAttribute("data-a").slice(7)); var dm = t.closest("details"); if (dm) dm.open = false; }
       else if (t.getAttribute("data-a") === "import") importList();
       else if (t.getAttribute("data-a") === "clear") {
         if (!sure) { sure = true; renderPage(); setTimeout(function () { if (sure) { sure = false; renderPage(); } }, 4000); }
