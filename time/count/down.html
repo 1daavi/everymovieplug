@@ -122,6 +122,7 @@
         }
         @media (prefers-reduced-motion: reduce) { .fill::before, .heart-bg { animation: none; } }
     </style>
+    <script id="emp-consent-init">(function(){var w=window,d=w.dataLayer=w.dataLayer||[];function g(){d.push(arguments)}var a=0;try{var c=JSON.parse(localStorage.getItem("emp_consent_v1"));a=c&&c.ads?1:0}catch(e){}var s=a?"granted":"denied";g("consent","default",{ad_storage:s,ad_user_data:s,ad_personalization:s,analytics_storage:"denied",wait_for_update:500});(w.adsbygoogle=w.adsbygoogle||[]).requestNonPersonalizedAds=a?0:1})();</script>
 </head>
 <body>
     <div class="mesh-bg" aria-hidden="true"></div>
@@ -183,5 +184,6 @@
         }
         frame();
     </script>
+    <script src="/consent.js" defer></script>
 </body>
 </html>
