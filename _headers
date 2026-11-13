@@ -23,3 +23,10 @@
   X-Robots-Tag: noindex
 /articles/search-index.json
   X-Robots-Tag: noindex
+
+# Personal page: lives in the visitor's browser, nothing for Google to index
+/watchlist.html
+  X-Robots-Tag: noindex
+
+/watchlist
+  X-Robots-Tag: noindex

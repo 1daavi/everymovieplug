@@ -150,6 +150,7 @@
       .policy-card { padding: 1.4rem; }
     }
   </style>
+    <script id="emp-consent-init">(function(){var w=window,d=w.dataLayer=w.dataLayer||[];function g(){d.push(arguments)}var a=0;try{var c=JSON.parse(localStorage.getItem("emp_consent_v1"));a=c&&c.ads?1:0}catch(e){}var s=a?"granted":"denied";g("consent","default",{ad_storage:s,ad_user_data:s,ad_personalization:s,analytics_storage:"denied",wait_for_update:500});(w.adsbygoogle=w.adsbygoogle||[]).requestNonPersonalizedAds=a?0:1})();</script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
   <style id="emx-enter">@media (prefers-reduced-motion:no-preference){@keyframes emx-in{from{opacity:0}}body{animation:emx-in .45s ease backwards}}</style>
@@ -178,6 +179,9 @@
       </ul>
       <p>If you email us at the address below, we receive your email address and any information you choose to include in your message. We use it only to respond to you.</p>
 
+      <h2>Cookie choices and your Watchlist</h2>
+      <p>The first time you visit, a banner asks whether Google may use advertising cookies. Your answer is saved in your browser (in local storage and a first-party cookie called <code>emp_consent</code>) for 12 months, and you can change it at any time with &ldquo;Cookie Settings&rdquo; in the page footer. If you do not accept, advertising cookies for personalisation are not enabled.</p>
+      <p>The Watchlist feature saves the movies and shows you choose in your browser's local storage on your own device. That list is not sent to us or to anyone else, and you can remove titles, export the list, or clear it at any time on the <a href="/watchlist.html">Watchlist page</a>.</p>
       <h2>Cookies and similar technologies</h2>
       <p>Cookies are small files stored on your device. We and our third-party partners may use cookies and similar technologies to keep the Site working, understand how it is used, and show advertising. You can control or delete cookies in your browser settings. Disabling cookies may affect how some parts of the Site work.</p>
 
@@ -232,5 +236,6 @@
   </main>
 
   <script src="/fx.js" defer></script>
+    <script src="/consent.js" defer></script>
 </body>
 </html>

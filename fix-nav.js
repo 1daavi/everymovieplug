@@ -7,6 +7,7 @@
  * old relative links such as ../index.html into root-absolute ones. Also makes sure every story's <head> has the
  * RSS feed <link rel="alternate"> tags, so new stories get the footer RSS links and feed tags automatically.
  * Also adds <script src="/tag-links.js"> to stories that have "Related" cards, so their category labels are clickable tags.
+ * Also adds the cookie consent banner script and Google consent defaults (inject-shared.js).
  * Also adds the site-wide motion/gesture script (<script src="/fx.js">) and its page-enter style to every story.
  * Safe to run any time.
  *
@@ -16,6 +17,7 @@
 const fs = require("fs");
 const path = require("path");
 const { footerLinksHTML, FEED_LINK_TAGS } = require("./lib/site-nav");
+const { injectInto } = require("./inject-shared");
 
 const dirs = process.argv.slice(2).length ? process.argv.slice(2) : ["news", "articles"];
 const block = /(<div class="footer-links">)[\s\S]*?(<\/div>)/;
@@ -52,6 +54,7 @@ for (const d of dirs) {
     if (!/src="\/fx\.js"/.test(out) && /<\/body>/i.test(out)) {
       out = out.replace(/<\/body>/i, m => '    <script src="/fx.js" defer></script>\n' + m);
     }
+    out = injectInto(out, file.split(path.sep).join("/"));   // cookie consent banner on every story
     if (out !== html) { fs.writeFileSync(file, out); changed++; }
   }
 }
