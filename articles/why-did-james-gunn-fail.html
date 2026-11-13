@@ -6,8 +6,10 @@
     <meta name="category" content="Film News">
     <title>Why Did James Gunn Fail at DC Studios? | Every Movie Plug</title>
     <meta name="author" content="Maccarthy Albin">
-    <meta name="description" content="James Gunn and Peter Safran leaving DC Studios on December 1. A look at Superman, Supergirl, Clayface, Lanterns and the Skydance shake-up shows what went wrong.">
+<meta name="description" content="James Gunn and Peter Safran leaving DC Studios on December 1. A look at Superman, Supergirl, Clayface, Lanterns and the Skydance shake-up shows what went wrong.">
     <link rel="canonical" href="https://everymovieplug.com/articles/why-did-james-gunn-fail.html">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: News" href="/news.xml">
+    <link rel="alternate" type="application/rss+xml" title="Every Movie Plug: Articles" href="/articles.xml">
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, etc.) -->
     <meta property="og:type" content="article">
@@ -95,8 +97,10 @@
         .faq-item { margin: 1.25rem 0; }
         .faq-item h3 { margin-bottom: 0.35rem; }
     </style>
+    <script id="emp-consent-init">(function(){var w=window,d=w.dataLayer=w.dataLayer||[];function g(){d.push(arguments)}var a=0;try{var c=JSON.parse(localStorage.getItem("emp_consent_v1"));a=c&&c.ads?1:0}catch(e){}var s=a?"granted":"denied";g("consent","default",{ad_storage:s,ad_user_data:s,ad_personalization:s,analytics_storage:"denied",wait_for_update:500});(w.adsbygoogle=w.adsbygoogle||[]).requestNonPersonalizedAds=a?0:1})();</script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4564573478126357"
      crossorigin="anonymous"></script>
+    <style id="emx-enter">@media (prefers-reduced-motion:no-preference){@keyframes emx-in{from{opacity:0}}body{animation:emx-in .45s ease backwards}}</style>
     <script type="application/ld+json" id="emp-schema-0">
 {
   "@context": "https://schema.org",
@@ -143,9 +147,8 @@
   "image": [
     "https://images.thedirect.com/media/article_full/jamesgunnsuicidesquad.jpg?imgeng=/cmpr_60/w_1280"
   ],
-  "datePublished": "2026-11-13",
-  "dateModified": "2026-11-13",
-  "articleSection": "Film News"
+  "datePublished": "2026-11-13T04:51:23Z",
+  "dateModified": "2026-11-13T04:51:23Z"
 }
     </script>
     <script type="application/ld+json" id="emp-schema-1">
@@ -184,7 +187,7 @@
         <header class="article-header">
             <h1>Why Did James Gunn Fail at DC Studios?</h1>
             <p class="article-byline">By <a href="/author/maccarthy-albin.html" rel="author">Maccarthy Albin</a></p>
-            <p class="article-date">November 13, 2026</p>
+            <p data-published="2026-11-13T04:51:23Z" class="article-date">November 13, 2026<span class="article-time"> &middot; 4:51 AM GMT</span></p>
             <p class="article-subtitle"><i>Superman made money, Clayface turned a profit and Lanterns set viewing records. So why is the filmmaker who promised a decade-long DC Universe leaving after four years?</i></p>
         </header>
 
@@ -317,7 +320,20 @@
             <p class="author-contact">Contact: <a href="mailto:maccarthy@everymovieplug.com">maccarthy@everymovieplug.com</a> &middot; <a href="https://x.com/everymovieplug" target="_blank" rel="noopener noreferrer">@everymovieplug on X</a></p>
         </div>
     </aside>
-    </main>
+    <script id="emp-local-time">
+    (function () {
+        var p = document.querySelector(".article-date[data-published]");
+        if (!p || !p.firstChild) return;
+        var d = new Date(p.getAttribute("data-published"));
+        if (isNaN(d)) return;
+        try {
+            p.firstChild.nodeValue = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+            var t = p.querySelector(".article-time");
+            if (t) t.textContent = " · " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+        } catch (e) {}
+    })();
+    </script>
+</main>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -326,14 +342,20 @@
             <a href="/tv-shows/">TV Shows</a>
             <a href="/news/">News</a>
             <a href="/articles/">Articles</a>
+            <a href="/watchlist.html">Watchlist</a>
             <a href="/about.html">About Us</a>
             <a href="mailto:admin@everymovieplug.com">Contact</a>
             <a href="/privacy-policy.html">Privacy Policy</a>
             <a href="/terms-of-service.html">Terms of Service</a>
+            <a href="/news.xml">News RSS</a>
+            <a href="/articles.xml">Articles RSS</a>
         </div>
         <p>&copy; Every Movie Plug</p>
     </footer>
     <script src="read-aloud.js" defer></script>
     <script src="/share.js" defer></script>
+    <script src="/tag-links.js" defer></script>
+    <script src="/fx.js" defer></script>
+    <script src="/consent.js" defer></script>
 </body>
 </html>
