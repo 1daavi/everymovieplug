@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/articles/</link>
 <description>Insights, movie breakdowns and features from Every Movie Plug.</description>
 <language>en-us</language>
-<lastBuildDate>Fri, 13 Nov 2026 23:21:04 GMT</lastBuildDate>
+<lastBuildDate>Sat, 14 Nov 2026 08:17:46 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/articles.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV Articles</title><link>https://everymovieplug.com/articles/</link></image>
+<item>
+<title>HOPE Review: Na Hong-jin’s Creature Feature Is Really a Story About Grief</title>
+<link>https://everymovieplug.com/articles/hope-review-na-hong-jin-monster-grief.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/articles/hope-review-na-hong-jin-monster-grief.html</guid>
+<pubDate>Sat, 14 Nov 2026 08:17:46 GMT</pubDate>
+<category>Reviews</category>
+<description>A village under siege, an alien that looks like a nightmare and a single reckless act that explains all of it.</description>
+<media:thumbnail url="https://image.tmdb.org/t/p/original/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"/>
+<media:content url="https://image.tmdb.org/t/p/original/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Today in Cinema, November 13: Meet Joe Black, the Three-Hour Romance With Death That Critics Buried and Audiences Kept</title>
 <link>https://everymovieplug.com/articles/today-in-cinema-november-13-meet-joe-black-1998.html</link>
@@ -197,16 +207,6 @@
 <description>An analytical deep-dive into the performance mechanics, career pivots and filmography weight of Hollywood&amp;rsquo;s most calculated everyman.</description>
 <media:thumbnail url="https://image.tmdb.org/t/p/original/At3JgvaNeEN4Z4ESKlhhes85Xo3.jpg"/>
 <media:content url="https://image.tmdb.org/t/p/original/At3JgvaNeEN4Z4ESKlhhes85Xo3.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Today in Cinema, November 3: Godzilla Rises From Tokyo Bay in 1954 and Changes Monster Movies Forever</title>
-<link>https://everymovieplug.com/articles/today-in-cinema-november-3-godzilla-1954.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/articles/today-in-cinema-november-3-godzilla-1954.html</guid>
-<pubDate>Tue, 03 Nov 2026 19:42:24 GMT</pubDate>
-<category>Today in Cinema</category>
-<description>A cancelled co-production, a fishing boat showered in fallout and a stuntman who could last three minutes in a rubber suit produced the film that launched the longest-running franchise in movie…</description>
-<media:thumbnail url="https://image.tmdb.org/t/p/original/lLVt2XX0OiLreWaZ0qwwXVNW4ga.jpg"/>
-<media:content url="https://image.tmdb.org/t/p/original/lLVt2XX0OiLreWaZ0qwwXVNW4ga.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
