@@ -33,26 +33,4 @@
       <news:title>Why Did James Gunn Fail at DC Studios?</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://everymovieplug.com/news/russell-brand-open-secret-netflix-documentary</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-12T00:00:00+00:00</news:publication_date>
-      <news:title>Netflix’s Russell Brand: Open Secret Arrives Days After His 10½-Year Prison Sentence</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://everymovieplug.com/articles/today-in-cinema-november-12-unstoppable-2010</loc>
-    <news:news>
-      <news:publication>
-        <news:name>EveryMoviePlug</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2026-11-12T00:00:00+00:00</news:publication_date>
-      <news:title>Today in Cinema, November 12: Sixteen Years Down the Line, Unstoppable Still Refuses to Brake</news:title>
-    </news:news>
-  </url>
 </urlset>
