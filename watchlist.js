@@ -543,8 +543,8 @@
       var link, note = "";
       if (res && res.code) link = location.origin + "/w/" + res.code;
       else {                                                                                        // no storage set up (or offline): a longer link that holds just the ids
-        link = location.origin + "/w/~" + b64url(items.map(function (i) { return (i.type === "tv" ? "t" : "m") + i.id; }).join(","));
-        note = "This is a longer link without the collage thumbnail (it shows the first poster instead).";
+        link = location.origin + "/watchlist?l=" + b64url(items.map(function (i) { return (i.type === "tv" ? "t" : "m") + i.id; }).join(","));
+        note = "This is a longer link that holds the list inside the address. It works the same, but no collage thumbnail is shown when it is pasted into chats.";
       }
       showResult(link, blob, name, items.length, note);
     });
@@ -598,14 +598,18 @@
   function queue() { if (!queued) queued = requestAnimationFrame(scan); }
   function start() {
     addStyle();
-    var tag = doc.getElementById("emp-shared"), lm = /^\/w\/(~[A-Za-z0-9_-]+)\/?$/.exec(location.pathname);
-    if (!tag && lm) {                                                                          // long link opened without the server filling the page in: read the ids from the address
-      try {
-        var ids = atob(lm[1].slice(1).replace(/-/g, "+").replace(/_/g, "/")).split(",").slice(0, 200).map(function (p) { return /^([mt])(\d{1,9})$/.exec(p); }).filter(Boolean)
-          .map(function (m) { return { type: m[1] === "m" ? "movie" : "tv", id: +m[2] }; });
-        SHARED = ids.length ? { name: "", items: ids, idsOnly: true } : { missing: true };
-      } catch (e) { SHARED = { missing: true }; }
-    } else if (!tag && /^\/w\//.test(location.pathname)) SHARED = { missing: true };
+    var tag = doc.getElementById("emp-shared"), payload = "";
+    if (!tag) {                                                                                 // long link: the ids are in the address (?l=...  or the older /w/~...)
+      var lm = /^\/w\/~([A-Za-z0-9_-]+)\/?$/.exec(location.pathname), q = new URLSearchParams(location.search).get("l");
+      payload = lm ? lm[1] : (q || "");
+      if (payload) {
+        try {
+          var ids = atob(payload.replace(/^~/, "").replace(/-/g, "+").replace(/_/g, "/")).split(",").slice(0, 200).map(function (p) { return /^([mt])(\d{1,9})$/.exec(p); }).filter(Boolean)
+            .map(function (m) { return { type: m[1] === "m" ? "movie" : "tv", id: +m[2] }; });
+          SHARED = ids.length ? { name: "", items: ids, idsOnly: true } : { missing: true };
+        } catch (e) { SHARED = { missing: true }; }
+      } else if (/^\/w\//.test(location.pathname)) SHARED = { missing: true };
+    }
     if (tag || SHARED) {
       if (tag) { try { SHARED = JSON.parse(tag.textContent); } catch (e) { SHARED = { missing: true }; } }
       if (SHARED.missing) sharedMissing = true;
