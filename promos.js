@@ -72,7 +72,7 @@
     /* ---------- Homepage: big banner at the top (news, articles, indie titles, anything) ---------- */
     homeBanner: [
       //{ type: "indie", cornerLabel: "Public Announcement", label: "Advertisement", title: "{Advertise} With Us!", description: "For ad placements & sponsorship opportunities", image: "/promos/advertisement-placement.jpg", url: "mailto:contact@everymovieplug.com?subject=Ad%20Placement%20Inquiry", cta: "Book Now!", end: "2027-12-31" },
-       { type: "news", story: "https://everymovieplug.com/news/james-gunn-skydance-has-not-seen-man-of-tomorrow.html", end: "2026-11-15 },
+       { type: "news", story: "/news/james-gunn-skydance-has-not-seen-man-of-tomorrow.html", end: "2026-11-15" },
        { type: "article",    story: "/articles/how-to-film-direct-and-produce-your-own-movie.html", end: "2026-11-15" },
     ],
 
