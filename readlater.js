@@ -95,7 +95,8 @@
   /* ------------------------------------------------------------ styles */
   var css = [
     ".emr-save{position:absolute;right:.5rem;bottom:.5rem;z-index:4;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.22);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;transition:background .2s ease,transform .12s ease;-webkit-tap-highlight-color:transparent;touch-action:manipulation}",
-    ".emr-save.top{top:.6rem;right:.6rem;bottom:auto}",
+    ".emr-save.slide{top:16px;right:22px;bottom:auto;width:38px;height:38px;z-index:5}",
+    ".emr-save.slide svg{width:18px;height:18px}",
     ".emr-save svg,.emr-btn svg,.emr-fab svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block;flex:none}",
     ".emr-save[aria-pressed=true],.emr-fab.has{background:linear-gradient(135deg,#6366f1,#a855f7);border-color:transparent}",
     ".emr-save:active{transform:scale(.9)}",
@@ -153,15 +154,15 @@
   }
   function label(it, saved) { return (saved ? "Remove " : "Save ") + it.title + (saved ? " from Read Later" : " to Read Later"); }
   function decorate(a) {
-    if (a.getAttribute("data-emr") || a.closest("#hero, #emr-page, .article-content")) return;
+    if (a.getAttribute("data-emr") || a.closest("#emr-page, .article-content")) return;
     var url = cleanUrl(a.getAttribute("href") || ""); if (!url) return;
-    var host = a.querySelector(".tile-thumb, .poster") || (a.querySelector("img") && a.querySelector("img").parentElement);
+    var host = a.classList.contains("hero-slide") ? a : a.querySelector(".tile-thumb, .poster") || (a.querySelector("img") && a.querySelector("img").parentElement);
     if (!host) return;
     var it = fromCard(a); if (!it.title) return;
     a.setAttribute("data-emr", url);
     if (getComputedStyle(host).position === "static") host.style.position = "relative";
     var saved = api.has(url);
-    host.appendChild(el("span", { "class": "emr-save" + (host.classList.contains("tile-thumb") ? " top" : ""), role: "button", tabindex: "-1", "data-u": url, "aria-pressed": saved ? "true" : "false", "aria-label": label(it, saved), title: saved ? "Saved to Read Later" : "Read later" }, ICON));
+    host.appendChild(el("span", { "class": "emr-save" + (host === a ? " slide" : ""), role: "button", tabindex: "-1", "data-u": url, "aria-pressed": saved ? "true" : "false", "aria-label": label(it, saved), title: saved ? "Saved to Read Later" : "Read later" }, ICON));
   }
   function decorateAll() {
     var list = doc.querySelectorAll('a[href^="/news/"], a[href^="/articles/"]');
