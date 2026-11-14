@@ -599,6 +599,15 @@
   function start() {
     addStyle();
     var tag = doc.getElementById("emp-shared");
+    if (!tag && /^\/w\//.test(location.pathname)) {                     // opened as /w/<code> but the server did not fill in the list
+      var code = decodeURIComponent(location.pathname.slice(3).split("/")[0] || ""), ids = [];
+      if (code.charAt(0) === "~") {                                      // long link: the ids are in the link itself, so read them here
+        try {
+          atob(code.slice(1).replace(/-/g, "+").replace(/_/g, "/")).split(",").slice(0, 200).forEach(function (p) { var m = /^([mt])(\d{1,9})$/.exec(p); if (m) ids.push({ type: m[1] === "m" ? "movie" : "tv", id: +m[2] }); });
+        } catch (e) {}
+      }
+      tag = { textContent: JSON.stringify(ids.length ? { name: "", items: ids, idsOnly: true } : { missing: true }) };
+    }
     if (tag) {
       try { SHARED = JSON.parse(tag.textContent); } catch (e) { SHARED = { missing: true }; }
       if (SHARED.missing) sharedMissing = true;
