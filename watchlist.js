@@ -606,6 +606,7 @@
   var queued = 0;
   function scan() { queued = 0; decorateAll(); scanDetails(); }
   function queue() { if (!queued) queued = requestAnimationFrame(scan); }
+
   function start() {
     addStyle();
     var tag = doc.getElementById("emp-shared");
