@@ -187,7 +187,10 @@
   /* ------------------------------------------------------------ footer link */
   function addFooterLink() {
     if (doc.querySelector("[data-cookie-settings]")) return;
-    var host = doc.querySelector(".footer-links, nav[aria-label='Footer'], footer nav, nav.links, .site-footer, footer");
+    // Try the most specific place first. One combined selector returns the outer <footer> before the link row inside it,
+    // which put the link after the copyright line and left it unstyled.
+    var host = null, picks = [".footer-links", "nav[aria-label='Footer']", "footer nav", "nav.links", ".site-footer", "footer"];
+    for (var i = 0; i < picks.length && !host; i++) host = doc.querySelector(picks[i]);
     if (!host) return;
     var sample = host.querySelector("a"), a = el("a", { href: "#cookie-settings", "data-cookie-settings": "" }, "Cookie Settings");
     if (sample && sample.className) a.className = sample.className;
