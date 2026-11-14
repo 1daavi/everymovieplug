@@ -321,7 +321,7 @@
   }
 
   /* ------------------------------------------------------------ /watchlist.html */
-  var view = { filter: "all", sort: "added" }, sure = false, SHARED = null, sharedItems = [], sharedMissing = false;
+  var view = { filter: "all", sort: "added" }, sure = false, SHARED = null, sharedItems = [], sharedMissing = false, pendingCode = "";
   function sortList(list) {
     var s = view.sort, out = list.slice();
     if (s === "title") out.sort(function (a, b) { return a.title.localeCompare(b.title); });
@@ -606,7 +606,10 @@
           atob(code.slice(1).replace(/-/g, "+").replace(/_/g, "/")).split(",").slice(0, 200).forEach(function (p) { var m = /^([mt])(\d{1,9})$/.exec(p); if (m) ids.push({ type: m[1] === "m" ? "movie" : "tv", id: +m[2] }); });
         } catch (e) {}
       }
-      tag = { textContent: JSON.stringify(ids.length ? { name: "", items: ids, idsOnly: true } : { missing: true }) };
+      if (ids.length) tag = { textContent: JSON.stringify({ name: "", items: ids, idsOnly: true }) };
+      else if (/^[A-Za-z0-9]{8}$/.test(code) && window.fetch) {           // short link: ask the server for the saved list
+        tag = { textContent: JSON.stringify({ name: "", items: [] }) }; pendingCode = code;
+      } else tag = { textContent: JSON.stringify({ missing: true }) };
     }
     if (tag) {
       try { SHARED = JSON.parse(tag.textContent); } catch (e) { SHARED = { missing: true }; }
@@ -618,6 +621,13 @@
     }
     addNav(); bindPage(); scan(); refresh();
     if (SHARED && SHARED.idsOnly) loadSharedMeta();
+    if (pendingCode) fetch("/api/share/" + pendingCode).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (d && Array.isArray(d.items) && d.items.length) {
+        SHARED.name = d.name || ""; var c = d.items.length;
+        sharedItems = d.items.map(function (i, k) { return { type: i.type === "tv" ? "tv" : "movie", id: +i.id, title: i.title || "", poster: i.poster || "", year: i.year || "", rating: +i.rating || 0, added: c - k }; });
+      } else sharedMissing = true;
+      renderPage();
+    }).catch(function () { sharedMissing = true; renderPage(); });
     if (window.MutationObserver) new MutationObserver(queue).observe(doc.body, { childList: true, subtree: true });
     window.addEventListener("storage", function (e) { if (e.key === KEY || e.key === null) changed(); });   // another tab changed it
   }
