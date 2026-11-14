@@ -544,7 +544,7 @@
       if (res && res.code) link = location.origin + "/w/" + res.code;
       else {                                                                                        // no storage set up (or offline): a longer link that holds just the ids
         link = location.origin + "/watchlist?l=" + b64url(items.map(function (i) { return (i.type === "tv" ? "t" : "m") + i.id; }).join(","));
-        note = "This is a longer link that holds the list inside the address. It works the same, but no collage thumbnail is shown when it is pasted into chats.";
+        note = "This is a longer link that holds the list inside the address. It works the same. When it is pasted into chats, the preview shows the first poster in the list.";
       }
       showResult(link, blob, name, items.length, note);
     });
