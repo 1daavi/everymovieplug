@@ -103,8 +103,9 @@
     ".emr-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.1rem;border-radius:9999px;border:1px solid var(--pill-edge,rgba(124,58,237,.35));background:var(--pill-bg,rgba(124,58,237,.08));color:var(--pill-fg,#6d28d9);font:600 .9rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}",
     ".emr-btn:hover{background:var(--pill-edge,rgba(124,58,237,.35))}.emr-btn:active{transform:scale(.96)}",
     ".emr-btn[aria-pressed=true]{color:#fff;border-color:transparent;background:linear-gradient(135deg,#6366f1,#a855f7)}",
-    ".emr-fab{position:fixed;z-index:2147481000;right:max(16px,env(safe-area-inset-right));bottom:calc(138px + env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;background:rgba(14,14,22,.9);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 30px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;pointer-events:none;scale:.4;translate:0 24px;transition:opacity .3s ease,scale .45s cubic-bezier(.34,1.56,.64,1),translate .45s cubic-bezier(.34,1.56,.64,1),transform .12s ease,background .2s ease}",
+    ".emr-fab{position:fixed;z-index:2147481000;right:max(16px,env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;background:rgba(14,14,22,.9);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 30px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;pointer-events:none;scale:.4;translate:0 24px;transition:opacity .3s ease,scale .45s cubic-bezier(.34,1.56,.64,1),translate .45s cubic-bezier(.34,1.56,.64,1),transform .12s ease,background .2s ease}",
     ".emr-fab.on{opacity:1;pointer-events:auto;scale:1;translate:0 0}",
+    "html:has(.emw-fab.on) .emr-fab{bottom:calc(138px + env(safe-area-inset-bottom))}",
     ".emr-fab:active{transform:scale(.94)}",
     ".emr-fab svg{width:20px;height:20px}",
     ".emr-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#8b5cf6;color:#fff;font:700 .68rem/1 -apple-system,BlinkMacSystemFont,sans-serif}",
@@ -269,6 +270,7 @@
   var queued = 0;
   function scan() { queued = 0; decorateAll(); }
   function queue() { if (!queued) queued = requestAnimationFrame(scan); }
+
   function start() {
     addStyle(); addFab(); bindPage(); mountStoryButton(); scan(); refresh();
     if (window.MutationObserver) new MutationObserver(queue).observe(doc.body, { childList: true, subtree: true });
