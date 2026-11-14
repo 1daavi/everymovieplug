@@ -134,7 +134,8 @@
     ".emw-chip[aria-pressed=true]{color:#fff;border-color:transparent;background:linear-gradient(135deg,#6366f1,#a855f7)}",
     ".emw-count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#8b5cf6;color:#fff;font-size:.68rem;font-weight:700;line-height:1}",
     ".emw-count[hidden]{display:none}",
-    ".emw-fab{position:fixed;z-index:90;right:max(16px,env(safe-area-inset-right));bottom:calc(82px + env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;background:rgba(14,14,22,.9);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 30px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:transform .12s ease,background .2s ease}",
+    ".emw-fab{position:fixed;z-index:2147481000;right:max(16px,env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));opacity:0;pointer-events:none;scale:.4;translate:0 24px;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;background:rgba(14,14,22,.9);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 30px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:opacity .3s ease,scale .45s cubic-bezier(.34,1.56,.64,1),translate .45s cubic-bezier(.34,1.56,.64,1),transform .12s ease,background .2s ease}",
+    ".emw-fab.on{opacity:1;pointer-events:auto;scale:1;translate:0 0}",
     ".emw-fab:active{transform:scale(.94)}",
     ".emw-fab .emw-count{position:absolute;top:-4px;right:-4px;border:2px solid #060609;box-sizing:content-box}",
     ".emw-fab svg{width:20px;height:20px}",
@@ -203,14 +204,15 @@
     var type, id, m;
     if (n.tagName === "A") {
       try {
-        var u = new URL(n.getAttribute("href") || "", location.href);
+        var u = new URL(n.getAttribute("href") || "", location.href), pm = /^\/(movie|tv)\/(\d+)(?:-|\/|$)/.exec(u.pathname);
+        if (pm) return { type: pm[1], id: +pm[2] };
         if (/\/title\.html$/.test(u.pathname) && /^(movie|tv)$/.test(u.searchParams.get("type") || "") && /^\d+$/.test(u.searchParams.get("id") || "")) { type = u.searchParams.get("type"); id = +u.searchParams.get("id"); }
       } catch (e) {}
     } else if ((m = /openModal\(\s*['"](movie|tv)['"]\s*,\s*(\d+)/.exec(n.getAttribute("onclick") || ""))) { type = m[1]; id = +m[2]; }
     return type ? { type: type, id: id } : null;
   }
   function fromCard(n, who) {
-    var img = n.querySelector("img"), t = n.querySelector(".mmeta b, b, h3, h2"), title = t ? t.textContent.trim() : "";
+    var img = n.querySelector("img"), t = n.querySelector(".mmeta b, b, h3, h2, p.font-bold, p"), title = t ? t.textContent.trim() : "";
     if (!title && img) title = (img.getAttribute("alt") || "").replace(/\s*poster\s*$/i, "").trim();
     if (!title) title = (n.getAttribute("aria-label") || "").replace(/\s*\((TV show|movie)\).*$/i, "").replace(/^View details for\s*/i, "").trim();
     var year = "", yn = n.querySelector(".mmeta span, .gx-pill"); if (yn && /^\d{4}$/.test(yn.textContent.trim())) year = yn.textContent.trim();
@@ -223,7 +225,7 @@
   function decorate(n) {
     if (n.getAttribute("data-emw") || (!SHARED && n.closest("#emw-page"))) return;
     var who = ident(n); if (!who) return;
-    var host = n.querySelector(".poster") || (n.querySelector("img") && n.querySelector("img").parentElement);
+    var host = n.querySelector(".poster") || (n.querySelector("img") && n.querySelector("img").parentElement) || n.querySelector('[class*="aspect-"]');
     if (!host) return;
     var it = fromCard(n, who); if (!it.title) return;
     var k = keyOf(who.type, who.id); n.setAttribute("data-emw", k);
@@ -232,13 +234,14 @@
     host.appendChild(el("span", { "class": "emw-save", role: "button", tabindex: "-1", "data-k": k, "aria-pressed": saved ? "true" : "false", "aria-label": label(it, saved), title: saved ? "Saved to Watchlist" : "Save to Watchlist" }, ICON));
   }
   function decorateAll(root) {
-    var list = (root || doc).querySelectorAll('a[href*="title.html"], button[onclick*="openModal("]');
+    var list = (root || doc).querySelectorAll('a[href*="title.html"], a[href^="/movie/"], a[href^="/tv/"], button[onclick*="openModal("]');
     for (var i = 0; i < list.length; i++) decorate(list[i]);
   }
   /* click: runs first (capture) so the card underneath never opens */
   doc.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest(".emw-save"); if (!b) return;
     e.preventDefault(); e.stopPropagation();
+    if (b.__item) { flip(b.__item); return; }
     var card = b.closest("[data-emw]"), who = card && ident(card); if (!who) return;
     flip(fromCard(card, who));
   }, true);
@@ -279,7 +282,13 @@
       if (!tid) { var rm = doc.querySelector('link[rel="canonical"]'), mm = rm && /\/(movie|tv)\/(\d+)/.exec(rm.href); if (mm) { tp = mm[1]; tid = +mm[2]; } }
       if (h1 && /^(movie|tv)$/.test(tp) && tid) {
         var yy = mt && /\b((?:19|20)\d\d)\b/.exec(mt.textContent);
-        addChip(tb, "chip", { type: tp, id: tid, title: h1.textContent.trim(), poster: pi ? posterPath(pi.src) : "", year: yy ? yy[1] : "", rating: rt ? parseFloat(rt.textContent.replace(/[^\d.]/g, "")) || 0 : 0 });
+        var tItem = { type: tp, id: tid, title: h1.textContent.trim(), poster: pi ? posterPath(pi.src) : "", year: yy ? yy[1] : "", rating: rt ? parseFloat(rt.textContent.replace(/[^\d.]/g, "")) || 0 : 0 };
+        addChip(tb, "chip", tItem);
+        var ph = doc.querySelector(".head .poster");
+        if (ph && !ph.querySelector(".emw-save")) {
+          var sv = el("span", { "class": "emw-save", role: "button", tabindex: "-1", "data-k": keyOf(tp, tid), "aria-pressed": api.has(tp, tid) ? "true" : "false", "aria-label": "Save " + tItem.title + " to your Watchlist", title: "Save to Watchlist" }, ICON);
+          sv.__item = tItem; ph.style.position = "relative"; ph.appendChild(sv);
+        }
       }
     }
   }
@@ -287,14 +296,13 @@
     return '<a class="' + extra + ' emw-nav" href="/watchlist.html" aria-label="Your Watchlist">' + ICON + '<span class="lbl">Watchlist</span> <span class="emw-count" hidden></span></a>';
   }
   function addNav() {
-    if (doc.querySelector(".emw-nav, .emw-fab") || doc.getElementById("emw-page")) return;
+    if (doc.getElementById("emw-page")) return;
+    if (!doc.querySelector(".emw-fab")) doc.body.appendChild(el("a", { "class": "emw-fab", href: "/watchlist.html", "aria-label": "Your Watchlist", title: "Your Watchlist", "data-fx": "off" }, ICON + '<span class="emw-count" hidden></span>'));
+    if (doc.querySelector(".emw-nav")) return;
     var row = doc.querySelector("nav.navrow"), top = doc.querySelector(".topbar-in");
     if (row) { var d = el("div", {}, navChip("chip")); row.appendChild(d.firstChild); }
     else if (top) {
       var share = doc.getElementById("shareTop"), d2 = el("div", {}, navChip("chip")); top.insertBefore(d2.firstChild, share || null);
-    } else {
-      var f = el("a", { "class": "emw-fab", href: "/watchlist.html", "aria-label": "Your Watchlist", title: "Your Watchlist", "data-fx": "off" }, ICON + '<span class="emw-count" hidden></span>');
-      doc.body.appendChild(f);
     }
   }
 
@@ -317,6 +325,8 @@
     for (var j = 0; j < cs.length; j++) { cs[j].textContent = n > 99 ? "99+" : String(n); cs[j].hidden = n === 0; }
     var nv = doc.querySelectorAll(".emw-nav, .emw-fab");
     for (var q = 0; q < nv.length; q++) nv[q].classList.toggle("has", n > 0);
+    var fb = doc.querySelectorAll(".emw-fab");
+    for (var z = 0; z < fb.length; z++) fb[z].classList.toggle("on", n > 0);
     if (doc.getElementById("emw-page")) renderPage();
   }
 

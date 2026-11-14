@@ -205,7 +205,12 @@
     get: read,
     allows: function (what) { var c = read(); return !!(c && (what === "ads" ? c.ads : what === "essential")) || what === "essential"; }
   };
+  function loadReadLater() {                                             // Read Later (news / articles) rides along with this script so every page gets it
+    if (window.EMPReadLater || doc.querySelector('script[src*="readlater.js"]')) return;
+    var s = doc.createElement("script"); s.src = "/readlater.js"; s.defer = true; doc.head.appendChild(s);
+  }
   function start() {
+    loadReadLater();
     addFooterLink();
     var c = read();
     if (c) tellGoogle(c.ads);                                           // keep Google in step with a saved choice

@@ -30,3 +30,10 @@
 
 /watchlist
   X-Robots-Tag: noindex
+
+# Personal page: lives in the visitor's browser, nothing for Google to index
+/readlater.html
+  X-Robots-Tag: noindex
+
+/readlater
+  X-Robots-Tag: noindex
