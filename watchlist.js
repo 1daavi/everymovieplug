@@ -598,9 +598,16 @@
   function queue() { if (!queued) queued = requestAnimationFrame(scan); }
   function start() {
     addStyle();
-    var tag = doc.getElementById("emp-shared");
-    if (tag) {
-      try { SHARED = JSON.parse(tag.textContent); } catch (e) { SHARED = { missing: true }; }
+    var tag = doc.getElementById("emp-shared"), lm = /^\/w\/(~[A-Za-z0-9_-]+)\/?$/.exec(location.pathname);
+    if (!tag && lm) {                                                                          // long link opened without the server filling the page in: read the ids from the address
+      try {
+        var ids = atob(lm[1].slice(1).replace(/-/g, "+").replace(/_/g, "/")).split(",").slice(0, 200).map(function (p) { return /^([mt])(\d{1,9})$/.exec(p); }).filter(Boolean)
+          .map(function (m) { return { type: m[1] === "m" ? "movie" : "tv", id: +m[2] }; });
+        SHARED = ids.length ? { name: "", items: ids, idsOnly: true } : { missing: true };
+      } catch (e) { SHARED = { missing: true }; }
+    } else if (!tag && /^\/w\//.test(location.pathname)) SHARED = { missing: true };
+    if (tag || SHARED) {
+      if (tag) { try { SHARED = JSON.parse(tag.textContent); } catch (e) { SHARED = { missing: true }; } }
       if (SHARED.missing) sharedMissing = true;
       else {
         var cnt = SHARED.items.length;

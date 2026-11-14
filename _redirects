@@ -22,3 +22,6 @@
 /news/page/1       /news/      301
 /articles/page/1/  /articles/  301
 /articles/page/1   /articles/  301
+
+# Shared Watchlist links: the function in functions/w fills in the preview; this only keeps the page loading if it is not running
+/w/*  /watchlist.html  200
