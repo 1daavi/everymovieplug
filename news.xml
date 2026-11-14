@@ -5,9 +5,19 @@
 <link>https://everymovieplug.com/news/</link>
 <description>The latest movie and TV news from Every Movie Plug: box office, streaming, renewals and casting.</description>
 <language>en-us</language>
-<lastBuildDate>Thu, 12 Nov 2026 11:21:33 GMT</lastBuildDate>
+<lastBuildDate>Sat, 14 Nov 2026 03:45:45 GMT</lastBuildDate>
 <atom:link href="https://everymovieplug.com/news.xml" rel="self" type="application/rss+xml"/>
 <image><url>https://everymovieplug.com/favicon-96x96.png</url><title>Every Movie Plug: Movie and TV News</title><link>https://everymovieplug.com/news/</link></image>
+<item>
+<title>James Gunn Says No One From Skydance Has Seen Man of Tomorrow</title>
+<link>https://everymovieplug.com/news/james-gunn-skydance-has-not-seen-man-of-tomorrow.html</link>
+<guid isPermaLink="true">https://everymovieplug.com/news/james-gunn-skydance-has-not-seen-man-of-tomorrow.html</guid>
+<pubDate>Sat, 14 Nov 2026 03:45:45 GMT</pubDate>
+<category>Film News</category>
+<description>James Gunn says on Threads that no one from Skydance has seen Man of Tomorrow, rejecting reports of sweeping changes. What he said and what it leaves open.</description>
+<media:thumbnail url="https://m.media-amazon.com/images/M/MV5BMjI4Y2QyYmYtYjg5Yi00MDg4LWEzNTEtNzYwMzEzYmUyZWQzXkEyXkFqcGc@._V1_.jpg"/>
+<media:content url="https://m.media-amazon.com/images/M/MV5BMjI4Y2QyYmYtYjg5Yi00MDg4LWEzNTEtNzYwMzEzYmUyZWQzXkEyXkFqcGc@._V1_.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
 <title>Netflix’s Russell Brand: Open Secret Arrives Days After His 10½-Year Prison Sentence</title>
 <link>https://everymovieplug.com/news/russell-brand-open-secret-netflix-documentary.html</link>
@@ -197,16 +207,6 @@
 <description>Walton Goggins says he has finished filming Fallout season 3, sharing an Instagram goodbye to the Ghoul makeup. Here is what the post says and what it means for the season.</description>
 <media:thumbnail url="https://everymovieplug.com/articleassets/walton-goggins-wraps-fallout-season-3-full.jpg"/>
 <media:content url="https://everymovieplug.com/articleassets/walton-goggins-wraps-fallout-season-3-full.jpg" medium="image" type="image/jpeg"/>
-</item>
-<item>
-<title>Sir Patrick Stewart, Star of Star Trek and X-Men, Dies at 86</title>
-<link>https://everymovieplug.com/news/sir-patrick-stewart-dies-at-86.html</link>
-<guid isPermaLink="true">https://everymovieplug.com/news/sir-patrick-stewart-dies-at-86.html</guid>
-<pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
-<category>Celebrity News</category>
-<description>Sir Patrick Stewart, who played Jean-Luc Picard and Professor Charles Xavier, died at his home in Los Angeles on October 28 at age 86, his family announced.</description>
-<media:thumbnail url="https://everymovieplug.com/articleassets/patrick-stewart-dies-at-86.jpg"/>
-<media:content url="https://everymovieplug.com/articleassets/patrick-stewart-dies-at-86.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>
